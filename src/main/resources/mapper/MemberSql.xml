@@ -1,0 +1,30 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="devster.semi.mapper.MemberMapper">
+    <select id="listAcademyInfo" resultType="AcademyInfoDto">
+        select * from academyinfo
+    </select>
+
+    <select id="emailChk" resultType="int" parameterType="String">
+        select count(*) from member where m_email=#{m_email}
+    </select>
+
+    <select id="apichk" resultType="int" parameterType="String">
+        select count(*) from member where m_email=#{m_email}
+    </select>
+
+    <select id="nickNameChk" resultType="int" parameterType="String">
+        select count(*) from member where m_nickname=#{m_nickname}
+    </select>
+
+    <select id="emailpasschk" resultType="int" parameterType="Map">
+        select count(*) from member where m_email=#{m_email} and m_pass=#{m_pass}
+    </select>
+
+    <select id="getOneData" resultType="MemberDto" parameterType="String">
+        select * from member where m_email=#{m_email}
+    </select>
+
+    <update id="dailyPoint" parameterType="String">
+        update member set m_point=m_point+10 where m_email=#{m_email}
+    </update>
+</mapper>
