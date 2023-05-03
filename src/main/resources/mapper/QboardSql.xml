@@ -1,0 +1,31 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="devster.semi.mapper.QboardMapper">
+    <select id="getTotalCount" resultType="int">
+        select count(*) from qboard
+    </select>
+    <select id="getAllPosts" resultType="QboardDto">
+        select * from qboard
+    </select>
+    <select id="getPagingList" parameterType="Map" resultType="QboardDto">
+        select * from qboard limit #{start},#{perpage}
+    </select>
+    <insert id="insertPost" parameterType="QboardDto">
+        insert into qboard(m_idx, qb_subject, qb_content, qb_photo, qb_writeday) VALUES
+        (#{m_idx},#{qb_subject},#{qb_content},#{qb_photo},now())
+    </insert>
+    <delete id="deletePost" parameterType="int">
+        delete from qboard where qb_idx=#{qb_idx}
+    </delete>
+    <update id="updatePost" parameterType="QboardDto">
+        update qboard set qb_subject=#{qb_subject} ,qb_content=#{qb_content}, qb_photo=#{qb_photo} where qb_idx=#{qb_idx}
+    </update>
+    <select id="getOnePost" parameterType="int" resultType="QboardDto">
+        select * from qboard where qb_idx = #{qb_idx}
+    </select>
+    <select id="selectNickNameOfMidx" parameterType="int" resultType="String">
+        SELECT m.m_nickname
+        FROM qboard qb
+                 JOIN member m ON qb.m_idx = m.m_idx
+        WHERE qb.qb_idx = #{qb_idx}
+    </select>
+</mapper>
