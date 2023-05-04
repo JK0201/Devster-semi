@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 @Controller
 @RequestMapping("/hire")
@@ -37,7 +38,7 @@ public class HireBoardController {
     public String list(@RequestParam(defaultValue = "1") int currentPage, Model model)
 
     {
-
+//        System.out.println(currentPage);
         int totalCount = hireService.getHireTotalCount();
         int totalPage; // 총 페이지 수
         int perPage = 10; // 한 페이지당 보여줄 글 갯수
@@ -96,15 +97,23 @@ public class HireBoardController {
 
 
     @PostMapping("/insertHireBoard")
-    public String insert(HireBoardDto dto,MultipartFile upload)
+    public String insert(HireBoardDto dto,List<MultipartFile> upload)
     {
         String hb_photo="";
-        if(!upload.getOriginalFilename().equals("")){
-            hb_photo = storageService.uploadFile(bucketName,"hire",upload);
-        } else{
+        if(upload.get(0).getOriginalFilename().equals("")){
             hb_photo="no";
+
+        } else{
+            int i=0;
+            for(MultipartFile mfile : upload) {
+//            hb_photo = storageService.uploadFile(bucketName,"hire",upload);
+
+            //사진 업로드.
+            hb_photo += (storageService.uploadFile(bucketName, "hire", mfile) + ",");
+            }
         }
 
+        hb_photo=hb_photo.substring(0,hb_photo.length()-1);
         dto.setHb_photo(hb_photo);
         //db insert
         hireMapper.insertHireBoard(dto);
@@ -120,6 +129,16 @@ public class HireBoardController {
 
         model.addAttribute("dto", dto);
         model.addAttribute("currentPage",currentPage);
+
+        //Controller 디테일 페이지 보내는 부분.
+        //사진 여러장 분할 처리.
+        List<String> list = new ArrayList<>();
+        StringTokenizer st = new StringTokenizer(dto.getHb_photo(),",");
+        while (st.hasMoreElements()) {
+            list.add(st.nextToken());
+        }
+
+        model.addAttribute("list",list);
 
         return "/main/hire/hireboarddetail";
     }

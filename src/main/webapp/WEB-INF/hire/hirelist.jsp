@@ -21,8 +21,14 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
   <style>
     body, body *{
-      font-family: 'Jua'
+      font-family: 'Jua';
     }
+
+    .parentdiv{
+        width: 1140px;
+        margin-left : 300px;
+    }
+
     div.box {
       width: 300px;
       height: 220px;
@@ -32,6 +38,11 @@
       margin-right: 30px;
       padding-left: 20px;
       padding-top: 20px;
+
+    }
+
+    .writebtn{
+        margin-top: 10px;
     }
 
       #photo{
@@ -45,10 +56,15 @@
   </style>
 </head>
 <body>
-<button type="button" class="btn btn-sm btn-outline-success"
-        onclick="location.href='form'" style="margin-bottom: 10px">글작성</button>
 
 
+
+<button type="button" class="btn btn-sm btn-outline-success writebtn"
+        onclick="location.href='form'" style="margin-bottom: 10px" >글작성</button>
+
+<br>
+
+<div class="parentdiv">
 <c:forEach var="dto" items="${list}" varStatus="i">
   <div class="box">
     <a href="hireboarddetail?hb_idx=${dto.hb_idx}&currentPage=${currentPage}"><h5 style="text-align: center;"><b>${dto.hb_subject}</b></h5></a>
@@ -64,8 +80,9 @@
   </c:if>
 </c:forEach>
 
+</div>
 
-<div style="width: 700px; text-align: center; font-size: 20px">
+<div style="width: 700px; text-align: center; font-size: 20px; margin-left: 270px;" >
   <!-- 이전 -->
   <c:if test="${startPage > 1}">
     <a style="color: black; text-decoration: none; cursor: pointer;" href="list?currentPage=${startPage-1}">이전</a>
