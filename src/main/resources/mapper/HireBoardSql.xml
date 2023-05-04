@@ -23,4 +23,19 @@
         delete from hireboard where hb_idx=#{hb_idx}
     </delete>
 
+
+    <update id="updateHireBoard" parameterType="HireBoardDto">
+        update hireboard set hb_subject=#{hb_subject},hb_content=#{hb_content}
+        <if test="hb_photo!=''">
+            ,hb_photo=#{hb_photo}
+        </if>
+        where hb_idx=#{hb_idx}
+    </update>
+    <select id="getHireTotalCount" resultType="int">
+        select count(*) from hireboard
+    </select>
+    <select id="getHirePagingList" parameterType="Map" resultType="HireBoardDto">
+        SELECT * FROM hireboard ORDER BY hb_idx DESC LIMIT #{start}, #{perpage}
+    </select>
+
 </mapper>
