@@ -62,7 +62,7 @@ public class MemberController {
         System.out.println(m_email);
         int chk = memberService.emailChk(m_email);
         Map<String, String> map = new HashMap<>();
-        map.put("result", chk == 1 ? "yes" : "no");
+        map.put("result", chk == 0 ? "yes" : "no");
 
         return map;
     }
