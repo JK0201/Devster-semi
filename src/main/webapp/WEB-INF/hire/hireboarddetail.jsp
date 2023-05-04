@@ -17,28 +17,48 @@
         body, body * {
             font-family: 'Jua'
         }
+
+        .divparent{
+            margin-left:350px;
+        }
     </style>
 </head>
 <body>
+<%--로그인 : ${sessionScope.logstat}--%>
+<%--<br>--%>
+<%--m_idx : ${sessionScope.memidx}--%>
+<%--<br>--%>
+<%--nickname : ${sessionScope.memnick}--%>
+<%--<br>--%>
+<%--state : ${sessionScope.memstate}--%>
+<%--<br>--%>
+<%--ai_idx : ${sessionScope.acaidx}--%>
 
+<div class="divparent">
 <div>
+    <br style="clear: both;"><br>
     제목 : ${dto.hb_subject}<br>
     내용 : ${dto.hb_content}<br>
     작성자 (hb_idx) : ${dto.hb_idx}<br>
     조회수: ${dto.hb_readcount}<br>
     작성일 :  <fmt:formatDate value="${dto.fb_writeday}" pattern="yyyy.MM.dd"/><br>
 
-    <c:if test="${dto.hb_photo!='no'}">
-        사진 주소 : ${dto.hb_photo}
-        <img src="https://${imageUrl}/hire/${dto.hb_photo}">
-    </c:if><br><hr>
+<%--    <c:if test="${dto.hb_photo!='no'}">--%>
+<%--        사진 주소 : ${dto.hb_photo}--%>
+        <c:forEach items="${list}" var="images">
+        <img src="http://${imageUrl}/hire/${images}" style="float: left">
+        <br style="clear: both;"><br>
+        </c:forEach>
+<%--    </c:if><br><hr>--%>
 </div>
 <div>
-    <button type="button" onclick="location.href=''">수정</button>
-    <button type="button" onclick="del(${dto.hb_idx})">삭제</button>
-    <button type="button" onclick="location.href='./list?currenPage=${currentPage}'">목록</button>
+<%--    <c:if test="${sessionScope.memdix==dto.hb_idx}">--%>
+    <button type="button" class="btn btn-sm btn-outline-success" onclick="location.href='./hireupdateform?hb_idx=${dto.hb_idx}&currentPage=${currentPage}'">수정</button>
+    <button type="button" class="btn btn-sm btn-outline-success" onclick="del(${dto.hb_idx})">삭제</button>
+<%--    </c:if>--%>
+    <button type="button" class="btn btn-sm btn-outline-success" onclick="location.href='./list?currentPage=${currentPage}'">목록</button>
 </div>
-
+</div>
 
 <script>
     function del(hb_idx) {
