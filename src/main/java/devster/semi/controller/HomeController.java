@@ -32,7 +32,7 @@ public class HomeController {
 
 	private String bucketName="devster-bucket";
 
-	@GetMapping({"/","/home1"})
+	@GetMapping({"/","/home"})
 	public String fblist(@RequestParam(defaultValue = "1") int currentPage, Model model)
 	{
 		//===========================일반게시판===============================//
@@ -99,12 +99,12 @@ public class HomeController {
 
 
 
-		return "/main";//tiles.xml 에 이 이름으로 정의된 definition 이 적용됨
+		return "/sub";//tiles.xml 에 이 이름으로 정의된 definition 이 적용됨
 	}
 	
-	@GetMapping("/home2")
+	/*@GetMapping("/home2")
 	public String home2()
 	{
 		return "/sub";
-	}
+	}*/
 }

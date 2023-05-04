@@ -4,33 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="fb_wrap">
 
-    <!-- Slideshow container -->
-    <div id="slideShow"> <!-- 메인슬라이드이미지 -->
-        <div class="slide">
-            <ul>
-                <li class="i1"><a href="#"><img class="slide" src="/photo/slide_banner_01.jpg" alt="image 1"></a></li>
-                <li class="i2"><a href="#"><img class="slide" src="/photo/slide_banner_02.jpg" alt="image 2"></a></li>
-                <li class="i3"><a href="#"><img class="slide" src="/photo/slide_banner_03.png" alt="image 3"></a></li>
-            </ul>
-        </div>
-
-        <%--<div class="slide_btn">
-            <ul>
-                <li class="indent active">m1</li>
-                <li class="indent">m2</li>
-                <li class="indent">m3</li>
-                <li class="indent">m4</li>
-            </ul>
-        </div>--%>
-
-        <div class="side_btn">
-            <div class="pre indent"> prev </div>
-            <div class="nex indent"> next </div>
-        </div>
-
-    </div>
-
-
     <table class="freeboard_table">
         <caption align="top"><h1>Free Board</h1></caption>
 
@@ -116,26 +89,4 @@
                href="list?currentPage=${endPage+1 }">&nbsp;다음&nbsp;</a>
         </c:if>
     </div>
-        <script>
-
-
-        </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
