@@ -122,7 +122,7 @@
             dataType: "json",
             data: {"m_email": m_email},
             success: function (res) {
-                if (res.result == "no") {
+                if (res.result == "yes") {
                     alert("이메일과 비밀번호를 확인해주세요");
                 } else {
                     $.ajax({
@@ -218,12 +218,12 @@
     }
     //save
     $("#chkbtn").click(function() {
-       if(chkbtn) {
-           console.log("yes");
-       }
-       else {
-           console.log("no");
-       }
+        if(chkbtn) {
+            console.log("yes");
+        }
+        else {
+            console.log("no");
+        }
     });
 </script>
 </body>

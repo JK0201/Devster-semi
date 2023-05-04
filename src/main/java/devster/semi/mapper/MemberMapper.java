@@ -24,4 +24,5 @@ public interface MemberMapper {
     public void dailyPoint(String m_email);
 
     public MemberDto getOneData(String m_email);
+    public List<AcademyInfoDto> searchAcaInfo(String ai_name);
 }

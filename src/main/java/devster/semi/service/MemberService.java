@@ -57,4 +57,9 @@ public class MemberService implements MemberServiceInter {
     public void dailyPoint(String m_email) {
         memberMapper.dailyPoint(m_email);
     }
+
+    @Override
+    public List<AcademyInfoDto> searchAcaInfo(String ai_name) {
+        return memberMapper.searchAcaInfo(ai_name);
+    }
 }

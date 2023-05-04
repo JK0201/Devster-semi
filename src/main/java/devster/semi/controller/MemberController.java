@@ -41,6 +41,14 @@ public class MemberController {
         return "/main/member/membersignup";
     }
 
+    @GetMapping("/searchai")
+    @ResponseBody
+    public List<AcademyInfoDto> searchAi(String ai_name) {
+        System.out.println(ai_name);
+        List<AcademyInfoDto> list=memberService.searchAcaInfo(ai_name);
+        return list;
+    }
+
     @GetMapping("/compsignup")
     public String compSignUp() {
         return "/main/member/compsignup";
