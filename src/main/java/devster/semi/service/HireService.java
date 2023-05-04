@@ -2,14 +2,16 @@ package devster.semi.service;
 
 import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.HireBoardDto;
-import devster.semi.dto.QboardDto;
+
 import devster.semi.mapper.HireMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 @Service
 public class HireService implements HireServiceInter{
@@ -47,6 +49,7 @@ public class HireService implements HireServiceInter{
         hireMapper.deleteHireBoard(hb_idx);
     }
 
+
     @Override
     public void updateHireBoard(HireBoardDto dto) {
         hireMapper.updateHireBoard(dto);
@@ -66,4 +69,5 @@ public class HireService implements HireServiceInter{
     }
 
 }
+
 

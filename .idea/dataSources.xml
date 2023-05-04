@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+<<<<<<< HEAD
     <data-source source="LOCAL" name="@db-g6duj-kr.vpc-pub-cdb.ntruss.com" uuid="bc830e95-a04d-48fd-95d9-a91b0be493db">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://db-g6duj-kr.vpc-pub-cdb.ntruss.com:3306</jdbc-url>
+=======
+    <data-source source="LOCAL" name="mymini@db-g6duj-kr.vpc-pub-cdb.ntruss.com" uuid="cc25f344-b571-4398-bdb0-75c8d0c5af12">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://db-g6duj-kr.vpc-pub-cdb.ntruss.com:3306/mymini</jdbc-url>
+>>>>>>> 3b5ac238184b4340c74c198beb98bfcc5a6ba9bf
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

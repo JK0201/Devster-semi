@@ -64,6 +64,7 @@
   </c:if>
 </c:forEach>
 
+
 <div style="width: 700px; text-align: center; font-size: 20px">
   <!-- 이전 -->
   <c:if test="${startPage > 1}">
@@ -90,6 +91,7 @@
     <a style="color: black; text-decoration: none; cursor: pointer; visibility: hidden;" href="list?currentPage=${endPage+1}">다음</a>
   </c:if>
 </div>
+
 </body>
 </html>
 

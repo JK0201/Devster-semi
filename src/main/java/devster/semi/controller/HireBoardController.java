@@ -3,7 +3,7 @@ package devster.semi.controller;
 
 import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.HireBoardDto;
-import devster.semi.dto.QboardDto;
+
 import devster.semi.mapper.HireMapper;
 import devster.semi.service.HireService;
 import naver.cloud.NcpObjectStorageService;
@@ -37,6 +37,7 @@ public class HireBoardController {
     public String list(@RequestParam(defaultValue = "1") int currentPage, Model model)
 
     {
+
         int totalCount = hireService.getHireTotalCount();
         int totalPage; // 총 페이지 수
         int perPage = 10; // 한 페이지당 보여줄 글 갯수
@@ -78,6 +79,7 @@ public class HireBoardController {
         model.addAttribute("endPage", endPage);
         model.addAttribute("totalPage", totalPage);
         model.addAttribute("no", no);
+
 
         return "/main/hire/hirelist";
     }
@@ -133,6 +135,7 @@ public class HireBoardController {
         return "redirect:list";
     }
 
+
     @GetMapping("/hireupdateform")
     public String updateHireBoardform(@RequestParam(defaultValue = "1") int currentPage,
                                       @RequestParam(defaultValue = "0") int hb_idx, Model model)
@@ -169,4 +172,5 @@ public class HireBoardController {
         //수정후 내용보기로 이동한다
         return "redirect:./hireboarddetail?hb_idx="+dto.getHb_idx()+"&currentPage="+currentPage;
     }
+
 }

@@ -31,7 +31,6 @@ state : ${sessionScope.memstate}
 ai_idx : ${sessionScope.acaidx}
 
 
-
 <div>
     제목 : ${dto.hb_subject}<br>
     내용 : ${dto.hb_content}<br>
@@ -40,11 +39,11 @@ ai_idx : ${sessionScope.acaidx}
     작성일 :  <fmt:formatDate value="${dto.fb_writeday}" pattern="yyyy.MM.dd"/><br>
 
     <c:if test="${dto.hb_photo!='no'}">
+        사진 주소 : ${dto.hb_photo}
         <img src="https://${imageUrl}/hire/${dto.hb_photo}">
     </c:if><br><hr>
 </div>
 <div>
-
     <c:if test="${sessionScope.memdix==dto.hb_idx}">
     <button type="button" onclick="location.href='./hireupdateform?hb_idx=${dto.hb_idx}&currentPage=${currentPage}'">수정</button>
     <button type="button" onclick="del(${dto.hb_idx})">삭제</button>

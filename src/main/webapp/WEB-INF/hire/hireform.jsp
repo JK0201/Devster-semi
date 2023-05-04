@@ -20,13 +20,13 @@
 <img id="showimg">
 
 
-
-
 <div style="width: 450px;">
     <form action="insertHireBoard" method="post" enctype="multipart/form-data">
+
         <!--hidden-->
         <input type="hidden" name="hb_idx" value="${hb_idx}">
         <input type="hidden" name="currentPage" value="${currentPage}">
+
         <table  class="table table-bordered">
             <tr>
                 <th style="width: 100px;background-color: #ddd">제목</th>
@@ -35,7 +35,9 @@
                 </td>
             </tr>
             <tr>
+
                 <th style="width: 100px;background-color: #ddd">회사로고사진</th>
+
                 <td>
                     <input type="file" class="form-control" name="upload" id="myfile" required="required">
                 </td>
