@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="devster.semi.mapper.ReviewMapper">
+ <!--   <insert id="insertreview" parameterType="reviewDto">
+        insert into reviewboard (rb_type, rb_content, rb_star)
+        values (#{rb_type}, #{rb_content}, #{rb_star})
+    </insert>-->
+    <insert id="insertreview" parameterType="reviewDto">
+        insert into reviewboard (rb_type, rb_content, rb_star, m_idx)
+        values (#{rb_type}, #{rb_content}, #{rb_star}, #{m_idx})
+    </insert>
+    <select id="GetAllReview" resultType="reviewDto">
+        select * from reviewboard order by desc
+    </select>
+
+</mapper>
