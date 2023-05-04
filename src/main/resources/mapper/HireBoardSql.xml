@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="devster.semi.mapper.HireMapper">
+
+    <select id="getAllPosts" resultType="HireBoardDto">
+        select * from hireboard order by hb_idx desc
+    </select>
+
+    <insert id="insertHireBoard" parameterType="HireBoardDto">
+        insert into hireboard (hb_idx,hb_subject,hb_content,hb_photo,fb_writeday) values (#{hb_idx},#{hb_subject},#{hb_content},#{hb_photo},now())
+    </insert>
+
+
+    <select id="getData" parameterType="int" resultType="HireBoardDto">
+        select * from hireboard where hb_idx=#{hb_idx}
+    </select>
+
+    <update id="updateReadCount" parameterType="int">
+        update hireboard set hb_readcount=hb_readcount+1 where hb_idx=#{fb_idx}
+    </update>
+
+    <delete id="deleteHireBoard" parameterType="int">
+        delete from hireboard where hb_idx=#{hb_idx}
+    </delete>
+
+    <update id="updateHireBoard" parameterType="HireBoardDto">
+        update hireboard set hb_subject=#{hb_subject},hb_content=#{hb_content}
+        <if test="hb_photo!=''">
+            ,hb_photo=#{hb_photo}
+        </if>
+        where hb_idx=#{hb_idx}
+    </update>
+    <select id="getHireTotalCount" resultType="int">
+        select count(*) from hireboard
+    </select>
+    <select id="getHirePagingList" parameterType="Map" resultType="HireBoardDto">
+        SELECT * FROM hireboard ORDER BY hb_idx DESC LIMIT #{start}, #{perpage}
+    </select>
+</mapper>
