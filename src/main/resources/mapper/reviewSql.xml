@@ -1,16 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="devster.semi.mapper.ReviewMapper">
- <!--   <insert id="insertreview" parameterType="reviewDto">
-        insert into reviewboard (rb_type, rb_content, rb_star)
-        values (#{rb_type}, #{rb_content}, #{rb_star})
-    </insert>-->
     <insert id="insertreview" parameterType="reviewDto">
-        insert into reviewboard (rb_type, rb_content, rb_star, m_idx)
-        values (#{rb_type}, #{rb_content}, #{rb_star}, #{m_idx})
+        insert into reviewboard (rb_type, rb_content, rb_star,m_idx)
+        values (#{rb_type}, #{rb_content}, #{rb_star},#{m_idx})
     </insert>
+
     <select id="GetAllReview" resultType="reviewDto">
-        select * from reviewboard order by desc
+        select * from reviewboard
     </select>
+
+    <select id="getTotalcount" resultType="int">
+        select count(*) from reviewboard
+    </select>
+    <select id="getPagingList" parameterType="Map" resultType="reviewDto">
+        select * from reviewboard limit #{start},#{perPage}
+    </select>
+    <select id="Getmidx" parameterType="int" resultType="reviewDto">
+        select * from reviewboard where m_idx = #{m_idx}
+    </select>
+    <select id="selectnicnameofmidx" parameterType="int" resultType="String">
+        SELECT m.m_nickname
+        FROM reviewboard re
+                 JOIN member m ON re.m_idx = m.m_idx
+        WHERE re.m_idx = #{m_idx}
+    </select>
+    <delete id="deletereview" parameterType="int">
+        delete from reviewboard where rb_idx=#{rb_idx}
+    </delete>
+    <update id="updatereview" parameterType="reviewDto">
+        update reviewboard set rb_content=#{rb_content} ,rb_star=#{rb_star} ,rb_type=#{rb_type} where rb_idx=#{rb_idx}
+    </update>
+    <select id="getData" parameterType="int" resultType="reviewDto">
+        select * from reviewboard where rb_idx=#{rb_idx}
+    </select>
+
 
 </mapper>

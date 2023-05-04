@@ -2,6 +2,8 @@ package devster.semi.controller;
 
 import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.QboardDto;
+import devster.semi.dto.ReviewDto;
+import devster.semi.mapper.ReviewMapper;
 import devster.semi.service.QboardService;
 import naver.cloud.NcpObjectStorageService;
 import org.springframework.beans.factory.annotation.Autowired;

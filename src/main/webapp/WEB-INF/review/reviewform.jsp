@@ -74,15 +74,14 @@
 
  <form action="insert" method="post" enctype="multipart/form-data">
 
-     <!--hidden-->
-     <input type="hidden" name="m_idx" value="${m_idx}">
 
      <div style="width: 500px; margin-left: 100px;">
          <%-- 세션에서 로그인한 회원의 아이디를 가져옴 --%>
-         <c:set var="m_idx"  value="${sessionScope.memnick}"/>
+         <c:set var="m_idx"  value="${sessionScope.memidx}"/>
+             <c:set var="m_nic"  value="${sessionScope.memnick}"/>
 
-
-         <p>로그인한 회원: ${m_idx}</p>
+         <p>로그인한 회원: ${m_nic}</p>
+             <input type="hidden" name="m_idx" value="${m_idx}">
 
          타입 : <select class="rb_type" name="rb_type" >
             <option value="1">면접 후기</option>
@@ -109,7 +108,6 @@
      </div>
 
 
-     int m_idx = Integer.parseInt((String)session.getAttribute("memidx"));
 
     </form>
 
