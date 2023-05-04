@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+<<<<<<< HEAD
+    <file url="file://$PROJECT_DIR$/src/main/resources/mapper/HireBoardSql.xml" dialect="MySQL" />
+=======
+    <file url="file://$PROJECT_DIR$/src/main/resources/mapper/FreeBoardSql.xml" dialect="MySQL" />
+>>>>>>> 3b5ac238184b4340c74c198beb98bfcc5a6ba9bf
+  </component>
+</project>

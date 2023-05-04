@@ -79,7 +79,6 @@ public class HomeController {
 
 		model.addAttribute("totalCount",totalCount);
 
-
 		//===========================질문게시판===============================//
 
 
@@ -97,9 +96,8 @@ public class HomeController {
 		model.addAttribute("currentPage",currentPage);
 		model.addAttribute("hirelist", hirelist);
 
-
-
 		return "/sub";//tiles.xml 에 이 이름으로 정의된 definition 이 적용됨
+
 	}
 	
 	/*@GetMapping("/home2")
