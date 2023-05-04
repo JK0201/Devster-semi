@@ -1,0 +1,98 @@
+@charset "utf-8";
+
+@import url(common.css);
+
+/*슬라이드 배너*/
+#slideShow{
+    position:relative; /*부모기준설정*/
+    overflow:hidden;  /*넘치는 자식 보이지않게*/
+    width:1140px;
+    height:160px;
+    margin:0 auto;
+}
+#slideShow .slide ul{
+    position:absolute;
+    width:3300px; /*이미지의 총가로길이(1100*3)*/
+}
+#slideShow .slide ul li{float:left;}
+
+
+/*하단버튼*/
+/*#slideShow .slide_btn{
+    position:absolute;
+    bottom:20px;
+    left:420px;
+}
+#slideShow .slide_btn ul li{
+    float:left;
+    background:#000;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    margin:0 7px;
+    cursor:pointer;
+}
+#slideShow .slide_btn ul li.active{
+    background:#ff6600;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+}*/
+
+
+/*좌우버튼*/
+
+#slideShow .side_btn .pre{
+    position:absolute;
+    top:180px;
+    left:30px;
+    width:65px;
+    height:65px;
+    background:url(../photo/lbtn_off.png) no-repeat;
+}
+#slideShow .side_btn .pre:hover{background:url(../photo/lbtn_on.png) no-repeat;cursor:pointer;}
+
+#slideShow .side_btn .nex{
+    position:absolute;
+    top:180px;
+    right:30px;
+    width:65px;
+    height:65px;
+    background:url(../photo/rbtn_off.png) no-repeat;
+}
+#slideShow .side_btn .nex:hover{background:url(../photo/rbtn_on.png) no-repeat;cursor:pointer;}
+
+
+
+
+
+
+
+section.main .fb_wrap{
+    width: 1140px;
+    margin: 0px auto;
+    /*background-color: palegreen;*/
+}
+
+section.main .fb_wrap table.freeboard_table{
+    width: 1140px;
+}
+
+/*사진 아이콘*/
+.fb_subject{
+    float: left;
+}
+
+.icon_img{
+    background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
+    background-size: 600px 900px;
+    background-position: -166px -600px;
+    content: '';
+    width: 18px;
+    height: 18px;
+    float: right;
+}
+
+section.main .fb_wrap .fb_page_list{
+
+}

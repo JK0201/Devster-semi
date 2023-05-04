@@ -1,0 +1,43 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="devster.semi.mapper.FreeBoardMapper">
+    <select id="getTotalCount" resultType="int">
+        select count(*) from freeboard
+    </select>
+    <select id="getPagingList" parameterType="Map" resultType="FreeBoardDto">
+        select * from freeboard order by fb_idx desc limit #{start}, #{perpage}
+    </select>
+    <select id="getData" parameterType="int" resultType="FreeBoardDto">
+        select * from freeboard where fb_idx=#{fb_idx}
+    </select>
+    <insert id="insertFreeBoard" parameterType="FreeBoardDto">
+        insert into freeboard (m_idx, fb_subject, fb_content, fb_photo,fb_writeday) VALUES (#{m_idx},#{fb_subject},#{fb_content},#{fb_photo},now())
+    </insert>
+    <update id="updateReadCount" parameterType="int">
+        update freeboard set fb_readcount=fb_readcount+1 where fb_idx=#{fb_idx}
+    </update>
+    <update id="notUpdateReadCount" parameterType="int">
+        update freeboard set fb_readcount=fb_readcount-1 where fb_idx=#{fb_idx}
+    </update>
+    <delete id="deleteBoard" parameterType="int">
+        delete from freeboard where fb_idx=#{fb_idx}
+    </delete>
+    <update id="updateBoard" parameterType="FreeBoardDto">
+        update freeboard set fb_subject=#{fb_subject}, fb_content=#{fb_content}
+        <if test="fb_photo!='no'">
+            ,fb_photo=#{fb_photo}
+        </if>
+        where fb_idx=#{fb_idx}
+    </update>
+    <select id="selectNickNameOfMidx" parameterType="int" resultType="String">
+        SELECT m.m_nickname
+        FROM freeboard fb
+                 JOIN member m ON fb.m_idx = m.m_idx
+        WHERE fb.fb_idx = #{fb_idx};
+    </select>
+    <update id="increaseLikeCount" parameterType="int">
+        update freeboard set fb_like=fb_like+1 where fb_idx=#{fb_idx}
+    </update>
+    <update id="increaseDislikeCount" parameterType="int">
+        update freeboard set fb_dislike=fb_dislike+1 where fb_idx=#{fb_idx}
+    </update>
+</mapper>
