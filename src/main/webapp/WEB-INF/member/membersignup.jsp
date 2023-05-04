@@ -16,8 +16,28 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <style>
-    </style>
+        #m_email {
+            outline: none;
+            /*border:none;*/
+        }
 
+        #m_email:focus {
+            /*box-shadow: 0 0 0 2px red;*/
+            border: 1px solid red;
+            /*outline-color:red;*/
+        }
+
+        input:disabled {
+            background-color: #ffffff;
+        }
+
+        #acaname {
+            cursor:pointer;
+        }
+        #acaname:hover {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 로그인 : ${sessionScope.logstat}
@@ -30,25 +50,13 @@ state : ${sessionScope.memstate}
 <br>
 ai_idx : ${sessionScope.acaidx}
 
-<form action="" method="post" enctype="multipart/form-data">
+<form action="signupform" method="post" enctype="multipart/form-data">
     <div>
         <div class="input-group">
             <b>이메일 </b>
             <input type="email" name="m_email" id="m_email" required>
             <span id="emailchkicon"></span>
         </div>
-        <style>
-            #m_email{
-                outline:none;
-                /*border:none;*/
-            }
-            #m_email:focus{
-                /*box-shadow: 0 0 0 2px red;*/
-                border:1px solid red;
-                /*outline-color:red;*/
-            }
-
-        </style>
         <div>
             <b>비밀번호 </b>
             <input type="password" name="m_pass" id="m_pass" required>
@@ -65,7 +73,8 @@ ai_idx : ${sessionScope.acaidx}
         </div>
         <div>
             <b>이름 </b>
-            <input type="text" name="m_name" required>
+            <input type="text" name="m_name" id="m_name" required>
+            <span id="namechkicon"></span>
         </div>
         <div class="input-group">
             <b>핸드폰</b>
@@ -75,7 +84,8 @@ ai_idx : ${sessionScope.acaidx}
         <div>
             <b>학원</b>
             <input type="hidden" name="ai_idx">
-            <input type="text" name="ai_name" id="ai_name" data-bs-toggle="modal" data-bs-target="#myAcademyInfoModal">
+            <input type="text" name="ai_name" id="ai_name" disabled data-bs-toggle="modal"
+                   data-bs-target="#myAcademyInfoModal">
         </div>
         <div>
             <b>사진</b>
@@ -145,6 +155,7 @@ ai_idx : ${sessionScope.acaidx}
     let passcheck = false;
     let nickvalid = false;
     let nickname = false;
+    let namevalid = false;
 
     //emailcheck
     $("#m_email").keyup(function () {
@@ -252,8 +263,7 @@ ai_idx : ${sessionScope.acaidx}
         if (!isValidNickname(m_nickname)) {
             $("#nicknamechkicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>사용불가능");
             nickvalid = false;
-        }
-        else {
+        } else {
             $.ajax({
                 type: "get",
                 url: "nicknamechk",
@@ -277,11 +287,30 @@ ai_idx : ${sessionScope.acaidx}
     });
 
     function isValidNickname(nickname) {
-        let nickNamePattern = /^[a-zA-Z0-9가-힣]{2,10}$/
+        let nickNamePattern = /^[a-zA-Z0-9가-힣]{2,10}$/;
         return nickNamePattern.test(nickname);
     }
 
-    //학원 검색
+    //name check
+    $("#m_name").keyup(function() {
+        let m_name=$(this).val();
+
+        if(!isValidName(m_name)) {
+            $("#namechkicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>");
+            namevalid=false;
+        }
+        else {
+            $("#namechkicon").html("<i class='bi bi-check-circle-fill' style='color:green;'></i>");
+            namevalid=true;
+        }
+    });
+
+    function isValidName(name) {
+        let namePattern=/^[가-힣]+$/;
+        return namePattern.test(name);
+    }
+
+    //academy
     $(document).on("keyup", "#modalname", function () {
         let ai_name = $(this).val();
         console.log(ai_name);
@@ -301,10 +330,9 @@ ai_idx : ${sessionScope.acaidx}
                     $.each(res, function (idx, ele) {
                         if (ele.ai_name.includes(ai_name)) {
                             s += `
-                                \${ele.ai_name}<br>
+                                <span value="\${ele.ai_name}" id="acaname">\${ele.ai_name}</span><br>
                             `
                         }
-
                     });
                     resultList.html(s);
                 }
@@ -312,28 +340,33 @@ ai_idx : ${sessionScope.acaidx}
         });
     });
 
+    $(document).on("click","#acaname",function (){
+        let txt=$(this).text();
+        $("#modalname").val(txt);
+    });
+
     //submit
     $("#submitbtn").click(function () {
-        if ($("#m_email").val() == "") {
-            alert("이메일을 입력해 주세요");
+        if (emailcheck == false || emailvalid == false) {
+            $("#m_email").focus();
             return false;
-        }
-        /*let emailcheck = false;
-        let passcheck = false;
-        let nickname = false;*/
-        if (emailcheck == false) {
-            alert("이메일 확인");
-            return false;
-        } else if (passcheck == false) {
+        } else if (passcheck == false || passvalid == false) {
             alert("비밀번호 확인");
             return false;
-        } else if (nickname == false) {
+        } else if (nickname == false || nickvalid == false) {
             alert("닉네임 확인");
+            return false;
+        } else if(namevalid == false) {
+            $("#m_name").focus();
             return false;
         }
 
-        if (emailcheck && passcheck && nickname) {
+        if (emailcheck && passcheck && nickname && emailvalid && passvalid && nickvalid && namevalid) {
             alert("굿");
+        }
+        else {
+            alert("다시");
+            return false;
         }
     });
 </script>
