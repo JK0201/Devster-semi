@@ -7,13 +7,13 @@ import naver.cloud.NcpObjectStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 @RequestMapping("/qboard")
@@ -58,8 +58,23 @@ public class QboardController {
         // 각 페이지에 필요한 게시글 db에서 가져오기
         List<QboardDto> list = qboardService.getPagingList(startNum, perPage);
 
+        List<Map<String,Object>> fulllList =new ArrayList<>();
+
+            for(QboardDto dto : list) {
+                Map<String,Object> map = new HashMap<>();
+                map.put("qb_idx",dto.getQb_idx());
+                map.put("nickName",qboardService.selectNickNameOfMidx(dto.getQb_idx()));
+                map.put("qb_subject",dto.getQb_subject());
+                map.put("qb_content",dto.getQb_content());
+                map.put("qb_writeday", dto.getQb_writeday());
+                map.put("qb_readcount",dto.getQb_readcount());
+                map.put("qb_like",dto.getQb_like());
+                map.put("qb_dislike",dto.getQb_dislike());
+                fulllList.add(map);
+            }
+
         // 출력시 필요한 변수들 model에 전부 저장
-        model.addAttribute("list", list);
+        model.addAttribute("list", fulllList);
         model.addAttribute("totalCount", totalCount);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
@@ -77,23 +92,36 @@ public class QboardController {
     }
 
     @PostMapping("/insert")
-    public String insert(QboardDto dto, MultipartFile upload) {
-
+    public String insert(QboardDto dto, List<MultipartFile> upload) {
         String fileName = "";
-        //업로드를 한 경우에만 버킷에 이미지를 저장한다.
-        if (!upload.getOriginalFilename().equals("")) {
-            fileName = storageService.uploadFile(bucketName, "qboard", upload);
+
+        if(upload.get(0).getOriginalFilename().equals("")) { // 업로드를 안한경우.
+            fileName = "no";
+        } else {
+            int i =0;
+            for(MultipartFile mfile : upload) {
+                //사진 업로드.
+                fileName += (storageService.uploadFile(bucketName, "qboard", mfile) + ",");
+            }
         }
-        //dto에 파일명 저장.
+        fileName=fileName.substring(0,fileName.length()-1);
+//        업로드를 한 경우에만 버킷에 이미지를 저장한다.
         dto.setQb_photo(fileName);
 
         qboardService.insertPost(dto);
-
         return "redirect:list";
     }
 
     @GetMapping("/delete")
     public String delete(int qb_idx) {
+        QboardDto dto = qboardService.getOnePost(qb_idx);
+
+        List<String> list = new ArrayList<>();
+        StringTokenizer st = new StringTokenizer(dto.getQb_photo(),",");
+        while (st.hasMoreElements()) {
+            storageService.deleteFile(bucketName, "qboard", st.nextToken());
+        }
+
         qboardService.deletePost(qb_idx);
 
         return "redirect:list";
@@ -108,14 +136,30 @@ public class QboardController {
     }
 
     @PostMapping("/update")
-    public String update(int qb_idx, QboardDto dto,MultipartFile upload) {
+    public String update(int qb_idx, QboardDto dto, List<MultipartFile> upload) {
         dto.setQb_idx(qb_idx);
-        String fileName = "";
-        //업로드를 한 경우에만 버킷에 이미지를 저장한다.
-        if (!upload.getOriginalFilename().equals("")) {
-            fileName = storageService.uploadFile(bucketName, "qboard", upload);
+
+        String oriPhoto = qboardService.getOnePost(qb_idx).getQb_photo();
+        String fileName ="";
+
+        List<String> list = new ArrayList<>();
+        StringTokenizer st = new StringTokenizer(oriPhoto,",");
+        while (st.hasMoreElements()) {
+            storageService.deleteFile(bucketName, "qboard", st.nextToken());
         }
-        //dto에 파일명 저장.
+
+        if(upload.get(0).getOriginalFilename().equals("")) { // 업로드를 안한경우.
+            fileName = "no";
+        } else {
+            int i =0;
+            for(MultipartFile mfile : upload) {
+                //사진 업로드.
+                fileName += (storageService.uploadFile(bucketName, "qboard", mfile) + ",");
+
+            }
+            fileName=fileName.substring(0,fileName.length()-1);
+        }
+//        업로드를 한 경우에만 버킷에 이미지를 저장한다.
         dto.setQb_photo(fileName);
 
         qboardService.updatePost(dto);
@@ -123,11 +167,22 @@ public class QboardController {
     }
 
     @GetMapping("/detail")
-    public String detail(int qb_idx,Model model) {
+    public String detail(int qb_idx,Model model,int currentPage) {
+        qboardService.updateReadCount(qb_idx);
+
         QboardDto dto = qboardService.getOnePost(qb_idx);
         String nickName = qboardService.selectNickNameOfMidx(dto.getQb_idx());
+        //사진 여러장 분할 처리.
+        List<String> list = new ArrayList<>();
+        StringTokenizer st = new StringTokenizer(dto.getQb_photo(),",");
+        while (st.hasMoreElements()) {
+            list.add(st.nextToken());
+        }
+
+        model.addAttribute("list",list);
         model.addAttribute("dto",dto);
         model.addAttribute("nickname",nickName);
+        model.addAttribute("currentPage",currentPage);
 
         return "/main/qboard/qboarddetail";
     }

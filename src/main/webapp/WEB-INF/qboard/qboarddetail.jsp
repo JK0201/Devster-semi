@@ -21,22 +21,49 @@
     </style>
 </head>
 <body>
+<div style="width: 60%; margin-top: 100px; margin-left: 30px; border: 3px solid black">
     <h1>
-        ${dto.qb_subject}
+        제목 : ${dto.qb_subject}
     </h1>
+    <h6 style="color: #94969B">
+        조회 ${dto.qb_readcount}
+    </h6>
     <br>
     <h2>
-        ${nickname}
+       작성자 : ${nickname}
     </h2>
     <br>
     <h2>
-        ${dto.qb_writeday}
+        작성일자 : ${dto.qb_writeday}
     </h2>
     <br>
     <h3>
-    ${dto.qb_content}
+        내용 : ${dto.qb_content}
     </h3>
     <br>
-    <img src="http://${imageUrl}/qboard/${dto.qb_photo}">
+        <c:forEach items="${list}" var="images">
+            <img src="http://${imageUrl}/qboard/${images}" style="float: left; width: 300px">
+        </c:forEach>
+    <div style="clear: both">
+        <button class="btn btn-outline-dark" type="button" onclick="location.href='delete?qb_idx=${dto.qb_idx}'">
+            삭제
+        </button>
+        <button class="btn btn-outline-dark" type="button" onclick="location.href='updateform?qb_idx=${dto.qb_idx}'">
+            수정
+        </button>
+        <button class="btn btn-success" type="button" onclick="">
+            추천
+        </button>
+        <button class="btn btn-danger" type="button" onclick="">
+            비추천
+        </button>
+        <button class="btn btn-warning" type="button" onclick="location.href='./list?currentPage=${currentPage}'">
+            목록
+        </button>
+        <button class="btn btn-warning" type="button" onclick="location.href='./writeform'">
+            글쓰기
+        </button>
+    </div>
+</div>
 </body>
 </html>

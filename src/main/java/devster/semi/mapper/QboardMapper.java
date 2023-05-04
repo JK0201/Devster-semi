@@ -17,4 +17,5 @@ public interface QboardMapper {
     public String selectNickNameOfMidx(int qb_idx);
     public int getTotalCount();
     public List<QboardDto> getPagingList(Map<String,Integer> map);
+    public void updateReadCount(int qb_idx);
 }

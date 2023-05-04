@@ -39,8 +39,8 @@ public class QboardService implements QboardServiceInter{
     }
 
     @Override
-    public String selectNickNameOfMidx(int m_idx) {
-        return qboardMapper.selectNickNameOfMidx(m_idx);
+    public String selectNickNameOfMidx(int qb_idx) {
+        return qboardMapper.selectNickNameOfMidx(qb_idx);
     }
 
     @Override
@@ -54,6 +54,11 @@ public class QboardService implements QboardServiceInter{
         map.put("start",start);
         map.put("perpage",perpage);
         return qboardMapper.getPagingList(map);
+    }
+
+    @Override
+    public void updateReadCount(int qb_idx) {
+        qboardMapper.updateReadCount(qb_idx);
     }
 
 

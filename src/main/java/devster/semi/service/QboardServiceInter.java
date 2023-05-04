@@ -14,6 +14,8 @@ public interface QboardServiceInter {
     public String selectNickNameOfMidx(int qb_idx);
     public int getTotalCount();
     public List<QboardDto> getPagingList(int start,int perpage);
+    public void updateReadCount(int qb_idx);
+
 
 
 }
