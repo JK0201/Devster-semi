@@ -128,15 +128,17 @@ public class QboardController {
     }
 
     @GetMapping("/updateform")
-    public String updateForm(int qb_idx, Model model) {
+    public String updateForm(int qb_idx, Model model,int currentPage) {
         QboardDto dto = qboardService.getOnePost(qb_idx);
+
         model.addAttribute("dto", dto);
+        model.addAttribute("currentPage",currentPage);
 
         return "/main/qboard/qboardupdateform";
     }
 
     @PostMapping("/update")
-    public String update(int qb_idx, QboardDto dto, List<MultipartFile> upload) {
+    public String update(int qb_idx, QboardDto dto, List<MultipartFile> upload,int currentPage) {
         dto.setQb_idx(qb_idx);
 
         String oriPhoto = qboardService.getOnePost(qb_idx).getQb_photo();
@@ -163,7 +165,7 @@ public class QboardController {
         dto.setQb_photo(fileName);
 
         qboardService.updatePost(dto);
-        return "redirect:list";
+        return "redirect:detail?qb_idx="+qb_idx+"&currentPage="+currentPage;
     }
 
     @GetMapping("/detail")
@@ -187,4 +189,34 @@ public class QboardController {
         return "/main/qboard/qboarddetail";
     }
 
+    @PostMapping("/like")
+    @ResponseBody
+    public Map<String, Object> like(int qb_idx) {
+        qboardService.increaseLikeCount(qb_idx);
+
+        Map<String,Object> result = new HashMap<>();
+        result.put("likeCount", qboardService.getOnePost(qb_idx).getQb_like());
+        result.put("dislikeCount", qboardService.getOnePost(qb_idx).getQb_dislike());
+        return  result;
+    }
+
+    @PostMapping("/dislike")
+    @ResponseBody
+    public Map<String, Object> dislike( int qb_idx) {
+        qboardService.increaseDislikeCount(qb_idx);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("likeCount", qboardService.getOnePost(qb_idx).getQb_like());
+        result.put("likeText", "좋아요 " + qboardService.getOnePost(qb_idx).getQb_like());
+        result.put("dislikeCount", qboardService.getOnePost(qb_idx).getQb_dislike());
+        result.put("dislikeText", "싫어요 " + qboardService.getOnePost(qb_idx).getQb_dislike());
+        return result;
+    }
+
+    @PostMapping("/bestPostsForBanner")
+    @ResponseBody
+    public List<FreeBoardDto> bestPosts(){
+        List<FreeBoardDto> list = qboardService.bestfreeboardPosts();
+        return list;
+    }
 }

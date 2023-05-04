@@ -37,4 +37,12 @@
     <update id="increaseDislikeCount" parameterType="int">
         update qboard set qb_dislike=qb_dislike+1 where qb_idx=#{qb_idx}
     </update>
+    <select id="bestfreeboardPosts" resultType="FreeBoardDto">
+        SELECT *
+        FROM freeboard
+        WHERE fb_writeday >= DATE_SUB(NOW(), INTERVAL 1 DAY)
+        AND <![CDATA[ fb_dislike < 20 ]]>
+        ORDER BY fb_like DESC
+        limit 10
+    </select>
 </mapper>

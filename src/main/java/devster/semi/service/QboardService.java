@@ -1,5 +1,6 @@
 package devster.semi.service;
 
+import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.QboardDto;
 import devster.semi.mapper.QboardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,21 @@ public class QboardService implements QboardServiceInter{
     @Override
     public void updateReadCount(int qb_idx) {
         qboardMapper.updateReadCount(qb_idx);
+    }
+
+    @Override
+    public void increaseLikeCount(int qb_idx) {
+        qboardMapper.increaseLikeCount(qb_idx);
+    }
+
+    @Override
+    public void increaseDislikeCount(int qb_idx) {
+        qboardMapper.increaseDislikeCount(qb_idx);
+    }
+
+    @Override
+    public List<FreeBoardDto> bestfreeboardPosts() {
+        return qboardMapper.bestfreeboardPosts();
     }
 
 

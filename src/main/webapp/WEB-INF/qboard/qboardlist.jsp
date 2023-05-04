@@ -3,23 +3,31 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%--<!DOCTYPE html>--%>
-<%--<html>--%>
-<%--<head>--%>
-<%--    <meta charset="UTF-8">--%>
-<%--    <title>Insert title here</title>--%>
-<%--    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>--%>
-<%--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">--%>
-<%--    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap"--%>
-<%--          rel="stylesheet">--%>
-<%--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">--%>
-<%--    <style>--%>
-<%--        body, body * {--%>
-<%--            font-family: 'Jua'--%>
-<%--        }--%>
-<%--    </style>--%>
-<%--</head>--%>
-<%--<body>--%>
+<script>
+    $(document).ready(function(){
+        var currentPosition = parseInt($(".quickmenu").css("top"));
+        $(window).scroll(function() {
+            var position = $(window).scrollTop();
+            $(".quickmenu").stop().animate({"top":position+currentPosition+"px"},1000);
+        });
+    });
+</script>
+
+<style>
+    div, ul, li {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding:0;margin:0}
+    a {text-decoration:none;}
+
+    .quickmenu {position:absolute;width:300px;top:50%;margin-top:-50px;right:10px;background:#fff;}
+    .quickmenu ul {position:relative;float:left;width:100%;display:inline-block;*display:inline;border:1px solid #ddd;}
+    .quickmenu ul li {float:left;width:100%;border-bottom:1px solid #ddd;text-align:center;display:inline-block;*display:inline;}
+    .quickmenu ul li a {position:relative;float:left;width:100%;height:30px;line-height:30px;text-align:center;color:#999;font-size:9.5pt;}
+    .quickmenu ul li a:hover {color:#000;}
+    .quickmenu ul li:last-child {border-bottom:0;}
+
+    .content {position:relative;min-height:1000px;}
+</style>
+
+<h2 style="margin-top: 60px; font-family:'배달의민족 을지로체 TTF'">QnA Board</h2>
 <h5 class="alert alert-danger" style="width: 800px">총 ${totalCount}개의 글이 있습니다.</h5>
 <table class="table table-bordered" style="width: 800px">
     <tr style="background-color: #ddd">
@@ -40,7 +48,9 @@
     </c:if>
     <c:if test="${totalCount>0}">
         <c:forEach var="dto" items="${list}">
-            <tr>
+            <c:if test="${dto.qb_dislike > 19}">
+                <tbody class="backdrop">
+            <tr style="filter: blur(2px);">
                 <td align="center">
                         ${no}
                     <c:set var="no" value="${no-1}"/>
@@ -73,6 +83,43 @@
                     <fmt:formatDate value="${dto.qb_writeday}" pattern="yyyy-MM-dd"/>
                 </td>
             </tr>
+                </tbody>
+            </c:if>
+            <c:if test="${dto.qb_dislike < 20}">
+                    <tr>
+                        <td align="center">
+                                ${no}
+                            <c:set var="no" value="${no-1}"/>
+                        </td>
+                        <!-- 제목 -->
+                        <td>
+                            <a href="detail?qb_idx=${dto.qb_idx}&currentPage=${currentPage}" style="color: black; text-decoration: none; cursor: pointer;">
+                                <!-- 사진이 있을경우 아이콘 출력 -->
+                                    <%--                        <c:if test="${dto.qb_photo!=''}">--%>
+                                    <%--                            <i class="bi bi-images"></i>--%>
+                                    <%--                        </c:if>--%>
+                                    <%--   제목이 길경우 150px 만 나오고 말 줄임표...--%>
+                                <span style="text-overflow:ellipsis;overflow: hidden;white-space: nowrap;display: inline-block;max-width: 300px;">${dto.qb_subject}
+                                </span>
+                            </a>
+                        </td>
+                        <td>
+                                ${dto.nickName}
+                        </td>
+                        <td>
+                                ${dto.qb_readcount}
+                        </td>
+                        <td>
+                                ${dto.qb_like}
+                        </td>
+                        <td>
+                                ${dto.qb_dislike}
+                        </td>
+                        <td>
+                            <fmt:formatDate value="${dto.qb_writeday}" pattern="yyyy-MM-dd"/>
+                        </td>
+                    </tr>
+            </c:if>
         </c:forEach>
     </c:if>
 </table>
@@ -107,5 +154,37 @@
 <button class="btn btn-outline-dark" type="button" onclick="location.href='./writeform'">
     작성
 </button>
-<%--</body>--%>
-<%--</html>--%>
+
+<div class="quickmenu">
+    <ul>
+        <li class="quickmenu_head"><p style="font-size: 30px">베스트 게시글</p></li>
+    </ul>
+</div>
+
+<script>
+    $.ajax({
+        type: "post",
+        url: "./bestPostsForBanner",
+        dataType: "json",
+        success: function(response) {
+            let s = "";
+            $.each(response, function(index, item) {
+                s +=
+                    `
+                        <li>
+                            <a href="../freeboard/freeboarddetail?fb_idx=\${item.fb_idx}&currentPage=1">
+                                <div class="name">
+                                    <div class="num">\${index+1} \${item.fb_subject}</div>
+                                </div>
+                            </a>
+                        </li>
+                    `
+            });
+            $(".quickmenu ul").append(s);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log("Error: " + textStatus + " - " + errorThrown);
+        }
+    });
+</script>
+
