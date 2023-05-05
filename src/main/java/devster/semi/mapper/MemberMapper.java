@@ -3,6 +3,7 @@ package devster.semi.mapper;
 import devster.semi.dto.AcademyInfoDto;
 import devster.semi.dto.MemberDto;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.lang.reflect.Member;
 import java.util.List;
@@ -25,4 +26,6 @@ public interface MemberMapper {
 
     public MemberDto getOneData(String m_email);
     public List<AcademyInfoDto> searchAcaInfo(String ai_name);
+    public int getAcademyIdx(String ai_name);
+    public void addNewMember(MemberDto dto);
 }

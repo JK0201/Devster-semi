@@ -32,11 +32,13 @@
         }
 
         #acaname {
-            cursor:pointer;
+            cursor: pointer;
         }
+
         #acaname:hover {
             color: red;
         }
+
     </style>
 </head>
 <body>
@@ -50,16 +52,15 @@ state : ${sessionScope.memstate}
 <br>
 ai_idx : ${sessionScope.acaidx}
 
-<form action="signupform" method="post" enctype="multipart/form-data">
     <div>
         <div class="input-group">
             <b>이메일 </b>
-            <input type="email" name="m_email" id="m_email" required>
+            <input type="email" id="m_email" required>
             <span id="emailchkicon"></span>
         </div>
         <div>
             <b>비밀번호 </b>
-            <input type="password" name="m_pass" id="m_pass" required>
+            <input type="password" id="m_pass" required>
             <span id="passokicon"></span>
             <br>
             <b>비밀번호확인</b>
@@ -68,36 +69,31 @@ ai_idx : ${sessionScope.acaidx}
         </div>
         <div>
             <b>닉네임</b>
-            <input type="text" name="m_nickname" id="m_nickname" required>
+            <input type="text" id="m_nickname" required>
             <span id="nicknamechkicon"></span>
         </div>
         <div>
             <b>이름 </b>
-            <input type="text" name="m_name" id="m_name" required>
+            <input type="text" id="m_name" required>
             <span id="namechkicon"></span>
         </div>
         <div class="input-group">
             <b>핸드폰</b>
-            <input type="tel" name="m_tele" required>
-            <button type="button" data-bs-toggle="modal" data-bs-target="#myCellPhoneModal">본인인증</button>
+            <input type="tel" id="m_tele" required>
+            <button type="button" id="sendnumber">인증번호</button>
         </div>
         <div>
             <b>학원</b>
-            <input type="hidden" name="ai_idx">
-            <input type="text" name="ai_name" id="ai_name" disabled data-bs-toggle="modal"
+            <input type="text" id="ai_name" disabled data-bs-toggle="modal"
                    data-bs-target="#myAcademyInfoModal">
         </div>
         <div>
             <b>사진</b>
-            <input type="file" name="m_photo">
-        </div>
-        <div>
-            <b>인증</b>
-            <input type="file" name="m_filename">
+            <input type="file" name="upload" id="m_photo">
+            <!-- 사진 미리보기 구현 해야함 -->
         </div>
     </div>
-    <button type="submit" id="submitbtn">가입하기</button>
-</form>
+    <button type="button" id="submitbtn">가입하기</button>
 
 <!-- 학원 모달 -->
 <div class="modal" id="myAcademyInfoModal">
@@ -113,7 +109,7 @@ ai_idx : ${sessionScope.acaidx}
             <!-- Modal body -->
             <div class="modal-body">
                 <input type="text" id="modalname">
-                <div id="searchbox">111</div>
+                <div id="searchbox"></div>
             </div>
 
             <!-- Modal footer -->
@@ -136,7 +132,11 @@ ai_idx : ${sessionScope.acaidx}
 
             <!-- Modal body -->
             <div class="modal-body">
-                <input type="text" id="regnumber">
+                <div class="input-group">
+                    <input type="text" id="regnumber">
+                    <button type="button" id="regbtn"><span>본인인증</span></button>
+                </div>
+
             </div>
 
             <!-- Modal footer -->
@@ -146,7 +146,6 @@ ai_idx : ${sessionScope.acaidx}
         </div>
     </div>
 </div>
-
 <%--<script src="/js/membersignup.js"></script>--%>
 <script>
     let emailvalid = false;
@@ -156,12 +155,12 @@ ai_idx : ${sessionScope.acaidx}
     let nickvalid = false;
     let nickname = false;
     let namevalid = false;
+    let phonecheck = false;
 
     //emailcheck
     $("#m_email").keyup(function () {
         let m_email = $(this).val();
-
-        if (!isValidEmail(m_email)) {
+        if (!validEmail(m_email)) {
             $("#emailchkicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>" +
                 "<span>이메일 형식</span>");
             emailvalid = false;
@@ -190,7 +189,7 @@ ai_idx : ${sessionScope.acaidx}
     });
 
     //email pattern
-    function isValidEmail(email) {
+    function validEmail(email) {
         let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         return emailPattern.test(email);
     }
@@ -199,9 +198,9 @@ ai_idx : ${sessionScope.acaidx}
     $("#m_pass").keyup(function () {
         let pass = $(this).val();
         let passMatch = $("#passchk").val();
-        let isValid = isValidPass(pass);
+        let valid = validPass(pass);
 
-        if (isValid) {
+        if (valid) {
             $("#passokicon").html("<i class='bi bi-check-circle-fill' style='color:green;'></i>" +
                 "<span>사용가능</span>");
             passvalid = true;
@@ -229,7 +228,7 @@ ai_idx : ${sessionScope.acaidx}
         let pass = $("#m_pass").val();
         let passMatch = $(this).val();
 
-        if (isValidPass(pass)) {
+        if (validPass(pass)) {
             $("#passokicon").html("<i class='bi bi-check-circle-fill' style='color:green;'></i>" +
                 "<span>사용가능</span>");
             passvalid = true;
@@ -251,7 +250,7 @@ ai_idx : ${sessionScope.acaidx}
     });
 
 
-    function isValidPass(pass) {
+    function validPass(pass) {
         let passPattern = /^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+$/;
         return pass.length >= 8 && passPattern.test(pass);
     }
@@ -260,7 +259,7 @@ ai_idx : ${sessionScope.acaidx}
     $("#m_nickname").keyup(function () {
         let m_nickname = $(this).val();
 
-        if (!isValidNickname(m_nickname)) {
+        if (!validNickname(m_nickname)) {
             $("#nicknamechkicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>사용불가능");
             nickvalid = false;
         } else {
@@ -286,27 +285,26 @@ ai_idx : ${sessionScope.acaidx}
         console.log("nval : " + nickvalid);
     });
 
-    function isValidNickname(nickname) {
+    function validNickname(nickname) {
         let nickNamePattern = /^[a-zA-Z0-9가-힣]{2,10}$/;
         return nickNamePattern.test(nickname);
     }
 
     //name check
-    $("#m_name").keyup(function() {
-        let m_name=$(this).val();
+    $("#m_name").keyup(function () {
+        let m_name = $(this).val();
 
-        if(!isValidName(m_name)) {
+        if (!validName(m_name)) {
             $("#namechkicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>");
-            namevalid=false;
-        }
-        else {
+            namevalid = false;
+        } else {
             $("#namechkicon").html("<i class='bi bi-check-circle-fill' style='color:green;'></i>");
-            namevalid=true;
+            namevalid = true;
         }
     });
 
-    function isValidName(name) {
-        let namePattern=/^[가-힣]+$/;
+    function validName(name) {
+        let namePattern = /^[가-힣]+$/;
         return namePattern.test(name);
     }
 
@@ -324,13 +322,13 @@ ai_idx : ${sessionScope.acaidx}
                 resultList.empty();
 
                 if ($("#modalname").val() == "") {
-                    resultList.html("검색어를 입력해 주세요");
+                    resultList.html("검색어를 입력해주세요");
                 } else {
                     s = "";
                     $.each(res, function (idx, ele) {
                         if (ele.ai_name.includes(ai_name)) {
                             s += `
-                                <span value="\${ele.ai_name}" id="acaname">\${ele.ai_name}</span><br>
+                                <span id="acaname">\${ele.ai_name}</span><br>
                             `
                         }
                     });
@@ -340,10 +338,50 @@ ai_idx : ${sessionScope.acaidx}
         });
     });
 
-    $(document).on("click","#acaname",function (){
-        let txt=$(this).text();
+    $(document).on("click", "#acaname", function () {
+        let txt = $(this).text();
         $("#modalname").val(txt);
+        $("#ai_name").val(txt);
+        console.log($("#ai_name").val());
     });
+
+    //phone check
+    let code = "";
+    $(document).on("click", "#sendnumber", function (e) {
+        let phonenum = $("#m_tele").val();
+        if (!validPhone(phonenum)) {
+            alert("핸드폰 번호 확인");
+            return false;
+        } else {
+            alert("인증번호가 발송되었습니다");
+            $.ajax({
+                type: "get",
+                url: "phonechk?phonenum=" + phonenum,
+                cache: false,
+                success: function (res) {
+                    console.log(res);
+                    $("#myCellPhoneModal").modal("show");
+                    code = res;
+                }
+            });
+        }
+    });
+
+    $("#regbtn").click(function () {
+        if ($("#regnumber").val() == code) {
+            alert("인증 되었습니다");
+            phonecheck = true;
+        } else {
+            alert("인증 번호 틀림");
+            phonecheck = false;
+        }
+        console.log(phonecheck);
+    });
+
+    function validPhone(phonenum) {
+        let phoneNumPattern = /^(010|01[1-9][0-9])-?\d{3,4}-?\d{4}$/;
+        return phoneNumPattern.test(phonenum);
+    }
 
     //submit
     $("#submitbtn").click(function () {
@@ -356,16 +394,37 @@ ai_idx : ${sessionScope.acaidx}
         } else if (nickname == false || nickvalid == false) {
             alert("닉네임 확인");
             return false;
-        } else if(namevalid == false) {
+        } else if (namevalid == false) {
             $("#m_name").focus();
             return false;
-        }
+        } /*else if (phonecheck == false) {
+            alert("핸드폰 인증");
+            return false;
+        }*/
 
-        if (emailcheck && passcheck && nickname && emailvalid && passvalid && nickvalid && namevalid) {
-            alert("굿");
-        }
-        else {
-            alert("다시");
+        if (emailcheck && passcheck && nickname && emailvalid && passvalid && nickvalid && namevalid) { //phonecheck 넣을것
+            let formData=new FormData();
+            formData.append("ai_name",$("#ai_name").val());
+            formData.append("m_email",$("#m_email").val());
+            formData.append("m_pass",$("#m_pass").val());
+            formData.append("m_nickname",$("#m_nickname").val());
+            formData.append("m_name",$("#m_name").val());
+            formData.append("m_tele",$("#m_tele").val());
+            formData.append("upload",$("#m_photo")[0].files[0]);
+
+            $.ajax({
+                type:"post",
+                dataType:"text",
+                url:"signupform",
+                data:formData,
+                processData:false,
+                contentType:false,
+                success:function(res) {
+                    alert("회원가입을 축하드립니다\n +100 포인트");
+                    location.href="signin";
+                }
+            });
+        } else {
             return false;
         }
     });

@@ -22,20 +22,17 @@ public class MemberService implements MemberServiceInter {
 
     @Override
     public int emailChk(String m_email) {
-        int chk = memberMapper.emailChk(m_email);
-        return chk;
+        return memberMapper.emailChk(m_email);
     }
 
     @Override
     public int apichk(String m_email) {
-        int chk=memberMapper.apichk(m_email);
-        return chk;
+        return memberMapper.apichk(m_email);
     }
 
     @Override
     public int nickNameChk(String m_nickname) {
-        int chk = memberMapper.nickNameChk(m_nickname);
-        return chk;//eong
+        return memberMapper.nickNameChk(m_nickname);
     }
 
     @Override
@@ -62,4 +59,15 @@ public class MemberService implements MemberServiceInter {
     public List<AcademyInfoDto> searchAcaInfo(String ai_name) {
         return memberMapper.searchAcaInfo(ai_name);
     }
+
+    @Override
+    public int getAcademyIdx(String ai_name) {
+        return memberMapper.getAcademyIdx(ai_name);
+    }
+
+    @Override
+    public void addNewMember(MemberDto dto) {
+        memberMapper.addNewMember(dto);
+    }
+
 }
