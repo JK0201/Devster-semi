@@ -16,17 +16,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <style>
-        #m_email {
-            outline: none;
-            /*border:none;*/
-        }
-
-        #m_email:focus {
-            /*box-shadow: 0 0 0 2px red;*/
-            border: 1px solid red;
-            /*outline-color:red;*/
-        }
-
         input:disabled {
             background-color: #ffffff;
         }
@@ -39,6 +28,30 @@
             color: red;
         }
 
+        /*toggle*/
+        #cpmode {
+            display: none;
+        }
+
+        .phonereg {
+            display: none;
+        }
+
+        .emailchk {
+            display: none;
+        }
+
+        .emailreg {
+            display: none;
+        }
+
+        #resendnumber {
+            display: none;
+        }
+
+        #resendemail {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -52,48 +65,65 @@ state : ${sessionScope.memstate}
 <br>
 ai_idx : ${sessionScope.acaidx}
 
+<div style="width : 500px;">
     <div>
-        <div class="input-group">
-            <b>이메일 </b>
-            <input type="email" id="m_email" required>
-            <span id="emailchkicon"></span>
-        </div>
-        <div>
-            <b>비밀번호 </b>
-            <input type="password" id="m_pass" required>
-            <span id="passokicon"></span>
-            <br>
-            <b>비밀번호확인</b>
-            <input type="password" id="passchk">
-            <span id="passchkicon"></span>
-        </div>
-        <div>
-            <b>닉네임</b>
-            <input type="text" id="m_nickname" required>
-            <span id="nicknamechkicon"></span>
-        </div>
-        <div>
-            <b>이름 </b>
-            <input type="text" id="m_name" required>
-            <span id="namechkicon"></span>
-        </div>
-        <div class="input-group">
-            <b>핸드폰</b>
-            <input type="tel" id="m_tele" required>
-            <button type="button" id="sendnumber">인증번호</button>
-        </div>
-        <div>
-            <b>학원</b>
-            <input type="text" id="ai_name" disabled data-bs-toggle="modal"
-                   data-bs-target="#myAcademyInfoModal">
-        </div>
-        <div>
-            <b>사진</b>
-            <input type="file" name="upload" id="m_photo">
-            <!-- 사진 미리보기 구현 해야함 -->
-        </div>
+        <strong>이메일</strong>
+        <input type="email" id="m_email" required placeholder="email@example.com">
+        <span id="emailchkicon"></span>
     </div>
-    <button type="button" id="submitbtn">가입하기</button>
+    <div>
+        <strong>닉네임</strong>
+        <input type="text" id="m_nickname" required placeholder="2~10자리 / 한글,영문,숫자 사용가능">
+        <span id="nicknamechkicon"></span>
+    </div>
+    <div>
+        <strong>비밀번호</strong>
+        <input type="password" id="m_pass" required placeholder="8~16자리/영문 대소문자, 숫자, 특수문자 조합">
+        <span id="passokicon"></span>
+        <b>비밀번호확인</b>
+        <input type="password" id="passchk" placeholder="8~16자리/영문 대소문자, 숫자, 특수문자 조합">
+        <span id="passchkicon"></span>
+    </div>
+    <div>
+        <strong>이름 </strong>
+        <input type="text" id="m_name" required placeholder="이름 입력">
+        <span id="namechkicon"></span>
+    </div>
+    <div>
+        <strong id="emailmode">이메일로 인증</strong>
+        <strong id="cpmode">휴대폰으로 인증</strong>
+    </div>
+    <div class="input-group phonechk">
+        <strong>휴대폰</strong>
+        <input type="tel" id="m_tele" required placeholder="'-'빼고 숫자만 입력">
+        <button type="button" id="sendnumber" disabled>인증요청</button>
+        <button type="button" id="resendnumber">재발송</button>
+    </div>
+    <div class="input-group phonereg">
+        <input type="text" id="regnumber">
+        <button type="button" id="regbtn"><span>확인</span></button>
+    </div>
+    <div class="input-group emailchk">
+        <strong>이메일</strong>
+        <button type="button" id="sendemail" disabled>인증요청</button>
+        <button type="button" id="resendemail">재발송</button>
+    </div>
+    <div class="input-group emailreg">
+        <input type="text" id="eregnumber">
+        <button type="button" id="eregbtn"><span>확인</span></button>
+    </div>
+    <div>
+        <strong>학원</strong>
+        <input type="text" id="ai_name" required disabled data-bs-toggle="modal"
+               data-bs-target="#myAcademyInfoModal">
+    </div>
+    <div>
+        <strong>사진</strong>
+        <input type="file" name="upload" id="m_photo">
+        <!-- 사진 미리보기 구현 해야함 -->
+    </div>
+</div>
+<button type="button" id="submitbtn">가입하기</button>
 
 <!-- 학원 모달 -->
 <div class="modal" id="myAcademyInfoModal">
@@ -119,33 +149,7 @@ ai_idx : ${sessionScope.acaidx}
         </div>
     </div>
 </div>
-<!-- 핸드폰 인증 -->
-<div class="modal" id="myCellPhoneModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
 
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Modal Heading</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body">
-                <div class="input-group">
-                    <input type="text" id="regnumber">
-                    <button type="button" id="regbtn"><span>본인인증</span></button>
-                </div>
-
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 <%--<script src="/js/membersignup.js"></script>--%>
 <script>
     let emailvalid = false;
@@ -162,7 +166,7 @@ ai_idx : ${sessionScope.acaidx}
         let m_email = $(this).val();
         if (!validEmail(m_email)) {
             $("#emailchkicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>" +
-                "<span>이메일 형식</span>");
+                "<span>옳바른 이메일 형식을 써주세요</span>");
             emailvalid = false;
         } else {
             $.ajax({
@@ -172,20 +176,18 @@ ai_idx : ${sessionScope.acaidx}
                 data: {"m_email": m_email},
                 success: function (res) {
                     if (res.result == "yes") {
-                        $("#emailchkicon").html("<i class='bi bi-check-circle-fill' style='color:green;'></i>");
+                        $("#emailchkicon").html("<i class='bi bi-check-circle-fill' style='color:green;'></i>" +
+                            "<span>사용가능한 E-mail입니다</span>");
                         emailcheck = true;
-                        console.log("echk : " + emailcheck);
                     } else {
                         $("#emailchkicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>" +
-                            "<span>중복</span>");
+                            "<span>이미 사용중인 E-mail입니다</span>");
                         emailcheck = false;
-                        console.log("echk : " + emailcheck);
                     }
                 }
             });
             emailvalid = true;
         }
-        console.log("eval : " + emailvalid);
     });
 
     //email pattern
@@ -195,64 +197,47 @@ ai_idx : ${sessionScope.acaidx}
     }
 
     //pass check
-    $("#m_pass").keyup(function () {
-        let pass = $(this).val();
+    function updatePasswordStatus() {
+        let pass = $("#m_pass").val();
         let passMatch = $("#passchk").val();
         let valid = validPass(pass);
 
         if (valid) {
             $("#passokicon").html("<i class='bi bi-check-circle-fill' style='color:green;'></i>" +
-                "<span>사용가능</span>");
+                "<span>사용 가능한 비밀번호에요</span>");
             passvalid = true;
         } else {
             $("#passokicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>" +
-                "<span>사용불가능</span>");
+                "<span>8~16자리 영문 대소문자, 숫자, 특수문자의 조합으로 만들어주세요</span>");
             passvalid = false;
         }
 
         if (pass != passMatch) {
-            $("#passchkicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>");
-            passcheck = false;
-        } else if (pass == "" && passMatch == "") {
-            $("#passchkicon").empty();
+            $("#passchkicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>" +
+                "<span>비밀번호와 일치하지 않아요</span>");
             passcheck = false;
         } else {
-            $("#passchkicon").html("<i class='bi bi-check-circle-fill' style='color:green;'></i>");
+            $("#passchkicon").html("<i class='bi bi-check-circle-fill' style='color:green;'></i>" +
+                "<span>비밀번호와 일치해요</span>");
             passcheck = true;
         }
-        console.log("pchk : " + passcheck);
-        console.log("pval : " + passvalid);
+
+        if(pass=="" && passMatch=="") {
+            $("#passchkicon").html("");
+        }
+    }
+
+    $("#m_pass").keyup(function () {
+        updatePasswordStatus();
     });
 
     $("#passchk").keyup(function () {
-        let pass = $("#m_pass").val();
-        let passMatch = $(this).val();
-
-        if (validPass(pass)) {
-            $("#passokicon").html("<i class='bi bi-check-circle-fill' style='color:green;'></i>" +
-                "<span>사용가능</span>");
-            passvalid = true;
-
-            if (pass != passMatch) {
-                $("#passchkicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>");
-                passcheck = false;
-            } else {
-                $("#passchkicon").html("<i class='bi bi-check-circle-fill' style='color:green;'></i>");
-                passcheck = true;
-            }
-        } else {
-            $("#passokicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>" +
-                "<span>사용불가능</span>");
-            passvalid = false;
-        }
-        console.log("pchk : " + passcheck);
-        console.log("pval : " + passvalid);
+        updatePasswordStatus();
     });
-
 
     function validPass(pass) {
         let passPattern = /^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+$/;
-        return pass.length >= 8 && passPattern.test(pass);
+        return pass.length >= 8 && pass.length <= 16 && passPattern.test(pass);
     }
 
     //nickname check
@@ -260,7 +245,8 @@ ai_idx : ${sessionScope.acaidx}
         let m_nickname = $(this).val();
 
         if (!validNickname(m_nickname)) {
-            $("#nicknamechkicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>사용불가능");
+            $("#nicknamechkicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>" +
+                "<span>2~10자의 한글,영문과 숫자만 사용해주세요</span>");
             nickvalid = false;
         } else {
             $.ajax({
@@ -270,19 +256,20 @@ ai_idx : ${sessionScope.acaidx}
                 data: {"m_nickname": m_nickname},
                 success: function (res) {
                     if (res.result == "no") {
-                        $("#nicknamechkicon").html("<i class='bi bi-check-circle-fill' style='color:green;'></i>");
+                        $("#nicknamechkicon").html("<i class='bi bi-check-circle-fill' style='color:green;'></i>" +
+                            "<span>사용가능한 ID입니다</span>");
+                        $("#m_nickname").css({"border": "1px solid black", "box-shadow": "none"});
                         nickname = true;
-                        console.log("nn : " + nickname);
                     } else {
-                        $("#nicknamechkicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>사용불가능");
+                        $("#nicknamechkicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>" +
+                            "<span>이미 사용중인 ID입니다</span>");
+                        $("#m_nickname").css({"border": "1px solid red", "box-shadow": "none"});
                         nickname = false;
-                        console.log("nn : " + nickname);
                     }
                 }
             });
             nickvalid = true;
         }
-        console.log("nval : " + nickvalid);
     });
 
     function validNickname(nickname) {
@@ -295,7 +282,8 @@ ai_idx : ${sessionScope.acaidx}
         let m_name = $(this).val();
 
         if (!validName(m_name)) {
-            $("#namechkicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>");
+            $("#namechkicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>" +
+                "<span>옳바른 이름을 입력해주세요</span>");
             namevalid = false;
         } else {
             $("#namechkicon").html("<i class='bi bi-check-circle-fill' style='color:green;'></i>");
@@ -311,7 +299,6 @@ ai_idx : ${sessionScope.acaidx}
     //academy
     $(document).on("keyup", "#modalname", function () {
         let ai_name = $(this).val();
-        console.log(ai_name);
         $.ajax({
             type: "get",
             url: "searchai",
@@ -322,13 +309,13 @@ ai_idx : ${sessionScope.acaidx}
                 resultList.empty();
 
                 if ($("#modalname").val() == "") {
-                    resultList.html("검색어를 입력해주세요");
+                    resultList.html("<div class='spinner-border text-primary''></div>");
                 } else {
                     s = "";
                     $.each(res, function (idx, ele) {
                         if (ele.ai_name.includes(ai_name)) {
                             s += `
-                                <span id="acaname">\${ele.ai_name}</span><br>
+                                <div id="acaname">\${ele.ai_name}</div>
                             `
                         }
                     });
@@ -342,32 +329,73 @@ ai_idx : ${sessionScope.acaidx}
         let txt = $(this).text();
         $("#modalname").val(txt);
         $("#ai_name").val(txt);
-        console.log($("#ai_name").val());
+    });
+
+    //checkmode
+    $(document).on("click", "#emailmode", function () {
+        $("#cpmode").show();
+        $("#emailmode").hide();
+        $(".emailchk").show();
+        $(".phonechk").hide();
+        $(".phonereg").hide();
+        $("#sendnumber").show();
+        $("#resendnumber").hide();
+    });
+
+    $(document).on("click", "#cpmode", function () {
+        $("#emailmode").show();
+        $("#cpmode").hide();
+        $(".phonechk").show();
+        $(".emailchk").hide();
+        $(".emailreg").hide();
+        $("#sendemail").show();
+        $("#resendemail").hide();
     });
 
     //phone check
-    let code = "";
-    $(document).on("click", "#sendnumber", function (e) {
+    $(document).on("keyup", "#m_tele", function () {
         let phonenum = $("#m_tele").val();
         if (!validPhone(phonenum)) {
-            alert("핸드폰 번호 확인");
+            $("#sendnumber").prop("disabled", true);
+        } else {
+            $("#sendnumber").prop("disabled", false);
+        }
+    });
+
+    let code = "";
+    $(document).on("click", "#sendnumber", function () {
+        let phonenum = $("#m_tele").val();
+        if (!validPhone(phonenum)) {
+            alert("번호를 확인해주세요")
             return false;
         } else {
-            alert("인증번호가 발송되었습니다");
             $.ajax({
                 type: "get",
-                url: "phonechk?phonenum=" + phonenum,
+                url: "cblockcheck",
                 cache: false,
                 success: function (res) {
-                    console.log(res);
-                    $("#myCellPhoneModal").modal("show");
-                    code = res;
+                    if (res == "yes") {
+                        alert("인증번호가 발송되었습니다");
+                        $.ajax({
+                            type: "get",
+                            url: "phonechk?phonenum=" + phonenum,
+                            cache: false,
+                            success: function (res) {
+                                code = res;
+                            }
+                        });
+                        $(".phonereg").show();
+                        $("#sendnumber").hide();
+                        $("#resendnumber").show();
+                    } else {
+                        alert("인증번호 발급횟수를 초과하셨습니다\n잠시후 다시 시도해주세요");
+                    }
                 }
             });
         }
     });
 
-    $("#regbtn").click(function () {
+    $(document).on("click", "#regbtn", function () {
         if ($("#regnumber").val() == code) {
             alert("인증 되었습니다");
             phonecheck = true;
@@ -375,13 +403,119 @@ ai_idx : ${sessionScope.acaidx}
             alert("인증 번호 틀림");
             phonecheck = false;
         }
-        console.log(phonecheck);
+    });
+
+    let cnt = 0;
+    $(document).on("click", "#resendnumber", function () {
+        let b = confirm("정말 인증번호를 다시 받으시겠습니까?\n기존의 번호는..");
+        if (b && cnt == 0) {
+            let phonenum = $("#m_tele").val();
+            alert("인증번호가 발송되었습니다");
+            $.ajax({
+                type: "get",
+                url: "phonechk?phonenum=" + phonenum,
+                cache: false,
+                success: function (res) {
+                    cnt++;
+                    code = res;
+                    console.log(cnt);
+                }
+            });
+        } else {
+            alert("인증번호 발급횟수를 초과하셨습니다\n잠시후 다시 시도해주세요");
+            $.ajax({
+                type: "get",
+                url: "cblocksend",
+                cache: false,
+                success: function (res) {
+                }
+            });
+            return false;
+        }
     });
 
     function validPhone(phonenum) {
         let phoneNumPattern = /^(010|01[1-9][0-9])-?\d{3,4}-?\d{4}$/;
         return phoneNumPattern.test(phonenum);
     }
+
+    //email check
+    $(document).on("keyup", "#m_email", function () {
+        let email = $("#m_email").val();
+        if (!validEmail(email)) {
+            $("#sendemail").prop("disabled", true);
+        } else {
+            $("#sendemail").prop("disabled", false);
+        }
+    });
+
+    let ecode = "";
+    $(document).on("click", "#sendemail", function () {
+        let email = $("#m_email").val();
+        $.ajax({
+            type: "get",
+            url: "eblockcheck",
+            cache: false,
+            success: function (res) {
+                if (res == "yes") {
+                    alert("인증번호가 발송되었습니다");
+                    $.ajax({
+                        type: "get",
+                        url: "sendemail?email=" + email,
+                        cache: false,
+                        success: function (res) {
+                            ecode = res;
+                        }
+                    });
+                    $(".emailreg").show();
+                    $("#sendemail").hide();
+                    $("#resendemail").show();
+                } else {
+                    alert("인증번호 발급횟수를 초과하셨습니다\n잠시후 다시 시도해주세요");
+                }
+            }
+        });
+    });
+
+
+    $(document).on("click", "#eregbtn", function () {
+        if ($("#eregnumber").val() == ecode) {
+            alert("인증 되었습니다");
+            phonecheck = true;
+        } else {
+            alert("인증 번호 틀림");
+            phonecheck = false;
+        }
+    });
+
+    let ecnt = 0;
+    $(document).on("click", "#resendemail", function () {
+        let b = confirm("정말 인증번호를 다시 받으시겠습니까?\n기존의 번호는..");
+        if (b && ecnt < 1) {
+            let email = $("#m_email").val();
+            alert("인증번호가 발송되었습니다");
+            $.ajax({
+                type: "get",
+                url: "sendemail?email=" + email,
+                cache: false,
+                success: function (res) {
+                    ecnt++;
+                    ecode = res;
+                    console.log(ecnt);
+                }
+            });
+        } else {
+            alert("인증번호 발급횟수를 초과하셨습니다\n잠시후 다시 시도해주세요");
+            $.ajax({
+                type: "get",
+                url: "eblockesend",
+                cache: false,
+                success: function (res) {
+                }
+            });
+            return false;
+        }
+    });
 
     //submit
     $("#submitbtn").click(function () {
@@ -403,25 +537,25 @@ ai_idx : ${sessionScope.acaidx}
         }*/
 
         if (emailcheck && passcheck && nickname && emailvalid && passvalid && nickvalid && namevalid) { //phonecheck 넣을것
-            let formData=new FormData();
-            formData.append("ai_name",$("#ai_name").val());
-            formData.append("m_email",$("#m_email").val());
-            formData.append("m_pass",$("#m_pass").val());
-            formData.append("m_nickname",$("#m_nickname").val());
-            formData.append("m_name",$("#m_name").val());
-            formData.append("m_tele",$("#m_tele").val());
-            formData.append("upload",$("#m_photo")[0].files[0]);
+            let formData = new FormData();
+            formData.append("ai_name", $("#ai_name").val());
+            formData.append("m_email", $("#m_email").val());
+            formData.append("m_pass", $("#m_pass").val());
+            formData.append("m_nickname", $("#m_nickname").val());
+            formData.append("m_name", $("#m_name").val());
+            formData.append("m_tele", $("#m_tele").val());
+            formData.append("upload", $("#m_photo")[0].files[0]);
 
             $.ajax({
-                type:"post",
-                dataType:"text",
-                url:"signupform",
-                data:formData,
-                processData:false,
-                contentType:false,
-                success:function(res) {
+                type: "post",
+                dataType: "text",
+                url: "signupform",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (res) {
                     alert("회원가입을 축하드립니다\n +100 포인트");
-                    location.href="signin";
+                    location.href = "grats";
                 }
             });
         } else {

@@ -18,30 +18,8 @@
     </style>
 </head>
 <body>
-<strong> 세션 : ${ecode}</strong>
-<input type="email" id="email">
-<button type="button" id="send">보내기</button>
-
-<input type="text" id="code">
-<button type="button" id="codebtn">확인</button>
-<script>
-    $("#send").click(function () {
-        let email = $("#email").val();
-        alert("인증번호가 발송되었습니다");
-        $.ajax({
-            type: "get",
-            url: "sendemail?email=" + email,
-            cache: false,
-            success:function(res) {
-                alert("보냄"+res);
-            }
-        });
-    });
-
-    $("#codebtn").click(function() {
-
-    });
-</script>
+가입을 축하드립니다
+추가적으로 인증 하실?
+ㅇㅇ ㄴㄴ
 </body>
 </html>
-

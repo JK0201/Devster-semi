@@ -3,9 +3,11 @@ package devster.semi.controller;
 import devster.semi.dto.AcademyInfoDto;
 
 import devster.semi.dto.MemberDto;
+import devster.semi.service.MailService;
 import devster.semi.service.MemberService;
 import devster.semi.service.SmsService;
 import naver.cloud.ObjectStorageService;
+import org.apache.jasper.tagplugins.jstl.core.Out;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +33,9 @@ public class MemberController {
     private SmsService smsService;
 
     @Autowired
+    MailService mailService;
+
+    @Autowired
     private ObjectStorageService storageService;
 
     private String bucketName = "devster-bucket";
@@ -51,7 +56,6 @@ public class MemberController {
     @GetMapping("/searchai")
     @ResponseBody
     public List<AcademyInfoDto> searchAi(String ai_name) {
-        System.out.println(ai_name);
         List<AcademyInfoDto> list = memberService.searchAcaInfo(ai_name);
         return list;
     }
@@ -74,7 +78,6 @@ public class MemberController {
     @GetMapping("/emailchk")
     @ResponseBody
     public Map<String, String> emailChk(String m_email) {
-        System.out.println(m_email);
         int chk = memberService.emailChk(m_email);
         Map<String, String> map = new HashMap<>();
         map.put("result", chk == 0 ? "yes" : "no");
@@ -86,7 +89,6 @@ public class MemberController {
     @GetMapping("/apichk")
     @ResponseBody
     public Map<String, String> kanachk(String m_email, HttpSession session) {
-        System.out.println(m_email);
         int chk = memberService.apichk(m_email);
         Map<String, String> map = new HashMap<>();
 
@@ -115,7 +117,6 @@ public class MemberController {
     @GetMapping("/nicknamechk")
     @ResponseBody
     public Map<String, String> nickNameChk(String m_nickname) {
-        System.out.println(m_nickname);
         int chk = memberService.nickNameChk(m_nickname);
         Map<String, String> map = new HashMap<>();
         map.put("result", chk == 1 ? "yes" : "no");
@@ -126,7 +127,6 @@ public class MemberController {
     @GetMapping("/emailpasschk")
     @ResponseBody
     public Map<String, String> emailPassChk(String m_email, String m_pass, HttpSession session, Model model) {
-        System.out.println(m_email + "," + m_pass);
         int chk = memberService.emailpasschk(m_email, m_pass);
         Map<String, String> map = new HashMap<>();
 
@@ -154,26 +154,90 @@ public class MemberController {
 
     @GetMapping("/phonechk")
     @ResponseBody
-    public String sendSMS(String phonenum) {
+    public String sendSMS(String phonenum, HttpSession session) {
         int randomnum = (int) ((Math.random() * (99999 - 10000 + 1) + 10000));
-        smsService.certified(phonenum, randomnum);
+//        smsService.certified(phonenum, randomnum); //주석해제 해야 동작함
 
         return Integer.toString(randomnum);
+    }
+
+    @GetMapping("/sendemail")
+    @ResponseBody
+    public String sendEmail(String email, HttpSession session) throws Exception {
+        String code = mailService.sendSimpleMessage(email);
+        System.out.println("발송한 인증코드 : " + code);
+
+        session.setAttribute("ecode", code);
+        session.setMaxInactiveInterval(20);
+
+        return code;
+    }
+
+    @GetMapping("eblockcheck")
+    @ResponseBody
+    public String eblockCheck(HttpSession session) {
+        String espam = (String) session.getAttribute("espam");
+        String cond="";
+        if(espam==null) {
+            cond="yes";
+        }
+        else{
+            cond="no";
+        }
+
+        return cond;
+    }
+
+    @GetMapping("/eblockesend")
+    @ResponseBody
+    public void eblockSend(HttpSession session) {
+        session.setAttribute("espam", "block");
+        session.setMaxInactiveInterval(30);
+    }
+
+    @GetMapping("cblockcheck")
+    @ResponseBody
+    public String cblockCheck(HttpSession session) {
+        String cspam = (String) session.getAttribute("cspam");
+        String cond="";
+        if(cspam==null) {
+            cond="yes";
+        }
+        else{
+            cond="no";
+        }
+
+        return cond;
+    }
+
+    @GetMapping("/cblocksend")
+    @ResponseBody
+    public void cblockSend(HttpSession session) {
+        session.setAttribute("cspam", "block");
+        session.setMaxInactiveInterval(30);
     }
 
     @PostMapping("/signupform")
     @ResponseBody
     public void signUpForm(MemberDto dto, String ai_name, MultipartFile upload) {
-        System.out.println(ai_name);
-        String m_photo="";
-        if(upload==null) {
+        String m_photo = "";
+
+        if (dto.getAi_name() == null) {
+            dto.setAi_name("no");
+        } //이건 보류
+
+        if (upload == null) {
             m_photo = "no";
-        }
-        else {
+        } else {
             m_photo = storageService.uploadFile(bucketName, "member", upload);
         }
         dto.setM_photo(m_photo);
         dto.setAi_idx(memberService.getAcademyIdx(dto.getAi_name()));
         memberService.addNewMember(dto);
+    }
+
+    @GetMapping("/grats")
+    public String grats() {
+        return "/main/member/membergrats";
     }
 }

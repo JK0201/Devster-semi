@@ -30,25 +30,27 @@
 <body>
 <div>
     <div>
-        <b id="normmember">일반회원 로그인</b>
-        &nbsp;&nbsp;&nbsp;
-        <b id="compmember">회사계정 로그인</b>
+        <div>
+            <strong id="normmember">일반회원 로그인</strong>
+            &nbsp;&nbsp;&nbsp;
+            <strong id="compmember">회사계정 로그인</strong>
+        </div>
         <div class="norminput">
-            <sapn>개인 :</sapn>
-            <input type="text" name="m_email" id="m_email" required placeholder>
-            <br>
-            <span>비밀번호 : </span><input type="password" name="m_pass" id="m_pass" required>
+            <strong>개인 </strong>
+            <input type="text" name="m_email" id="m_email" required>
+            <strong>비밀번호 </strong>
+            <input type="password" name="m_pass" id="m_pass" required>
         </div>
         <div class="compinput">
-            <sapn>회사 :</sapn>
+            <strong>회사 </strong>
             <input type="text" name="cm_email" id="cm_email">
-            <br>
-            <span>비밀번호 : </span><input type="password" name="cm_pass" id="cm_pass">
+            <strong>비밀번호 </strong>
+            <input type="password" name="cm_pass" id="cm_pass">
         </div>
         <label id="chkbtn">
             <i class="bi bi-circle" id="chkno"></i>
             <i class="bi bi-check-circle-fill" id="chkyes"></i>
-            <span>로그인 상태 유지하기</span>
+            <strong>로그인 상태 유지하기</strong>
         </label>
         <div>
             <button type="button" id="signinbtn">로그인</button>
@@ -65,16 +67,16 @@
         </div>
         <div class="norminput">
             <a href="signup">회원가입</a>
-            <b>|</b>
+            <strong>|</strong>
             <a href="#">계정 찾기</a>
-            <b>|</b>
+            <strong>|</strong>
             <a href="#">비밀번호 찾기</a>
         </div>
         <div class="compinput">
             <a href="compsignup">회원가입</a>
-            <b>|</b>
+            <strong>|</strong>
             <a href="#">계정 찾기</a>
-            <b>|</b>
+            <strong>|</strong>
             <a href="#">비밀번호 찾기</a>
         </div>
     </div>
