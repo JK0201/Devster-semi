@@ -6,6 +6,7 @@ import devster.semi.dto.MemberDto;
 import devster.semi.service.MailService;
 import devster.semi.service.MemberService;
 import devster.semi.service.SmsService;
+import devster.semi.utilities.SHA256Util;
 import naver.cloud.ObjectStorageService;
 import org.apache.jasper.tagplugins.jstl.core.Out;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.Member;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,6 +129,14 @@ public class MemberController {
     @GetMapping("/emailpasschk")
     @ResponseBody
     public Map<String, String> emailPassChk(String m_email, String m_pass, HttpSession session, Model model) {
+        String salt=memberService.getSaltById(m_email);
+        //DB에 저장되어있는 pass
+        String pass=memberService.getOneData(m_email).getM_pass();
+
+        //SHA256+salting
+        m_pass=SHA256Util.getEncrypt(m_pass,salt);
+        System.out.println(pass+" // "+m_pass);
+
         int chk = memberService.emailpasschk(m_email, m_pass);
         Map<String, String> map = new HashMap<>();
 
@@ -220,6 +230,11 @@ public class MemberController {
     @PostMapping("/signupform")
     @ResponseBody
     public void signUpForm(MemberDto dto, String ai_name, MultipartFile upload) {
+
+        String salt= SHA256Util.generateSalt();
+        String m_pass=dto.getM_pass();
+        m_pass=SHA256Util.getEncrypt(m_pass,salt);
+
         String m_photo = "";
 
         if (dto.getAi_name() == null) {
@@ -231,6 +246,9 @@ public class MemberController {
         } else {
             m_photo = storageService.uploadFile(bucketName, "member", upload);
         }
+
+        dto.setSalt(salt);
+        dto.setM_pass(m_pass);
         dto.setM_photo(m_photo);
         dto.setAi_idx(memberService.getAcademyIdx(dto.getAi_name()));
         memberService.addNewMember(dto);

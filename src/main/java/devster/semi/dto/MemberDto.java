@@ -18,4 +18,5 @@ public class MemberDto {
     private boolean m_new;
     private int ai_idx;
     private String ai_name;
+    private String salt;
 }

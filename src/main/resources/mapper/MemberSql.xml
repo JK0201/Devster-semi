@@ -37,7 +37,11 @@
     </select>
 
     <insert id="addNewMember" parameterType="MemberDto">
-        insert into member (m_email, m_pass, m_tele, ai_idx, m_name, m_nickname, m_photo, ai_name) values
-        (#{m_email},#{m_pass},#{m_tele},#{ai_idx},#{m_name},#{m_nickname},#{m_photo},#{ai_name})
+        insert into member (m_email, m_pass, m_tele, ai_idx, m_name, m_nickname, m_photo, ai_name, salt) values
+        (#{m_email},#{m_pass},#{m_tele},#{ai_idx},#{m_name},#{m_nickname},#{m_photo},#{ai_name},#{salt})
     </insert>
+
+    <select id="getSaltById" resultType="String" parameterType="String">
+        select salt from member where m_email=#{m_email}
+    </select>
 </mapper>

@@ -108,7 +108,7 @@ ai_idx : ${sessionScope.acaidx}
         <button type="button" id="sendemail" disabled>인증요청</button>
         <button type="button" id="resendemail">재발송</button>
     </div>
-    <div class="input-group emailreg">
+    <div class="inputgroup emailreg">
         <input type="text" id="eregnumber">
         <button type="button" id="eregbtn"><span>확인</span></button>
     </div>
@@ -138,8 +138,11 @@ ai_idx : ${sessionScope.acaidx}
 
             <!-- Modal body -->
             <div class="modal-body">
-                <input type="text" id="modalname">
-                <div id="searchbox"></div>
+                <div class="input-group">
+                    <input type="text" id="modalname">
+                    <button type="button" id="" data-bs-dismiss="modal">선택</button>
+                </div>
+                <div id="searchbox">검색어를 입력해주세요</div>
             </div>
 
             <!-- Modal footer -->
@@ -165,7 +168,7 @@ ai_idx : ${sessionScope.acaidx}
     $("#m_email").keyup(function () {
         let m_email = $(this).val();
         if (!validEmail(m_email)) {
-            $("#emailchkicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>" +
+            $("#emailchkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
                 "<span>옳바른 이메일 형식을 써주세요</span>");
             emailvalid = false;
         } else {
@@ -176,11 +179,11 @@ ai_idx : ${sessionScope.acaidx}
                 data: {"m_email": m_email},
                 success: function (res) {
                     if (res.result == "yes") {
-                        $("#emailchkicon").html("<i class='bi bi-check-circle-fill' style='color:green;'></i>" +
+                        $("#emailchkicon").html("<i class='bi bi-check' style='color:green;'></i>" +
                             "<span>사용가능한 E-mail입니다</span>");
                         emailcheck = true;
                     } else {
-                        $("#emailchkicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>" +
+                        $("#emailchkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
                             "<span>이미 사용중인 E-mail입니다</span>");
                         emailcheck = false;
                     }
@@ -203,21 +206,21 @@ ai_idx : ${sessionScope.acaidx}
         let valid = validPass(pass);
 
         if (valid) {
-            $("#passokicon").html("<i class='bi bi-check-circle-fill' style='color:green;'></i>" +
+            $("#passokicon").html("<i class='bi bi-check' style='color:green;'></i>" +
                 "<span>사용 가능한 비밀번호에요</span>");
             passvalid = true;
         } else {
-            $("#passokicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>" +
+            $("#passokicon").html("<i class='bi bi-x' style='color:red;'></i>" +
                 "<span>8~16자리 영문 대소문자, 숫자, 특수문자의 조합으로 만들어주세요</span>");
             passvalid = false;
         }
 
         if (pass != passMatch) {
-            $("#passchkicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>" +
+            $("#passchkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
                 "<span>비밀번호와 일치하지 않아요</span>");
             passcheck = false;
         } else {
-            $("#passchkicon").html("<i class='bi bi-check-circle-fill' style='color:green;'></i>" +
+            $("#passchkicon").html("<i class='bi bi-check' style='color:green;'></i>" +
                 "<span>비밀번호와 일치해요</span>");
             passcheck = true;
         }
@@ -245,7 +248,7 @@ ai_idx : ${sessionScope.acaidx}
         let m_nickname = $(this).val();
 
         if (!validNickname(m_nickname)) {
-            $("#nicknamechkicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>" +
+            $("#nicknamechkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
                 "<span>2~10자의 한글,영문과 숫자만 사용해주세요</span>");
             nickvalid = false;
         } else {
@@ -256,12 +259,12 @@ ai_idx : ${sessionScope.acaidx}
                 data: {"m_nickname": m_nickname},
                 success: function (res) {
                     if (res.result == "no") {
-                        $("#nicknamechkicon").html("<i class='bi bi-check-circle-fill' style='color:green;'></i>" +
+                        $("#nicknamechkicon").html("<i class='bi bi-check' style='color:green;'></i>" +
                             "<span>사용가능한 ID입니다</span>");
                         $("#m_nickname").css({"border": "1px solid black", "box-shadow": "none"});
                         nickname = true;
                     } else {
-                        $("#nicknamechkicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>" +
+                        $("#nicknamechkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
                             "<span>이미 사용중인 ID입니다</span>");
                         $("#m_nickname").css({"border": "1px solid red", "box-shadow": "none"});
                         nickname = false;
@@ -282,11 +285,11 @@ ai_idx : ${sessionScope.acaidx}
         let m_name = $(this).val();
 
         if (!validName(m_name)) {
-            $("#namechkicon").html("<i class='bi bi-x-circle-fill' style='color:red;'></i>" +
+            $("#namechkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
                 "<span>옳바른 이름을 입력해주세요</span>");
             namevalid = false;
         } else {
-            $("#namechkicon").html("<i class='bi bi-check-circle-fill' style='color:green;'></i>");
+            $("#namechkicon").html("<i class='bi bi-check' style='color:green;'></i>");
             namevalid = true;
         }
     });
@@ -309,14 +312,20 @@ ai_idx : ${sessionScope.acaidx}
                 resultList.empty();
 
                 if ($("#modalname").val() == "") {
-                    resultList.html("<div class='spinner-border text-primary''></div>");
+                    resultList.html("검색어를 입력해주세요");
                 } else {
-                    s = "";
+                    let s = "";
+                    let result=false;
                     $.each(res, function (idx, ele) {
                         if (ele.ai_name.includes(ai_name)) {
                             s += `
                                 <div id="acaname">\${ele.ai_name}</div>
-                            `
+                            `;
+                            result=true
+                        }
+                        if (!result) {
+                            s = "<div class='spinner-border spinner-border-sm text-mute'></div>" +
+                                " Loading"
                         }
                     });
                     resultList.html(s);
@@ -531,12 +540,12 @@ ai_idx : ${sessionScope.acaidx}
         } else if (namevalid == false) {
             $("#m_name").focus();
             return false;
-        } /*else if (phonecheck == false) {
-            alert("핸드폰 인증");
+        } else if (phonecheck == false) {
+            alert("핸드폰/이메일 인증");
             return false;
-        }*/
+        }
 
-        if (emailcheck && passcheck && nickname && emailvalid && passvalid && nickvalid && namevalid) { //phonecheck 넣을것
+        if (emailcheck && passcheck && nickname && emailvalid && passvalid && nickvalid && namevalid && phonecheck) {
             let formData = new FormData();
             formData.append("ai_name", $("#ai_name").val());
             formData.append("m_email", $("#m_email").val());

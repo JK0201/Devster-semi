@@ -70,4 +70,8 @@ public class MemberService implements MemberServiceInter {
         memberMapper.addNewMember(dto);
     }
 
+    @Override
+    public String getSaltById(String m_email) {
+        return memberMapper.getSaltById(m_email);
+    }
 }

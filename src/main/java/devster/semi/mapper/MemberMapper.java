@@ -28,4 +28,5 @@ public interface MemberMapper {
     public List<AcademyInfoDto> searchAcaInfo(String ai_name);
     public int getAcademyIdx(String ai_name);
     public void addNewMember(MemberDto dto);
+    public String getSaltById(String m_email);
 }
