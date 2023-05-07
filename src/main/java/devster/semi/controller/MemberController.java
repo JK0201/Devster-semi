@@ -87,6 +87,16 @@ public class MemberController {
         return map;
     }
 
+    @GetMapping("/cmemailchk")
+    @ResponseBody
+    public Map<String,String> cmEmailChk(String cm_email) {
+        int chk=memberService.cmEmailChk(cm_email);
+        Map<String,String> map=new HashMap<>();
+        map.put("result",chk==0?"yes":"no");
+
+        return map;
+    }
+
     //kakao naver check
     @GetMapping("/apichk")
     @ResponseBody
@@ -129,13 +139,13 @@ public class MemberController {
     @GetMapping("/emailpasschk")
     @ResponseBody
     public Map<String, String> emailPassChk(String m_email, String m_pass, HttpSession session, Model model) {
-        String salt=memberService.getSaltById(m_email);
+        String salt = memberService.getSaltById(m_email);
         //DB에 저장되어있는 pass
-        String pass=memberService.getOneData(m_email).getM_pass();
+        String pass = memberService.getOneData(m_email).getM_pass();
 
         //SHA256+salting
-        m_pass=SHA256Util.getEncrypt(m_pass,salt);
-        System.out.println(pass+" // "+m_pass);
+        m_pass = SHA256Util.getEncrypt(m_pass, salt);
+        System.out.println(pass + " // " + m_pass);
 
         int chk = memberService.emailpasschk(m_email, m_pass);
         Map<String, String> map = new HashMap<>();
@@ -165,10 +175,11 @@ public class MemberController {
     @GetMapping("/phonechk")
     @ResponseBody
     public String sendSMS(String phonenum, HttpSession session) {
-        int randomnum = (int) ((Math.random() * (99999 - 10000 + 1) + 10000));
-//        smsService.certified(phonenum, randomnum); //주석해제 해야 동작함
+//        int code = (int) ((Math.random() * (99999 - 10000 + 1) + 10000));
+//        smsService.certified(phonenum, code); //주석해제 해야 동작함
+        int code = 1234;
 
-        return Integer.toString(randomnum);
+        return Integer.toString(code);
     }
 
     @GetMapping("/sendemail")
@@ -177,53 +188,47 @@ public class MemberController {
         String code = mailService.sendSimpleMessage(email);
         System.out.println("발송한 인증코드 : " + code);
 
-        session.setAttribute("ecode", code);
-        session.setMaxInactiveInterval(20);
-
         return code;
     }
 
-    @GetMapping("eblockcheck")
+    @GetMapping("/blockcheck")
     @ResponseBody
     public String eblockCheck(HttpSession session) {
-        String espam = (String) session.getAttribute("espam");
-        String cond="";
-        if(espam==null) {
-            cond="yes";
+        String spam = (String) session.getAttribute("spam");
+        String cond = "";
+        if (spam == null) {
+            cond = "yes";
+        } else {
+            cond = "no";
         }
-        else{
-            cond="no";
+
+        return cond;
+    }
+    @GetMapping("/resetcheck")
+    @ResponseBody
+    public String resetCheck(HttpSession session) {
+        String reset=(String)session.getAttribute("reset");
+        String cond = "";
+        if (reset == null) {
+            cond = "yes";
+        } else {
+            cond = "no";
         }
 
         return cond;
     }
 
-    @GetMapping("/eblockesend")
+    @GetMapping("/blocksend")
     @ResponseBody
-    public void eblockSend(HttpSession session) {
-        session.setAttribute("espam", "block");
+    public void blockSend(HttpSession session) {
+        session.setAttribute("spam", "block");
         session.setMaxInactiveInterval(30);
     }
 
-    @GetMapping("cblockcheck")
+    @GetMapping("/blockreset")
     @ResponseBody
-    public String cblockCheck(HttpSession session) {
-        String cspam = (String) session.getAttribute("cspam");
-        String cond="";
-        if(cspam==null) {
-            cond="yes";
-        }
-        else{
-            cond="no";
-        }
-
-        return cond;
-    }
-
-    @GetMapping("/cblocksend")
-    @ResponseBody
-    public void cblockSend(HttpSession session) {
-        session.setAttribute("cspam", "block");
+    public void blockReset(HttpSession session) {
+        session.setAttribute("reset", "block");
         session.setMaxInactiveInterval(30);
     }
 
@@ -231,9 +236,9 @@ public class MemberController {
     @ResponseBody
     public void signUpForm(MemberDto dto, String ai_name, MultipartFile upload) {
 
-        String salt= SHA256Util.generateSalt();
-        String m_pass=dto.getM_pass();
-        m_pass=SHA256Util.getEncrypt(m_pass,salt);
+        String salt = SHA256Util.generateSalt();
+        String m_pass = dto.getM_pass();
+        m_pass = SHA256Util.getEncrypt(m_pass, salt);
 
         String m_photo = "";
 
@@ -258,4 +263,5 @@ public class MemberController {
     public String grats() {
         return "/main/member/membergrats";
     }
+
 }

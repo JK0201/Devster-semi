@@ -41,6 +41,8 @@ public class MailService implements MailServiceInter {
 
     @Override
     public String createKey() {
+        //숫자로 바꿀지 고민
+
         int min = 48; //아스키
         int max = 122; // 아스키 z
         int StringLength = 6; //코드길이 6
