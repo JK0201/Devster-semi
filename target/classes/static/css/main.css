@@ -1,0 +1,118 @@
+@charset "utf-8";
+
+@import url(common.css);
+
+/*================== 공통 ======================*/
+/*a{
+    color: #000;
+}
+
+a:visited {
+    color: #000 !important;
+    text-decoration: none !important;
+}
+
+a{
+    text-decoration:none !important;
+}*/
+
+ul{
+    margin: 0;
+    padding: 0;
+}
+
+/*================== header ======================*/
+
+header.header .black_bar{
+    position:relative;
+    height:40px;
+    width: 100%;
+    background-color: #222;
+}
+
+header.header .wrap{
+    width: 1140px;
+    height: 80px;
+    /* background-color: red;
+    opacity: 0.5; */
+    margin: 0 auto;
+}
+
+header.header .wrap li{float: left;}
+
+header.header .wrap li a{
+    font-size: 18px;
+}
+
+header.header .wrap li a.selected{font-weight: bold;}
+
+header.header{
+    border-bottom: 1px solid #ccc;
+}
+
+header.header .wrap .gnb{
+    float: left;
+    margin-left: 10px;
+    line-height: 90px;
+}
+
+
+header.header .wrap .gnb li{margin-left: 30px;}
+
+header.header .wrap .util_menu{
+    float: right;
+    line-height: 70px;
+}
+header.header .wrap .util_menu li{
+    float: left;
+    margin-left: 10px;
+}
+
+/*================== 로고 ======================*/
+header.header .wrap .logo{
+    float: left;
+    margin-top: 14px;
+    line-height: 70px;
+}
+header.header .wrap .logo .logotext{
+    width: 150px;
+    margin-top: 10px;
+}
+header.header .wrap .logo .logoimage{
+    width: 40px;
+}
+
+/*================== 회원가입/로그인버튼 ======================*/
+header.header .wrap .util_menu button{margin-top: 10px;}
+header.header .wrap .util_menu .btnsignup{
+    width: 82px;
+    height: 40px;
+    background-color: #8007ad;
+    color: #fff;
+    font-size: 14px;
+}
+header.header .wrap .util_menu .btnsignin{
+    width: 82px;
+    height: 40px;
+    background-color: #fff;
+    color: #000;
+    font-size: 14px;
+    border: 1px solid #ccc;
+}
+
+header.header .gnb li a:visited {color: #000; text-decoration: none;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
