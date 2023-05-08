@@ -51,9 +51,16 @@
                     내용 : ${dto.qb_content}
                 </h3>
                 <br>
-                <c:forEach items="${list}" var="images">
-                    <img src="http://${imageUrl}/qboard/${images}" style="float: left; width: 300px">
-                </c:forEach>
+                <c:choose>
+                    <c:when test="${list[0] == 'n'}">
+                        <!-- 이미지가 없을 때는 아무것도 출력하지 않음 -->
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach items="${list}" var="images">
+                            <img src="http://${imageUrl}/qboard/${images}" style="float: left; width: 300px">
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </c:if>
         <c:if test="${dto.qb_dislike < 20}">
@@ -61,16 +68,23 @@
                     내용 : ${dto.qb_content}
                 </h3>
                 <br>
-                <c:forEach items="${list}" var="images">
-                    <img src="http://${imageUrl}/qboard/${images}" style="float: left; width: 300px">
-                </c:forEach>
+            <c:choose>
+                <c:when test="${list[0] == 'n'}">
+                    <!-- 이미지가 없을 때는 아무것도 출력하지 않음 -->
+                </c:when>
+                <c:otherwise>
+                    <c:forEach items="${list}" var="images">
+                        <img src="http://${imageUrl}/qboard/${images}" style="float: left; width: 300px">
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
         </c:if>
         <br>
 
         <div class="buttons" style="clear: both">
             <c:if test="${dto.m_idx == sessionScope.memidx}">
                 <button class="btn btn-outline-dark" type="button"
-                        onclick="location.href='delete?qb_idx=${dto.qb_idx}'">
+                        onclick="deletePost(${dto.qb_idx})">
                     삭제
                 </button>
                 <button class="btn btn-outline-dark" type="button"
@@ -227,18 +241,20 @@
     }
 
     function deleteComment(ab_idx) {
-        $.ajax({
-            type: "get",
-            url: "/aboard/delete",
-            data: {"ab_idx":ab_idx},
-            success: function (response) {
-                alert("댓글이 삭제되었습니다.");
-                answer();
-            },
-            error: function (xhr, status, error) {
-                // 에러 처리를 여기에서 처리합니다.
-            }
-        });
+        if(confirm("정말 삭제하시겠습니까? ")) {
+            $.ajax({
+                type: "get",
+                url: "/aboard/delete",
+                data: {"ab_idx":ab_idx},
+                success: function (response) {
+                    alert("댓글이 삭제되었습니다.");
+                    answer();
+                },
+                error: function (xhr, status, error) {
+                    // 에러 처리를 여기에서 처리합니다.
+                }
+            });
+        }
     }
 
     function updateCommentForm(ab_idx, index) {
@@ -293,6 +309,12 @@
                 // 에러 처리를 여기에서 처리합니다.
             }
         });
+    }
+
+    function deletePost(qb_idx) {
+        if(confirm("정말 삭제하시겠습니다? ")) {
+            location.href="delete?qb_idx=" + qb_idx;
+        }
     }
 
     $(".blind").click(function () {

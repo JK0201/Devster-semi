@@ -196,6 +196,7 @@ public class QboardController {
         while (st.hasMoreTokens()) {
             list.add(st.nextToken());
         }
+
         model.addAttribute("profilePhoto",photo);
         model.addAttribute("list",list);
         model.addAttribute("dto",dto);

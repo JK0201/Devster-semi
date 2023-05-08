@@ -11,6 +11,30 @@
             $(".quickmenu").stop().animate({"top":position+currentPosition+"px"},1000);
         });
     });
+
+    function timeForToday(value) {
+        const valueConv = value.slice(0, -2);
+        const today = new Date();
+        const timeValue = new Date(valueConv);
+
+        const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+        if (betweenTime < 1) return '방금전';
+        if (betweenTime < 60) {
+            return `\${betweenTime}분전`;
+        }
+
+        const betweenTimeHour = Math.floor(betweenTime / 60);
+        if (betweenTimeHour < 24) {
+            return `\${betweenTimeHour}시간전`;
+        }
+
+        const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+        if (betweenTimeDay < 365) {
+            return `\${betweenTimeDay}일전`;
+        }
+
+        return `\${Math.floor(betweenTimeDay / 365)}년전`;
+    }
 </script>
 
 <style>
@@ -25,10 +49,43 @@
     .quickmenu ul li:last-child {border-bottom:0;}
 
     .content {position:relative;min-height:1000px;}
+
+    .notice-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+    .title, .author, .writeday {
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .title {
+        width: 65%;
+    }
+    .author {
+        width: 10%;
+    }
+    .writeday {
+        width: 25%;
+    }
 </style>
 
 <h2 style="margin-top: 60px; font-family:'배달의민족 을지로체 TTF'">QnA Board</h2>
 <h5 class="alert alert-danger" style="width: 800px">총 ${totalCount}개의 글이 있습니다.</h5>
+<h5 class="alert alert-warning" style="width: 800px">
+    공지사항<br>
+    <ul>
+<%--        <c:forEach items="${notices}" var="notice">--%>
+            <li class="notice-item">
+                <div class="title">제목: ${notice.title}</div>
+                <div class="author">작성자: ${notice.author}</div>
+                <div class="writeday">작성일자: ${notice.writeday}</div>
+            </li>
+<%--        </c:forEach>--%>
+    </ul>
+</h5>
 <table class="table table-bordered" style="width: 800px">
     <tr style="background-color: #ddd">
         <th style="width: 40px">번호</th>
@@ -81,7 +138,7 @@
                         ${dto.qb_dislike}
                 </td>
                 <td>
-                    <fmt:formatDate value="${dto.qb_writeday}" pattern="yyyy-MM-dd"/>
+                    <span id="writeday-${dto.qb_idx}"></span>
                 </td>
             </tr>
                 </tbody>
@@ -117,11 +174,16 @@
                         <td>
                                 ${dto.qb_dislike}
                         </td>
-                        <td>
-                            <fmt:formatDate value="${dto.qb_writeday}" pattern="yyyy-MM-dd"/>
+                        <td class="writeday">
+                            <span id="writeday-${dto.qb_idx}"></span>
                         </td>
                     </tr>
             </c:if>
+            <script>
+                var writedayElement = document.getElementById("writeday-${dto.qb_idx}");
+                var formattedWriteday = timeForToday("${dto.qb_writeday}");
+                writedayElement.textContent = formattedWriteday;
+            </script>
         </c:forEach>
     </c:if>
 </table>
@@ -188,5 +250,6 @@
             console.log("Error: " + textStatus + " - " + errorThrown);
         }
     });
+
 </script>
 
