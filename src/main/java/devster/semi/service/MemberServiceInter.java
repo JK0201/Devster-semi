@@ -24,4 +24,5 @@ public interface MemberServiceInter {
     public int getAcademyIdx(String ai_name);
     public void addNewMember(MemberDto dto);
     public String getSaltById(String m_email);
+    public int cmEmailChk(String cm_email);
 }

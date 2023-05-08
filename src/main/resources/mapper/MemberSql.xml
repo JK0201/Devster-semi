@@ -44,4 +44,8 @@
     <select id="getSaltById" resultType="String" parameterType="String">
         select salt from member where m_email=#{m_email}
     </select>
+
+    <select id="cmEmailChk" resultType="int" parameterType="String">
+        select count(*) from companymember where cm_email=#{cm_email}
+    </select>
 </mapper>

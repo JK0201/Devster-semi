@@ -29,6 +29,16 @@
 </head>
 <body>
 <div>
+    로그인 : ${sessionScope.logstat}
+    <br>
+    m_idx : ${sessionScope.memidx}
+    <br>
+    nickname : ${sessionScope.memnick}
+    <br>
+    state : ${sessionScope.memstate}
+    <br>
+    ai_idx : ${sessionScope.acaidx}
+
     <div>
         <div>
             <strong id="normmember">일반회원 로그인</strong>

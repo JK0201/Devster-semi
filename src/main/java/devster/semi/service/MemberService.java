@@ -74,4 +74,9 @@ public class MemberService implements MemberServiceInter {
     public String getSaltById(String m_email) {
         return memberMapper.getSaltById(m_email);
     }
+
+    @Override
+    public int cmEmailChk(String cm_email) {
+        return memberMapper.cmEmailChk(cm_email);
+    }
 }

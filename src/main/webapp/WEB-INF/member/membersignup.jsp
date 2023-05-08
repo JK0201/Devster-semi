@@ -16,8 +16,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <style>
-        input:disabled {
-            background-color: #ffffff;
+        #ai_name {
+            cursor: default;
         }
 
         #acaname {
@@ -28,43 +28,17 @@
             color: red;
         }
 
-        /*toggle*/
-        #cpmode {
+        #reseticon {
             display: none;
+            cursor: pointer;
         }
 
         .phonereg {
             display: none;
         }
-
-        .emailchk {
-            display: none;
-        }
-
-        .emailreg {
-            display: none;
-        }
-
-        #resendnumber {
-            display: none;
-        }
-
-        #resendemail {
-            display: none;
-        }
     </style>
 </head>
 <body>
-로그인 : ${sessionScope.logstat}
-<br>
-m_idx : ${sessionScope.memidx}
-<br>
-nickname : ${sessionScope.memnick}
-<br>
-state : ${sessionScope.memstate}
-<br>
-ai_idx : ${sessionScope.acaidx}
-
 <div style="width : 500px;">
     <div>
         <strong>이메일</strong>
@@ -89,32 +63,20 @@ ai_idx : ${sessionScope.acaidx}
         <input type="text" id="m_name" required placeholder="이름 입력">
         <span id="namechkicon"></span>
     </div>
-    <div>
-        <strong id="emailmode">이메일로 인증</strong>
-        <strong id="cpmode">휴대폰으로 인증</strong>
-    </div>
     <div class="input-group phonechk">
         <strong>휴대폰</strong>
         <input type="tel" id="m_tele" required placeholder="'-'빼고 숫자만 입력">
         <button type="button" id="sendnumber" disabled>인증요청</button>
-        <button type="button" id="resendnumber">재발송</button>
+        <i class="bi bi-arrow-clockwise" id="reseticon"></i>
     </div>
     <div class="input-group phonereg">
+        <label id="timer"></label>
         <input type="text" id="regnumber">
         <button type="button" id="regbtn"><span>확인</span></button>
     </div>
-    <div class="input-group emailchk">
-        <strong>이메일</strong>
-        <button type="button" id="sendemail" disabled>인증요청</button>
-        <button type="button" id="resendemail">재발송</button>
-    </div>
-    <div class="inputgroup emailreg">
-        <input type="text" id="eregnumber">
-        <button type="button" id="eregbtn"><span>확인</span></button>
-    </div>
     <div>
         <strong>학원</strong>
-        <input type="text" id="ai_name" required disabled data-bs-toggle="modal"
+        <input type="text" id="ai_name" required readonly data-bs-toggle="modal"
                data-bs-target="#myAcademyInfoModal">
     </div>
     <div>
@@ -124,7 +86,6 @@ ai_idx : ${sessionScope.acaidx}
     </div>
 </div>
 <button type="button" id="submitbtn">가입하기</button>
-
 <!-- 학원 모달 -->
 <div class="modal" id="myAcademyInfoModal">
     <div class="modal-dialog">
@@ -152,9 +113,12 @@ ai_idx : ${sessionScope.acaidx}
         </div>
     </div>
 </div>
-
 <%--<script src="/js/membersignup.js"></script>--%>
 <script>
+    $("#texttest").click(function () {
+        $("#texttest").text("test-2");
+    });
+
     let emailvalid = false;
     let emailcheck = false;
     let passvalid = false;
@@ -225,7 +189,7 @@ ai_idx : ${sessionScope.acaidx}
             passcheck = true;
         }
 
-        if(pass=="" && passMatch=="") {
+        if (pass == "" && passMatch == "") {
             $("#passchkicon").html("");
         }
     }
@@ -283,7 +247,6 @@ ai_idx : ${sessionScope.acaidx}
     //name check
     $("#m_name").keyup(function () {
         let m_name = $(this).val();
-
         if (!validName(m_name)) {
             $("#namechkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
                 "<span>옳바른 이름을 입력해주세요</span>");
@@ -315,17 +278,17 @@ ai_idx : ${sessionScope.acaidx}
                     resultList.html("검색어를 입력해주세요");
                 } else {
                     let s = "";
-                    let result=false;
+                    let result = false;
                     $.each(res, function (idx, ele) {
                         if (ele.ai_name.includes(ai_name)) {
                             s += `
                                 <div id="acaname">\${ele.ai_name}</div>
                             `;
-                            result=true
+                            result = true
                         }
                         if (!result) {
-                            s = "<div class='spinner-border spinner-border-sm text-mute'></div>" +
-                                " Loading"
+                            s = "<label><div class='spinner-border spinner-border-sm text-mute'></div>" +
+                                " Loading</label>";
                         }
                     });
                     resultList.html(s);
@@ -340,26 +303,35 @@ ai_idx : ${sessionScope.acaidx}
         $("#ai_name").val(txt);
     });
 
-    //checkmode
-    $(document).on("click", "#emailmode", function () {
-        $("#cpmode").show();
-        $("#emailmode").hide();
-        $(".emailchk").show();
-        $(".phonechk").hide();
-        $(".phonereg").hide();
-        $("#sendnumber").show();
-        $("#resendnumber").hide();
-    });
+    //timer
+    let timer = null;
+    let proc = false;
 
-    $(document).on("click", "#cpmode", function () {
-        $("#emailmode").show();
-        $("#cpmode").hide();
-        $(".phonechk").show();
-        $(".emailchk").hide();
-        $(".emailreg").hide();
-        $("#sendemail").show();
-        $("#resendemail").hide();
-    });
+    function startTimer(count, display) {
+        let min, sec;
+        timer = setInterval(function () {
+            min = parseInt(count / 60, 10);
+            sec = parseInt(count % 60, 10);
+
+            min = min < 10 ? "0" + min : min; //0붙이기
+            sec = sec < 10 ? "0" + sec : sec;
+
+            display.html(min + ":" + sec);
+
+            //타이머 끝
+            if (--count < 0) {
+                clearInterval(timer);
+                display.html("시간초과");
+                $("#regbtn").prop("disabled", true);
+                proc = false;
+            }
+        }, 1000);
+        proc = true;
+    }
+
+    //setup
+    let display = $("#timer");
+    let timeleft = 30;
 
     //phone check
     $(document).on("keyup", "#m_tele", function () {
@@ -371,75 +343,150 @@ ai_idx : ${sessionScope.acaidx}
         }
     });
 
-    let code = "";
-    $(document).on("click", "#sendnumber", function () {
-        let phonenum = $("#m_tele").val();
-        if (!validPhone(phonenum)) {
-            alert("번호를 확인해주세요")
-            return false;
-        } else {
+    //reset number
+    btncnt = 0;
+    $(document).on("click", "#reseticon", function () {
+        if (btncnt < 2) {
             $.ajax({
                 type: "get",
-                url: "cblockcheck",
+                url: "resetcheck",
                 cache: false,
                 success: function (res) {
                     if (res == "yes") {
-                        alert("인증번호가 발송되었습니다");
-                        $.ajax({
-                            type: "get",
-                            url: "phonechk?phonenum=" + phonenum,
-                            cache: false,
-                            success: function (res) {
-                                code = res;
-                            }
-                        });
-                        $(".phonereg").show();
-                        $("#sendnumber").hide();
-                        $("#resendnumber").show();
+                        let b = confirm("인증 중 휴대폰 번호를 수정하면 현재 발송된 인증번호는\n더이상 사용하실 수 없습니다. 그래도 수정하시겠어요?");
+                        if (b) {
+                            clearInterval(timer);
+                            display.html("");
+                            $("#regnumber").val("");
+                            $("#reseticon").hide();
+                            $(".phonereg").hide();
+                            $("#sendnumber").text("인증요청");
+                            $("#m_tele").prop("readonly", false);
+                            $("#regbtn").prop("disabled",false);
+                            cnt = 0;
+                            btncnt++;
+                            phonecheck = false;
+                        }
                     } else {
-                        alert("인증번호 발급횟수를 초과하셨습니다\n잠시후 다시 시도해주세요");
+                        alert("수정 횟수를 초과하셨습니다\n잠시후 다시 시도해주세요");
+                        return false;
                     }
                 }
             });
+        } else {
+            alert("수정 횟수를 초과하셨습니다\n잠시후 다시 시도해주세요");
+            $.ajax({
+                type: "get",
+                url: "blockreset",
+                cache: false,
+                success: function (res) {
+                }
+            });
+            return false;
+        }
+    });
+
+    let code = "";
+    let cnt = 0;
+    $(document).on("click", "#sendnumber", function () {
+        $("#m_tele").prop("readonly", true);
+        let phonenum = $("#m_tele").val();
+        display = $("#timer");
+        timeleft = 30;
+        if (!validPhone(phonenum)) {
+            alert("번호를 확인해주세요");
+            return false;
+        } else {
+            if (cnt == 0) {
+                $.ajax({
+                    type: "get",
+                    url: "blockcheck",
+                    cache: false,
+                    success: function (res) {
+                        if (res == "yes") {
+                            alert("인증번호가 발송되었습니다");
+                            $.ajax({
+                                type: "get",
+                                url: "phonechk?phonenum=" + phonenum,
+                                cache: false,
+                                success: function (res) {
+                                    code = res;
+                                    cnt++;
+                                    console.log(cnt);
+
+                                    $("#reseticon").show();
+                                    $(".phonereg").show();
+                                    $("#sendnumber").text("재발송");
+
+                                    if (proc) {
+                                        clearInterval(timer);
+                                        display.html("");
+                                        startTimer(timeleft, display);
+                                    } else {
+                                        startTimer(timeleft, display);
+                                    }
+                                }
+                            });
+                        } else {
+                            alert("인증번호 발급횟수를 초과하셨습니다\n잠시후 다시 시도해주세요");
+                            return false;
+                        }
+                    }
+                });
+            } else if (cnt > 0 && cnt < 3) {
+                let b = confirm("정말 인증번호를 다시 받으시겠습니까?\n기존의 번호는..");
+                if (b) {
+                    $("#regbtn").prop("disabled",false);
+                    let phonenum = $("#m_tele").val();
+                    alert("인증번호가 발송되었습니다");
+                    $.ajax({
+                        type: "get",
+                        url: "phonechk?phonenum=" + phonenum,
+                        cache: false,
+                        success: function (res) {
+                            cnt++;
+                            code = res;
+                            console.log(cnt);
+
+                            if (proc) {
+                                clearInterval(timer);
+                                display.html("");
+                                startTimer(timeleft, display);
+                            } else {
+                                startTimer(timeleft, display);
+                            }
+                        }
+                    });
+                }
+            } else {
+                alert("인증번호 발급횟수를 초과하셨습니다\n잠시후 다시 시도해주세요");
+                $.ajax({
+                    type: "get",
+                    url: "blocksend",
+                    cache: false,
+                    success: function (res) {
+                    }
+                });
+                return false;
+            }
         }
     });
 
     $(document).on("click", "#regbtn", function () {
         if ($("#regnumber").val() == code) {
             alert("인증 되었습니다");
+            clearInterval(timer);
+            display.html("");
+            $("#regnumber").prop("readonly", true);
+            $("#sendnumber").prop("disabled", true);
+            $("#regbtn").prop("disabled", true);
+            $("#reseticon").hide();
             phonecheck = true;
         } else {
             alert("인증 번호 틀림");
+            $("#regnumber").val("");
+            $("#regnumber").focus();
             phonecheck = false;
-        }
-    });
-
-    let cnt = 0;
-    $(document).on("click", "#resendnumber", function () {
-        let b = confirm("정말 인증번호를 다시 받으시겠습니까?\n기존의 번호는..");
-        if (b && cnt == 0) {
-            let phonenum = $("#m_tele").val();
-            alert("인증번호가 발송되었습니다");
-            $.ajax({
-                type: "get",
-                url: "phonechk?phonenum=" + phonenum,
-                cache: false,
-                success: function (res) {
-                    cnt++;
-                    code = res;
-                    console.log(cnt);
-                }
-            });
-        } else {
-            alert("인증번호 발급횟수를 초과하셨습니다\n잠시후 다시 시도해주세요");
-            $.ajax({
-                type: "get",
-                url: "cblocksend",
-                cache: false,
-                success: function (res) {
-                }
-            });
-            return false;
         }
     });
 
@@ -447,84 +494,6 @@ ai_idx : ${sessionScope.acaidx}
         let phoneNumPattern = /^(010|01[1-9][0-9])-?\d{3,4}-?\d{4}$/;
         return phoneNumPattern.test(phonenum);
     }
-
-    //email check
-    $(document).on("keyup", "#m_email", function () {
-        let email = $("#m_email").val();
-        if (!validEmail(email)) {
-            $("#sendemail").prop("disabled", true);
-        } else {
-            $("#sendemail").prop("disabled", false);
-        }
-    });
-
-    let ecode = "";
-    $(document).on("click", "#sendemail", function () {
-        let email = $("#m_email").val();
-        $.ajax({
-            type: "get",
-            url: "eblockcheck",
-            cache: false,
-            success: function (res) {
-                if (res == "yes") {
-                    alert("인증번호가 발송되었습니다");
-                    $.ajax({
-                        type: "get",
-                        url: "sendemail?email=" + email,
-                        cache: false,
-                        success: function (res) {
-                            ecode = res;
-                        }
-                    });
-                    $(".emailreg").show();
-                    $("#sendemail").hide();
-                    $("#resendemail").show();
-                } else {
-                    alert("인증번호 발급횟수를 초과하셨습니다\n잠시후 다시 시도해주세요");
-                }
-            }
-        });
-    });
-
-
-    $(document).on("click", "#eregbtn", function () {
-        if ($("#eregnumber").val() == ecode) {
-            alert("인증 되었습니다");
-            phonecheck = true;
-        } else {
-            alert("인증 번호 틀림");
-            phonecheck = false;
-        }
-    });
-
-    let ecnt = 0;
-    $(document).on("click", "#resendemail", function () {
-        let b = confirm("정말 인증번호를 다시 받으시겠습니까?\n기존의 번호는..");
-        if (b && ecnt < 1) {
-            let email = $("#m_email").val();
-            alert("인증번호가 발송되었습니다");
-            $.ajax({
-                type: "get",
-                url: "sendemail?email=" + email,
-                cache: false,
-                success: function (res) {
-                    ecnt++;
-                    ecode = res;
-                    console.log(ecnt);
-                }
-            });
-        } else {
-            alert("인증번호 발급횟수를 초과하셨습니다\n잠시후 다시 시도해주세요");
-            $.ajax({
-                type: "get",
-                url: "eblockesend",
-                cache: false,
-                success: function (res) {
-                }
-            });
-            return false;
-        }
-    });
 
     //submit
     $("#submitbtn").click(function () {
@@ -541,11 +510,12 @@ ai_idx : ${sessionScope.acaidx}
             $("#m_name").focus();
             return false;
         } else if (phonecheck == false) {
-            alert("핸드폰/이메일 인증");
+            alert("핸드폰 인증");
             return false;
         }
 
         if (emailcheck && passcheck && nickname && emailvalid && passvalid && nickvalid && namevalid && phonecheck) {
+            $(this).prop("disabled", false);
             let formData = new FormData();
             formData.append("ai_name", $("#ai_name").val());
             formData.append("m_email", $("#m_email").val());
