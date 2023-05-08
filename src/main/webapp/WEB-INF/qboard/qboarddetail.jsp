@@ -92,8 +92,7 @@
                     수정
                 </button>
             </c:if>
-            <button type="button" onclick="like()" id="btnlike" class="btn btn-success">좋아요 <span
-                    id="likeCount">${dto.qb_like}</span></button>
+            <button type="button" onclick="like()" id="btnlike" class="btn btn-success">좋아요 <span id="likeCount">${dto.qb_like}</span></button>
             <button type="button" onclick="dislike()" id="btndislike" class="btn btn-danger">싫어요 <span
                     id="dislikeCount">${dto.qb_dislike}</span></button>
             <button class="btn btn-warning" type="button" onclick="location.href='./list?currentPage=${currentPage}'">
