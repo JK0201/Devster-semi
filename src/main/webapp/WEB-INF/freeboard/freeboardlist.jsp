@@ -2,6 +2,9 @@
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ include file="../commonvar.jsp" %>
+
 
 <%--
 <!DOCTYPE html>
@@ -20,61 +23,203 @@
 <body>
 --%>
 
-<table class="freeboard_table">
-    <caption align="top"><h1>Free Board</h1></caption>
+<script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Gothic+A1&family=Gowun+Batang&family=Hahmlet&family=Song+Myung&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 
-    <thead>
-        <tr>
-            <th>번호</th>
-            <th>작성자</th>
-            <th>제목</th>
-            <th>조회</th>
-            <th>좋아요</th>
-            <th>싫어요</th>
-            <th>작성일</th>
-        </tr>
-    </thead>
+<style>
+    .freeboard_table{
+        font-family: 'Gowun Batang';
+        margin-left: 30px;
+        margin-top: 30px;
+        width: 100%;
+    }
+    #dtocontainer{
+        font-family: 'Gowun Batang';
+        width: 100%;
+    }
+    caption *{
+        font-family: 'Hahmlet';
+    }
 
-    <tbody>
-<c:if test="${totalCount==0}">
-    <h2>등록된 게시글이 없습니다..</h2>
-</c:if>
+    #idxbox{
+        font-size: 13px;
+        color: gray;
+    }
+    #subjectbox{
+        font-size: 18px;
+        font-weight: bold;
+    }
 
-<c:if test="${totalCount>0}">
-    <c:forEach var="dto" items="${list}">
-        <tr>
-            <td>${dto.fb_idx}번</td>
 
-            <td>${dto.nickName}</td>
+    #namebox{
+        font-size: 13px;
+        font-weight: bold;
+    }
+    img{
+        width: 100px;
+    }
 
-            <td>
-                <a href="freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}" style="color: #000;">
-                    ${dto.fb_subject}
-                        <c:if test="${dto.fb_photo!='no'}">
-                        &nbsp; <i class="bi bi-images"></i>
+    #writedaybox{
+        font-size: 14px;
+        color: gray;
+        float: right;
+    }
+    #etcbox{
+        font-size: 14px;
+        color: gray;
+    }
+
+    tr{
+        height: 100px;
+    }
+
+    .memberimg{
+        width: 23px;
+        height: 23px;
+        border-radius: 100px;
+    }
+
+</style>
+
+
+
+
+<table class="freeboard_table table table-bordered">
+    <caption align="top"><h2><img src="/photo/ico-best.png" style="padding-bottom: 10px;">일반게시판
+        <button class="btn btn-secondary btn-sm" type="button" style="float: right;" onclick="location.href='./freewriteform'">글쓰기</button>
+    </h2>
+    </caption>
+
+
+    <tr>
+        <td class="alert alert-outline-secondary">총 ${totalCount}개의 게시글
+        </td>
+    </tr>
+    <tr>
+
+        <c:if test="${totalCount==0}">
+            <h2 class="alert alert-outline-secondary">등록된 게시글이 없습니다..</h2>
+        </c:if>
+        <c:if test="${totalCount>0}">
+            <c:forEach var="dto" items="${list}" varStatus="i">
+
+                <td>
+                    <table id="dtocontainer">
+                        <tr>
+                            <td id="idxbox">no. ${dto.fb_idx}</td>
+                        </tr>
+                        <tr>
+                            <td id="subjectbox">
+                                <a href="freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}" style="color: #000;">${dto.fb_subject}</a></td>
+                        </tr>
+
+                            <c:if test="${dto.fb_photo=='n'}">
+                                &nbsp;<tr style="height: 130px;">
+                        <td style="width: 100%">
+                            <a href="freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}" style="color: #000;">
+                                <span >
+
+                                    <c:set var="length" value="${fn:length(dto.fb_content)}"/>
+                                    ${fn:substring(dto.fb_content, 0, 130)}
+
+                                    <c:if test="${length>=130}">
+                                        .....
+                                    </c:if>
+
+                                   </span></a>
+
+                        </td></tr>
+                            </c:if>
+                        <c:if test="${dto.fb_photo!='n'}">
+                            &nbsp;<tr style="height: 130px;">
+                                <td style="width: 80%">
+                                     <a href="freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}" style="color: #000;">
+                                    <span>
+
+                                    <c:set var="length" value="${fn:length(dto.fb_content)}"/>
+                                    ${fn:substring(dto.fb_content, 0, 90)}
+
+                                    <c:if test="${length>=90}">
+                                        .....
+                                    </c:if>
+
+                                   </span></a>
+                                    </td>
+
+                            <td style="width: 20%">
+                                <span id="imgbox">
+
+                                        <img src="http://${imageUrl}/freeboard/${dto.fb_photo}" style="width: 70%; border: 1px solid lightgray; margin-right: 5px;">
+
+
+                                </span>
+                            </td>
+                        </tr>
                         </c:if>
-                </a>
-            </td>
 
-            <td>${dto.fb_readcount}</td>
+                        <tr>
+                            <td id="namebox">
+                                <img src="http://${imageUrl}/member/${dto.m_photo}" class="memberimg">&nbsp; ${dto.nickName}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b id="etcbox">
+                                    <i class="bi bi-eye"></i>조회${dto.fb_readcount}&nbsp;
+                                    <i class="bi bi-hand-thumbs-up"></i>좋아요${dto.fb_like}&nbsp;
+                                    <i class="bi bi-hand-thumbs-down"></i>싫어요${dto.fb_dislike}
+                                </b>
 
-            <td>${dto.fb_like}</td>
+                                <script>
+                                    function timeForToday(value) {
+                                        const valueConv = value.slice(0, -2);
+                                        const today = new Date();
+                                        const timeValue = new Date(valueConv);
 
-            <td>${dto.fb_dislike}</td>
+                                        const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+                                        if (betweenTime < 1) return '방금전';
+                                        if (betweenTime < 60) {
+                                            return `\${betweenTime}분전`;
+                                        }
 
-            <td>${dto.fb_writeday}</td>
+                                        const betweenTimeHour = Math.floor(betweenTime / 60);
+                                        if (betweenTimeHour < 24) {
+                                            return `\${betweenTimeHour}시간전`;
+                                        }
+
+                                        const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+                                        if (betweenTimeDay < 365) {
+                                            return `\${betweenTimeDay}일전`;
+                                        }
+
+                                        return `\${Math.floor(betweenTimeDay / 365)}년전`;
+                                    }
+
+                                </script>
+                            <p id="writedaybox">
+                                    <script>
+                                        let value = "${dto.fb_writeday}";
+                                        let timeElement = document.getElementById("writedaybox");
+                                        timeElement.innerText = timeForToday(new Date(value));
+                                    </script>
+                              </p>
+
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+                <c:if test="${i.index % 1 == 0}"></tr><tr></c:if>
+            </c:forEach>
+        </c:if>
         </tr>
 
-    </c:forEach>
-</c:if>
-    </tbody>
-    <tfoot>
-        <tr>
-            <td>총 ${totalCount}개의 게시글
-                <button type="button" onclick="location.href='./freewriteform'">글쓰기</button>
-            </td>
-        </tr>
-    </tfoot>
+
+
+
+
 </table>
 
 

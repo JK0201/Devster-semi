@@ -34,6 +34,12 @@
                  JOIN member m ON fb.m_idx = m.m_idx
         WHERE fb.fb_idx = #{fb_idx};
     </select>
+    <select id="selectPhotoOfMidx" parameterType="int" resultType="String">
+        SELECT m.m_photo
+        FROM freeboard fb
+                 JOIN member m ON fb.m_idx = m.m_idx
+        WHERE fb.fb_idx = #{fb_idx};
+    </select>
     <update id="increaseLikeCount" parameterType="int">
         update freeboard set fb_like=fb_like+1 where fb_idx=#{fb_idx}
     </update>

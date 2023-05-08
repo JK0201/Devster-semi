@@ -64,13 +64,36 @@ public class FreeBoardController {
             Map<String,Object> map = new HashMap<>();
             map.put("fb_idx",String.valueOf(dto.getFb_idx()));
             map.put("nickName",freeBoardService.selectNickNameOfMidx(dto.getFb_idx()));
+
+            String m_photo = freeBoardService.selectPhotoOfMidx(dto.getFb_idx());
+            if(m_photo!="no"){
+                map.put("m_photo", m_photo);
+            } else {
+
+            }
             map.put("fb_subject",dto.getFb_subject());
             map.put("fb_content",dto.getFb_content());
             map.put("fb_like",dto.getFb_like());
             map.put("fb_dislike",dto.getFb_dislike());
             map.put("fb_readcount",dto.getFb_readcount());
-            String currentTimestampToString = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(dto.getFb_writeday());
-            map.put("fb_writeday", currentTimestampToString);
+
+
+            // 사진이 들어있으면
+            if(dto.getFb_photo()!="no"){
+                // 사진이 두장이상이면
+                if(dto.getFb_photo().contains(",")){
+                    int index = dto.getFb_photo().indexOf(",");
+                    String result = dto.getFb_photo().substring(0, index);
+                    map.put("fb_photo", result);
+                } else { //사진이 한장이면
+                    map.put("fb_photo", dto.getFb_photo());
+                }
+            }
+
+            String currentTimestampToString = new SimpleDateFormat("MM-dd HH:mm").format(dto.getFb_writeday());
+           map.put("fb_writeday", currentTimestampToString);
+
+
             fulllList.add(map);
         }
 
@@ -132,20 +155,23 @@ public class FreeBoardController {
         freeBoardService.updateReadCount(fb_idx);
         FreeBoardDto dto = freeBoardService.getData(fb_idx);
         String nickName = freeBoardService.selectNickNameOfMidx(dto.getFb_idx());
+        String m_photo = freeBoardService.selectPhotoOfMidx(dto.getFb_idx());
 
         model.addAttribute("dto", dto);
         model.addAttribute("nickname",nickName);
+        model.addAttribute("m_photo",m_photo);
         model.addAttribute("currentPage",currentPage);
 
-        //Controller 디테일 페이지 보내는 부분.
-        //사진 여러장 분할 처리.
-        List<String> list = new ArrayList<>();
-        StringTokenizer st = new StringTokenizer(dto.getFb_photo(),",");
-        while (st.hasMoreElements()) {
-            list.add(st.nextToken());
+        if(dto.getFb_photo()!="n"){
+            //Controller 디테일 페이지 보내는 부분.
+            //사진 여러장 분할 처리.
+            List<String> list = new ArrayList<>();
+            StringTokenizer st = new StringTokenizer(dto.getFb_photo(),",");
+            while (st.hasMoreElements()) {
+                list.add(st.nextToken());
+            }
+            model.addAttribute("list",list);
         }
-
-        model.addAttribute("list",list);
 
         return "/main/freeboard/freeboarddetail";
     }

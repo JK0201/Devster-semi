@@ -17,6 +17,7 @@ public interface FreeBoardMapper {
     public void deleteBoard(int fb_idx);
     public void updateBoard(FreeBoardDto dto);
     public String selectNickNameOfMidx(int fb_idx);
+    public String selectPhotoOfMidx(int fb_idx);
     public void increaseLikeCount(int fb_idx);
     public void increaseDislikeCount(int fb_idx);
 

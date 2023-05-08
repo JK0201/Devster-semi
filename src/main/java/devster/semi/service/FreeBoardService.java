@@ -64,6 +64,11 @@ public class FreeBoardService implements FreeBoardServiceInter{
     }
 
     @Override
+    public String selectPhotoOfMidx(int fb_idx) {
+        return freeBoardMapper.selectPhotoOfMidx(fb_idx);
+    }
+
+    @Override
     public void increaseLikeCount(int fb_idx) {
         freeBoardMapper.increaseLikeCount(fb_idx);
     }
