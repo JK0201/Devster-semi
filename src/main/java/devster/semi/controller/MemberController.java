@@ -89,10 +89,10 @@ public class MemberController {
 
     @GetMapping("/cmemailchk")
     @ResponseBody
-    public Map<String,String> cmEmailChk(String cm_email) {
-        int chk=memberService.cmEmailChk(cm_email);
-        Map<String,String> map=new HashMap<>();
-        map.put("result",chk==0?"yes":"no");
+    public Map<String, String> cmEmailChk(String cm_email) {
+        int chk = memberService.cmEmailChk(cm_email);
+        Map<String, String> map = new HashMap<>();
+        map.put("result", chk == 0 ? "yes" : "no");
 
         return map;
     }
@@ -203,10 +203,11 @@ public class MemberController {
 
         return cond;
     }
+
     @GetMapping("/resetcheck")
     @ResponseBody
     public String resetCheck(HttpSession session) {
-        String reset=(String)session.getAttribute("reset");
+        String reset = (String) session.getAttribute("reset");
         String cond = "";
         if (reset == null) {
             cond = "yes";
@@ -264,10 +265,11 @@ public class MemberController {
     }
 
     @GetMapping("/compnamechk")
-    @ResponseBody Map<String,String> compNameChk(String cm_compname) {
-        int chk=memberService.compNameChk(cm_compname);
-        Map<String,String> map=new HashMap<>();
-        map.put("result",chk==1?"yes":"no");
+    @ResponseBody
+    Map<String, String> compNameChk(String cm_compname) {
+        int chk = memberService.compNameChk(cm_compname);
+        Map<String, String> map = new HashMap<>();
+        map.put("result", chk == 1 ? "yes" : "no");
 
         return map;
     }

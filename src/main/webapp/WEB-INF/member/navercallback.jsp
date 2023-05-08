@@ -36,14 +36,14 @@
         let m_email = naver_id_login.getProfileData("email");
         let m_photo = naver_id_login.getProfileData("profile_image");
 
-        alert("값 확인")
+        alert(m_email);
         $.ajax({
             type: "get",
             url: "emailchk",
             dataType: "json",
             data: {"m_email": m_email},
             success: function (res) {
-                if (res.result == "yes") {
+                if (res.result == "no") {
                     alert("ㅎㅇ 출석포인트 +10점");
                     window.close();
                     window.opener.redirectToMainPage();

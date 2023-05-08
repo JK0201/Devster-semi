@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <style>
         #reseticon {
             display: none;
@@ -57,11 +58,25 @@
         <span id="compnamechkicon"></span>
     </div>
     <div>
+        <div class="input-group">
+            <strong>우편번호</strong>
+            <input type="text" id="cm_post" readonly>
+            <button type="button" id="postbtn">우편번호 찾기</button>
+        </div>
         <strong>주소</strong>
-
+        <input type="text" id="addr" readonly>
+        <strong>상세주소</strong>
+        <input type="text" id="addrinfo">
     </div>
     <div>
-        <strong>주소</strong>
+        <strong>전화번호</strong>
+        <input type="tel" id="cm_tele">
+    </div>
+    <div>
+        <strong>담당자</strong>
+        <input type="text" id="cm_name">
+        <strong>휴대폰</strong>
+        <input type="tel" id="cm_cp">
     </div>
 </div>
 <script>
@@ -367,6 +382,19 @@
     function validCompname(compname) {
         let compNamePattern = /^[a-zA-Z0-9가-힣]{1,}$/;
         return compNamePattern.test(compname);
+    }
+
+    //kakao addr api
+    window.onload = function () {
+        $("#postbtn").click(function () {
+            new daum.Postcode({
+                oncomplete: function (data) {
+                    $("#cm_post").val(data.zonecode);
+                    $("#addr").val(data.address);
+                    $("#addrinfo").focus();
+                }
+            }).open();
+        });
     }
 </script>
 </body>
