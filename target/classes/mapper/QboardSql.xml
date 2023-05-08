@@ -4,10 +4,10 @@
         select count(*) from qboard
     </select>
     <select id="getAllPosts" resultType="QboardDto">
-        select * from qboard
+        select * from qboard order by qb_idx desc
     </select>
     <select id="getPagingList" parameterType="Map" resultType="QboardDto">
-        select * from qboard limit #{start},#{perpage}
+        select * from qboard order by qb_idx desc limit #{start},#{perpage}
     </select>
     <insert id="insertPost" parameterType="QboardDto">
         insert into qboard(m_idx, qb_subject, qb_content, qb_photo, qb_writeday) VALUES
@@ -22,10 +22,33 @@
     <select id="getOnePost" parameterType="int" resultType="QboardDto">
         select * from qboard where qb_idx = #{qb_idx}
     </select>
-    <select id="selectNickNameOfMidx" parameterType="int" resultType="String">
+    <select id="selectNickNameOfQb_idx" parameterType="int" resultType="String">
         SELECT m.m_nickname
         FROM qboard qb
                  JOIN member m ON qb.m_idx = m.m_idx
         WHERE qb.qb_idx = #{qb_idx}
+    </select>
+    <select id="selectPhotoOfQb_idx" parameterType="int" resultType="String">
+        SELECT m.m_photo
+        FROM qboard qb
+                 JOIN member m ON qb.m_idx = m.m_idx
+        WHERE qb.qb_idx = #{qb_idx}
+    </select>
+    <update id="updateReadCount" parameterType="int">
+        update qboard set qb_readcount=qb_readcount+1 where qb_idx=#{qb_idx}
+    </update>
+    <update id="increaseLikeCount" parameterType="int">
+        update qboard set qb_like=qb_like+1 where qb_idx=#{qb_idx}
+    </update>
+    <update id="increaseDislikeCount" parameterType="int">
+        update qboard set qb_dislike=qb_dislike+1 where qb_idx=#{qb_idx}
+    </update>
+    <select id="bestfreeboardPosts" resultType="FreeBoardDto">
+        SELECT *
+        FROM freeboard
+        WHERE fb_writeday >= DATE_SUB(NOW(), INTERVAL 1 DAY)
+        AND <![CDATA[ fb_dislike < 20 ]]>
+        ORDER BY fb_like DESC
+        limit 10
     </select>
 </mapper>
