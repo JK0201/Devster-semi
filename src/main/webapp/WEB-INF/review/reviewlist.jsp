@@ -133,8 +133,8 @@
     </div>
     게시글 번호 : ${i.count}<br>
 
-            <p>좋아요: <span id="likeCount">${dto.rb_like}</span></p>
-            <p>싫어요: <span id="dislikeCount">${dto.rb_dislike}</span></p>
+            <p>좋아요:${dto.rb_like}</p>
+            <p>싫어요: ${dto.rb_dislike}</p>
            별점: ${dto.rb_star}
             <%--별점 div--%>
             <div class="star-rb_star">
@@ -155,8 +155,10 @@
         <button type="button" class="btn btn-sm btn-outline-primary"
                onclick="delreview(${dto.rb_idx})" style="margin-bottom: 10px" >글 삭제</button>
         </c:if>
-            <button type="button" onclick="like()" id="btnlike">좋아요</button>
-            <button type="button" onclick="dislike()" id="btndislike">싫어요</button>
+            <button type="button" onclick="like()" id="btnlike" class="btn btn-success">좋아요 <span
+                    id="likeCount">${dto.rb_like}</span></button>
+            <button type="button" onclick="dislike()" id="btndislike" class="btn btn-danger">싫어요 <span
+                    id="dislikeCount">${dto.rb_dislike}</span></button>
 
 
         <%--삭제 이벤트--%>
@@ -172,20 +174,21 @@
                 $.ajax({
                     type: "post",
                     url: "./like",
-                    data: {"rb_idx":rb_idx},
+                    data: {"rb_idx": rb_idx},
                     dataType: "json",
-                    success: function(response) {
+                    success: function (response) {
+                        // 새로고침 없이 좋아요 카운터 업데이트
+                        let currentLikeCount = parseInt($("#likeCount").text(), 10);
+                        let updatedLikeCount = currentLikeCount + 1;
+                        $("#likeCount").text(updatedLikeCount);
                         $("#btnlike").prop("disabled", true);
                         $("#btndislike").prop("disabled", true);
-
-                        $("#likeCount").text(response.likeCount);
-                        $("#dislikeCount").text(response.dislikeCount);
-                        $("#btnlike").css("background-color","red");
 
                         alert("좋아요를 눌렀어요.");
                     }
                 });
             }
+
 
             function dislike() {
                 let rb_idx = ${dto.rb_idx}
@@ -195,13 +198,13 @@
                         url: "./dislike",
                         data: {"rb_idx": rb_idx},
                         dataType: "json",
-                        success: function(response) {
+                        success: function (response) {
+                            // 새로고침 없이 싫어요 카운터 업데이트
+                            let currentDislikeCount = parseInt($("#dislikeCount").text(), 10);
+                            let updatedDislikeCount = currentDislikeCount + 1;
+                            $("#dislikeCount").text(updatedDislikeCount);
                             $("#btnlike").prop("disabled", true);
                             $("#btndislike").prop("disabled", true);
-
-                            $("#likeCount").text(response.likeCount);
-                            $("#dislikeCount").text(response.dislikeCount);
-                            $("#btndislike").css("background-color","blue");
 
                             alert("싫어요를 눌렀어요.");
                         }

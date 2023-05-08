@@ -1,16 +1,90 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: hyunohsmacbook
-  Date: 2023/05/02
-  Time: 10:58 AM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ include file="../commonvar.jsp" %>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Title</title>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <style>
+        body, body * {
+            font-family: 'Jua'
+        }
+    </style>
 </head>
 <body>
+<img id="showimg" src="https://${imageUrl}/hire/${dto.hb_photo}">
+
+
+
+
+<div style="width: 450px;">
+    <form action="hireupdate" method="post" enctype="multipart/form-data">
+        <!--hidden-->
+        <input type="hidden" name="hb_idx" value="${dto.hb_idx}">
+        <input type="hidden" name="currentPage" value="${currentPage}">
+        <table  class="table table-bordered">
+            <tr>
+                <th style="width: 100px;background-color: #ddd">제목</th>
+                <td>
+                    <input type="text" class="form-control" name="hb_subject" required="required" value="${dto.hb_subject}">
+                </td>
+            </tr>
+            <tr>
+                <th style="width: 100px;background-color: #ddd">회사로고사진</th>
+                <td>
+                    <input type="file" class="form-control" name="upload" id="myfile">
+                </td>
+            </tr>
+            <tr>
+                <th style="width: 100px;background-color: #ddd">내용</th>
+                <td colspan="2">
+                    <textarea style="width: 100%;height: 130px;" name="hb_content" required="required"
+                              class="form-control" required="required">${dto.hb_content}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <button type="submit" class="btn btn-outline-success">등록</button>
+                    <button type="button" class="btn btn-outline-success"
+                            onclick="history.back()">취소</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<!-- 미리보기 -->
+<script type="text/javascript">
+    $("#myfile").change(function() {
+        console.log("1:" + $(this)[0].files.length);
+        console.log("2:" + $(this)[0].files[0]);
+        //정규표현식
+        var reg = /(.*?)\/(jpg|jpeg|png|bmp)$/;
+        var f = $(this)[0].files[0];//현재 선택한 파일
+        if (!f.type.match(reg)) {
+            alert("확장자가 이미지파일이 아닙니다");
+            return;
+        }
+        if ($(this)[0].files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $("#showimg").attr("src", e.target.result);
+            }
+            reader.readAsDataURL($(this)[0].files[0]);
+        }
+    });
+</script>
+
+
 
 </body>
 </html>

@@ -21,8 +21,16 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
   <style>
     body, body *{
-      font-family: 'Jua'
+
+      font-family: 'Jua';
     }
+
+    .parentdiv{
+        width: 1140px;
+        margin-left : 300px;
+    }
+
+
     div.box {
       width: 300px;
       height: 220px;
@@ -32,6 +40,13 @@
       margin-right: 30px;
       padding-left: 20px;
       padding-top: 20px;
+
+
+    }
+
+    .writebtn{
+        margin-top: 10px;
+
     }
 
       #photo{
@@ -45,9 +60,14 @@
   </style>
 </head>
 <body>
-<button type="button" class="btn btn-sm btn-outline-success"
-        onclick="location.href='form'" style="margin-bottom: 10px">글작성</button>
 
+
+<button type="button" class="btn btn-sm btn-outline-success writebtn"
+        onclick="location.href='form'" style="margin-bottom: 10px" >글작성</button>
+
+<br>
+
+<div class="parentdiv">
 
 <c:forEach var="dto" items="${list}" varStatus="i">
   <div class="box">
@@ -63,6 +83,36 @@
     <br style="clear: both;"><br>
   </c:if>
 </c:forEach>
+
+</div>
+
+<div style="width: 700px; text-align: center; font-size: 20px; margin-left: 270px;" >
+  <!-- 이전 -->
+  <c:if test="${startPage > 1}">
+    <a style="color: black; text-decoration: none; cursor: pointer;" href="list?currentPage=${startPage-1}">이전</a>
+  </c:if>
+  <c:if test="${startPage <= 1}">
+    <a style="color: black; text-decoration: none; cursor: pointer; visibility: hidden;" href="list?currentPage=${startPage-1}">이전</a>
+  </c:if>
+  <!-- 페이지 번호 출력 -->
+  <c:forEach var="pp" begin="${startPage}" end="${endPage}">
+    <c:if test="${currentPage == pp }">
+      <a style="color: green; text-decoration: none; cursor: pointer;" href="list?currentPage=${pp}">${pp}</a>
+    </c:if>
+    <c:if test="${currentPage != pp }">
+      <a style="color: black; text-decoration: none; cursor: pointer;" href="list?currentPage=${pp}">${pp}</a>
+    </c:if>
+    &nbsp;
+  </c:forEach>
+  <!-- 다음 -->
+  <c:if test="${endPage < totalPage}">
+    <a style="color: black; text-decoration: none; cursor: pointer;" href="list?currentPage=${endPage+1}">다음</a>
+  </c:if>
+  <c:if test="${endPage >= totalPage}">
+    <a style="color: black; text-decoration: none; cursor: pointer; visibility: hidden;" href="list?currentPage=${endPage+1}">다음</a>
+  </c:if>
+</div>
+
 </body>
 </html>
 

@@ -2,8 +2,12 @@ package devster.semi.service;
 
 import java.util.List;
 
+import java.util.Map;
+
 import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.HireBoardDto;
+import devster.semi.dto.QboardDto;
+
 
 public interface HireServiceInter {
 
@@ -13,5 +17,9 @@ public interface HireServiceInter {
     public void updateReadCount(int hb_idx);
 
     public void deleteHireBoard(int hb_idx);
+
+    public void updateHireBoard(HireBoardDto dto);
+    public int getHireTotalCount();
+    public List<HireBoardDto> getHirePagingList(int start, int perpage);
 
 }

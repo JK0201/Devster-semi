@@ -22,33 +22,14 @@
 </head>
 <body>
     <form action="update" enctype="multipart/form-data" method="post">
-        <input type="hidden" name="m_idx" value="3">
+        <input type="hidden" name="m_idx" value="${sessionScope.memidx}">
         <input type="hidden" name="qb_idx" value="${dto.qb_idx}">
+        <input type="hidden" name="currentPage" value="${currentPage}">
         제목 : <input type="text" name="qb_subject" value="${dto.qb_subject}"><br>
         내용 : <textarea name="qb_content">${dto.qb_content}</textarea><br>
-        사진 : <input type="file" name="upload" id="myfile"><br>
-        <img src="http://${imageUrl}/qboard/${dto.qb_photo}" id="show">
-        <button type="submit">글 작성</button>
+        사진 : <input type="file" name="upload" multiple><br>
+        <button class="btn btn-outline-dark" type="submit">글 수정</button>
     </form>
 </body>
-<script>
-    $("#myfile").change(function () {
-        console.log("1:" + $(this)[0].files.length);
-        console.log("2:" + $(this)[0].files[0]);
-//정규표현식
-        var reg = /(.*?)\/(jpg|jpeg|png|bmp)$/;
-        var f = $(this)[0].files[0];//현재 선택한 파일
-        if (!f.type.match(reg)) {
-            alert("확장자가 이미지파일이 아닙니다");
-            return;
-        }
-        if ($(this)[0].files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $("#show").attr("src", e.target.result);
-            }
-            reader.readAsDataURL($(this)[0].files[0]);
-        }
-    });
-</script>
+
 </html>

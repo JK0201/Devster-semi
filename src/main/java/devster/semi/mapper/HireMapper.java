@@ -14,4 +14,14 @@ public interface HireMapper {
     public HireBoardDto getData(int hb_idx);
     public void updateReadCount(int hb_idx);
     public void deleteHireBoard(int hb_idx);
+
+
+
+
+    public void updateHireBoard(HireBoardDto dto);
+
+    public int getHireTotalCount();
+    public List<HireBoardDto> getHirePagingList(Map<String,Integer> map);
+
+
 }

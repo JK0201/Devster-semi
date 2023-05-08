@@ -85,11 +85,7 @@
                 $("#btnlike").prop("disabled", true);
                 $("#btndislike").prop("disabled", true);
 
-                $("#btnlike").text(response.likeText);
-                $("#btndislike").text(response.dislikeText);
-                $(this).css("background-color","red");
                 location.href=`./freeboarddetail?fb_idx=\${fb_idx}&currentPage=`+${currentPage};
-
 
                 alert("좋아요를 눌렀어요.");
             }
@@ -109,10 +105,6 @@
                 $("#btnlike").prop("disabled", true);
                 $("#btndislike").prop("disabled", true);
 
-
-                $("#btnlike").text(response.likeText);
-                $("#btndislike").text(response.dislikeText);
-                $(this).css("background-color","red");
 
                 location.href=`./freeboarddetail?fb_idx=\${fb_idx}&currentPage=`+${currentPage};
 

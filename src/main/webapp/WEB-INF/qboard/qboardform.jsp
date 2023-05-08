@@ -20,33 +20,23 @@
     </style>
 </head>
 <body>
-<form action="insert" enctype="multipart/form-data" method="post">
-    <input type="hidden" name="m_idx" value="3">
-    제목 : <input type="text" name="qb_subject" value="${dto.qb_subject}"><br>
-    내용 : <textarea name="qb_content">${dto.qb_content}</textarea><br>
-    사진 : <input type="file" name="upload" id="myfile"><br>
-    <img src="" id="show">
-    <button type="submit">글 작성</button>
-</form>
+
+<div style="width: 60%; margin-top: 100px; margin-left: 30px; border: 3px solid black">
+    <form action="insert" enctype="multipart/form-data" method="post">
+        <input type="hidden" name="m_idx" value="${sessionScope.memidx}">
+        <div style="width: 300px">
+            <input class="form-control" type="text" name="qb_subject" value="${dto.qb_subject}" placeholder="제목">
+        </div>
+        <div style="width: 300px">
+            <textarea name="qb_content" class="form-control" placeholder="내용">${dto.qb_content}</textarea>
+        </div>
+        <div style="width: 300px">
+            <input class="form-control" type="file" name="upload" multiple><br>
+        </div>
+        <button type="submit" class="btn btn-outline-info">글 작성</button>
+        <button type="button" class="btn btn-outline-dark" onclick="history.back()">취소</button>
+    </form>
+</div>
 </body>
-<script>
-    $("#myfile").change(function () {
-        console.log("1:" + $(this)[0].files.length);
-        console.log("2:" + $(this)[0].files[0]);
-//정규표현식
-        var reg = /(.*?)\/(jpg|jpeg|png|bmp)$/;
-        var f = $(this)[0].files[0];//현재 선택한 파일
-        if (!f.type.match(reg)) {
-            alert("확장자가 이미지파일이 아닙니다");
-            return;
-        }
-        if ($(this)[0].files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $("#show").attr("src", e.target.result);
-            }
-            reader.readAsDataURL($(this)[0].files[0]);
-        }
-    });
-</script>
+
 </html>
