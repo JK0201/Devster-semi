@@ -5,17 +5,30 @@
 section.main .wrap{
     width: 1140px;
     height: 80px;
-   /* background-color: red;
-    opacity: 0.5;*/
-    margin: 0 auto;
+    /* background-color: red;
+     opacity: 0.5;*/
+    margin: 36px auto;
 }
 
+/*==================================================== 컨테이너 =====================================================*/
 
-section.main .wrap .searchdiv{
+section.main .wrap .container{
+    width: 736px;
+    height: 1200px;
+    /* background-color: palegreen;*/
+    margin: 0;
+    padding: 0;
+    position: relative;
+    float: left;
+}
+
+/* 서치바 */
+
+section.main .wrap .container .searchdiv{
     /*position: absolute;*/
     position: relative;
 }
-section.main .wrap .searchbar{
+section.main .wrap .container .searchbar{
     width: 736px;
     height: 60px;
     padding: 0 10px 0 62px;
@@ -28,7 +41,7 @@ section.main .wrap .searchbar{
 .bi-search {
     position: absolute;
     right: 5px; /* 아이콘과 입력란 사이의 공간을 조절합니다. */
-    top: 57px;
+    top: 31px;
     left: 27px;
     transform: translateY(-50%); /* 아이콘을 입력란의 정중앙에 배치합니다. */
     pointer-events: none; /* 입력란 위에서 클릭이나 기타 동작이 가능하게 합니다. */
@@ -37,70 +50,306 @@ section.main .wrap .searchbar{
 
 
 
-section.main .wrap .maincontent{
+section.main .wrap .container .maincontent{
     width: 736px;
     height: 378px;
     margin-top: 30px;
     /*border: 1px solid #000;*/
 }
 
-section.main table.freeboard_table{
+/* ============================== 일반게시판 ================================= */
+
+/*사진 옆 아이콘*/
+section.main .wrap .container table.freeboard_table td.fb_subject a{
+    float: left;
+}
+
+section.main .wrap .container table.freeboard_table td.fb_subject a .icon_img{
+    background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
+    background-size: 590px 907px;
+    background-position: -163px -600px;
+    content: '';
+    width: 18px;
+    height: 24px;
+    float: right;
+}
+/*조회수 아이콘*/
+section.main .wrap .container table.freeboard_table td.fb_readcount .icon_read{
+    background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
+    background-size: 590px 907px;
+    background-position: -10px -603px;
+    content: '';
+    width: 23px;
+    height: 21px;
+    float: left;
+}
+
+section.main .wrap .container table.freeboard_table td.fb_readcount span{
+    float: left;
+}
+
+/*좋아요 아이콘*/
+section.main .wrap .container table.freeboard_table td.fb_like .icon_like{
+    background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
+    background-size: 590px 907px;
+    background-position: -62px -603px;
+    content: '';
+    width: 23px;
+    height: 21px;
+    float: left;
+}
+
+section.main .wrap .container table.freeboard_table td.fb_like span{
+    float: left;
+}
+
+section.main .wrap .container table.freeboard_table{
     width: 736px;
 
 }
-section.main table.freeboard_table h2{
+section.main .wrap .container table.freeboard_table h2{
     font-size: 18px;
     font-weight: bold;
     color: #000;
     border-bottom: 2px solid #eee;
     height: 47px;
     line-height: 47px;
+    position: relative;
     /*float: left;*/
 }
-section.main table.freeboard_table h2 img{
+section.main .wrap .container table.freeboard_table h2 img{
     width: 32px;
     height: 32px;
-    margin-top: 8px;
+    margin-bottom: 6px;
     /*vertical-align: middle;*/
 
 }
+
+section.main .wrap .container table.freeboard_table h2 span{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    color: #222;
+    font-size: 12px;
+    font-weight: normal;
+}
+
 /*section.main table.freeboard_table span{
     float: left;
 }*/
-section.main table.freeboard_table tr{
+section.main .wrap .container table.freeboard_table tr{
     height: 30px;
 }
 
-section.main table.freeboard_table .fb_subject{
+section.main .wrap .container table.freeboard_table .fb_subject{
     font-size: 15px;
     width: 85%;
 
 }
-section.main table.freeboard_table .fb_subject a{
+section.main .wrap .container table.freeboard_table .fb_subject a{
     margin-left: 4px;
 }
-section.main table.freeboard_table .fb_readcount{
+section.main .wrap .container table.freeboard_table .fb_readcount{
     font-size: 12px;
     color: #94969B;
     width: 10%;
 
 }
-section.main table.freeboard_table .fb_like{
+section.main .wrap .container table.freeboard_table .fb_like{
     font-size: 12px;
     color: #94969B;
     width: 5%;
 }
-section.main table.freeboard_table i{margin-right: 3px;}
+section.main .wrap .container table.freeboard_table i{margin-right: 3px;}
+
+/* ============================== 질문게시판 ================================= */
+
+/*사진 옆 아이콘*/
+section.main .wrap .container table.qboard_table td.qb_subject a{
+    float: left;
+}
+
+section.main .wrap .container table.qboard_table td.qb_subject a .icon_img{
+    background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
+    background-size: 590px 907px;
+    background-position: -163px -600px;
+    content: '';
+    width: 18px;
+    height: 24px;
+    float: right;
+}
+
+
+section.main .wrap .container table.qboard_table{
+    width: 348px;
+    float: left;
+}
+section.main .wrap .container table.qboard_table h2{
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    border-bottom: 2px solid #eee;
+    height: 47px;
+    line-height: 47px;
+    position: relative;
+    /*float: left;*/
+}
+section.main .wrap .container table.qboard_table h2 img{
+    width: 32px;
+    height: 32px;
+    margin-bottom: 6px;
+    /*vertical-align: middle;*/
+
+}
+
+section.main .wrap .container table.qboard_table h2 span{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    color: #222;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+/*section.main table.qboard_table span{
+    float: left;
+}*/
+section.main .wrap .container table.qboard_table tr{
+    height: 30px;
+}
+
+section.main .wrap .container table.qboard_table .qb_subject{
+    font-size: 15px;
+    width: 85%;
+
+}
+section.main .wrap .container table.qboard_table .qb_subject a{
+    margin-left: 4px;
+}
+section.main .wrap .container table.qboard_table .qb_readcount{
+    font-size: 12px;
+    color: #94969B;
+    width: 10%;
+
+}
+section.main .wrap .container table.qboard_table .qb_like{
+    font-size: 12px;
+    color: #94969B;
+    width: 5%;
+}
+section.main .wrap .container table.qboard_table i{margin-right: 3px;}
+
+/* ============================== 채용정보 게시판 ================================= */
+
+/*사진 옆 아이콘*/
+section.main .wrap .container table.hireboard_table td.hb_subject a{
+    float: left;
+}
 
 
 
+section.main .wrap .container table.hireboard_table td.hb_subject a .icon_img{
+    background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
+    background-size: 590px 907px;
+    background-position: -163px -600px;
+    content: '';
+    width: 18px;
+    height: 24px;
+    float: right;
+}
 
+/*조회수 아이콘*/
+section.main .wrap .container table.hireboard_table td.hb_readcount .icon_read{
+    background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
+    background-size: 590px 907px;
+    background-position: -10px -603px;
+    content: '';
+    width: 23px;
+    height: 21px;
+    float: left;
+}
 
+section.main .wrap .container table.hireboard_table td.hb_readcount span{
+    float: left;
+}
 
+section.main .wrap .container table.hireboard_table{
+    width: 348px;
+    float: left;
+    margin-left: 40px;
+}
+section.main .wrap .container table.hireboard_table h2{
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    border-bottom: 2px solid #eee;
+    height: 47px;
+    line-height: 47px;
+    position: relative;
+    /*float: left;*/
+}
+section.main .wrap .container table.hireboard_table h2 img{
+    width: 32px;
+    height: 32px;
+    margin-bottom: 6px;
+    /*vertical-align: middle;*/
 
+}
 
+section.main .wrap .container table.hireboard_table h2 span{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    color: #222;
+    font-size: 12px;
+    font-weight: normal;
+}
 
+/*section.main table.hireboard_table span{
+    float: left;
+}*/
+section.main .wrap .container table.hireboard_table tr{
+    height: 30px;
+}
 
+section.main .wrap .container table.hireboard_table .hb_subject{
+    font-size: 15px;
+    width: 85%;
 
+}
+section.main .wrap .container table.hireboard_table .hb_subject a{
+    margin-left: 4px;
+}
+section.main .wrap .container table.hireboard_table .hb_readcount{
+    font-size: 12px;
+    color: #94969B;
+    width: 10%;
 
+}
+/*section.main table.hireboard_table .qb_like{
+    font-size: 12px;
+    color: #94969B;
+    width: 5%;
+}*/
+section.main .wrap .container table.hireboard_table i{margin-right: 3px;}
 
+/*==================================================== aside =====================================================*/
+
+section.main .wrap .aside{
+    width: 340px;
+    height: 1000px;
+    /*background-color: palevioletred;*/
+    margin-left: 64px;
+    float: left;
+}
+
+section.main .wrap .aside .aside_content_1{
+    margin-bottom: 24px;
+}
+section.main .wrap .aside .aside_content_1 img{
+    width: 340px;
+}
+
+section.main .wrap .aside .aside_content_2 img{
+    width: 340px;
+}
