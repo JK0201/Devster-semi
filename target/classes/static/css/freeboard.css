@@ -1,0 +1,34 @@
+@charset "utf-8";
+
+@import url(common.css);
+
+section.main .fb_wrap{
+    width: 1140px;
+    margin: 0px auto;
+    background-color: palegreen;
+    /*position: relative;*/
+}
+
+section.main .fb_wrap table.freeboard_table{
+    width: 1140px;
+
+}
+
+/*사진 아이콘*/
+.fb_subject{
+    float: left;
+}
+
+.icon_img{
+    background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
+    background-size: 600px 900px;
+    background-position: -166px -600px;
+    content: '';
+    width: 18px;
+    height: 18px;
+    float: right;
+}
+
+section.main .fb_wrap .fb_page_list{
+
+}
