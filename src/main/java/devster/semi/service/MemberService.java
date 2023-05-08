@@ -79,4 +79,9 @@ public class MemberService implements MemberServiceInter {
     public int cmEmailChk(String cm_email) {
         return memberMapper.cmEmailChk(cm_email);
     }
+
+    @Override
+    public int compNameChk(String cm_compname) {
+        return memberMapper.compNameChk(cm_compname);
+    }
 }

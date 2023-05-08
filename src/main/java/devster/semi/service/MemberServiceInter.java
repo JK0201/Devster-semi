@@ -25,4 +25,5 @@ public interface MemberServiceInter {
     public void addNewMember(MemberDto dto);
     public String getSaltById(String m_email);
     public int cmEmailChk(String cm_email);
+    public int compNameChk(String cm_compname);
 }

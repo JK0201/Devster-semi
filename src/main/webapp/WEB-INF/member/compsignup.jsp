@@ -31,7 +31,7 @@
         <strong>이메일</strong>
         <input type="email" id="cm_email" required placeholder="email@example.com">
         <span id="emailchkicon"></span>
-        
+
     </div>
     <div class="input-group emailchk">
         <strong>이메일</strong>
@@ -43,10 +43,34 @@
         <input type="text" id="eregnumber">
         <button type="button" id="eregbtn"><span>확인</span></button>
     </div>
+    <div>
+        <strong>비밀번호</strong>
+        <input type="password" id="cm_pass" required placeholder="8~16자리/영문 대소문자, 숫자, 특수문자 조합">
+        <span id="passokicon"></span>
+        <b>비밀번호확인</b>
+        <input type="password" id="passchk" placeholder="8~16자리/영문 대소문자, 숫자, 특수문자 조합">
+        <span id="passchkicon"></span>
+    </div>
+    <div>
+        <strong>회사명</strong>
+        <input type="text" id="cm_compname">
+        <span id="compnamechkicon"></span>
+    </div>
+    <div>
+        <strong>주소</strong>
+
+    </div>
+    <div>
+        <strong>주소</strong>
+    </div>
 </div>
 <script>
     let emailvalid = false;
     let emailcheck = false;
+    let passvalid = false;
+    let passcheck = false;
+    let compname = false;
+    let compvalid = false;
 
     //emailcheck
     $("#cm_email").keyup(function () {
@@ -77,7 +101,7 @@
             emailvalid = true;
         }
     });
-    
+
     //timer
     let timer = null;
     let proc = false;
@@ -137,7 +161,7 @@
                             $(".emailreg").hide();
                             $("#sendemail").text("인증요청");
                             $("#cm_email").prop("readonly", false);
-                            $("#eregbtn").prop("disabled",false);
+                            $("#eregbtn").prop("disabled", false);
                             ecnt = 0;
                             btncnt++;
                             emailcheck = false;
@@ -206,7 +230,7 @@
         } else if (ecnt > 0 && ecnt < 3) {
             let b = confirm("정말 인증번호를 다시 받으시겠습니까?\n기존의 번호는..");
             if (b) {
-                $("#eregbtn").prop("disabled",false);
+                $("#eregbtn").prop("disabled", false);
                 let email = $("#cm_email").val();
                 alert("인증번호가 발송되었습니다");
                 $.ajax({
@@ -263,6 +287,86 @@
     function validEmail(email) {
         let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         return emailPattern.test(email);
+    }
+
+    //pass check
+    function updatePasswordStatus() {
+        let pass = $("#cm_pass").val();
+        let passMatch = $("#passchk").val();
+        let valid = validPass(pass);
+
+        if (valid) {
+            $("#passokicon").html("<i class='bi bi-check' style='color:green;'></i>" +
+                "<span>사용 가능한 비밀번호에요</span>");
+            passvalid = true;
+        } else {
+            $("#passokicon").html("<i class='bi bi-x' style='color:red;'></i>" +
+                "<span>8~16자리 영문 대소문자, 숫자, 특수문자의 조합으로 만들어주세요</span>");
+            passvalid = false;
+        }
+
+        if (pass != passMatch) {
+            $("#passchkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
+                "<span>비밀번호와 일치하지 않아요</span>");
+            passcheck = false;
+        } else {
+            $("#passchkicon").html("<i class='bi bi-check' style='color:green;'></i>" +
+                "<span>비밀번호와 일치해요</span>");
+            passcheck = true;
+        }
+
+        if (pass == "" && passMatch == "") {
+            $("#passchkicon").html("");
+        }
+    }
+
+    $("#cm_pass").keyup(function () {
+        updatePasswordStatus();
+    });
+
+    $("#passchk").keyup(function () {
+        updatePasswordStatus();
+    });
+
+    function validPass(pass) {
+        let passPattern = /^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+$/;
+        return pass.length >= 8 && pass.length <= 16 && passPattern.test(pass);
+    }
+
+    //compname check
+    $("#cm_compname").keyup(function () {
+        let cm_compname = $(this).val();
+        if (!validCompname(cm_compname)) {
+            $("#compnamechkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
+                "<span>한글,영문과 숫자만 사용해주세요</span>");
+            compvalid = false;
+        } else {
+            $.ajax({
+                type: "get",
+                url: "compnamechk",
+                dataType: "json",
+                data: {"cm_compname": cm_compname},
+                success: function (res) {
+                    if (res.result == "no") {
+                        $("#compnamechkicon").html("<i class='bi bi-check' style='color:green;'></i>" +
+                            "<span>사용가능한 회사명입니다</span>");
+                        $("#cm_compname").css({"border": "1px solid black", "box-shadow": "none"});
+                        compname = true;
+                    } else {
+                        $("#compnamechkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
+                            "<span>이미 사용중인 회사명입니다</span>");
+                        $("#cm_compname").css({"border": "1px solid red", "box-shadow": "none"});
+                        compname = false;
+                    }
+                }
+            });
+            compvalid = true;
+        }
+    });
+
+    function validCompname(compname) {
+        let compNamePattern = /^[a-zA-Z0-9가-힣]{1,}$/;
+        return compNamePattern.test(compname);
     }
 </script>
 </body>

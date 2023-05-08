@@ -264,4 +264,12 @@ public class MemberController {
         return "/main/member/membergrats";
     }
 
+    @GetMapping("/compnamechk")
+    @ResponseBody Map<String,String> compNameChk(String cm_compname) {
+        int chk=memberService.compNameChk(cm_compname);
+        Map<String,String> map=new HashMap<>();
+        map.put("result",chk==1?"yes":"no");
+
+        return map;
+    }
 }

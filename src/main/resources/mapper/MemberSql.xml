@@ -48,4 +48,8 @@
     <select id="cmEmailChk" resultType="int" parameterType="String">
         select count(*) from companymember where cm_email=#{cm_email}
     </select>
+
+    <select id="compNameChk" resultType="int" parameterType="String">
+        select count(*) from companymember where cm_compname=#{cm_compname}
+    </select>
 </mapper>
