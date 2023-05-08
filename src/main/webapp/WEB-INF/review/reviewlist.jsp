@@ -133,8 +133,8 @@
     </div>
     게시글 번호 : ${i.count}<br>
 
-            <p>좋아요:${dto.rb_like}</p>
-            <p>싫어요: ${dto.rb_dislike}</p>
+            <p id="like-${dto.rb_idx}">좋아요:${dto.rb_like}</p>
+            <p id="dislike-${dto.rb_idx}">싫어요: ${dto.rb_dislike}</p>
            별점: ${dto.rb_star}
             <%--별점 div--%>
             <div class="star-rb_star">
@@ -155,10 +155,8 @@
         <button type="button" class="btn btn-sm btn-outline-primary"
                onclick="delreview(${dto.rb_idx})" style="margin-bottom: 10px" >글 삭제</button>
         </c:if>
-            <button type="button" onclick="like()" id="btnlike" class="btn btn-success">좋아요 <span
-                    id="likeCount">${dto.rb_like}</span></button>
-            <button type="button" onclick="dislike()" id="btndislike" class="btn btn-danger">싫어요 <span
-                    id="dislikeCount">${dto.rb_dislike}</span></button>
+            <button type="button" onclick="like(${dto.rb_idx},${dto.rb_like})" id="btnlike">좋아요</button>
+            <button type="button" onclick="dislike(${dto.rb_idx},${dto.rb_dislike})" id="btndislike">싫어요</button>
 
 
         <%--삭제 이벤트--%>
@@ -168,47 +166,48 @@
                     location.href = "./delete?rb_idx=" + rb_idx;
                 }
             }
-            function like() {
-                let rb_idx = ${dto.rb_idx};
+            function like(rb_idx,rb_like) {
+
 
                 $.ajax({
                     type: "post",
                     url: "./like",
-                    data: {"rb_idx": rb_idx},
+                    data: {"rb_idx":rb_idx},
                     dataType: "json",
-                    success: function (response) {
-                        // 새로고침 없이 좋아요 카운터 업데이트
-                        let currentLikeCount = parseInt($("#likeCount").text(), 10);
-                        let updatedLikeCount = currentLikeCount + 1;
-                        $("#likeCount").text(updatedLikeCount);
+                    success: function(response) {
                         $("#btnlike").prop("disabled", true);
                         $("#btndislike").prop("disabled", true);
 
                         alert("좋아요를 눌렀어요.");
+
+
                     }
                 });
+                $("#like-" + rb_idx).text("좋아요 : " + (rb_like+1));
+
+
+
             }
 
+            function dislike(rb_idx,rb_dislike) {
 
-            function dislike() {
-                let rb_idx = ${dto.rb_idx}
+
 
                     $.ajax({
                         type: "post",
                         url: "./dislike",
                         data: {"rb_idx": rb_idx},
                         dataType: "json",
-                        success: function (response) {
-                            // 새로고침 없이 싫어요 카운터 업데이트
-                            let currentDislikeCount = parseInt($("#dislikeCount").text(), 10);
-                            let updatedDislikeCount = currentDislikeCount + 1;
-                            $("#dislikeCount").text(updatedDislikeCount);
+                        success: function(response) {
                             $("#btnlike").prop("disabled", true);
                             $("#btndislike").prop("disabled", true);
+
 
                             alert("싫어요를 눌렀어요.");
                         }
                     });
+                $("#dislike-" + rb_idx).text("좋아요 : " + (rb_dislike+1));
+
             }
         </script>
     <hr>

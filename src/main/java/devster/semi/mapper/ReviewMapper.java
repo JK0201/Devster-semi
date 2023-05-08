@@ -1,5 +1,6 @@
 package devster.semi.mapper;
 
+import devster.semi.dto.CompanyinfoDto;
 import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.QboardDto;
 import devster.semi.dto.ReviewDto;
@@ -21,4 +22,5 @@ public interface ReviewMapper {
     public ReviewDto getData(int rb_idx);
     public void increaseLikeCount(int rb_idx);
     public void increaseDislikeCount(int rb_idx);
+    public List<CompanyinfoDto> selectciname ();
 }

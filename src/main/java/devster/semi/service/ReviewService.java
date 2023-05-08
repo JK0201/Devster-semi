@@ -1,5 +1,6 @@
 package devster.semi.service;
 
+import devster.semi.dto.CompanyinfoDto;
 import devster.semi.dto.ReviewDto;
 import devster.semi.mapper.ReviewMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import java.util.Map;
 public class ReviewService implements ReviewServiceInter{
     @Autowired
     ReviewMapper reviewMapper;
-
 
 
     @Override
@@ -66,4 +66,6 @@ public class ReviewService implements ReviewServiceInter{
         reviewMapper.increaseDislikeCount(rb_idx);
     }
 
+    @Override
+    public List<CompanyinfoDto>selectciname(){return reviewMapper.selectciname();}
 }

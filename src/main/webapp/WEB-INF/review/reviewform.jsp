@@ -88,6 +88,13 @@
             <option value="2">코딩테스트 후기</option>
             <option value="3">합격 후기</option>
                 </select>
+
+             회사 선택:
+             <select name="ci_idx">
+                 <c:forEach var="ciName" items="${ciNameList}">
+                     <option value="${reviewService.getDataciinfo(ci_name).getCi_idx()}">${ci_name}</option>
+                 </c:forEach>
+             </select>
          <br>
          <div class="star-rb_star">
              <input type="radio" id="5-stars" name="rb_star" value="5" />

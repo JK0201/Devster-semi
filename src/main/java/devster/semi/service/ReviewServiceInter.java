@@ -1,5 +1,6 @@
 package devster.semi.service;
 
+import devster.semi.dto.CompanyinfoDto;
 import devster.semi.dto.ReviewDto;
 
 import java.util.List;
@@ -16,4 +17,5 @@ public interface ReviewServiceInter {
     public ReviewDto getData(int rb_idx);
     public void increaseLikeCount(int rb_idx);
     public void increaseDislikeCount(int rb_idx);
+    public List<CompanyinfoDto> selectciname ();
 }

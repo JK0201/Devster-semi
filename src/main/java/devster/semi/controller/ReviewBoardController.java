@@ -1,5 +1,6 @@
 package devster.semi.controller;
 
+import devster.semi.dto.CompanyinfoDto;
 import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.ReviewDto;
 import devster.semi.service.ReviewService;
@@ -23,6 +24,8 @@ public class ReviewBoardController {
     private ReviewService reviewService;
     @Autowired
     private ReviewDto reviewDto;
+    @Autowired
+    private CompanyinfoDto campanyinfoDto;
 
     //버켓 이름
     private String bucketName="devster-bucket";//각자 자기 버켓이름
@@ -78,6 +81,7 @@ public class ReviewBoardController {
             fulllList.add(map);
         }
 
+
         model.addAttribute("list", fulllList);
 
         // 출력시 필요한 변수들 model에 전부 저장
@@ -95,10 +99,12 @@ public class ReviewBoardController {
     }
 
 
+
     @GetMapping("/reviewriterform")
     public String form(@RequestParam(defaultValue = "1") int currentPage,
                        @RequestParam(defaultValue = "0") int rb_idx, Model model){
-
+        List<CompanyinfoDto> ciNameList = reviewService.selectciname();
+        model.addAttribute("ciNameList", ciNameList);
         model.addAttribute("currentPage",currentPage);
         model.addAttribute("rb_idx",rb_idx);
         return "/main/review/reviewform";
