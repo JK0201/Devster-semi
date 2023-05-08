@@ -44,7 +44,7 @@
     </update>
     <!--회사 정보 출력-->
     <select id="selectciname" resultType="String">
-        select ci_name from companyinfo
+        select ci_name,ci_idx from companyinfo
     </select>
 
     <select id="getDataciinfo" parameterType="int" resultType="CompanyinfoDto">

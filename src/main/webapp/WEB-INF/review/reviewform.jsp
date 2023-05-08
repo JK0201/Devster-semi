@@ -91,11 +91,10 @@
 
              회사 선택:
              <select name="ci_idx">
-                 <c:forEach var="ciName" items="${ciNameList}">
-                     <option value="${reviewService.getDataciinfo(ci_name).getCi_idx()}">${ci_name}</option>
+                 <c:forEach var="ci" items="${ciNameList}">
+                     <option value="${ci.ci_idx}">${ci.ci_name}</option>
                  </c:forEach>
              </select>
-         <br>
          <div class="star-rb_star">
              <input type="radio" id="5-stars" name="rb_star" value="5" />
              <label for="5-stars" class="star">&#9733;</label>

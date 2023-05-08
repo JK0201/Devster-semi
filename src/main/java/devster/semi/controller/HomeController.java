@@ -1,7 +1,11 @@
 package devster.semi.controller;
 
 import devster.semi.dto.FreeBoardDto;
+import devster.semi.dto.HireBoardDto;
+import devster.semi.dto.QboardDto;
+import devster.semi.mapper.HireMapper;
 import devster.semi.service.FreeBoardService;
+import devster.semi.service.QboardService;
 import naver.cloud.NcpObjectStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,16 +22,24 @@ public class HomeController {
 	private FreeBoardService freeBoardService;
 
 	@Autowired
+	private QboardService qboardService;
+
+	@Autowired
+	private HireMapper hireMapper;
+
+	@Autowired
 	private NcpObjectStorageService storageService;
 
 	private String bucketName="devster-bucket";
 
-	@GetMapping({"/","/home1"})
+	@GetMapping({"/","/home"})
 	public String fblist(@RequestParam(defaultValue = "1") int currentPage, Model model)
 	{
+		//===========================일반게시판===============================//
+
 		int totalCount = freeBoardService.getTotalCount();
 		int totalPage; // 총 페이지 수
-		int perPage = 20; // 한 페이지당 보여줄 글 갯수
+		int perPage = 5; // 한 페이지당 보여줄 글 갯수
 		int perBlock = 10; // 한 블록당 보여질 페이지의 갯수
 		int startNum; // 각 페이지에서 보여질 글의 시작번호
 		int startPage; // 각 블록에서 보여질 시작 페이지 번호
@@ -53,10 +65,10 @@ public class HomeController {
 		no = totalCount - startNum;
 
 		// 각 페이지에 필요한 게시글 db에서 가져오기
-		List<FreeBoardDto> list = freeBoardService.getPagingList(startNum, perPage);
+		List<FreeBoardDto> fblist = freeBoardService.getPagingList(startNum, perPage);
 
 		// 출력시 필요한 변수들 model에 전부 저장
-		model.addAttribute("list", list);
+		model.addAttribute("fblist", fblist);
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
@@ -67,12 +79,30 @@ public class HomeController {
 
 		model.addAttribute("totalCount",totalCount);
 
-		return "/main";//tiles.xml 에 이 이름으로 정의된 definition 이 적용됨
+		//===========================질문게시판===============================//
+
+
+		int qboardTotalCount = qboardService.getTotalCount();
+		List<QboardDto> qblist = qboardService.getPagingList(startNum, perPage);
+
+		// 출력시 필요한 변수들 model에 전부 저장
+		model.addAttribute("qblist", qblist);
+		model.addAttribute("qboardTotalCount", qboardTotalCount);
+
+		//===========================채용정보 게시판===============================//
+
+		List<HireBoardDto> hirelist=hireMapper.getAllPosts();
+		//model 에 저장
+		model.addAttribute("currentPage",currentPage);
+		model.addAttribute("hirelist", hirelist);
+
+		return "/sub";//tiles.xml 에 이 이름으로 정의된 definition 이 적용됨
+
 	}
 	
-	@GetMapping("/home2")
+	/*@GetMapping("/home2")
 	public String home2()
 	{
 		return "/sub";
-	}
+	}*/
 }
