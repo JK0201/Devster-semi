@@ -82,5 +82,92 @@ public class QboardService implements QboardServiceInter{
         return qboardMapper.bestfreeboardPosts();
     }
 
+    public void increaseGoodRp(int qb_idx) {
+        qboardMapper.increaseGoodRp(qb_idx);
+    }
 
+    public void increaseBadRp(int qb_idx) {
+        qboardMapper.increaseBadRp(qb_idx);
+    }
+
+    public void decreaseGoodRp(int qb_idx) {
+        qboardMapper.decreaseGoodRp(qb_idx);
+    }
+
+    public void decreaseBadRp(int qb_idx) {
+        qboardMapper.decreaseBadRp(qb_idx);
+    }
+
+    public int getGoodRpCount(int qb_idx) {
+        return qboardMapper.getGoodRpCount(qb_idx);
+    }
+
+    public int getBadRpCount(int qb_idx) {
+        return qboardMapper.getBadRpCount(qb_idx);
+    }
+
+    // reactionPoint 테이블에 좋아요/싫어요 로그 기록 관련 메서드
+    public void addIncreasingGoodRpInfo(int qb_idx, int m_idx) {
+        // 현재 게시물이 소속된 게시판 id를 가져옴
+        Map<String,Integer> map = new HashMap<>();
+        map.put("qb_idx",qb_idx);
+        map.put("m_idx",m_idx);
+        qboardMapper.addIncreasingGoodRpInfo(map);
+    }
+
+    public void deleteGoodRpInfo(int qb_idx, int m_idx) {
+        Map<String,Integer> map = new HashMap<>();
+        map.put("qb_idx",qb_idx);
+        map.put("m_idx",m_idx);
+        qboardMapper.deleteGoodRpInfo(map);
+    }
+
+    public void addIncreasingBadRpInfo(int qb_idx, int m_idx) {
+        Map<String,Integer> map = new HashMap<>();
+        map.put("qb_idx",qb_idx);
+        map.put("m_idx",m_idx);
+        qboardMapper.addIncreasingBadRpInfo(map);
+    }
+
+    public void deleteBadRpInfo(int qb_idx, int m_idx) {
+        Map<String,Integer> map = new HashMap<>();
+        map.put("qb_idx",qb_idx);
+        map.put("m_idx",m_idx);
+        qboardMapper.deleteBadRpInfo(map);
+    }
+
+    public boolean isAlreadyAddGoodRp(int qb_idx,int m_idx) {
+        // 좋아요 = 1, 싫어요 = 2, 취소 시 데이터 삭제
+        // 현재 게시물에서, loginedm_idx의 pointTypeCode값이 1이면 좋아요 상태
+        int getPointTypeCodeBym_idx = getRpInfoBym_idx(qb_idx, m_idx);
+
+        if (getPointTypeCodeBym_idx == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isAlreadyAddBadRp(int qb_idx,int m_idx) {
+        // 좋아요 = 1, 싫어요 = 2, 취소 시 데이터 삭제
+        // 현재 게시물에서, loginedm_idx의 pointTypeCode값이 2면 좋아요 상태
+        int getPointTypeCodeBym_idx = getRpInfoBym_idx(qb_idx,m_idx);
+
+        if (getPointTypeCodeBym_idx == 2) {
+            return true;
+        }
+        return false;
+    }
+
+    private Integer getRpInfoBym_idx(int qb_idx, int m_idx) {
+        // 현재 사용자 id와 게시물 id로 좋아요/싫어요 기록을 가져옴
+        Map<String,Integer> map = new HashMap<>();
+        map.put("qb_idx",qb_idx);
+        map.put("m_idx",m_idx);
+        Integer getPointTypeCodeBym_idx = qboardMapper.getRpInfoBym_idx(map);
+        if(getPointTypeCodeBym_idx == null) {
+            getPointTypeCodeBym_idx = 0;
+        }
+        return (int)getPointTypeCodeBym_idx;
+    }
 }
+
