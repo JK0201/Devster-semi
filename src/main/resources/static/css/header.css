@@ -3,19 +3,7 @@
 @import url(common.css);
 
 /*================== 공통 ======================*/
-a{
-    color: #000;
-}
-a:visited {color: #000; text-decoration: none;}
 
-a{
-    text-decoration:none !important;
-}
-
-ul{
-    margin: 0;
-    padding: 0;
-}
 
 /*================== header ======================*/
 
@@ -40,7 +28,9 @@ header.header .wrap li a{
     font-size: 18px;
 }
 
-header.header .wrap li a.selected{font-weight: bold;}
+/*header.header .wrap li a.selected{font-weight: bold;}*/
+
+header.header .wrap li a{font-weight: bold;}
 
 header.header{
     border-bottom: 1px solid #ccc;
