@@ -52,6 +52,9 @@
         left:20%;
       }
 
+      .bookmark:hover{
+        cursor:pointer;
+      }
 
   </style>
 </head>
@@ -74,6 +77,7 @@
     <a href="hireboarddetail?hb_idx=${dto.hb_idx}&currentPage=${currentPage}">
       <img src="http://${imageUrl}/hire/${dto.hb_photo}" id="photo">
     </a>
+    <i class="bi bi-bookmark"></i>
   </div>
   <c:if test="${i.count%2==0}">
     <br style="clear: both;"><br>
