@@ -1,0 +1,31 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="devster.semi.mapper.AboardMapper">
+    <select id="selectNickNameOfAb_idx" parameterType="int" resultType="String">
+        SELECT m.m_nickname
+        FROM aboard ab
+                 JOIN member m ON ab.m_idx = m.m_idx
+        WHERE ab.ab_idx = #{ab_idx}
+    </select>
+    <select id="selectPhotoOfAb_idx" parameterType="int" resultType="String">
+        SELECT m.m_photo
+        FROM aboard ab
+                 JOIN member m ON ab.m_idx = m.m_idx
+        WHERE ab.ab_idx = #{ab_idx}
+    </select>
+    <select id="getAllAnswers" resultType="AboardDto" parameterType="int">
+        select * from aboard where qb_idx=#{qb_idx}
+    </select>
+    <select id="getOneAnswer" parameterType="int" resultType="AboardDto">
+        select *
+        from aboard where ab_idx=#{ab_idx};
+    </select>
+    <insert id="insertAboard" parameterType="AboardDto">
+        insert into aboard(m_idx, qb_idx, ab_content, ab_photo, ab_writeday) VALUES (#{m_idx},#{qb_idx},#{ab_content},#{ab_photo},now())
+    </insert>
+    <delete id="deleteComment" parameterType="int">
+        delete from aboard where ab_idx=#{ab_idx}
+    </delete>
+    <update id="updateAnswer" parameterType="AboardDto">
+        update aboard set ab_content=#{ab_content} ,ab_photo=#{ab_photo} where ab_idx=#{ab_idx}
+    </update>
+</mapper>

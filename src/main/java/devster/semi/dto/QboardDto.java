@@ -13,5 +13,8 @@ public class QboardDto {
     private String qb_subject;
     private String qb_content;
     private String qb_photo;
+    private int qb_readcount;
+    private int qb_like;
+    private int qb_dislike;
     private Timestamp qb_writeday;
 }
