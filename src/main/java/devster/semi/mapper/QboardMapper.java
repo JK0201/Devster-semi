@@ -15,7 +15,8 @@ public interface QboardMapper {
     public void deletePost(int qb_idx);
     public void updatePost(QboardDto dto);
     public QboardDto getOnePost(int qb_idx);
-    public String selectNickNameOfMidx(int qb_idx);
+    public String selectNickNameOfQb_idx(int qb_idx);
+    public String selectPhotoOfQb_idx(int qb_idx);
     public int getTotalCount();
     public List<QboardDto> getPagingList(Map<String,Integer> map);
     public void updateReadCount(int qb_idx);

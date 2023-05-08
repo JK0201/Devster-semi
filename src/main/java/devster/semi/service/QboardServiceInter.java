@@ -12,7 +12,8 @@ public interface QboardServiceInter {
     public void deletePost(int qb_idx);
     public void updatePost(QboardDto dto);
     public QboardDto getOnePost(int qb_idx);
-    public String selectNickNameOfMidx(int qb_idx);
+    public String selectNickNameOfQb_idx(int qb_idx);
+    public String selectPhotoOfQb_idx(int qb_idx);
     public int getTotalCount();
     public List<QboardDto> getPagingList(int start,int perpage);
     public void updateReadCount(int qb_idx);

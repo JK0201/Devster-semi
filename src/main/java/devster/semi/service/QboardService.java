@@ -40,8 +40,13 @@ public class QboardService implements QboardServiceInter{
     }
 
     @Override
-    public String selectNickNameOfMidx(int qb_idx) {
-        return qboardMapper.selectNickNameOfMidx(qb_idx);
+    public String selectNickNameOfQb_idx(int qb_idx) {
+        return qboardMapper.selectNickNameOfQb_idx(qb_idx);
+    }
+
+    @Override
+    public String selectPhotoOfQb_idx(int qb_idx) {
+        return qboardMapper.selectPhotoOfQb_idx(qb_idx);
     }
 
     @Override

@@ -63,7 +63,16 @@ public class QboardController {
             for(QboardDto dto : list) {
                 Map<String,Object> map = new HashMap<>();
                 map.put("qb_idx",dto.getQb_idx());
-                map.put("nickName",qboardService.selectNickNameOfMidx(dto.getQb_idx()));
+                map.put("nickName",qboardService.selectNickNameOfQb_idx(dto.getQb_idx()));
+                String photo = qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
+
+                if(photo.equals("no")) {
+                    photo = "/photo/profile.jpg";
+                } else {
+                    photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
+                }
+                System.out.println(photo);
+                map.put("photo",photo);
                 map.put("qb_subject",dto.getQb_subject());
                 map.put("qb_content",dto.getQb_content());
                 map.put("qb_writeday", dto.getQb_writeday());
@@ -146,7 +155,7 @@ public class QboardController {
 
         List<String> list = new ArrayList<>();
         StringTokenizer st = new StringTokenizer(oriPhoto,",");
-        while (st.hasMoreElements()) {
+        while (st.hasMoreTokens()) {
             storageService.deleteFile(bucketName, "qboard", st.nextToken());
         }
 
@@ -173,17 +182,25 @@ public class QboardController {
         qboardService.updateReadCount(qb_idx);
 
         QboardDto dto = qboardService.getOnePost(qb_idx);
-        String nickName = qboardService.selectNickNameOfMidx(dto.getQb_idx());
+        String nickName = qboardService.selectNickNameOfQb_idx(dto.getQb_idx());
+        String photo = qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
+
+        if(photo.equals("no")) {
+            photo = "/photo/profile.jpg";
+        } else {
+            photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
+        }
         //사진 여러장 분할 처리.
         List<String> list = new ArrayList<>();
         StringTokenizer st = new StringTokenizer(dto.getQb_photo(),",");
-        while (st.hasMoreElements()) {
+        while (st.hasMoreTokens()) {
             list.add(st.nextToken());
         }
-
+        model.addAttribute("profilePhoto",photo);
         model.addAttribute("list",list);
         model.addAttribute("dto",dto);
         model.addAttribute("nickname",nickName);
+        model.addAttribute("photo",photo);
         model.addAttribute("currentPage",currentPage);
 
         return "/main/qboard/qboarddetail";
@@ -219,4 +236,6 @@ public class QboardController {
         List<FreeBoardDto> list = qboardService.bestfreeboardPosts();
         return list;
     }
+
+
 }

@@ -68,6 +68,7 @@
                     </a>
                 </td>
                 <td>
+                    <img src="${dto.photo}" style="width:25px; height: 25px; border:3px solid black; border-radius:100px;"><br>
                         ${dto.nickName}
                 </td>
                 <td>
@@ -104,6 +105,7 @@
                             </a>
                         </td>
                         <td>
+                            <img src="${dto.photo}" style="width:25px; height: 25px; border:3px solid black; border-radius:100px;"><br>
                                 ${dto.nickName}
                         </td>
                         <td>
