@@ -34,7 +34,7 @@
         }
 
         .star-rb_star {
-            border: solid 1px #ccc;
+           /* border: solid 1px #ccc;*/
             display: flex;
             flex-direction: row-reverse;
             font-size: 1.5em;
@@ -102,74 +102,74 @@
         <option value="3"${dto.rb_type == 3 ? 'selected' : ''}>합격 후기</option>
     </select>
         <br>
+
         <div class="star-rb_star">
 
-
             <c:if test="${dto.rb_star == 1}">
-                <input type="radio" id="1-stars" name="rb_star" value="1" />
-                <label for="1-stars" class="star">&#9733;</label>
-                <input type="radio" id="2-stars" name="rb_star" value="2"/>
-                <label for="2-stars" class="star">&#9733;</label>
-                <input type="radio" id="3-stars" name="rb_star" value="3"/>
-                <label for="3-stars" class="star">&#9733;</label>
+                <input type="radio" id="5-stars" name="rb_star" value="5"/>
+                <label for="5-stars" class="star">&#9733;</label>
                 <input type="radio" id="4-stars" name="rb_star" value="4"/>
                 <label for="4-stars" class="star">&#9733;</label>
-                <input type="radio" id="5-stars" name="rb_star" value="5"checked="checked" />
-                <label for="5-stars" class="star">&#9733;</label>
+                <input type="radio" id="3-stars" name="rb_star" value="3"/>
+                <label for="3-stars" class="star">&#9733;</label>
+                <input type="radio" id="2-stars" name="rb_star" value="2"/>
+                <label for="2-stars" class="star">&#9733;</label>
+                <input type="radio" id="1-stars" name="rb_star" value="1"checked="checked"/>
+                <label for="1-stars" class="star">&#9733;</label>
             </c:if>
             <c:if test="${dto.rb_star == 2}">
-                <input type="radio" id="1-stars" name="rb_star" value="1"/>
-                <label for="1-stars" class="star">&#9733;</label>
-                <input type="radio" id="2-stars" name="rb_star" value="2" />
-                <label for="2-stars" class="star">&#9733;</label>
-                <input type="radio" id="3-stars" name="rb_star" value="3"/>
-                <label for="3-stars" class="star">&#9733;</label>
-                <input type="radio" id="4-stars" name="rb_star" value="4"checked="checked" />
-                <label for="4-stars" class="star">&#9733;</label>
-                <input type="radio" id="5-stars" name="rb_star" value="5" />
-                <label for="5-stars" class="star">&#9733;</label>
-            </c:if>
-            <c:if test="${dto.rb_star == 3}">
-                <input type="radio" id="1-stars" name="rb_star" value="1"/>
-                <label for="1-stars" class="star">&#9733;</label>
-                <input type="radio" id="2-stars" name="rb_star" value="2"/>
-                <label for="2-stars" class="star">&#9733;</label>
-                <input type="radio" id="3-stars" name="rb_star" value="3" checked="checked"/>
-                <label for="3-stars" class="star">&#9733;</label>
-                <input type="radio" id="4-stars" name="rb_star" value="4"/>
-                <label for="4-stars" class="star">&#9733;</label>
                 <input type="radio" id="5-stars" name="rb_star" value="5"/>
                 <label for="5-stars" class="star">&#9733;</label>
-            </c:if>
-            <c:if test="${dto.rb_star == 4}">
-                <input type="radio" id="1-stars" name="rb_star" value="1"/>
-                <label for="1-stars" class="star">&#9733;</label>
+                <input type="radio" id="4-stars" name="rb_star" value="4"/>
+                <label for="4-stars" class="star">&#9733;</label>
+                <input type="radio" id="3-stars" name="rb_star" value="3"/>
+                <label for="3-stars" class="star">&#9733;</label>
                 <input type="radio" id="2-stars" name="rb_star" value="2"checked="checked"/>
                 <label for="2-stars" class="star">&#9733;</label>
-                <input type="radio" id="3-stars" name="rb_star" value="3"/>
-                <label for="3-stars" class="star">&#9733;</label>
-                <input type="radio" id="4-stars" name="rb_star" value="4" />
-                <label for="4-stars" class="star">&#9733;</label>
+                <input type="radio" id="1-stars" name="rb_star" value="1"/>
+                <label for="1-stars" class="star">&#9733;</label>
+            </c:if>
+            <c:if test="${dto.rb_star == 3}">
                 <input type="radio" id="5-stars" name="rb_star" value="5"/>
                 <label for="5-stars" class="star">&#9733;</label>
-            </c:if>
-            <c:if test="${dto.rb_star == 5}">
-                <input type="radio" id="1-star" name="rb_star" value="1"  checked="checked"/>
-                <label for="1-star" class="star">&#9733;</label>
-                <input type="radio" id="2-stars" name="rb_star" value="2"/>
-                <label for="2-stars" class="star">&#9733;</label>
-                <input type="radio" id="3-stars" name="rb_star" value="3"/>
-                <label for="3-stars" class="star">&#9733;</label>
                 <input type="radio" id="4-stars" name="rb_star" value="4"/>
                 <label for="4-stars" class="star">&#9733;</label>
-                <input type="radio" id="5-stars" name="rb_star" value="5" />
-                <label for="5-stars" class="star">&#9733 </label>
+                <input type="radio" id="3-stars" name="rb_star" value="3"checked="checked"/>
+                <label for="3-stars" class="star">&#9733;</label>
+                <input type="radio" id="2-stars" name="rb_star" value="2"/>
+                <label for="2-stars" class="star">&#9733;</label>
+                <input type="radio" id="1-stars" name="rb_star" value="1"/>
+                <label for="1-stars" class="star">&#9733;</label>
+            </c:if>
+            <c:if test="${dto.rb_star == 4}">
+                <input type="radio" id="5-stars" name="rb_star" value="5"/>
+                <label for="5-stars" class="star">&#9733;</label>
+                <input type="radio" id="4-stars" name="rb_star" value="4"checked="checked"/>
+                <label for="4-stars" class="star">&#9733;</label>
+                <input type="radio" id="3-stars" name="rb_star" value="3"/>
+                <label for="3-stars" class="star">&#9733;</label>
+                <input type="radio" id="2-stars" name="rb_star" value="2"/>
+                <label for="2-stars" class="star">&#9733;</label>
+                <input type="radio" id="1-stars" name="rb_star" value="1"/>
+                <label for="1-stars" class="star">&#9733;</label>
+            </c:if>
+            <c:if test="${dto.rb_star == 5}">
+                <input type="radio" id="5-stars" name="rb_star" value="5"checked="checked"/>
+                <label for="5-stars" class="star">&#9733;</label>
+                <input type="radio" id="4-stars" name="rb_star" value="4"/>
+                <label for="4-stars" class="star">&#9733;</label>
+                <input type="radio" id="3-stars" name="rb_star" value="3"/>
+                <label for="3-stars" class="star">&#9733;</label>
+                <input type="radio" id="2-stars" name="rb_star" value="2"/>
+                <label for="2-stars" class="star">&#9733;</label>
+                <input type="radio" id="1-stars" name="rb_star" value="1"/>
+                <label for="1-stars" class="star">&#9733;</label>
             </c:if>
 
         </div>
 
         <textarea style="width: 80%; height: 100px" class="form-control rb_content" id="rb_content" name="rb_content">
-            ${dto.rb_content}</textarea>
+           ${dto.rb_content}</textarea>
 
         <button type="submit">게시글등록</button>
         <button type="button" onclick="history.back()">뒤로가기</button>

@@ -102,7 +102,10 @@
              <label for="1-star" class="star">&#9733;</label>
          </div>
 
-         <textarea style="width: 80%; height: 100px" class="form-control rb_content" id="rb_content" name="rb_content"></textarea>
+         <textarea style="width: 80%; height: 100px" class="form-control rb_content" id="rb_content" name="rb_content">
+
+
+         </textarea>
 
          <button type="submit">게시글등록</button>
      </div>

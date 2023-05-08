@@ -1,5 +1,6 @@
 package devster.semi.controller;
 
+import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.ReviewDto;
 import devster.semi.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/review")
@@ -23,25 +28,17 @@ public class ReviewBoardController {
     private String bucketName="devster-bucket";//각자 자기 버켓이름
 
     @GetMapping("/list")
-    public String list(@RequestParam(defaultValue = "1") int currentPage,/*int rb_idx ,*/Model model){
+    public String list(@RequestParam(defaultValue = "1") int currentPage,Model model){
 
-     /*   //닉네임 가져오기
-        ReviewDto dto=reviewService.Getmidx(rb_idx);
-        String nickname=reviewService.selectnicnameofmidx(reviewDto.getRb_idx());
-        model.addAttribute("nickname",nickname);
-        model.addAttribute("dto",dto);*/
 
-        //총 상품갯수 출력
-        int totalCount=reviewService.getTotalcount();
+        int totalCount = reviewService.getTotalcount();
         int totalPage; // 총 페이지 수
-        int perPage = 10; // 한 페이지당 보여줄 글 갯수
-        int perBlock = 20; // 한 블록당 보여질 페이지의 갯수
+        int perPage = 20; // 한 페이지당 보여줄 글 갯수
+        int perBlock = 10; // 한 블록당 보여질 페이지의 갯수
         int startNum; // 각 페이지에서 보여질 글의 시작번호
         int startPage; // 각 블록에서 보여질 시작 페이지 번호
         int endPage; // 각 블록에서 보여질 끝 페이지 번호
         int no; // 글 출력시 출력할 시작번호
-        //전체 데이타 가져오기
-        List<ReviewDto> list=reviewService.GetAllReview();
 
         // 총 페이지 수
         totalPage = totalCount / perPage + (totalCount % perPage == 0 ? 0 : 1);
@@ -62,19 +59,36 @@ public class ReviewBoardController {
         no = totalCount - startNum;
 
         // 각 페이지에 필요한 게시글 db에서 가져오기
-        List<ReviewDto> listp = reviewService.getPagingList(startNum, perPage);
-      /*  System.out.println("startNum="+startNum);
-        System.out.println("startPage="+startPage);
-        System.out.println("endPage="+endPage);*/
-        //model 에 저장
+        List<ReviewDto> list = reviewService.getPagingList(startNum, perPage);
+
+        List<Map<String,Object>> fulllList =new ArrayList<>();
+
+        for(ReviewDto dto : list) {
+            Map<String,Object> map = new HashMap<>();
+            map.put("rb_idx",String.valueOf(dto.getRb_idx()));
+            map.put("m_idx",String.valueOf(dto.getM_idx()));
+            map.put("rb_like",dto.getRb_like());
+            map.put("rb_dislike",dto.getRb_dislike());
+            map.put("rb_type",dto.getRb_type());
+            map.put("rb_star",dto.getRb_star());
+            map.put("nickName",reviewService.selectnicnameofmidx(dto.getM_idx()));
+            map.put("rb_content",dto.getRb_content());
+            String currentTimestampToString = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(dto.getRb_writeday());
+            map.put("rb_writeday", currentTimestampToString);
+            fulllList.add(map);
+        }
+
+        model.addAttribute("list", fulllList);
+
+        // 출력시 필요한 변수들 model에 전부 저장
         model.addAttribute("totalCount", totalCount);
-       /* model.addAttribute("list", list);*/ //페이징 처리 하기 전에 만든 리스트
-        model.addAttribute("listp", listp);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("totalPage", totalPage);
         model.addAttribute("no", no);
         model.addAttribute("currentPage", currentPage);
+
+
         model.addAttribute("totalCount",totalCount);
 
         return "/main/review/reviewlist";
@@ -82,8 +96,11 @@ public class ReviewBoardController {
 
 
     @GetMapping("/reviewriterform")
-    public String form(){
+    public String form(@RequestParam(defaultValue = "1") int currentPage,
+                       @RequestParam(defaultValue = "0") int rb_idx, Model model){
 
+        model.addAttribute("currentPage",currentPage);
+        model.addAttribute("rb_idx",rb_idx);
         return "/main/review/reviewform";
     }
 
@@ -119,7 +136,33 @@ public class ReviewBoardController {
     return "redirect:list";
 }
 
+    @PostMapping("/like")
+    @ResponseBody
+    public Map<String, Object> like(@RequestParam int rb_idx) {
+      reviewService.increaseLikeCount(rb_idx);
 
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("likeCount", reviewService.getData(rb_idx).getRb_like());
+        result.put("likeText", "좋아요 " + reviewService.getData(rb_idx).getRb_like());
+        result.put("dislikeCount", reviewService.getData(rb_idx).getRb_dislike());
+        result.put("dislikeText", "싫어요 " + reviewService.getData(rb_idx).getRb_dislike());
+
+        return result;
+    }
+
+    @PostMapping("/dislike")
+    @ResponseBody
+    public Map<String, Object> dislike(@RequestParam int rb_idx) {
+        reviewService.increaseDislikeCount(rb_idx);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("likeCount", reviewService.getData(rb_idx).getRb_like());
+        result.put("likeText", "좋아요 " + reviewService.getData(rb_idx).getRb_like());
+        result.put("dislikeCount", reviewService.getData(rb_idx).getRb_dislike());
+        result.put("dislikeText", "싫어요 " + reviewService.getData(rb_idx).getRb_dislike());
+        return result;
+    }
 
 
 }

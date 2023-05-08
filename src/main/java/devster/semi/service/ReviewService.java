@@ -28,7 +28,9 @@ public class ReviewService implements ReviewServiceInter{
 
    @Override
     public String selectnicnameofmidx(int rb_idx) {
-        return reviewMapper.selectnicnameofmidx(rb_idx);
+       String nickName = reviewMapper.selectnicnameofmidx(rb_idx);
+       return nickName != null ? nickName : null;
+
     }
 
     @Override
@@ -54,4 +56,14 @@ public class ReviewService implements ReviewServiceInter{
     public ReviewDto getData(int rb_idx) {
         return reviewMapper.getData(rb_idx);
     }
+    @Override
+    public void increaseLikeCount(int rb_idx) {
+        reviewMapper.increaseLikeCount(rb_idx);
+    }
+
+    @Override
+    public void increaseDislikeCount(int rb_idx) {
+        reviewMapper.increaseDislikeCount(rb_idx);
+    }
+
 }

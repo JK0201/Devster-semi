@@ -19,4 +19,6 @@ public interface ReviewMapper {
     public void deletereview(int rb_idx);
     public void updatereview(ReviewDto dto);
     public ReviewDto getData(int rb_idx);
+    public void increaseLikeCount(int rb_idx);
+    public void increaseDislikeCount(int rb_idx);
 }

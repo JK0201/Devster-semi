@@ -95,7 +95,7 @@ public class FreeBoardController {
     public String form(@RequestParam(defaultValue = "1") int currentPage,
                        @RequestParam(defaultValue = "0") int fb_idx, Model model){
 
-        // m_idx는 세션으로 받아와야할듯..
+
         model.addAttribute("currentPage",currentPage);
         model.addAttribute("fb_idx",fb_idx);
 

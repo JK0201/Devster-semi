@@ -7,11 +7,11 @@
     </insert>
 
     <select id="GetAllReview" resultType="reviewDto">
-        select * from reviewboard
+        select * from reviewboard desc
     </select>
 
     <select id="getTotalcount" resultType="int">
-        select count(*) from reviewboard
+        select count(*) from reviewboard order by rb_idx desc
     </select>
     <select id="getPagingList" parameterType="Map" resultType="reviewDto">
         select * from reviewboard limit #{start},#{perPage}
@@ -24,6 +24,8 @@
         FROM reviewboard re
                  JOIN member m ON re.m_idx = m.m_idx
         WHERE re.m_idx = #{m_idx}
+        ORDER BY re.rb_idx desc
+           LIMIT 1
     </select>
     <delete id="deletereview" parameterType="int">
         delete from reviewboard where rb_idx=#{rb_idx}
@@ -34,6 +36,10 @@
     <select id="getData" parameterType="int" resultType="reviewDto">
         select * from reviewboard where rb_idx=#{rb_idx}
     </select>
-
-
+    <update id="increaseLikeCount" parameterType="int">
+        update reviewboard set rb_like=rb_like+1 where rb_idx=#{rb_idx}
+    </update>
+    <update id="increaseDislikeCount" parameterType="int">
+        update reviewboard set rb_dislike=rb_dislike+1 where rb_idx=#{rb_idx}
+    </update>
 </mapper>

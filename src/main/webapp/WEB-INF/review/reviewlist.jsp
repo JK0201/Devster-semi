@@ -22,35 +22,38 @@
         body, body *{
         font-family: 'Jua'
         }
+        /*별점 css*/
         .star-rb_star {
-
-            display:flex;
-            flex-direction: row-reverse;
-            /*font-size:1.5em;*/
-            justify-content:space-around;
-            padding:0 .2em;
-            text-align:right;
-            width:5em;
-
+         /*   border: solid 1px #ccc;*/
+            display: flex;
+          /*  flex-direction: row-reverse;*/
+            font-size: 1.5em;
+            justify-content: space-around;
+            padding: 0 .2em;
+            text-align: center;
+            width: 5em;
         }
 
         .star-rb_star input {
-            display:none;
+            display: none;
         }
+
         .star-rb_star label {
             color: #ccc;
-            cursor: pointer;
+           /* cursor: pointer;*/
         }
-        .star-rb_star label {
-            color: rgb(246, 235, 7);
-            cursor:pointer;
+
+        .star-rb_star :checked ~ label {
+            color: #f90;
         }
+
         .clear:after{    /* 자식이 모두 float 을 사용할때 부모가 높이를 갖게하기 위함 */
             content:"";
             display:block;
             clear:both;
 
         }
+        /*회사 정보 css*/
         .rb_listc{
             border: 1px solid black;
             width: 200px;
@@ -117,8 +120,9 @@
 
 <div class="rb_listmain clear">
 
-<c:forEach var="dto" items="${listp}" varStatus="i">
+<c:forEach var="dto" items="${list}" varStatus="i">
     <div class="review" data-type="${dto.rb_type}">
+        <%--회사 정보 입력 div--%>
     <div class="rb_listc">
         <p>
             <a class="rb_imgSelect">클릭1</a>
@@ -126,74 +130,34 @@
     </div>
 
     <div class="rb_listm">
-    게시글 번호 : ${i.count}
     </div>
-<div class="star-rb_star">
+    게시글 번호 : ${i.count}<br>
 
-    <c:choose>
-    <c:when test="${dto.rb_star == 1}">
-    <input type="radio" id="1-stars" name="rb_star" value="1"  checked="checked" />
-    <label for="1-stars" class="star">&#9733;</label>
-        <input type="radio" id="2-stars" name="rb_star" value="2" />
-        <label for="2-stars" class="star">&#9733;</label>
-        <input type="radio" id="3-stars" name="rb_star" value="3" />
-        <label for="3-stars" class="star">&#9733;</label>
-        <input type="radio" id="4-stars" name="rb_star" value="4" />
-        <label for="4-stars" class="star">&#9733;</label>
-        <input type="radio" id="5-stars" name="rb_star" value="5" />
-        <label for="5-stars" class="star">&#9733   </label>
-    </c:when>
-    <c:when test="${dto.rb_star == 2}">
-        <input type="radio" id="1-stars" name="rb_star" value="1"   />
-        <label for="1-stars" class="star">&#9733;</label>
-        <input type="radio" id="2-stars" name="rb_star" value="2" checked="checked"/>
-        <label for="2-stars" class="star">&#9733;</label>
-        <input type="radio" id="3-stars" name="rb_star" value="3" />
-        <label for="3-stars" class="star">&#9733;</label>
-        <input type="radio" id="4-stars" name="rb_star" value="4" />
-        <label for="4-stars" class="star">&#9733;</label>
-        <input type="radio" id="5-stars" name="rb_star" value="5" />
-        <label for="5-stars" class="star">&#9733   </label>
-    </c:when>
-    <c:when test="${dto.rb_star == 3}">
-    <input type="radio" id="1-stars" name="rb_star" value="1" checked="checked" />
-    <label for="1-stars" class="star">&#9733;</label>
-    <input type="radio" id="2-stars" name="rb_star" value="2" />
-    <label for="2-stars" class="star">&#9733;</label>
-    <input type="radio" id="3-stars" name="rb_star" value="3" />
-    <label for="3-stars" class="star">&#9733;</label>
-    </c:when>
-    <c:when test="${dto.rb_star == 4}">
-    <input type="radio" id="1-stars" name="rb_star" value="1" checked="checked" />
-    <label for="1-stars" class="star">&#9733;</label>
-    <input type="radio" id="2-stars" name="rb_star" value="2" />
-    <label for="2-stars" class="star">&#9733;</label>
-    <input type="radio" id="3-stars" name="rb_star" value="3" />
-    <label for="3-stars" class="star">&#9733;</label>
-    <input type="radio" id="4-stars" name="rb_star" value="4" />
-    <label for="4-stars" class="star">&#9733;</label>
-    </c:when>
-        <c:when test="${dto.rb_star == 5}">
-    <input type="radio" id="1-star" name="rb_star" value="1"  />
-    <label for="1-star" class="star">&#9733;</label>
-    <input type="radio" id="2-stars" name="rb_star" value="2" />
-    <label for="2-stars" class="star">&#9733;</label>
-    <input type="radio" id="3-stars" name="rb_star" value="3" />
-    <label for="3-stars" class="star">&#9733;</label>
-    <input type="radio" id="4-stars" name="rb_star" value="4" />
-    <label for="4-stars" class="star">&#9733;</label>
-    <input type="radio" id="5-stars" name="rb_star" value="5" checked="checked"/>
-    <label for="5-stars" class="star">&#9733   </label>
-        </c:when>
-    </c:choose>
-</div>
+            <p>좋아요: <span id="likeCount">${dto.rb_like}</span></p>
+            <p>싫어요: <span id="dislikeCount">${dto.rb_dislike}</span></p>
+           별점: ${dto.rb_star}
+            <%--별점 div--%>
+            <div class="star-rb_star">
+                <c:forEach var="i" begin="1" end="5">
+                    <input type="radio" id="rating${i}" name="rating" value="${i}" <c:if test="${i eq dto.rb_star}">checked="checked"</c:if> />
+                    <label for="rating${i}" class="star" <c:if test="${i le dto.rb_star}">style="color: orange;"</c:if>>★</label>
+                </c:forEach>
+            </div>
+        작성자 :  ${dto.nickName}<br>
     작성일 :${dto.rb_writeday}<br>
     타입 :${dto.rb_type == 1 ? "면접" : dto.rb_type == 2 ? "코딩테스트": dto.rb_type == 3 ? "합격" : ""}<br>
-    내용 : <br><b>${dto.rb_content}</b><br>
+        내용 : <br><b><pre>${dto.rb_content}</pre></b><br>
+
+        <c:set var="m_idx" value="${sessionScope.memidx}"/>
+        <c:if test="${dto.m_idx eq m_idx}">
     <button type="button" class="btn btn-sm btn-outline-primary"
             onclick="location.href='./updateform?rb_idx=${dto.rb_idx}'" style="margin-bottom: 10px">글 수정</button>
         <button type="button" class="btn btn-sm btn-outline-primary"
                onclick="delreview(${dto.rb_idx})" style="margin-bottom: 10px" >글 삭제</button>
+        </c:if>
+            <button type="button" onclick="like()" id="btnlike">좋아요</button>
+            <button type="button" onclick="dislike()" id="btndislike">싫어요</button>
+
 
         <%--삭제 이벤트--%>
         <script>
@@ -201,6 +165,47 @@
                 if (confirm("삭제하시겠습니까?")) {
                     location.href = "./delete?rb_idx=" + rb_idx;
                 }
+            }
+            function like() {
+                let rb_idx = ${dto.rb_idx};
+
+                $.ajax({
+                    type: "post",
+                    url: "./like",
+                    data: {"rb_idx":rb_idx},
+                    dataType: "json",
+                    success: function(response) {
+                        $("#btnlike").prop("disabled", true);
+                        $("#btndislike").prop("disabled", true);
+
+                        $("#likeCount").text(response.likeCount);
+                        $("#dislikeCount").text(response.dislikeCount);
+                        $("#btnlike").css("background-color","red");
+
+                        alert("좋아요를 눌렀어요.");
+                    }
+                });
+            }
+
+            function dislike() {
+                let rb_idx = ${dto.rb_idx}
+
+                    $.ajax({
+                        type: "post",
+                        url: "./dislike",
+                        data: {"rb_idx": rb_idx},
+                        dataType: "json",
+                        success: function(response) {
+                            $("#btnlike").prop("disabled", true);
+                            $("#btndislike").prop("disabled", true);
+
+                            $("#likeCount").text(response.likeCount);
+                            $("#dislikeCount").text(response.dislikeCount);
+                            $("#btndislike").css("background-color","blue");
+
+                            alert("싫어요를 눌렀어요.");
+                        }
+                    });
             }
         </script>
     <hr>

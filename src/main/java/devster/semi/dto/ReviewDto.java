@@ -17,10 +17,11 @@ public class ReviewDto {
     private String rb_content;
     private int rb_like;
     private int rb_dislike;
-    private int rb_readcount;
+/*    private int rb_readcount;*/
     private int rb_star;
     private Timestamp rb_writeday;
 /*    private String m_nickname;*/
+
 
 
 
