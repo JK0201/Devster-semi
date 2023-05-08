@@ -66,61 +66,65 @@
     </style>
 
     <script>
-        $(function (){
-           commentList();
-        });
+        $(document).ready(function (){
+            commentList();
+        })
 
-        $("#writepost").on("click", function commentPost(){
-            let fb_idx = ${dto.fb_idx};
-            let m_idx = ${dto.m_idx}
+
+        function insert(){
+            let form = $("form[name=commentinsert]")[0];
+            let formData = new FormData(form);
+
+            formData.append("fb_idx", ${dto.fb_idx});
+            formData.append("m_idx", ${dto.m_idx});
+
                 $.ajax({
                     type: "post",
-                    url: "freecomment/writecomment",
-                    data: {"comment": $("#comment").val(), "fb_idx": fb_idx, "m_idx" : m_idx},
-                    success: function (data) {
-                        if (data.result == "success") {
-                            location.reload();
-                        }
+                    url: "/freecomment/insert",
+                    data: formData,
+                    success: function (response) {
+                       alert("댓글이 작성되었습니다.");
+                       commentList();
                     },
                     error: function (request, status, error) {
                         alert("code: " + request.status + "\n" + "error: " + error);
                     }
 
                 });
-        });
+        }
 
         // 댓글 리스트 가져오는 사용자 함수
         function commentList(){
-
             let fb_idx = ${dto.fb_idx}
-
                 $.ajax({
-                    type: "get",
-                    url: "freecomment/commentlist",
+                    type: "post",
+                    url: "/freecomment/commentlist",
                     data:{"fb_idx":fb_idx},
                     dataType:"json",
                     success: function(res) {
-                        if (res.list.length > 0) {
-                            let html = "";
+                        if (res.length > 0) {
+                            let s = "";
 
-                            $.each(res.list, function (idx, ele) {
-                                /*html += "<div class='mb-2'>";
-                                html += "<input type='hidden' id='commentId_"+ ele.id +"' value='" + ele.id + "'>"
-                                html += "<b id='commentWriter_" + ele.id + "'>" + ele.writer + "</b>";
-                                html += "<span style='float:right;' align='right' id='commentDate_"+ ele.id +"'> " + displayTime(ele.updateDate) + " </span>";
-                                html += "<div class='mb-1 comment_container' >"
-                                html += "<h5 id='commentText_" + ele.id + "' style='display: inline'>" + ele.comment +"</h5>";
-                                html += "<span id='ccCount_" + ele.id + "' style='color: red'> ["+ele.commentCnt+"]</span>"
-                                html += "</div>"
-                                html += "<span style='cursor: pointer; color: blue' class='reCommentBtn' id='reCommentBtn_"+ ele.id +"'>답글 달기 </span>";
-                                html += "<span style='display:none; cursor: pointer; color: blue' class='reCommentCloseBtn' id='reCommentCloseBtn_"+ ele.id +"'>답글 닫기 </span>";
-                            ...
+                            $.each(res, function (idx, ele) {
+                                s+=`<div class='mb-2' data-index="\${idx}">
+    <h4 class="answerWriter">
+\${ele.nickname}</h4>
+<h6>\${ele.fbc_writeday}<h6>
+<h5>${ele.fbc_content}</h5>`;
+                                if (item.m_idx == ${sessionScope.memidx}) {
+                                    s += `
+    <button class="btn btn-outline-dark" type="button" onclick="deleteComment(\${item.ab_idx})">
+        삭제
+    </button>
+    <button class="btn btn-outline-dark" type="button" data-abidx="\${item.ab_idx}" onclick="updateCommentForm(\${item.ab_idx}, \${index})">
+        수정
+    </button>`;
+                                }
+                                s += "<hr></div>";
 
-                                html += "<hr>";
-                                html += "<div class='mx-4 reCommentDiv' id='reCommentDiv_" + ele.id + "'></div></div>";*/
                             });
                             $("#count").html(res.commentCnt);
-                            $("#commentList").html(html);
+                            $("#commentList").html(s);
                         } else {
                             let html = "<div class='mb-2'>";
                             html += "<h6><strong>등록된 댓글이 없습니다.</strong></h6>";
@@ -169,9 +173,11 @@
 </div>
 
 <div class="btnbox">
+    <c:if test="${dto.m_idx == sessionScope.memidx}">
+        <button type="button" onclick="location.href='./freeupdateform?fb_idx=${dto.fb_idx}&currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil-square"></i>&nbsp;수정</button>
+        <button type="button" onclick="del(${dto.fb_idx})" class="btn btn-sm btn-outline-secondary"><i class="bi bi-trash"></i>&nbsp;삭제</button>
+    </c:if>
 
-    <button type="button" onclick="location.href='./freeupdateform?fb_idx=${dto.fb_idx}&currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil-square"></i>&nbsp;수정</button>
-    <button type="button" onclick="del(${dto.fb_idx})" class="btn btn-sm btn-outline-secondary"><i class="bi bi-trash"></i>&nbsp;삭제</button>
     <button type="button" onclick="location.href='./list?currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-card-list"></i>&nbsp;목록</button>
 </div>
 <hr>
@@ -179,17 +185,15 @@
 
 
 
-
-
 <div id="commentcontainer"><!--댓글출력--></div>
 <div class="commentwrite">
-
+    <form name="commentinsert">
         <input type="hidden" name="fb_idx" value="${dto.fb_idx}">
-        <input type="text" name="fbc_comment" id="comment">
+        <input type="text" name="fbc_content" id="commentContent">
         <button type="button" id="writepost" class="btn btn-sm btn-secondary"><i class="bi bi-pencil"></i>&nbsp;댓글쓰기</button>
     </form>
 </div>
-<div id="commentlist"></div>
+<div id="commentlist" style="margin-left: 100px; width: 600px; border: 3px solid black"></div>
 
 <script>
     function del(fb_idx) {
@@ -237,6 +241,11 @@
             }
         });
     }
+
+    $("#writepost").click(function (){
+        insert();
+        $("#commentContent").val("");
+    })
 </script>
 
 </body>

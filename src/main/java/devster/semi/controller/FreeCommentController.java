@@ -1,6 +1,7 @@
 package devster.semi.controller;
 
 import devster.semi.dto.FreeCommentDto;
+import devster.semi.service.FreeBoardService;
 import devster.semi.service.FreeCommentService;
 import naver.cloud.NcpObjectStorageService;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
@@ -14,10 +15,13 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("freeboard/freecomment")
+@RequestMapping("/freecomment")
 public class FreeCommentController {
     @Autowired
-    private FreeCommentService freeCommentService;
+    FreeCommentService freeCommentService;
+
+    @Autowired
+    FreeBoardService freeBoardService;
 
     @Autowired
     private NcpObjectStorageService storageService;
@@ -25,22 +29,23 @@ public class FreeCommentController {
     private String bucketName="devster-bucket";
 
 
-    @GetMapping("/commentlist")
-    public String list(Model model, int fb_idx){
+    @PostMapping("/commentlist")
+    public List<FreeCommentDto> list(Model model, int fb_idx){
 
-        Map<String, Integer> map = new HashMap<>();
-        List<FreeCommentDto> list = freeCommentService.selectOfFbidx(fb_idx);
+        List<FreeCommentDto> list = freeCommentService.getAllCommentList(fb_idx);
+
         model.addAttribute("list", list);
         model.addAttribute("commentCnt", list.size());
 
-        return "/main/freeboard/freeboarddetail";
+        return list;
     }
 
     @ResponseBody
-    @PostMapping("/writecomment")
-    public String commentPost(){
-
-        return "/main/freeboard/freeboarddetail";
+    @PostMapping("/insert")
+    public void insert(FreeCommentDto dto, int fb_idx, int m_idx){
+        dto.setFb_idx(fb_idx);
+        dto.setM_idx(m_idx);
+        freeCommentService.insertFreeComment(dto);
     }
 }
 

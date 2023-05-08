@@ -83,7 +83,32 @@
 
 </style>
 
+<script>
+    function timeForToday(value) {
+        const valueConv = value.slice(0, -2);
+        const today = new Date();
+        const timeValue = new Date(valueConv);
 
+        const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+        if (betweenTime < 1) return '방금전';
+        if (betweenTime < 60) {
+            return `\${betweenTime}분전`;
+        }
+
+        const betweenTimeHour = Math.floor(betweenTime / 60);
+        if (betweenTimeHour < 24) {
+            return `\${betweenTimeHour}시간전`;
+        }
+
+        const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+        if (betweenTimeDay < 7) {
+            return `\${betweenTimeDay}일전`;
+        }
+
+        return `\${value}`;
+    }
+
+</script>
 
 
 <table class="freeboard_table table table-bordered">
@@ -172,39 +197,14 @@
                                     <i class="bi bi-hand-thumbs-down"></i>싫어요${dto.fb_dislike}
                                 </b>
 
-                                <script>
-                                    function timeForToday(value) {
-                                        const valueConv = value.slice(0, -2);
-                                        const today = new Date();
-                                        const timeValue = new Date(valueConv);
-
-                                        const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
-                                        if (betweenTime < 1) return '방금전';
-                                        if (betweenTime < 60) {
-                                            return `\${betweenTime}분전`;
-                                        }
-
-                                        const betweenTimeHour = Math.floor(betweenTime / 60);
-                                        if (betweenTimeHour < 24) {
-                                            return `\${betweenTimeHour}시간전`;
-                                        }
-
-                                        const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
-                                        if (betweenTimeDay < 365) {
-                                            return `\${betweenTimeDay}일전`;
-                                        }
-
-                                        return `\${Math.floor(betweenTimeDay / 365)}년전`;
-                                    }
-
-                                </script>
                             <p id="writedaybox">
-                                    <script>
-                                        let value = "${dto.fb_writeday}";
-                                        let timeElement = document.getElementById("writedaybox");
-                                        timeElement.innerText = timeForToday(new Date(value));
-                                    </script>
+                                <span id="writeday-${dto.fb_idx}"></span>
                               </p>
+                                <script>
+                                    var writedayElement = document.getElementById("writeday-${dto.fb_idx}");
+                                    var formattedWriteday = timeForToday("${dto.fb_writeday}");
+                                    writedayElement.textContent = formattedWriteday;
+                                </script>
 
                             </td>
                         </tr>

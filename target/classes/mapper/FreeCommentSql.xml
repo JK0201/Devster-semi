@@ -1,20 +1,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="devster.semi.mapper.FreeCommentMapper">
-    <select id="getMaxNum" resultType="int">
-        select ifnull(max(fbc_idx),0) from freecomment
+    <select id="selectNickNameOfFbc_idx" parameterType="int" resultType="String">
+        SELECT m.m_nickname
+        FROM freecomment f
+                 JOIN member m ON f.m_idx = m.m_idx
+        WHERE f.fbc_idx = #{fbc_idx}
     </select>
-    <update id="updateStep" parameterType="Map">
-        update freecomment set fbc_step=fbc_step+1 where fbc_ref=#{fbc_ref} and fbc_step &gt; #{fbc_step}
-    </update>
+    <select id="selectPhotoOfFbc_idx" parameterType="int" resultType="String">
+        SELECT m.m_photo
+        FROM freecomment f
+                 JOIN member m ON f.m_idx = m.m_idx
+        WHERE f.fbc_idx = #{fbc_idx}
+    </select>
+
+    <select id="getAllCommentList" resultType="FreeCommentDto" parameterType="int">
+        select * from freecomment where fb_idx=#{fb_idx} order by fbc_ref asc , fbc_step asc
+    </select>
+
     <select id="getFreeComment" parameterType="int" resultType="FreeCommentDto">
         select * from freecomment where fbc_idx=#{fbc_idx}
     </select>
-    <select id="getAllCommentList" resultType="FreeCommentDto">
-        select * from freecomment order by fbc_ref asc , fbc_step asc
-    </select>
 
     <insert id="insertFreeComment" parameterType="FreeCommentDto">
-        insert into freecomment (fbc_content, fbc_writeday, fbc_ref, fbc_step, fbc_depth) values (#{fbc_content}, now(), #{fbc_ref}, #{fbc_step},#{fbc_depth})
+        insert into freecomment (m_idx, fb_idx, fbc_content, fbc_writeday, fbc_ref, fbc_step, fbc_depth) values (#{m_idx}, #{fb_idx},#{fbc_content}, now(), #{fbc_ref}, #{fbc_step},#{fbc_depth})
     </insert>
     <update id="updateFreeComment" parameterType="FreeCommentDto">
         update freecomment set fbc_content=#{fbc_content} where fbc_idx=#{fbc_idx}
@@ -22,7 +30,13 @@
     <delete id="deleteFreeComment" parameterType="int">
         delete from freecomment where fbc_idx=#{fbc_idx}
     </delete>
-    <select id="selectOfFbidx" parameterType="int" resultType="FreeCommentDto">
-        select * from freecomment where fb_idx=#{fb_idx}
+
+    <select id="getMaxNum" resultType="int">
+        select ifnull(max(fbc_idx),0) from freecomment
     </select>
+    <update id="updateStep" parameterType="Map">
+        update freecomment set fbc_step=fbc_step+1 where fbc_ref=#{fbc_ref} and fbc_step &gt; #{fbc_step}
+    </update>
+
+
 </mapper>

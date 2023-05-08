@@ -9,9 +9,10 @@ public interface FreeCommentServiceInter {
     public int getMaxNum();
     public void updateStep(int fbc_ref, int fbc_step);
     public FreeCommentDto getFreeComment(int fbc_idx);
-    public List<FreeCommentDto> getAllCommentList();
+    public List<FreeCommentDto> getAllCommentList(int fb_idx);
     public void insertFreeComment(FreeCommentDto dto);
     public void updateFreeComment(FreeCommentDto dto);
     public void deleteFreeComment(int fbc_idx);
-    public List<FreeCommentDto> selectOfFbidx(int fb_idx);
+    public String selectNickNameOfFbc_idx(int fbc_idx);
+    public String selectPhotoOfFbc_idx(int fbc_idx);
 }

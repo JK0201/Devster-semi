@@ -36,8 +36,8 @@ public class FreeCommentService implements FreeCommentServiceInter{
     }
 
     @Override
-    public List<FreeCommentDto> getAllCommentList() {
-        return freeCommentMapper.getAllCommentList();
+    public List<FreeCommentDto> getAllCommentList(int fb_idx) {
+        return freeCommentMapper.getAllCommentList(fb_idx);
     }
 
     @Override
@@ -78,7 +78,14 @@ public class FreeCommentService implements FreeCommentServiceInter{
     }
 
     @Override
-    public List<FreeCommentDto> selectOfFbidx(int fb_idx) {
-        return freeCommentMapper.selectOfFbidx(fb_idx);
+    public String selectNickNameOfFbc_idx(int fbc_idx) {
+        return freeCommentMapper.selectNickNameOfFbc_idx(fbc_idx);
     }
+
+    @Override
+    public String selectPhotoOfFbc_idx(int fbc_idx) {
+        return freeCommentMapper.selectPhotoOfFbc_idx(fbc_idx);
+    }
+
+
 }

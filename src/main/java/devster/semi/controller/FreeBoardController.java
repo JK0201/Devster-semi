@@ -69,13 +69,14 @@ public class FreeBoardController {
             if(m_photo!="no"){
                 map.put("m_photo", m_photo);
             } else {
-
+                map.put("m_photo", "/photo/profile.jpg");
             }
             map.put("fb_subject",dto.getFb_subject());
             map.put("fb_content",dto.getFb_content());
             map.put("fb_like",dto.getFb_like());
             map.put("fb_dislike",dto.getFb_dislike());
             map.put("fb_readcount",dto.getFb_readcount());
+            map.put("fb_writeday", dto.getFb_writeday());
 
 
             // 사진이 들어있으면
@@ -89,9 +90,6 @@ public class FreeBoardController {
                     map.put("fb_photo", dto.getFb_photo());
                 }
             }
-
-            String currentTimestampToString = new SimpleDateFormat("MM-dd HH:mm").format(dto.getFb_writeday());
-           map.put("fb_writeday", currentTimestampToString);
 
 
             fulllList.add(map);
@@ -156,6 +154,10 @@ public class FreeBoardController {
         FreeBoardDto dto = freeBoardService.getData(fb_idx);
         String nickName = freeBoardService.selectNickNameOfMidx(dto.getFb_idx());
         String m_photo = freeBoardService.selectPhotoOfMidx(dto.getFb_idx());
+
+        if(m_photo.equals("no")) {
+            m_photo = "/photo/profile.jpg"; // 버켓에 넣어야 뜰듯....
+        }
 
         model.addAttribute("dto", dto);
         model.addAttribute("nickname",nickName);
