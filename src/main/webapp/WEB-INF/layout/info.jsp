@@ -10,23 +10,89 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%--<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Insert title here</title>
-  <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-  <style>
+<div id="slideShow">
+    <div class="slide">
+        <ul>
+            <li class="i1"><img src="/photo/slide_banner_01.jpg" alt="image1"></li>
+            <li class="i2"><img src="/photo/slide_banner_02.jpg" alt="image2"></li>
+            <li class="i3"><img src="/photo/slide_banner_03.png" alt="image3"></li>
+        </ul>
+    </div>
 
-  </style>
-</head>
-<body>--%>
-<%--
-</body>
-</html>
---%>
+    <div class="slide_btn">
+        <ul>
+            <li class="indent active">m1</li>
+            <li class="indent">m2</li>
+            <li class="indent">m3</li>
+        </ul>
+    </div>
+
+
+    <div class="side_btn">
+        <div class="pre indent">
+            <div class="pre_icon"></div>
+        </div>
+        <div class="nex indent">
+            <div class="next_icon"></div>
+        </div>
+    </div>
+
+</div>
+
+<!--=======================================================스크립트==============================================-->
+
+<script>
+    $(document).ready(function () {
+        let slideIndex = 0;
+        let slideCount = $("#slideShow .slide ul li").length;
+        let isHover = false;
+        const duration = 3000;
+
+        function slideShow() {
+            if (!isHover) {
+                slideIndex++;
+                if (slideIndex >= slideCount) slideIndex = 0;
+                $("#slideShow .slide ul").animate({left: -slideIndex * 1100}, 500);
+                setActiveIndicator(slideIndex);
+            }
+        }
+
+        function setActiveIndicator(index) {
+            $("#slideShow .slide_btn ul li").removeClass("active");
+            $("#slideShow .slide_btn ul li").eq(index).addClass("active");
+        }
+
+        let interval = setInterval(slideShow, duration);
+
+        $("#slideShow").hover(
+            function () {
+                isHover = true;
+            },
+            function () {
+                isHover = false;
+            }
+        );
+
+        $("#slideShow .pre").on("click", function () {
+            slideIndex--;
+            if (slideIndex < 0) slideIndex = slideCount - 1;
+            $("#slideShow .slide ul").animate({left: -slideIndex * 1100}, 500);
+            setActiveIndicator(slideIndex);
+        });
+
+        $("#slideShow .nex").on("click", function () {
+            slideIndex++;
+            if (slideIndex >= slideCount) slideIndex = 0;
+            $("#slideShow .slide ul").animate({left: -slideIndex * 1100}, 500);
+            setActiveIndicator(slideIndex);
+        });
+
+        $("#slideShow .slide_btn ul li").on("click", function () {
+            slideIndex = $(this).index();
+            $("#slideShow .slide ul").animate({left: -slideIndex * 1100}, 500);
+            setActiveIndicator(slideIndex);
+        });
+    });
+</script>
 
 
