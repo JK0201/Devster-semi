@@ -146,7 +146,6 @@ public class MemberController {
         //SHA256+salting
         m_pass = SHA256Util.getEncrypt(m_pass, salt);
         System.out.println(pass + " // " + m_pass);
-
         int chk = memberService.emailpasschk(m_email, m_pass);
         Map<String, String> map = new HashMap<>();
 

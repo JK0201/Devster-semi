@@ -109,7 +109,7 @@
     $("#chkbtn").click(function () {
         $("#chkyes").toggle();
         $("#chkno").toggle();
-        chkbtn=!chkbtn;
+        chkbtn = !chkbtn;
     });
 
     //norm
@@ -143,11 +143,10 @@
                         dataType: "json",
                         data: {"m_email": m_email, "m_pass": m_pass},
                         success: function (res) {
-                            if(res.result=="yes") {
+                            if (res.result == "yes") {
                                 alert("ㅎㅇ 출석포인트 +10점");
-                                location.href="../";
-                            }
-                            else {
+                                location.href = "../";
+                            } else {
                                 alert("이메일과 비밀번호를 확인해주세요");
                             }
                         }
@@ -173,7 +172,7 @@
     var naver_id_login = new naver_id_login("Qr3pEkAiiIBJ_L9HaGiY", "http://localhost:9000/member/navercallback");
     var state = naver_id_login.getUniqState();
     naver_id_login.setButton("green", 10, 40);
-    naver_id_login.setDomain("http:/\/localhost:9000");
+    naver_id_login.setDomain("http://localhost:9000");
     naver_id_login.setState(state);
     naver_id_login.setPopup();
     naver_id_login.init_naver_id_login();
@@ -228,12 +227,12 @@
             }
         });
     }
+
     //save
-    $("#chkbtn").click(function() {
-        if(chkbtn) {
+    $("#chkbtn").click(function () {
+        if (chkbtn) {
             console.log("yes");
-        }
-        else {
+        } else {
             console.log("no");
         }
     });

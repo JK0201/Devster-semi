@@ -14,7 +14,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-    <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+    <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"
+            charset="utf-8"></script>
     <style>
     </style>
 </head>
@@ -25,27 +26,28 @@
     console.log(naver_id_login.oauthParams.access_token);
     // 네이버 사용자 프로필 조회
     naver_id_login.get_naver_userprofile("naverSignInCallback()");
+
     // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
     function naverSignInCallback() {
         console.log(naver_id_login.getProfileData("email"));
         console.log(naver_id_login.getProfileData("profile_image"));
         console.log(naver_id_login);
 
-        let m_email=naver_id_login.getProfileData("email");
-        let m_photo=naver_id_login.getProfileData("profile_image");
+        let m_email = naver_id_login.getProfileData("email");
+        let m_photo = naver_id_login.getProfileData("profile_image");
 
+        alert("값 확인")
         $.ajax({
-            type:"get",
-            url:"apichk",
-            dataType:"json",
-            data:{"m_email":m_email},
-            success:function(res){
-                if(res.result=="yes") {
+            type: "get",
+            url: "emailchk",
+            dataType: "json",
+            data: {"m_email": m_email},
+            success: function (res) {
+                if (res.result == "yes") {
                     alert("ㅎㅇ 출석포인트 +10점");
                     window.close();
                     window.opener.redirectToMainPage();
-                }
-                else {
+                } else {
                     alert("계정 없음");
                     window.close();
                     window.opener.redirectToSignUp();
@@ -53,8 +55,9 @@
             }
         });
     }
+
     function redirectToMain() {
-        window.location.href="../";
+        window.location.href = "../";
     }
 </script>
 </body>

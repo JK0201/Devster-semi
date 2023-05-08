@@ -4,7 +4,6 @@ import devster.semi.dto.AcademyInfoDto;
 import devster.semi.dto.MemberDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.lang.reflect.Member;
 import java.util.List;
 import java.util.Map;

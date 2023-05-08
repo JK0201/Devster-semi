@@ -362,7 +362,7 @@
                             $(".phonereg").hide();
                             $("#sendnumber").text("인증요청");
                             $("#m_tele").prop("readonly", false);
-                            $("#regbtn").prop("disabled",false);
+                            $("#regbtn").prop("disabled", false);
                             cnt = 0;
                             btncnt++;
                             phonecheck = false;
@@ -436,7 +436,7 @@
             } else if (cnt > 0 && cnt < 3) {
                 let b = confirm("정말 인증번호를 다시 받으시겠습니까?\n기존의 번호는..");
                 if (b) {
-                    $("#regbtn").prop("disabled",false);
+                    $("#regbtn").prop("disabled", false);
                     let phonenum = $("#m_tele").val();
                     alert("인증번호가 발송되었습니다");
                     $.ajax({
