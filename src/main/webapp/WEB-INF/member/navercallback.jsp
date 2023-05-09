@@ -31,33 +31,35 @@
     function naverSignInCallback() {
         console.log(naver_id_login.getProfileData("email"));
         console.log(naver_id_login.getProfileData("profile_image"));
-        console.log(naver_id_login);
+        console.log(naver_id_login.getProfileData("nickname"));
+        console.log(naver_id_login.getProfileData("name"));
 
         let m_email = naver_id_login.getProfileData("email");
-        let m_photo = naver_id_login.getProfileData("profile_image");
+        // let m_nickname = naver_id_login.getProfileData("nickname");
+        // let m_photo = naver_id_login.getProfileData("profile_image");
+        // let m_name = naver_id_login.getProfileData("name");
 
-        alert(m_email);
         $.ajax({
             type: "get",
-            url: "emailchk",
+            url: "apichk",
             dataType: "json",
             data: {"m_email": m_email},
             success: function (res) {
-                if (res.result == "no") {
+                if (res.result == "yes") {
                     alert("ㅎㅇ 출석포인트 +10점");
                     window.close();
-                    window.opener.redirectToMainPage();
+                    window.opener.location.href="../";
                 } else {
-                    alert("계정 없음");
-                    window.close();
-                    window.opener.redirectToSignUp();
+                    let b = confirm("계정 없음");
+                    if (b) {
+                        window.close();
+                        window.opener.location.href="apisignup?m_email="+m_email;
+                    } else {
+                        window.close();
+                    }
                 }
             }
         });
-    }
-
-    function redirectToMain() {
-        window.location.href = "../";
     }
 </script>
 </body>

@@ -1,6 +1,7 @@
 package devster.semi.service;
 
 import devster.semi.dto.AcademyInfoDto;
+import devster.semi.dto.CompanyMemberDto;
 import devster.semi.dto.MemberDto;
 import devster.semi.mapper.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,5 +84,10 @@ public class MemberService implements MemberServiceInter {
     @Override
     public int compNameChk(String cm_compname) {
         return memberMapper.compNameChk(cm_compname);
+    }
+
+    @Override
+    public void addNewCMemeber(CompanyMemberDto dto) {
+        memberMapper.addNewCMemeber(dto);
     }
 }

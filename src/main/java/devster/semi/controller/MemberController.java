@@ -2,13 +2,13 @@ package devster.semi.controller;
 
 import devster.semi.dto.AcademyInfoDto;
 
+import devster.semi.dto.CompanyMemberDto;
 import devster.semi.dto.MemberDto;
 import devster.semi.service.MailService;
 import devster.semi.service.MemberService;
 import devster.semi.service.SmsService;
 import devster.semi.utilities.SHA256Util;
 import naver.cloud.ObjectStorageService;
-import org.apache.jasper.tagplugins.jstl.core.Out;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-import java.lang.reflect.Member;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -138,14 +137,13 @@ public class MemberController {
 
     @GetMapping("/emailpasschk")
     @ResponseBody
-    public Map<String, String> emailPassChk(String m_email, String m_pass, HttpSession session, Model model) {
+    public Map<String, String> emailPassChk(String m_email, String m_pass, HttpSession session) {
         String salt = memberService.getSaltById(m_email);
         //DB에 저장되어있는 pass
         String pass = memberService.getOneData(m_email).getM_pass();
 
         //SHA256+salting
         m_pass = SHA256Util.getEncrypt(m_pass, salt);
-        System.out.println(pass + " // " + m_pass);
         int chk = memberService.emailpasschk(m_email, m_pass);
         Map<String, String> map = new HashMap<>();
 
@@ -240,28 +238,59 @@ public class MemberController {
         String m_pass = dto.getM_pass();
         m_pass = SHA256Util.getEncrypt(m_pass, salt);
 
-        String m_photo = "";
+        String[] tokens = dto.getM_tele().split("-");
+        String phoneNoHyphen = String.join("", tokens);
+        tokens = phoneNoHyphen.split("\\s");
+        String m_tele = String.join("", tokens);
 
         if (dto.getAi_name() == null) {
             dto.setAi_name("no");
-        } //이건 보류
+        } //학원 보류
+
+        String m_photo = "";
 
         if (upload == null) {
             m_photo = "no";
         } else {
             m_photo = storageService.uploadFile(bucketName, "member", upload);
-        }
+        } //업로드 어떻게 할지 생각하기
+
+        dto.setAi_name(ai_name); // 학원 보류
 
         dto.setSalt(salt);
         dto.setM_pass(m_pass);
         dto.setM_photo(m_photo);
+        dto.setM_tele(m_tele);
         dto.setAi_idx(memberService.getAcademyIdx(dto.getAi_name()));
+
         memberService.addNewMember(dto);
     }
 
-    @GetMapping("/grats")
-    public String grats() {
-        return "/main/member/membergrats";
+    @PostMapping("cmsignupform")
+    @ResponseBody
+    public void cmSignUpForm(CompanyMemberDto dto, MultipartFile upload) {
+        String salt = SHA256Util.generateSalt();
+        String cm_pass = dto.getCm_pass();
+        cm_pass = SHA256Util.getEncrypt(cm_pass, salt);
+
+        String[] tokensTele = dto.getCm_tele().split("-");
+        String teleNoHyphen = String.join("", tokensTele);
+        tokensTele = teleNoHyphen.split("\\s");
+        String cm_tele = String.join("", tokensTele);
+
+        String[] tokensCp = dto.getCm_cp().split("-");
+        String cpNoHyphen = String.join("", tokensCp);
+        tokensCp = cpNoHyphen.split("\\s");
+        String cm_cp = String.join("", tokensCp);
+
+        //업로드 어떻게 할건지 생각하기
+
+        dto.setSalt(salt);
+        dto.setCm_pass(cm_pass);
+        dto.setCm_tele(cm_tele);
+        dto.setCm_cp(cm_cp);
+
+        memberService.addNewCMemeber(dto);
     }
 
     @GetMapping("/compnamechk")
@@ -273,4 +302,5 @@ public class MemberController {
 
         return map;
     }
+
 }

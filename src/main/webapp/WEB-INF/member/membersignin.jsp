@@ -47,15 +47,15 @@
         </div>
         <div class="norminput">
             <strong>개인 </strong>
-            <input type="text" name="m_email" id="m_email" required>
+            <input type="text" id="m_email" required>
             <strong>비밀번호 </strong>
-            <input type="password" name="m_pass" id="m_pass" required>
+            <input type="password" id="m_pass" required>
         </div>
         <div class="compinput">
             <strong>회사 </strong>
-            <input type="text" name="cm_email" id="cm_email">
+            <input type="text" id="cm_email">
             <strong>비밀번호 </strong>
-            <input type="password" name="cm_pass" id="cm_pass">
+            <input type="password" id="cm_pass">
         </div>
         <label id="chkbtn">
             <i class="bi bi-circle" id="chkno"></i>
@@ -78,16 +78,16 @@
         <div class="norminput">
             <a href="signup">회원가입</a>
             <strong>|</strong>
-            <a href="#">계정 찾기</a>
+            <a href="accountfinder">계정 찾기</a>
             <strong>|</strong>
-            <a href="#">비밀번호 찾기</a>
+            <a href="passfinder">비밀번호 찾기</a>
         </div>
         <div class="compinput">
             <a href="compsignup">회원가입</a>
             <strong>|</strong>
-            <a href="#">계정 찾기</a>
+            <a href="caccountfinder">계정 찾기</a>
             <strong>|</strong>
-            <a href="#">비밀번호 찾기</a>
+            <a href="cpassfinder">비밀번호 찾기</a>
         </div>
     </div>
 </div>
@@ -127,30 +127,18 @@
             alert("비밀번호를 입력해주세요");
             return false;
         }
-        console.log(m_email + "," + m_pass);
+
         $.ajax({
             type: "get",
-            url: "emailchk",
+            url: "emailpasschk",
             dataType: "json",
-            data: {"m_email": m_email},
+            data: {"m_email": m_email, "m_pass": m_pass},
             success: function (res) {
                 if (res.result == "yes") {
-                    alert("이메일과 비밀번호를 확인해주세요");
+                    alert("ㅎㅇ 출석포인트 +10점");
+                    location.href = "../";
                 } else {
-                    $.ajax({
-                        type: "get",
-                        url: "emailpasschk",
-                        dataType: "json",
-                        data: {"m_email": m_email, "m_pass": m_pass},
-                        success: function (res) {
-                            if (res.result == "yes") {
-                                alert("ㅎㅇ 출석포인트 +10점");
-                                location.href = "../";
-                            } else {
-                                alert("이메일과 비밀번호를 확인해주세요");
-                            }
-                        }
-                    });
+                    alert("이메일과 비밀번호를 확인해주세요");
                 }
             }
         });
@@ -177,14 +165,6 @@
     naver_id_login.setPopup();
     naver_id_login.init_naver_id_login();
 
-    function redirectToMainPage() {
-        window.location.href = "../";
-    }
-
-    function redirectToSignUp() {
-        window.location.href = "apisignup"
-    }
-
     //kakao
     window.Kakao.init("82a8d8044b53724691554098e719219c");
 
@@ -192,20 +172,21 @@
 
         window.Kakao.Auth.login({
 
-            scope: 'profile_nickname, profile_image, account_email,',
+            // scope: 'profile_nickname, profile_image, account_email',
+            scope: 'account_email',
             success: function (res) {
                 console.log(res);
                 window.Kakao.API.request({
                     url: '/v2/user/me',
                     success: res => {
                         const kakao_account = res.kakao_account;
-                        console.log(kakao_account);
-                        console.log(kakao_account.email);
-                        console.log(res.properties.nickname);
-                        console.log(res.properties.profile_image)
+                        // console.log(kakao_account);
+                        // console.log(kakao_account.email);
+                        // console.log(res.properties.nickname);
+                        // console.log(res.properties.profile_image);
+                        // let m_nickname = res.properties.nickname;
+                        // let m_photo = res.properties.profile_image;
                         let m_email = kakao_account.email;
-                        alert(m_email);
-
                         $.ajax({
                             type: "get",
                             url: "apichk",
@@ -217,8 +198,13 @@
                                     location.href = "../";
 
                                 } else {
-                                    alert("계정 없음");
-                                    location.href = "apisignup";
+                                    let b = confirm("계정 없음");
+                                    if (b) {
+                                        location.href="apisignup?m_email="+m_email;
+                                    }
+                                    else {
+                                        return false;
+                                    }
                                 }
                             }
                         });

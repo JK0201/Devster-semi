@@ -19,4 +19,5 @@ public class MemberDto {
     private int ai_idx;
     private String ai_name;
     private String salt;
+    private int m_type;
 }

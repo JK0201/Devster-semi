@@ -13,5 +13,9 @@ public class CompanyMemberDto {
     private String cm_addr;
     private String cm_compname;
     private String cm_filename;
+    private String cm_post;
+    private String cm_name;
+    private String cm_cp;
+    private String salt;
     private int cm_new; //가입완료 + 요청:0, 완료:1
 }

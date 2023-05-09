@@ -40,9 +40,9 @@
         <i class="bi bi-arrow-clockwise" id="reseticon"></i>
     </div>
     <div class="inputgroup emailreg">
-        <label id="timer"></label>
-        <input type="text" id="eregnumber">
-        <button type="button" id="eregbtn"><span>확인</span></button>
+        <label id="timer">00:30</label>
+        <input type="text" id="eregnumber" required>
+        <button type="button" id="eregbtn">확인</button>
     </div>
     <div>
         <strong>비밀번호</strong>
@@ -54,38 +54,55 @@
     </div>
     <div>
         <strong>회사명</strong>
-        <input type="text" id="cm_compname">
+        <input type="text" id="cm_compname" required>
         <span id="compnamechkicon"></span>
     </div>
     <div>
         <div class="input-group">
             <strong>우편번호</strong>
-            <input type="text" id="cm_post" readonly>
+            <input type="text" id="cm_post" readonly required>
             <button type="button" id="postbtn">우편번호 찾기</button>
         </div>
         <strong>주소</strong>
-        <input type="text" id="addr" readonly>
+        <input type="text" id="addr" readonly required>
         <strong>상세주소</strong>
-        <input type="text" id="addrinfo">
+        <input type="text" id="addrinfo" required>
+        <span id="addrchkicon"></span>
     </div>
     <div>
         <strong>전화번호</strong>
-        <input type="tel" id="cm_tele">
+        <input type="tel" id="cm_tele" required>
+        <span id="cpchkicon"></span>
     </div>
     <div>
         <strong>담당자</strong>
-        <input type="text" id="cm_name">
+        <input type="text" id="cm_name" required>
+        <span id="namechkicon"></span>
+    </div>
+    <div>
         <strong>휴대폰</strong>
-        <input type="tel" id="cm_cp">
+        <input type="tel" id="cm_cp" required>
+        <span id="cmchkicon"></span>
+    </div>
+    <div>
+        <input type="file" id="upload">
+    </div>
+    <div>
+        <button type="button" id="submitbtn" disabled>가입하기</button>
     </div>
 </div>
 <script>
     let emailvalid = false;
     let emailcheck = false;
+    let emailcode = false;
     let passvalid = false;
     let passcheck = false;
     let compname = false;
     let compvalid = false;
+    let namevalid = false;
+    let phonecheck = false;
+    let cphonecheck = false;
+    let addrcheck = false;
 
     //emailcheck
     $("#cm_email").keyup(function () {
@@ -145,7 +162,7 @@
 
     //setup
     let display = $("#timer");
-    let timeleft = 30;
+    let timeleft = 29;
 
     //email check
     $(document).on("keyup", "#cm_email", function () {
@@ -170,7 +187,7 @@
                         let b = confirm("인증 중 이메일을 수정하면 현재 발송된 인증번호는\n더이상 사용하실 수 없습니다. 그래도 수정하시겠어요?");
                         if (b) {
                             clearInterval(timer);
-                            display.html("");
+                            display.html("00:30");
                             $("#eregnumber").val("");
                             $("#reseticon").hide();
                             $(".emailreg").hide();
@@ -179,7 +196,7 @@
                             $("#eregbtn").prop("disabled", false);
                             ecnt = 0;
                             btncnt++;
-                            emailcheck = false;
+                            emailcode = false;
                         }
                     } else {
                         alert("수정 횟수를 초과하셨습니다\n잠시후 다시 시도해주세요");
@@ -231,7 +248,7 @@
 
                         if (proc) {
                             clearInterval(timer);
-                            display.html("");
+                            display.html("00:30");
                             startTimer(timeleft, display);
                         } else {
                             startTimer(timeleft, display);
@@ -259,7 +276,7 @@
 
                         if (proc) {
                             clearInterval(timer);
-                            display.html("");
+                            display.html("00:30");
                             startTimer(timeleft, display);
                         } else {
                             startTimer(timeleft, display);
@@ -289,12 +306,12 @@
             $("#sendemail").prop("disabled", true);
             $("#eregbtn").prop("disabled", true);
             $("#reseticon").hide();
-            emailcheck = true;
+            emailcode = true;
         } else {
             alert("인증 번호 틀림");
             $("#eregnumber").val("");
             $("#eregnumber").focus();
-            emailcheck = false;
+            emailcode = false;
         }
     });
 
@@ -386,7 +403,7 @@
 
     //kakao addr api
     window.onload = function () {
-        $("#postbtn").click(function () {
+        $("#postbtn, #cm_post, #addr").click(function () {
             new daum.Postcode({
                 oncomplete: function (data) {
                     $("#cm_post").val(data.zonecode);
@@ -396,6 +413,153 @@
             }).open();
         });
     }
+
+    //addr pattern
+    $("#addrinfo").keyup(function(){
+        let addrinfo=$(this).val();
+        if (!validAddrPattern(addrinfo)) {
+            $("#addrchkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
+                "<span>옳바른 주소를 입력해주세요</span>");
+        } else {
+            $("#addrchkicon").html("<i class='bi bi-check' style='color:green;'></i>");
+        }
+    });
+
+    function validAddrPattern(addr) {
+        let addrPattern=/^[0-9a-zA-Z가-힣()\-,.\s]{1,}$/
+        return addrPattern.test(addr)
+    }
+    //name check
+    $("#cm_name").keyup(function () {
+        let cm_name = $(this).val();
+        if (!validName(cm_name)) {
+            $("#namechkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
+                "<span>옳바른 이름을 입력해주세요</span>");
+            namevalid = false;
+        } else {
+            $("#namechkicon").html("<i class='bi bi-check' style='color:green;'></i>");
+            namevalid = true;
+        }
+    });
+
+    function validName(name) {
+        let namePattern = /^[가-힣]{1,}$/;
+        return namePattern.test(name);
+    }
+
+    //phone chk
+    $("#cm_cp").keyup(function () {
+        let cm_cp = $(this).val();
+        if (!validPhone(cm_cp)) {
+            $("#cmchkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
+                "<span>옳바른 이름을 입력해주세요</span>");
+            phonecheck = false;
+        } else {
+            $("#cmchkicon").html("<i class='bi bi-check' style='color:green;'></i>");
+            phonecheck = true;
+        }
+    });
+
+    function validPhone(phonenum) {
+        let phoneNumPattern = /^(010|01[1-9][0-9])-?\d{3,4}-?\d{4}$/;
+        return phoneNumPattern.test(phonenum);
+    }
+
+    //company phone chk
+    $("#cm_tele").keyup(function () {
+        let cm_tele = $(this).val();
+        if (!validCompNum3(cm_tele) && !validCompNum2(cm_tele)) {
+            $("#cpchkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
+                "<span>옳바른 번호를 입력해주세요</span>");
+            cphonecheck = false;
+        } else {
+            $("#cpchkicon").html("<i class='bi bi-check' style='color:green;'></i>");
+            cphonecheck = true;
+        }
+    });
+
+    function validCompNum2(cphonenum2) {
+        let cphoneNumPattern2 = /^\d{4}-?\d{4}$/;
+        return cphoneNumPattern2.test(cphonenum2);
+    }
+
+    function validCompNum3(cphonenum3) {
+        let cphoneNumPattern3 = /^0([0-9]{1,2})-?\d{3,4}-?\d{4}$/;
+        return cphoneNumPattern3.test(cphonenum3)
+    }
+
+    //trigger function
+    $(document).on("mouseover keyup", function () {
+        if ($("#cm_post").val() == "" || $("#addr").val() == "" || $("#addrinfo").val() == "") {
+            addrcheck = false;
+        } else {
+            addrcheck = true;
+        }
+
+        if (emailcheck && emailvalid && emailcode && passcheck && passvalid && compname && compvalid && namevalid && phonecheck && cphonecheck && addrcheck) {
+            $("#submitbtn").prop("disabled", false);
+        } else {
+            $("#submitbtn").prop("disabled", true);
+        }
+    });
+
+    //submit
+    $("#submitbtn").click(function () {
+        if (!emailcheck || !emailvalid) {
+            alert("이메일 확인");
+            return false;
+        } else if (!emailcode) {
+            alert("이메일 인증");
+            return false;
+        } else if (!passcheck || !passvalid) {
+            alert("비밀번호 확인");
+            return false;
+        } else if (!compname || !compvalid) {
+            alert("회사명 확인");
+            return false;
+        } else if (!namevalid) {
+            alert("담당자이름 확인");
+            return false;
+        } else if (!phonecheck) {
+            alert("회사 전화확인");
+            return false;
+        } else if (!cphonecheck) {
+            alert("담당자 전화 확인");
+            return false;
+        } else if (!addrcheck) {
+            alert("주소 확인");
+            return false;
+        } else {
+            alert("잘했어");
+            let formData = new FormData();
+            let cm_addr = $("#addr").val() + "," + $("#addrinfo").val().trim();
+            console.log(cm_addr);
+
+            formData.append("cm_email", $("#cm_email").val());
+            formData.append("cm_pass", $("#cm_pass").val());
+            formData.append("cm_compname", $("#cm_compname").val());
+            formData.append("cm_post", $("#cm_post").val());
+            formData.append("cm_addr", cm_addr);
+            formData.append("cm_tele", $("#cm_tele").val());
+            formData.append("cm_name", $("#cm_name").val());
+            formData.append("cm_cp", $("#cm_cp").val());
+
+            formData.append("cm_filename",$("#upload").val());
+
+            $.ajax({
+                type: "post",
+                dataType: "text",
+                url: "cmsignupform",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function () {
+                    alert("회원가입을 축하드립니다\n헤드헌터계정은 인증까지..");
+                    location.href="../";
+                }
+            });
+        }
+    });
 </script>
 </body>
 </html>

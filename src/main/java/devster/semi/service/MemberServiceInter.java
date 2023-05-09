@@ -1,6 +1,7 @@
 package devster.semi.service;
 
 import devster.semi.dto.AcademyInfoDto;
+import devster.semi.dto.CompanyMemberDto;
 import devster.semi.dto.MemberDto;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public interface MemberServiceInter {
     public List<AcademyInfoDto> searchAcaInfo(String ai_name);
     public int getAcademyIdx(String ai_name);
     public void addNewMember(MemberDto dto);
+    public void addNewCMemeber(CompanyMemberDto dto);
     public String getSaltById(String m_email);
     public int cmEmailChk(String cm_email);
     public int compNameChk(String cm_compname);
