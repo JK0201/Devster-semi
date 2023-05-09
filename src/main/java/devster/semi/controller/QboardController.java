@@ -10,9 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @Controller
@@ -71,7 +69,6 @@ public class QboardController {
                 } else {
                     photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
                 }
-                System.out.println(photo);
                 map.put("photo",photo);
                 map.put("qb_subject",dto.getQb_subject());
                 map.put("qb_content",dto.getQb_content());
@@ -178,12 +175,16 @@ public class QboardController {
     }
 
     @GetMapping("/detail")
-    public String detail(int qb_idx,Model model,int currentPage) {
+    public String detail(int qb_idx, Model model, int currentPage, HttpSession session) {
         qboardService.updateReadCount(qb_idx);
 
         QboardDto dto = qboardService.getOnePost(qb_idx);
         String nickName = qboardService.selectNickNameOfQb_idx(dto.getQb_idx());
         String photo = qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
+        
+//        버튼 상태에 관한 정보를 디테일 페이지로 보내줌.
+        boolean isAlreadyAddGoodRp = qboardService.isAlreadyAddGoodRp(qb_idx,(int)session.getAttribute("memidx"));
+        boolean isAlreadyAddBadRp = qboardService.isAlreadyAddBadRp(qb_idx,(int)session.getAttribute("memidx"));
 
         if(photo.equals("no")) {
             photo = "/photo/profile.jpg";
@@ -203,32 +204,65 @@ public class QboardController {
         model.addAttribute("nickname",nickName);
         model.addAttribute("photo",photo);
         model.addAttribute("currentPage",currentPage);
+        model.addAttribute("isAlreadyAddGoodRp", isAlreadyAddGoodRp);
+        model.addAttribute("isAlreadyAddBadRp", isAlreadyAddBadRp);
 
         return "/main/qboard/qboarddetail";
     }
 
-    @PostMapping("/like")
+    
+    //좋아요 증가 메서드
+    @RequestMapping("/increaseGoodRp")
     @ResponseBody
-    public Map<String, Object> like(int qb_idx) {
-        qboardService.increaseLikeCount(qb_idx);
+    public int increaseGoodRp(int qb_idx,int m_idx) {
+        // article 테이블에서 해당 게시물의 좋아요 1 증가
+        qboardService.increaseGoodRp(qb_idx);
+        // article 테이블에서 해당 게시물의 최신화된 좋아요 수 불러오기
+        int goodRp = qboardService.getGoodRpCount(qb_idx);
 
-        Map<String,Object> result = new HashMap<>();
-        result.put("likeCount", qboardService.getOnePost(qb_idx).getQb_like());
-        result.put("dislikeCount", qboardService.getOnePost(qb_idx).getQb_dislike());
-        return  result;
+        // reactionPoint 테이블에 리액션 정보(게시물 id, 사용자 id)를 기록
+        qboardService.addIncreasingGoodRpInfo(qb_idx,m_idx);
+
+        return goodRp;
     }
 
-    @PostMapping("/dislike")
+    //좋아요 감소 메서드
+    @RequestMapping("/decreaseGoodRp")
     @ResponseBody
-    public Map<String, Object> dislike( int qb_idx) {
-        qboardService.increaseDislikeCount(qb_idx);
+    public int decreaseGoodRp(int qb_idx,int m_idx) {
+        // article 테이블에서 해당 게시물의 좋아요 1 감소
+        qboardService.decreaseGoodRp(qb_idx);
+        // article 테이블에서 해당 게시물의 최신화된 좋아요 수 불러오기
+        int goodRp = qboardService.getGoodRpCount(qb_idx);
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("likeCount", qboardService.getOnePost(qb_idx).getQb_like());
-        result.put("likeText", "좋아요 " + qboardService.getOnePost(qb_idx).getQb_like());
-        result.put("dislikeCount", qboardService.getOnePost(qb_idx).getQb_dislike());
-        result.put("dislikeText", "싫어요 " + qboardService.getOnePost(qb_idx).getQb_dislike());
-        return result;
+        // reactionPoint 테이블에 리액션 정보(게시물 id, 사용자 id) 기록을 삭제
+        qboardService.deleteGoodRpInfo(qb_idx,m_idx);
+
+        return goodRp;
+    }
+
+    //싫어요 증가 메서드
+    @RequestMapping("/increaseBadRp")
+    @ResponseBody
+    public int increaseBadRp(int qb_idx, int m_idx) {
+        qboardService.increaseBadRp(qb_idx);
+        int badRp = qboardService.getBadRpCount(qb_idx);
+
+        qboardService.addIncreasingBadRpInfo(qb_idx,m_idx);
+
+        return badRp;
+    }
+
+    //싫어요 감소 메서드
+    @RequestMapping("/decreaseBadRp")
+    @ResponseBody
+    public int decreaseBadRp(int qb_idx, int m_idx) {
+        qboardService.decreaseBadRp(qb_idx);
+        int badRp = qboardService.getBadRpCount(qb_idx);
+
+        qboardService.deleteBadRpInfo(qb_idx, m_idx);
+
+        return badRp;
     }
 
     @PostMapping("/bestPostsForBanner")
