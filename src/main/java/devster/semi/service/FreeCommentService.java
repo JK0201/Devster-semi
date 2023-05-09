@@ -16,6 +16,11 @@ public class FreeCommentService implements FreeCommentServiceInter{
     private FreeCommentMapper freeCommentMapper;
 
     @Override
+    public int getTotalComment(int fb_idx) {
+        return freeCommentMapper.getTotalComment(fb_idx);
+    }
+
+    @Override
     public int getMaxNum() {
         return freeCommentMapper.getMaxNum();
     }

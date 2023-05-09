@@ -8,6 +8,7 @@ import java.util.Map;
 
 @Mapper
 public interface FreeCommentMapper {
+    public int getTotalComment(int fb_idx);
     public int getMaxNum();
     public void updateStep(Map<String, Integer> map);
     public FreeCommentDto getFreeComment(int fbc_idx);

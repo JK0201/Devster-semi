@@ -2,6 +2,7 @@ package devster.semi.controller;
 
 import devster.semi.dto.FreeBoardDto;
 import devster.semi.service.FreeBoardService;
+import devster.semi.service.FreeCommentService;
 import naver.cloud.NcpObjectStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ public class FreeBoardController {
 
     @Autowired
     private FreeBoardService freeBoardService;
+
 
     @Autowired
     private NcpObjectStorageService storageService;
@@ -64,6 +66,7 @@ public class FreeBoardController {
             Map<String,Object> map = new HashMap<>();
             map.put("fb_idx",String.valueOf(dto.getFb_idx()));
             map.put("nickName",freeBoardService.selectNickNameOfMidx(dto.getFb_idx()));
+            map.put("commentCnt", freeBoardService.commentCnt(dto.getFb_idx()));
 
             String m_photo = freeBoardService.selectPhotoOfMidx(dto.getFb_idx());
             if(m_photo!="no"){
@@ -156,7 +159,7 @@ public class FreeBoardController {
         String m_photo = freeBoardService.selectPhotoOfMidx(dto.getFb_idx());
 
         if(m_photo.equals("no")) {
-            m_photo = "/photo/profile.jpg"; // 버켓에 넣어야 뜰듯....
+            m_photo = "photo/profile.jpg"; // 버켓에 넣어야 뜰듯....
         }
 
         model.addAttribute("dto", dto);

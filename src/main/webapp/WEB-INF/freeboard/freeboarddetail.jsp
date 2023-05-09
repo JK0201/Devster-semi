@@ -70,73 +70,6 @@
             commentList();
         })
 
-
-        function insert(){
-            let form = $("form[name=commentinsert]")[0];
-            let formData = new FormData(form);
-
-            formData.append("fb_idx", ${dto.fb_idx});
-            formData.append("m_idx", ${dto.m_idx});
-
-                $.ajax({
-                    type: "post",
-                    url: "/freecomment/insert",
-                    data: formData,
-                    success: function (response) {
-                       alert("댓글이 작성되었습니다.");
-                       commentList();
-                    },
-                    error: function (request, status, error) {
-                        alert("code: " + request.status + "\n" + "error: " + error);
-                    }
-
-                });
-        }
-
-        // 댓글 리스트 가져오는 사용자 함수
-        function commentList(){
-            let fb_idx = ${dto.fb_idx}
-                $.ajax({
-                    type: "post",
-                    url: "/freecomment/commentlist",
-                    data:{"fb_idx":fb_idx},
-                    dataType:"json",
-                    success: function(res) {
-                        if (res.length > 0) {
-                            let s = "";
-
-                            $.each(res, function (idx, ele) {
-                                s+=`<div class='mb-2' data-index="\${idx}">
-    <h4 class="answerWriter">
-\${ele.nickname}</h4>
-<h6>\${ele.fbc_writeday}<h6>
-<h5>${ele.fbc_content}</h5>`;
-                                if (item.m_idx == ${sessionScope.memidx}) {
-                                    s += `
-    <button class="btn btn-outline-dark" type="button" onclick="deleteComment(\${item.ab_idx})">
-        삭제
-    </button>
-    <button class="btn btn-outline-dark" type="button" data-abidx="\${item.ab_idx}" onclick="updateCommentForm(\${item.ab_idx}, \${index})">
-        수정
-    </button>`;
-                                }
-                                s += "<hr></div>";
-
-                            });
-                            $("#count").html(res.commentCnt);
-                            $("#commentList").html(s);
-                        } else {
-                            let html = "<div class='mb-2'>";
-                            html += "<h6><strong>등록된 댓글이 없습니다.</strong></h6>";
-                            html += "</div>";
-                            $("#count").html(0);
-                            $("#commentList").html(html);
-                        }
-
-                    }
-                });
-        }
-
     </script>
 </head>
 
@@ -153,7 +86,7 @@
 
         <b style="font-size: 13px; color: #94969B;"><fmt:formatDate value="${dto.fb_writeday}" pattern="MM/dd HH:mm"/>&nbsp;&nbsp;</b>
         <b style="font-size: 13px; color: #94969B;"><i class="bi bi-eye"></i>&nbsp;${dto.fb_readcount}&nbsp;&nbsp;</b>
-        <b style="font-size: 13px; color: #94969B;"><i class="bi bi-chat-right"></i>&nbsp;<b id="count">0</b></b>
+        <b style="font-size: 13px; color: #94969B;"><i class="bi bi-chat-right"></i>&nbsp;<b id="commentCnt">0</b></b>
     </div>
     <div class="bodybox">
         <p style="margin-bottom: 50px;">${dto.fb_content}</p>
@@ -182,20 +115,163 @@
 </div>
 <hr>
 
-
-
-
-<div id="commentcontainer"><!--댓글출력--></div>
 <div class="commentwrite">
     <form name="commentinsert">
         <input type="hidden" name="fb_idx" value="${dto.fb_idx}">
-        <input type="text" name="fbc_content" id="commentContent">
+        <input type="text" name="fbc_content" id="commentContent" class="form-control">
         <button type="button" id="writepost" class="btn btn-sm btn-secondary"><i class="bi bi-pencil"></i>&nbsp;댓글쓰기</button>
     </form>
 </div>
-<div id="commentlist" style="margin-left: 100px; width: 600px; border: 3px solid black"></div>
+<div id="commentBox" style="margin-left: 100px; width: 600px; border: 3px solid black"></div>
+
 
 <script>
+
+    function insert(){
+        let fb_idx = ${dto.fb_idx};
+        let m_idx = ${sessionScope.memidx};
+        let fbc_content = $('#commentContent').val();
+
+        $.ajax({
+            type: "post",
+            url: "/freecomment/insert",
+            data: {"fb_idx" : fb_idx, "m_idx" : m_idx, "fbc_content":fbc_content},
+
+            success: function (response) {
+                // alert("댓글이 작성되었습니다.");
+                commentList();
+            },
+            error: function (request, status, error) {
+                alert("code: " + request.status + "\n" + "error: " + error);
+            }
+
+        });
+    }
+
+    // 댓글 리스트 가져오는 사용자 함수
+    function commentList(){
+        let fb_idx = ${dto.fb_idx}
+            $.ajax({
+                type: "post",
+                url: "/freecomment/commentlist",
+                data:{"fb_idx":fb_idx},
+                dataType:"json",
+                success: function(res) {
+                    // const count = res.list.length;
+                    // if (res.length > 0) {
+                        let s = "";
+                        $.each(res, function (idx, ele) {
+                            s += `
+                            <div class='answerBox' data-index="\${idx}">
+                            <h4>`;
+
+                            if (ele.m_photo === null || ele.m_photo === 'no') {
+                                s += `<img src="/photo/profile.jpg" style="width:50px; height: 50px; border:3px solid black; border-radius:100px;">`;
+                            } else {
+                                s += `<img src="http://${imageUrl}/member/\${item.m_photo}" style="width:50px; height: 50px; border:3px solid black; border-radius:100px;">`;
+                            }
+
+s+=`\${ele.nickname}</h4>
+                            <h6>\${ele.fbc_writeday}</h6>
+                            <h5>\${ele.fbc_content}</h5>`;
+
+                            if (ele.m_idx == ${sessionScope.memidx}) {
+                                s += `<button class="btn btn-outline-dark" type="button" onclick="deleteComment(\${ele.fbc_idx})">삭제</button>
+                                <button class="btn btn-outline-dark" type="button" data-fbcidx="\${ele.fbc_idx}" onclick="updateCommentForm(\${ele.fbc_idx},\${idx})">수정</button>`;
+                            }
+
+                            s += `<button class="btn btn-outline-dark" type="button" style="float: right; margin-right: 10px;" onclick="">답글</button><hr></div>`;
+                        });
+
+                        var totalCount = res[0].totalCount;
+                        document.getElementById("commentCnt").innerHTML = totalCount;
+                        $("#commentBox").html(s);
+                    // } else {
+                    //     let html = "<div class='mb-2'>";
+                    //     html += "<h6><strong>등록된 댓글이 없습니다.</strong></h6>";
+                    //     html += "</div>";
+                    //     $("#commentCnt").html(0);
+                    //     $("#commentBox").html(html);
+                    // }
+                }
+            });
+    }
+
+
+    function deleteComment(fbc_idx) {
+
+        if(confirm("댓글을 삭제하시겠습니까? ")) {
+            $.ajax({
+                type: "get",
+                url: "/freecomment/delete",
+                data: {"fbc_idx":fbc_idx},
+                success: function (response) {
+                    alert("댓글이 삭제되었습니다.");
+                    commentList()
+                },
+                error: function (xhr, status, error) {
+                    // 에러 처리를 여기에서 처리합니다.
+                }
+            });
+        }
+    }
+
+    function updateCommentForm(fbc_idx, idx) {
+        let $targetAnswerBox = $(`.answerBox[data-index="\${idx}"]`);
+
+        $.ajax({
+            type: "get",
+            url: "/freecomment/updateform",
+            data: {"fbc_idx": fbc_idx},
+            dataType : "json",
+            success: function (response) {
+                let s =
+                    `
+            <h3>수정</h3>
+            <form name="commentupdate">
+        <input type="hidden" name="fb_idx" value="\${response.fb_idx}">
+        <input type="text" name="fbc_content" id="commentContent" class="form-control" value="\${response.fbc_content}">
+        <button type="button" id="writepost" class="btn btn-sm btn-secondary"><i class="bi bi-pencil"></i>&nbsp;댓글수정</button>
+    </form>
+            <hr>
+            `;
+                $targetAnswerBox.html(s);
+
+                $targetAnswerBox.find('#writepost').on('click', function() {
+                    // 이벤트 리스너 내부에서 수정을 처리하는 코드를 작성합니다.
+                    updateComment(fbc_idx, idx);
+                });
+
+            },
+            error: function (xhr, status, error) {
+                // 에러 처리를 여기에서 처리합니다.
+            }
+        });
+    }
+
+    function updateComment(fbc_idx, idx) {
+        let $targetAnswerBox = $(`.answerBox[data-index="\${idx}"]`);
+        let formData = new FormData($targetAnswerBox.find('form')[0]);
+
+        formData.append("fbc_idx",fbc_idx);
+
+        $.ajax({
+            type: "post",
+            url: "/freecomment/update",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function () {
+                alert("댓글이 수정되었습니다.")
+               commentList();
+            },
+            error: function (xhr, status, error) {
+                // 에러 처리를 여기에서 처리합니다.
+            }
+        });
+    }
+
+
     function del(fb_idx) {
         if (confirm("삭제하시겠습니까?")) {
             location.href = "./freedelete?fb_idx=" + fb_idx;

@@ -20,5 +20,6 @@ public interface FreeBoardMapper {
     public String selectPhotoOfMidx(int fb_idx);
     public void increaseLikeCount(int fb_idx);
     public void increaseDislikeCount(int fb_idx);
+    public int commentCnt(int fb_idx);
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface FreeCommentServiceInter {
+    public int getTotalComment(int fb_idx);
     public int getMaxNum();
     public void updateStep(int fbc_ref, int fbc_step);
     public FreeCommentDto getFreeComment(int fbc_idx);

@@ -46,4 +46,7 @@
     <update id="increaseDislikeCount" parameterType="int">
         update freeboard set fb_dislike=fb_dislike+1 where fb_idx=#{fb_idx}
     </update>
+    <select id="commentCnt" parameterType="int" resultType="int">
+        SELECT COUNT(*) FROM freecomment WHERE fb_idx=#{fb_idx}
+    </select>
 </mapper>

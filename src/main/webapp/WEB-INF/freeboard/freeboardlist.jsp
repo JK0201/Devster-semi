@@ -91,7 +91,11 @@
             return `\${betweenTimeDay}일전`;
         }
 
-        return `\${value}`;
+        const month = String(timeValue.getMonth() + 1).padStart(2, '0');
+        const day = String(timeValue.getDate()).padStart(2, '0');
+        const formattedDate = `\${month}-\${day}`;
+
+        return `\${formattedDate}`;
     }
 
 </script>
@@ -178,9 +182,10 @@
                         <tr>
                             <td>
                                 <b id="etcbox">
-                                    <i class="bi bi-eye"></i>조회${dto.fb_readcount}&nbsp;
-                                    <i class="bi bi-hand-thumbs-up"></i>좋아요${dto.fb_like}&nbsp;
-                                    <i class="bi bi-hand-thumbs-down"></i>싫어요${dto.fb_dislike}
+                                    <i class="bi bi-eye"></i>&nbsp;조회&nbsp;${dto.fb_readcount}&nbsp;
+                                    <i class="bi bi-hand-thumbs-up"></i>&nbsp;좋아요&nbsp;${dto.fb_like}&nbsp;&nbsp;
+                                    <i class="bi bi-hand-thumbs-down"></i>&nbsp;싫어요&nbsp;${dto.fb_dislike}&nbsp;
+                                    <i class="bi bi-chat-right"></i>&nbsp;댓글&nbsp;${dto.commentCnt}
                                 </b>
 
                             <p id="writedaybox">

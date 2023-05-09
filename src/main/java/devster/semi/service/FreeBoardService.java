@@ -78,4 +78,9 @@ public class FreeBoardService implements FreeBoardServiceInter{
         freeBoardMapper.increaseDislikeCount(fb_idx);
     }
 
+    @Override
+    public int commentCnt(int fb_idx) {
+        return freeBoardMapper.commentCnt(fb_idx);
+    }
+
 }
