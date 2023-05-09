@@ -22,6 +22,8 @@ public interface QboardMapper {
     public void increaseLikeCount(int qb_idx);
     public void increaseDislikeCount(int qb_idx);
     public List<FreeBoardDto> bestfreeboardPosts();
+    
+    //좋아요 / 싫어요 관련 메서드들
     public void increaseGoodRp(int qb_idx);
     public void increaseBadRp(int qb_idx);
     public void decreaseGoodRp(int qb_idx);

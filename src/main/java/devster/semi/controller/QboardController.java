@@ -181,6 +181,8 @@ public class QboardController {
         QboardDto dto = qboardService.getOnePost(qb_idx);
         String nickName = qboardService.selectNickNameOfQb_idx(dto.getQb_idx());
         String photo = qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
+        
+//        버튼 상태에 관한 정보를 디테일 페이지로 보내줌.
         boolean isAlreadyAddGoodRp = qboardService.isAlreadyAddGoodRp(qb_idx,(int)session.getAttribute("memidx"));
         boolean isAlreadyAddBadRp = qboardService.isAlreadyAddBadRp(qb_idx,(int)session.getAttribute("memidx"));
 
@@ -208,6 +210,8 @@ public class QboardController {
         return "/main/qboard/qboarddetail";
     }
 
+    
+    //좋아요 증가 메서드
     @RequestMapping("/increaseGoodRp")
     @ResponseBody
     public int increaseGoodRp(int qb_idx,int m_idx) {
@@ -222,6 +226,7 @@ public class QboardController {
         return goodRp;
     }
 
+    //좋아요 감소 메서드
     @RequestMapping("/decreaseGoodRp")
     @ResponseBody
     public int decreaseGoodRp(int qb_idx,int m_idx) {
@@ -236,6 +241,7 @@ public class QboardController {
         return goodRp;
     }
 
+    //싫어요 증가 메서드
     @RequestMapping("/increaseBadRp")
     @ResponseBody
     public int increaseBadRp(int qb_idx, int m_idx) {
@@ -247,6 +253,7 @@ public class QboardController {
         return badRp;
     }
 
+    //싫어요 감소 메서드
     @RequestMapping("/decreaseBadRp")
     @ResponseBody
     public int decreaseBadRp(int qb_idx, int m_idx) {

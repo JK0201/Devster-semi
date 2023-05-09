@@ -46,6 +46,8 @@
         limit 10
     </select>
 
+<!-- 좋아요 / 싫어요 관련 메서드들 -->
+
     <update id="increaseGoodRp">
         UPDATE qboard
         SET qb_like =

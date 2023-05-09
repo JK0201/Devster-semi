@@ -27,6 +27,7 @@
     </style>
 
     <script>
+<%--        버튼 상태 관련 이벤트  --%>
         $(document).ready(function() {
             <!-- jsp 실행 이전의 리액션 여부 체크 및 버튼 색상 표현 -->
             $(function() {
@@ -205,6 +206,7 @@
                     수정
                 </button>
             </c:if>
+<%--            좋아요 / 싫어요 버튼--%>
             <span id="add-goodRp-btn" class="btn btn-outline" >
                   좋아요👍
                   <span class="add-goodRp ml-2">${dto.qb_like}</span>
@@ -239,6 +241,7 @@
 </body>
 
 <script>
+<%--    현재 버튼이 눌려있는지 확인해서 상태에 따라 버튼에 색상표시  --%>
     var isAlreadyAddGoodRp = ${isAlreadyAddGoodRp};
     var isAlreadyAddBadRp = ${isAlreadyAddBadRp};
 
