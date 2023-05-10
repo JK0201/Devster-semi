@@ -101,6 +101,8 @@
         <option value="2"${dto.rb_type == 2 ? 'selected' : ''}>코딩테스트 후기</option>
         <option value="3"${dto.rb_type == 3 ? 'selected' : ''}>합격 후기</option>
     </select>
+            <input id="rearch-input" type="text" name="ci_idx" placeholder="회사 이름을 검색하세요" required>
+            <div id="search-result"></div>
         <br>
 
         <div class="star-rb_star">
@@ -176,6 +178,55 @@
 
     </div>
 </form>
+<script>
+    $(function() {
+        // 검색창에서 키 입력 시, 검색어에 해당하는 회사 정보를 검색하여 표시
+        $('#rearch-input').on('keyup', function() {
+            var query = $(this).val();
+            $.ajax({
+                url: "search",
+                method: 'GET',
+                data: {
+                    "keyword": query
+                },
+                dataType: "json",
+                success: function (data) {
+                    var html = '';
+                    $.each(data, function (idx, ele) {
+                        if (ele.ci_name.includes(query)) {
+                            html += '<div class="data" data-ci-idx="' + ele.ci_idx + '">' + ele.ci_name + '</div>';
+                            html += "<br>";
+                        }
+                    });
+                    $('#search-result').html(html);
+                },
+                error: function () {
+                    $('#search-result').html('Error occurred');
+                }
+            });
+        });
+
+        // 엔터 키 입력 시, 가장 비슷한 값 자동 선택
+        $('#rearch-input').on('keydown', function(event) {
+            if (event.keyCode === 13) { // Enter key pressed
+                event.preventDefault();
+                var selected = $('#search-result .data:first-child');
+                if (selected.length > 0) {
+                    var ci_idx = selected.data('ci-idx');
+                    $('#rearch-input').val(ci_idx);
+                }
+            }
+        });
+
+        // 회사 정보를 클릭하면 해당 회사 정보를 input의 value 값으로 설정
+        $(document).on('click', '.data', function() {
+            var ci_idx = $(this).data('ci-idx');
+            $('#rearch-input').val(ci_idx); // input의 value 값을 변경
+        });
+    });
+
+
+</script>
 </body>
 </html>
 

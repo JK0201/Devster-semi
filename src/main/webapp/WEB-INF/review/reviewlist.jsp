@@ -73,21 +73,24 @@
         .star-ci_star :checked ~ label {
             color: #f90;
         }
+
         .star-ci_star_list{
             display: flex;
-            /*  flex-direction: row-reverse;*/
+            /*flex-direction: row-reverse;*/
             font-size: 1.5em;
             justify-content: space-around;
-            padding: 0 .2em;
-            text-align: center;
+          /*  padding: 0 .2em;*/
+      /*      text-align: center;*/
             width: 5em;
+            float: left;
+            padding-left: 90px;
         }
 
         .star-ci_star_list input {
             display: none;
         }
 
-        .star-ci_star_list label {
+       /* .star-ci_star_list label {
             color: #ccc;
             cursor: pointer;
             font-size: 1.5em;
@@ -96,7 +99,7 @@
         .star-ci_star_list :checked ~ label {
             color: #f90;
         }
-
+*/
 
         .clear:after { /* 자식이 모두 float 을 사용할때 부모가 높이를 갖게하기 위함 */
             content: "";
@@ -326,29 +329,28 @@
                 $.each(res, function (idx, ele) {
                     const ciSaleFormatted = formatter.format(ele.ci_sale);
                     const ciSalFormatted = formatter.format(ele.ci_sal);
-
+                    let stars = '';
+                    for(let i = 1; i <= 5; i++){
+                        stars += `<input type="radio" id="rating${i}" name="rating" value="${i}" \${(i === ele.ci_star) ? 'checked="checked"' : ''} />
+                    <label for="rating${i}" class="star" \${(i <= ele.ci_star) ? 'style="color: orange;"' : 'style="color: #ccc;"'}>★</label>`;
+                    }
                     s += `
-                   <pre>
-    회사이름: \${ele.ci_name}
-    사원수: \${ele.ci_ppl} 명
-    매출액: \${ciSaleFormatted}
-    연봉: \${ciSalFormatted}
-    별점:
-    <span class="star-ci_star_list">
-      <c:forEach var="i" begin="1" end="5">
-        <input type="radio" id="rating${i}" name="rating" value="${i}" <c:if test="${i} eq ${ele.ci_star}">checked="checked"</c:if> />
-        <label for="rating${i}" class="star" <c:if test="${i} le ${ele.ci_star}">style="color: orange;"</c:if>>★</label>
-      </c:forEach>
-
-    </span>
-  </pre>
-                  `
+          <pre>
+            회사이름: \${ele.ci_name}
+            사원수: \${ele.ci_ppl} 명
+            매출액: \${ciSaleFormatted}
+            연봉: \${ciSalFormatted}
+            별점:
+            <span class="star-ci_star_list" style="float: left">
+              \${stars}
+            </span>
+          </pre>
+        `;
                 });
                 $("div.alist").html(s);
             }
         });
     };
-
 
     //리뷰 select 결과만 출력
 

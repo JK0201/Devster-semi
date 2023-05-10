@@ -4,6 +4,7 @@ import devster.semi.dto.CompanyinfoDto;
 import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.ReviewDto;
 import devster.semi.service.ReviewService;
+import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.convert.PeriodUnit;
 import org.springframework.stereotype.Controller;
@@ -135,12 +136,20 @@ public class ReviewBoardController {
 
 
 
-  @PostMapping("/insert")
-  public String insertreview(ReviewDto dto, HttpSession session) {
+    @PostMapping("/insert")
+    @ResponseBody
+    public void insertreview(@RequestParam int rb_type,String rb_content, int rb_star, int m_idx, int ci_idx) {
+        ReviewDto dto = new ReviewDto();
+        dto.setRb_type(rb_type);
+        dto.setRb_content(rb_content);
+        dto.setRb_star(rb_star);
+        dto.setM_idx(m_idx);
+        dto.setCi_idx(ci_idx);
 
-      reviewService.insertreview(dto);
-      return "redirect:/review/list";
-  }
+
+        reviewService.insertreview(dto); // ReviewDto 객체 insert 하기
+
+    }
 
   @GetMapping("/updateform")
     public String update(int rb_idx,Model model){

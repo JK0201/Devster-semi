@@ -70,101 +70,129 @@
 <body>
 
 
-    <img id="showimg">
+<img id="showimg">
 
- <form action="insert" method="post" enctype="multipart/form-data">
+<form name="review-form">
+    <div style="width: 500px; margin-left: 100px;">
+        <c:set var="m_idx"  value="${sessionScope.memidx}"/>
+        <c:set var="m_nic"  value="${sessionScope.memnick}"/>
 
+        <p>로그인한 회원: ${m_nic}</p>
+        <input type="hidden" name="m_idx" value="${m_idx}">
 
-     <div style="width: 500px; margin-left: 100px;">
-         <%-- 세션에서 로그인한 회원의 아이디를 가져옴 --%>
-         <c:set var="m_idx"  value="${sessionScope.memidx}"/>
-             <c:set var="m_nic"  value="${sessionScope.memnick}"/>
+        타입 : <select class="rb_type" name="rb_type" >
+        <option value="">선택해주세요</option>
+        <option value="1">면접 후기</option>
+        <option value="2">코딩테스트 후기</option>
+        <option value="3">합격 후기</option>
+    </select>
+        <br>
+        <input id="rearch-input" type="text" name="ci_idx" placeholder="회사 이름을 검색하세요" required>
+        <div id="search-result"></div>
 
-         <p>로그인한 회원: ${m_nic}</p>
-             <input type="hidden" name="m_idx" value="${m_idx}">
-
-         타입 : <select class="rb_type" name="rb_type" >
-            <option value="1">면접 후기</option>
-            <option value="2">코딩테스트 후기</option>
-            <option value="3">합격 후기</option>
-                </select>
-
-             회사 선택:
-             <%--<select name="ci_idx">
-                 <c:forEach var="ciInfo" items="${ciNameList}">
-                     <option value="${ciInfo.ci_idx}">${ciInfo.ci_name}</option>
-                 </c:forEach>
-             </select>--%>
-             <div>
-                 <input id="search" type="text" placeholder="Search...">
-                 <div id="search-results"></div>
-             </div>
-
-                 <script>
-                     $(function() {
-                     // 검색창에서 키 입력 시, 검색어에 해당하는 회사 정보를 검색하여 표시
-                     $('#search').on('keyup', function() {
-                         var query = $(this).val();
-                         $.ajax({
-                             url: "search",
-                             method: 'GET',
-                             data: {
-                                 "keyword": query
-                             },
-                             dataType:"json",
-                             success: function(data) {
-                                 var html = '';
-                                 $.each(data,function(idx,ele) {
-                                    if(ele.ci_name.includes(query)) {
-                                        html += '<div class="data" data-ci-idx="' + ele.ci_idx + '">' + ele.ci_name + '</div>';
-                                        html += "<br>";
-                                    }
-                                 });
-                                 $('#search-results').html(html);
-                             },
-                             error: function() {
-                                 $('#search-results').html('Error occurred');
-                             }
-                         });
-                     });
-
-                         // 회사 정보를 클릭하면 해당 회사 정보를 insert 버튼에 전달
-                         $(document).on('click', '.data', function() {
-                             var ci_idx = $(this).data('ci_idx');
-                             $('#ci_idx').val(ci_idx);
-                         });
-                     });
-
-
-             </script>
-
-             </select>
-         <div class="star-rb_star">
-             <input type="radio" id="5-stars" name="rb_star" value="5" />
-             <label for="5-stars" class="star">&#9733;</label>
-             <input type="radio" id="4-stars" name="rb_star" value="4" />
-             <label for="4-stars" class="star">&#9733;</label>
-             <input type="radio" id="3-stars" name="rb_star" value="3" />
-             <label for="3-stars" class="star">&#9733;</label>
-             <input type="radio" id="2-stars" name="rb_star" value="2" />
-             <label for="2-stars" class="star">&#9733;</label>
-             <input type="radio" id="1-star" name="rb_star" value="1" />
-             <label for="1-star" class="star">&#9733;</label>
-         </div>
-
-         <textarea style="width: 80%; height: 100px" class="form-control rb_content" id="rb_content" name="rb_content">
+        <div class="star-rb_star">
+            <input type="radio" id="5-stars" name="rb_star" value="5" />
+            <label for="5-stars" class="star">&#9733;</label>
+            <input type="radio" id="4-stars" name="rb_star" value="4" />
+            <label for="4-stars" class="star">&#9733;</label>
+            <input type="radio" id="3-stars" name="rb_star" value="3" />
+            <label for="3-stars" class="star">&#9733;</label>
+            <input type="radio" id="2-stars" name="rb_star" value="2" />
+            <label for="2-stars" class="star">&#9733;</label>
+            <input type="radio" id="1-star" name="rb_star" value="1" />
+            <label for="1-star" class="star">&#9733;</label>
+        </div>
+        <textarea style="width: 80%; height: 100px" class="form-control rb_content" id="rb_content" name="rb_content">
 
 
          </textarea>
 
-         <button type="submit">게시글등록</button>
-     </div>
+        <button type="button" id="btnSb">게시글등록</button>
+    </div>
+</form>
+<script>
+    var ci_idx;
+    $(function() {
+
+        // 검색창에서 키 입력 시, 검색어에 해당하는 회사 정보를 검색하여 표시
+        $('#rearch-input').on('keyup', function() {
+            var query = $(this).val();
+            $.ajax({
+                url: "search",
+                method: 'GET',
+                data: {
+                    "keyword": query
+                },
+                dataType: "json",
+                success: function (data) {
+                    var html = '';
+                    $.each(data, function (idx, ele) {
+                        if (ele.ci_name.includes(query)) {
+                            html += '<div class="data" data-ci-idx="' + ele.ci_idx + '">' + ele.ci_name + '</div>';
+                            html += "<br>";
+                        }
+                    });
+                    $('#search-result').html(html);
+                },
+                error: function () {
+                    $('#search-result').html('Error occurred');
+                }
+            });
+        });
+
+        // 엔터 키 입력 시, 가장 비슷한 값 자동 선택
+        $('#rearch-input').on('keydown', function(event) {
+            if (event.keyCode === 13) { // Enter key pressed
+                event.preventDefault();
+                var selected = $('#search-result .data:first-child');
+                if (selected.length > 0) {
+                    var ci_name = selected.text(); // 회사명(ci_name) 가져오기
+                    $('#rearch-input').val(ci_name); // 검색창에 선택한 회사 정보의 이름을 표시
+                }
+            }
+        });
 
 
+        $(document).on('click', '.data', function() {
+            ci_idx = $(this).attr("data-ci-idx");
 
-    </form>
+            var ci_name = $(this).text();
+            $('#rearch-input').val(ci_name);
+        });
+    });
+
+    $("#btnSb").click(function (){
+        var rb_type = $(".rb_type").val();
+        var rb_star = $("input[name='rb_star']:checked").val();
+        var rb_content = $(".rb_content").val();
+        var m_idx = $("input[name='m_idx']").val();
+        insertAjax(ci_idx, rb_type, rb_star, rb_content, m_idx);
+    });
+
+    function insertAjax(ci_idx, rb_type, rb_star, rb_content, m_idx) {
+
+
+        $.ajax({
+            url : "insert",
+            data: { "rb_type": rb_type,
+                "rb_star": rb_star,
+                "rb_content": rb_content,
+                "m_idx": m_idx,
+                "ci_idx": ci_idx
+
+            },
+
+            method: 'post',
+            success : function (res) {
+                alert("입력 완료");
+                location.href="list";
+            }
+
+        });
+    }
+
+</script>
 
 
 </body>
 </html>
-

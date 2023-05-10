@@ -1,6 +1,7 @@
 package devster.semi.dto;
 
 import lombok.Data;
+import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +10,7 @@ import java.sql.Timestamp;
 @Data
 @Alias("reviewDto")
 @Component
+@ToString
 public class ReviewDto {
     private int m_idx;
     private int ci_idx;
@@ -20,10 +22,6 @@ public class ReviewDto {
 /*    private int rb_readcount;*/
     private int rb_star;
     private Timestamp rb_writeday;
-/*    private String m_nickname;*/
-
-
-
 
 
 }
