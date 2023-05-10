@@ -26,11 +26,14 @@ header.header .wrap li{float: left;}
 
 header.header .wrap li a{
     font-size: 18px;
+    color: #222;
 }
 
 /*header.header .wrap li a.selected{font-weight: bold;}*/
 
-header.header .wrap li a{font-weight: bold;}
+header.header .wrap li a.selected{
+    font-weight: bold;
+}
 
 header.header{
     border-bottom: 1px solid #ccc;
@@ -45,6 +48,12 @@ header.header .wrap .gnb{
 
 header.header .wrap .gnb li{margin-left: 30px;}
 
+header.header .wrap .gnb li:last-child{
+    position: absolute;
+    top: 35px;
+    left: 0px;
+}
+
 header.header .wrap .util_menu{
     float: right;
     line-height: 70px;
@@ -53,6 +62,8 @@ header.header .wrap .util_menu li{
     float: left;
     margin-left: 10px;
 }
+
+
 
 /*================== 로고 ======================*/
 header.header .wrap .logo{

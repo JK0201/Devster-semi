@@ -88,7 +88,7 @@ public class ReviewBoardController {
                 map.put("ci_name", ciDto.getCi_name());
                 map.put("ci_ppl", ciDto.getCi_ppl());
                 DecimalFormat decimalFormat = new DecimalFormat("#,###");
-                map.put("ci_sale", decimalFormat.format(ciDto.getCi_sale()) + "원");
+                map.put("ci_sale", ciDto.getCi_sale());
                 map.put("ci_sal", decimalFormat.format(ciDto.getCi_sal()) + "원");
                 map.put("ci_photo", ciDto.getCi_photo());
                 map.put("ci_star", ciDto.getCi_star());
