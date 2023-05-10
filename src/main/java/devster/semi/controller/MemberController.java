@@ -290,7 +290,6 @@ public class MemberController {
     @PostMapping("/signupform")
     @ResponseBody
     public void signUpForm(MemberDto dto, String ai_name, MultipartFile upload) {
-
         String salt = SHA256Util.generateSalt();
         String m_pass = dto.getM_pass();
         m_pass = SHA256Util.getEncrypt(m_pass, salt);
@@ -354,12 +353,14 @@ public class MemberController {
     @PostMapping("/apisignupform")
     @ResponseBody
     public void apiSignUpForm(MemberDto dto, String ai_name, MultipartFile upload) {
-        System.out.println(dto.getM_email());
-        System.out.println(ai_name);
-
         String salt = SHA256Util.generateSalt();
-        String m_pass = dto.getM_email();
+        String m_pass = dto.getM_pass();
         m_pass = SHA256Util.getEncrypt(m_pass, salt);
+
+        String[] tokens = dto.getM_tele().split("-");
+        String phoneNoHyphen = String.join("", tokens);
+        tokens = phoneNoHyphen.split("\\s");
+        String m_tele = String.join("", tokens);
 
         if (dto.getAi_name() == null) {
             dto.setAi_name("no");
@@ -377,10 +378,7 @@ public class MemberController {
         dto.setSalt(salt);
         dto.setM_pass(m_pass);
         dto.setM_photo(m_photo);
-
-        //소셜 로그인
-        dto.setM_name("API");
-        dto.setM_tele("API");
+        dto.setM_tele(m_tele);
         dto.setAi_idx(memberService.getAcademyIdx(dto.getAi_name()));
 
         memberService.addNewMember(dto);
@@ -422,5 +420,20 @@ public class MemberController {
     @GetMapping("/grats")
     public String grats() {
         return "/main/member/grats";
+    }
+
+    @GetMapping("/finder")
+    public String finder() {
+        return "/main/member/finderselect";
+    }
+
+    @GetMapping("/accfinder")
+    public String accFinder() {
+        return "/main/member/accountfinder";
+    }
+
+    @GetMapping("/passfinder")
+    public String passFinder() {
+        return "/main/member/passfinder";
     }
 }
