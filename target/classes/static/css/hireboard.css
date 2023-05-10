@@ -3,35 +3,6 @@
 @import url(common.css);
 
 
-
-.writebtn{
-    margin-top: 10px;
-}
-
-/*
-#photo{
-    width:80px;
-    height:80px;
-}
-*/
-
-
-a:visited {color: #000; text-decoration: none;}
-
-a{
-    text-decoration:none !important;
-}
-
-a {
-    color: #000000;
-    text-decoration: none;
-}
-a:hover {
-    color: #000000 !important;
-    text-decoration: none;
-}
-
-
 /*========================================================================================*/
 
 section.main .hb_wrap{
@@ -56,11 +27,15 @@ section.main .hb_wrap .box {
 section.main .hb_wrap .box:first-child{
     border-top: 1px solid #eee;
 }
+section.main .hb_wrap .box:nth-child(2){
+    border-top: 1px solid #eee;
+}
 section.main .hb_wrap .box .hb_writeday{
     border: 2px solid rgba(148,150,155,0.3);
     padding: 4px 10px;
     border-radius: 100px;
     font-size: 13px;
+    color: #aaa;
 }
 section.main .hb_wrap .box .hb_readcount{
     /*border: 2px solid rgba(148,150,155,0.3);*/
@@ -68,10 +43,22 @@ section.main .hb_wrap .box .hb_readcount{
     border-radius: 100px;
     font-size: 13px;
     background-color: #eff1f5;
+    color: gray;
+}
+section.main .hb_wrap .box .hb_readcount div.icon_read{
+    display: inline-block;
+    background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
+    background-size: 590px 907px;
+    background-position: -10px -595px;
+    /*content: '';*/
+    width: 16px;
+    height: 23px;
+   /* float: left;*/
 }
 section.main .hb_wrap .box .hb_subject{
-    font-size: 21px;
-    margin-top: 8px;
+    font-size: 18px;
+    margin-top: 10px;
+    height: 112px;
 }
 section.main .hb_wrap .box span.hb_photo{
     width: 80px;
@@ -86,7 +73,57 @@ section.main .hb_wrap .box span.hb_photo img{
     height: 80px;
 }
 
+section.main .hb_wrap .hr_tag{
+    /*margin-top: 20px;*/
+}
 
+section.main .hb_wrap .hr_tag_1{
+    font-size: 12px;
+    border: 1px solid rgb(19, 191, 159);
+    display: inline-block;
+    padding: 1px 8px 0px 7px;
+    margin-left: -2px;
+    color: rgb(19, 191, 159);
+}
+section.main .hb_wrap .hr_tag_2{
+    font-size: 12px;
+    border: 1px solid rgb(119, 101, 255);
+    display: inline-block;
+    padding: 1px 8px 0px 7px;
+    color: rgb(119, 101, 255);
+}
+
+section.main .paginate{
+    width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+    height: 100px;
+    /*background-color: palegreen;*/
+}
+section.main .paginate .icon_pre{
+    background: url(../photo/devster_icon.png) no-repeat;
+    background-size: 600px 900px;
+    background-position: -218px -626px;
+    margin-right: 15px;
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+}
+section.main .paginate .icon_next{
+    background: url(../photo/devster_icon.png) no-repeat;
+    background-size: 600px 900px;
+    background-position: -166px -626px;
+    margin-right: 15px;
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+}
+
+section.main .hb_write_btn{
+    position: relative;
+    bottom: 112px;
+    left: 1203px;
+}
 
 
 

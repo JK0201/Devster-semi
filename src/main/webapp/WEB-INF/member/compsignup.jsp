@@ -126,6 +126,7 @@
                         $("#sendemail").prop("disabled", true);
                         $("#emailchkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
                             "<span>이미 사용중인 E-mail입니다</span>");
+                        $("#sendemail").prop("disabled", true);
                         emailcheck = false;
                     }
                 }

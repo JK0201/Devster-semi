@@ -15,21 +15,23 @@
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <style>
-        body, body * {
-            font-family: 'Jua'
-        }
     </style>
 </head>
 <body>
-    <form action="update" enctype="multipart/form-data" method="post">
-        <input type="hidden" name="m_idx" value="${sessionScope.memidx}">
-        <input type="hidden" name="qb_idx" value="${dto.qb_idx}">
-        <input type="hidden" name="currentPage" value="${currentPage}">
-
-        제목 : <input type="text" name="qb_subject" value="${dto.qb_subject}"><br>
-        내용 : <textarea name="qb_content">${dto.qb_content}</textarea><br>
-        사진 : <input type="file" name="upload" multiple><br>
-        <button class="btn btn-outline-dark" type="submit">글 수정</button>
-    </form>
+<div style="width:200px; height:100px; border: 1px solid black" id="norm">
+        개인회원
+    <div>
+        <a href="accfinder?type=0">아이디 찾기</a>
+        <a href="passfinder?type=0">비밀번호 찾기</a>
+    </div>
+</div>
+<div style="width:200px; height:100px; border: 1px solid black" id="comp">
+    기업회원
+    <div>
+        <a href="accfinder?type=2">아이디 찾기</a>
+        <a href="passfinder?type=2">비밀번호 찾기</a>
+    </div>
+</div>
 </body>
 </html>
+

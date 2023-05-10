@@ -10,24 +10,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../commonvar.jsp" %>
-<%--<html>
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="Refresh" content="10;url=./list"><!-- 10초에 한번씩 refresh -->
-  <title>Insert title here</title>
-  <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-  <style>
-
-
-
-
-  </style>
-</head>
-<body>--%>
-
 
 <div class="hb_wrap clear">
 
@@ -35,8 +17,8 @@
     <c:forEach var="dto" items="${list}" varStatus="i">
         <div class="box" <c:if test="${i.index % 2 == 1}">style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;"</c:if>>
 
-            <span class="hb_writeday"><fmt:formatDate value="${dto.fb_writeday}" pattern="MM-dd"/></span>
-            <span class="hb_readcount">조회수 : ${dto.hb_readcount}</span>
+            <span class="hb_writeday"><fmt:formatDate value="${dto.fb_writeday}" pattern="MM/dd"/></span>
+            <span class="hb_readcount"><div class="icon_read"></div> ${dto.hb_readcount}</span>
 
             <span class="hb_photo">
                 <a href="hireboarddetail?hb_idx=${dto.hb_idx}&currentPage=${currentPage}">
@@ -49,6 +31,11 @@
             </h3>
 
 
+            <div class="hr_tag">
+                <div class="hr_tag_1">이직시200만원</div>
+                <div class="hr_tag_2">유연근무</div>
+            </div>
+
         </div>
         <%-- <c:if test="${i.count%2==0}">
              <br style="clear: both;"><br>
@@ -57,15 +44,15 @@
 
 </div>
 
-<div style="width: 700px; text-align: center; font-size: 20px; margin-left: 270px;">
+<div class="paginate">
     <!-- 이전 -->
     <c:if test="${startPage > 1}">
         <a style="color: black; text-decoration: none; cursor: pointer;"
-           href="list?currentPage=${startPage-1}">이전</a>
+           href="list?currentPage=${startPage-1}"><div class="icon_pre"></div></a>
     </c:if>
     <c:if test="${startPage <= 1}">
-        <a style="color: black; text-decoration: none; cursor: pointer; visibility: hidden;"
-           href="list?currentPage=${startPage-1}">이전</a>
+        <a style="color: black; text-decoration: none; cursor: pointer;
+        visibility: hidden;" href="list?currentPage=${startPage-1}"><div class="icon_pre"></div></a>
     </c:if>
     <!-- 페이지 번호 출력 -->
     <c:forEach var="pp" begin="${startPage}" end="${endPage}">
@@ -79,24 +66,22 @@
     </c:forEach>
     <!-- 다음 -->
     <c:if test="${endPage < totalPage}">
-        <a style="color: black; text-decoration: none; cursor: pointer;" href="list?currentPage=${endPage+1}">다음</a>
+       <a style="color: black; text-decoration: none; cursor: pointer;" href="list?currentPage=${endPage+1}"><div class="icon_next"></div></a>
     </c:if>
     <c:if test="${endPage >= totalPage}">
-        <a style="color: black; text-decoration: none; cursor: pointer; visibility: hidden;"
-           href="list?currentPage=${endPage+1}">다음</a>
+       <a style="color: black; text-decoration: none; cursor: pointer;
+        visibility: hidden;" href="list?currentPage=${endPage+1}"><div class="icon_next"></div></a>
     </c:if>
+
+
 </div>
 
-<br>
-<button type="button" class="btn btn-sm btn-outline-success writebtn"
-        onclick="location.href='form'" style="margin-bottom: 10px">글작성
+<button type="button" class="btn btn-sm btn-outline-success hb_write_btn"
+        onclick="location.href='form'" style="margin-bottom: 10px">글쓰기
 </button>
 
 
-<%--
-</body>
-</html>
---%>
+
 
 
 

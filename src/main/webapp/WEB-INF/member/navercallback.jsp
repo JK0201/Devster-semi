@@ -23,18 +23,20 @@
 <script type="text/javascript">
     var naver_id_login = new naver_id_login("Qr3pEkAiiIBJ_L9HaGiY", "http://localhost:9000/member/navercallback");
     // 접근 토큰 값 출력
-    console.log(naver_id_login.oauthParams.access_token);
+    // console.log(naver_id_login.oauthParams.access_token);
     // 네이버 사용자 프로필 조회
     naver_id_login.get_naver_userprofile("naverSignInCallback()");
 
     // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
     function naverSignInCallback() {
-        console.log(naver_id_login.getProfileData("email"));
-        console.log(naver_id_login.getProfileData("profile_image"));
-        console.log(naver_id_login.getProfileData("nickname"));
-        console.log(naver_id_login.getProfileData("name"));
-
+        // console.log(naver_id_login.getProfileData("email"));
+        // console.log(naver_id_login.getProfileData("profile_image"));
+        // console.log(naver_id_login.getProfileData("nickname"));
+        // console.log(naver_id_login.getProfileData("name"));
         let m_email = naver_id_login.getProfileData("email");
+        let m_pass=naver_id_login.oauthParams.access_token;
+
+        console.log(m_pass);
         // let m_nickname = naver_id_login.getProfileData("nickname");
         // let m_photo = naver_id_login.getProfileData("profile_image");
         // let m_name = naver_id_login.getProfileData("name");
@@ -53,7 +55,7 @@
                     let b = confirm("계정 없음");
                     if (b) {
                         window.close();
-                        window.opener.location.href="apisignup?m_email="+m_email;
+                        window.opener.location.href="apisignup?m_email="+m_email+"&m_pass="+m_pass;
                     } else {
                         window.close();
                     }
