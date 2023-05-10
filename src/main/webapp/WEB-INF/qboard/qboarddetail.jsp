@@ -30,9 +30,8 @@
 <%--        버튼 상태 관련 이벤트  --%>
         $(document).ready(function() {
             <!-- jsp 실행 이전의 리액션 여부 체크 및 버튼 색상 표현 -->
-            $(function() {
                 checkAddRpBefore();
-            });
+                answer();
 
             <!-- 좋아요 버튼 클릭 이벤트 및 ajax 실행 -->
             $("#add-goodRp-btn").click(function() {
@@ -230,6 +229,7 @@
             <input id="aboardPhoto" class="form-control" type="file" multiple name="upload"><br>
             <button type="button" id="submit" class="btn btn-outline-dark" style="position: relative; right: -91%">작성</button>
         </form>
+
     </div>
     <div class="answerPrintBox" style="margin-left: 100px; width: 600px; border: 3px solid black">
 
@@ -287,7 +287,9 @@
     <h2>\${item.ab_content}</h2>`;
 
                     $.each(item.photo, function (index2, photos) {
-                        s += `<img src="http://${imageUrl}/aboard/\${photos}" style="width:400px;"><br>`;
+                        if (${photos == no}) {
+                            s += `<img src="http://${imageUrl}/aboard/\${photos}" style="width:400px;"><br>`;
+                        };
                     });
                     if (item.m_idx == ${sessionScope.memidx}) {
                         s += `
@@ -312,6 +314,14 @@
     // 댓글 작성
     function insert() {
         let form = $("form[name=aboardInsert]")[0];
+
+        // 먼저 textarea의 값이 있는지 확인합니다.
+        let textarea = $("#aboardContent")[0];
+        if(textarea.value.trim() === '') {
+            alert("내용을 입력해주세요.");
+            return; // 내용이 없다면 함수를 종료합니다.
+        }
+
         let formData = new FormData(form);
 
         formData.append("qb_idx", ${dto.qb_idx});
@@ -363,7 +373,7 @@
                     `
             <h3>수정</h3>
             <form name="aboardUpdate">
-                <textarea id="aboardContent" class="form-control" name="ab_content">\${response.ab_content}</textarea>
+                <textarea id="aboardContent" class="form-control" name="ab_content" required>\${response.ab_content}</textarea>
                 <input id="aboardPhoto" class="form-control" type="file" multiple name="upload"><br>
                 <button type="button" id="submit" class="btn btn-outline-dark" style="position: relative; right: -91%">수정</button>
             </form>

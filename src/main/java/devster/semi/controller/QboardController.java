@@ -62,7 +62,9 @@ public class QboardController {
                 Map<String,Object> map = new HashMap<>();
                 map.put("qb_idx",dto.getQb_idx());
                 map.put("nickName",qboardService.selectNickNameOfQb_idx(dto.getQb_idx()));
+
                 String photo = qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
+                int countComment = qboardService.countComment(dto.getQb_idx());
 
                 if(photo.equals("no")) {
                     photo = "/photo/profile.jpg";
@@ -70,6 +72,7 @@ public class QboardController {
                     photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
                 }
                 map.put("photo",photo);
+                map.put("count",countComment);
                 map.put("qb_subject",dto.getQb_subject());
                 map.put("qb_content",dto.getQb_content());
                 map.put("qb_writeday", dto.getQb_writeday());
@@ -181,7 +184,7 @@ public class QboardController {
         QboardDto dto = qboardService.getOnePost(qb_idx);
         String nickName = qboardService.selectNickNameOfQb_idx(dto.getQb_idx());
         String photo = qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
-        
+
 //        버튼 상태에 관한 정보를 디테일 페이지로 보내줌.
         boolean isAlreadyAddGoodRp = qboardService.isAlreadyAddGoodRp(qb_idx,(int)session.getAttribute("memidx"));
         boolean isAlreadyAddBadRp = qboardService.isAlreadyAddBadRp(qb_idx,(int)session.getAttribute("memidx"));

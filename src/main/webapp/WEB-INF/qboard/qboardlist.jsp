@@ -156,12 +156,7 @@
                         <!-- 제목 -->
                         <td>
                             <a href="detail?qb_idx=${dto.qb_idx}&currentPage=${currentPage}" style="color: black; text-decoration: none; cursor: pointer;">
-                                <!-- 사진이 있을경우 아이콘 출력 -->
-                                    <%--                        <c:if test="${dto.qb_photo!=''}">--%>
-                                    <%--                            <i class="bi bi-images"></i>--%>
-                                    <%--                        </c:if>--%>
-                                    <%--   제목이 길경우 150px 만 나오고 말 줄임표...--%>
-                                <span style="text-overflow:ellipsis;overflow: hidden;white-space: nowrap;display: inline-block;max-width: 300px;">${dto.qb_subject}
+                                <span style="text-overflow:ellipsis;overflow: hidden;white-space: nowrap;display: inline-block;max-width: 300px;">${dto.qb_subject} <span style="color: red; font-size: 14px">[${dto.count}]</span>
                                 </span>
                             </a>
                         </td>
