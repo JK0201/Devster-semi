@@ -64,7 +64,7 @@
         }
 
         .already-added {
-           background-color:cornflowerblue;
+           background-color: grey;
             color: white;
         }
     </style>
@@ -212,18 +212,21 @@
         </c:forEach>
     </div>
   <%--  <div class="footbox">
-        <i class="bi bi-hand-thumbs-up thumbsup" onclick="like()"></i>&nbsp;${dto.fb_like}&nbsp;
-        <i class="bi bi-hand-thumbs-down thumbsdown" onclick="dislike()"></i>&nbsp;${dto.fb_dislike}&nbsp;
+        <i class="bi bi-hand-thumbs-up thumbsup"></i>&nbsp;${dto.fb_like}&nbsp;
+        <i class="bi bi-hand-thumbs-down thumbsdown"></i>&nbsp;${dto.fb_dislike}&nbsp;
     </div>--%>
-    <%--            좋아요 / 싫어요 버튼--%>
-    <span id="add-goodRp-btn" class="btn btn-outline" >
-                  좋아요👍
+
+    <%--  좋아요 / 싫어요 버튼--%>
+    <div class="footbox">
+    <span id="add-goodRp-btn" class="btn btn-outline btn-sm">
+                  <i class="bi bi-hand-thumbs-up thumbsup"></i>&nbsp;좋아요
                   <span class="add-goodRp ml-2">${dto.fb_like}</span>
                 </span>
-    <span id="add-badRp-btn" class="ml-5 btn btn-outline">
-                  싫어요👎
+    <span id="add-badRp-btn" class="ml-5 btn btn-outline btn-sm">
+                  <i class="bi bi-hand-thumbs-down thumbsdown"></i>&nbsp;싫어요
                   <span class="add-badRp ml-2">${dto.fb_dislike}</span>
             </span>
+    </div>
 
 
 </div>
@@ -495,8 +498,8 @@ s+=`&nbsp;\${ele.nickname}</b><br><br>
 
             success: function (response) {
                 alert("답글이 작성되었습니다.");
-
                 commentList();
+
             },
             error: function (request, status, error) {
                 alert("code: " + request.status + "\n" + "error: " + error);
@@ -516,7 +519,7 @@ s+=`&nbsp;\${ele.nickname}</b><br><br>
             dataType : "json",
             success: function (response) {
 
-                let html = "<form name='replyupdate'> <input style='width: 90%; margin-bottom: 30px;' id='reComment_"+fbc_ref+"' class='reComment' name='fbc_content' value=`\${response.fbc_content}` type='text'>";
+                let html = "<form name='replyupdate'> <input style='width: 90%; margin-bottom: 30px;' id='reComment_"+fbc_ref+"' class='reComment' name='fbc_content' value='' type='text'>";
 
                 html += `<button type='button' class='btn btn-primary btn-sm reCommentSubmit' id="updatereply">수정</button></form>`;
 
@@ -549,6 +552,7 @@ s+=`&nbsp;\${ele.nickname}</b><br><br>
             success: function () {
                 alert("답글이 수정되었습니다.")
                 commentList();
+
             },
             error: function (xhr, status, error) {
                 // 에러 처리를 여기에서 처리합니다.
