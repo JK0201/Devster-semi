@@ -25,12 +25,12 @@
         </if>
         where nb_idx=#{nb_idx}
     </update>
-    <select id="selectNickNameOfMstate" parameterType="int" resultType="String">
+   <!-- <select id="selectNickNameOfMstate" parameterType="int" resultType="String">
         SELECT m.m_nickname
         FROM noticeboard nb
                  JOIN member m ON nb.m_state = m.m_state
         WHERE nb.nb_idx = #{nb_idx}
-    </select>
+    </select>-->
 
     <select id="getTopThree" resultType="NoticeBoardDto">
         select * from noticeboard order by nb_idx desc limit 3

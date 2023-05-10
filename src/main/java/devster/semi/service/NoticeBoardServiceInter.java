@@ -21,7 +21,7 @@ public interface NoticeBoardServiceInter {
 
     public void updateBoard(NoticeBoardDto dto);
 
-    public String selectNickNameOfMstate(int nb_idx);
+    /*public String selectNickNameOfMstate(int nb_idx);*/
 
     public List<NoticeBoardDto> getTopThree();
 }

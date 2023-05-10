@@ -57,10 +57,12 @@ public class NoticeBoardService implements NoticeBoardServiceInter{
         noticeBoardMapper.updateBoard(dto);
     }
 
+/*
     @Override
     public String selectNickNameOfMstate(int nb_idx) {
         return noticeBoardMapper.selectNickNameOfMstate(nb_idx);
     }
+*/
 
     @Override
     public List<NoticeBoardDto> getTopThree() {

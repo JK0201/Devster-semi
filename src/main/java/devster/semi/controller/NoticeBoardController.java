@@ -65,7 +65,7 @@ public class NoticeBoardController {
         for(NoticeBoardDto dto : list) {
             Map<String,Object> map = new HashMap<>();
             map.put("nb_idx",String.valueOf(dto.getNb_idx()));
-            map.put("nickName",noticeBoardService.selectNickNameOfMstate(dto.getNb_idx()));
+            /*map.put("nickName",noticeBoardService.selectNickNameOfMstate(dto.getNb_idx()));*/
             map.put("nb_subject",dto.getNb_subject());
             map.put("nb_photo",dto.getNb_photo());
             map.put("nb_content",dto.getNb_content());
@@ -129,10 +129,10 @@ public class NoticeBoardController {
 
         noticeBoardService.updateReadCount(nb_idx);
         NoticeBoardDto dto = noticeBoardService.getData(nb_idx);
-        String nickName = noticeBoardService.selectNickNameOfMstate(dto.getNb_idx());
+        /*String nickName = noticeBoardService.selectNickNameOfMstate(dto.getNb_idx());*/
 
         model.addAttribute("dto", dto);
-        model.addAttribute("nickname",nickName);
+        /*model.addAttribute("nickname",nickName);*/
         model.addAttribute("currentPage",currentPage);
 
         //Controller 디테일 페이지 보내는 부분.
