@@ -7,13 +7,13 @@
     </insert>
 
     <select id="GetAllReview" resultType="reviewDto">
-        select * from reviewboard  order by rb_idx desc
+        select * from reviewboard  order by rb_writeday desc
     </select>
     <select id="getTotalcount" resultType="int">
         select count(*) from reviewboard
     </select>
     <select id="getPagingList" parameterType="Map" resultType="reviewDto">
-        select * from reviewboard limit #{start},#{perPage}
+        select * from reviewboard order by rb_idx desc limit #{start},#{perPage}
     </select>
     <select id="Getmidx" parameterType="int" resultType="reviewDto">
         select * from reviewboard where m_idx = #{m_idx}

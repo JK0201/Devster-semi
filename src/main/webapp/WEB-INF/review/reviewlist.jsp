@@ -327,7 +327,7 @@
                     currency: 'KRW',
                 });
                 $.each(res, function (idx, ele) {
-                    const ciSaleFormatted = formatter.format(ele.ci_sale);
+
                     const ciSalFormatted = formatter.format(ele.ci_sal);
                     let stars = '';
                     for(let i = 1; i <= 5; i++){
@@ -338,7 +338,7 @@
           <pre>
             회사이름: \${ele.ci_name}
             사원수: \${ele.ci_ppl} 명
-            매출액: \${ciSaleFormatted}
+            매출액: \${ele.ci_sale}
             연봉: \${ciSalFormatted}
             별점:
             <span class="star-ci_star_list" style="float: left">

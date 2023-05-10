@@ -30,10 +30,10 @@ public class ReviewBoardController {
     private CompanyinfoDto campanyinfoDto;
 
     //버켓 이름
-    private String bucketName="devster-bucket";//각자 자기 버켓이름
+    private String bucketName = "devster-bucket";//각자 자기 버켓이름
 
     @GetMapping("/list")
-    public String list(@RequestParam(defaultValue = "1") int currentPage,Model model){
+    public String list(@RequestParam(defaultValue = "1") int currentPage, Model model) {
 
 
         int totalCount = reviewService.getTotalcount();
@@ -66,18 +66,18 @@ public class ReviewBoardController {
         // 각 페이지에 필요한 게시글 db에서 가져오기
         List<ReviewDto> list = reviewService.getPagingList(startNum, perPage);
 
-        List<Map<String,Object>> fulllList =new ArrayList<>();
+        List<Map<String, Object>> fulllList = new ArrayList<>();
 
-        for(ReviewDto dto : list) {
-            Map<String,Object> map = new HashMap<>();
-            map.put("rb_idx",String.valueOf(dto.getRb_idx()));
-            map.put("m_idx",String.valueOf(dto.getM_idx()));
-            map.put("rb_like",dto.getRb_like());
-            map.put("rb_dislike",dto.getRb_dislike());
-            map.put("rb_type",dto.getRb_type());
-            map.put("rb_star",dto.getRb_star());
-            map.put("nickName",reviewService.selectnicnameofmidx(dto.getM_idx()));
-            map.put("rb_content",dto.getRb_content());
+        for (ReviewDto dto : list) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("rb_idx", String.valueOf(dto.getRb_idx()));
+            map.put("m_idx", String.valueOf(dto.getM_idx()));
+            map.put("rb_like", dto.getRb_like());
+            map.put("rb_dislike", dto.getRb_dislike());
+            map.put("rb_type", dto.getRb_type());
+            map.put("rb_star", dto.getRb_star());
+            map.put("nickName", reviewService.selectnicnameofmidx(dto.getM_idx()));
+            map.put("rb_content", dto.getRb_content());
             String currentTimestampToString = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(dto.getRb_writeday());
             map.put("rb_writeday", currentTimestampToString);
 
@@ -92,11 +92,10 @@ public class ReviewBoardController {
                 map.put("ci_sal", decimalFormat.format(ciDto.getCi_sal()) + "원");
                 map.put("ci_photo", ciDto.getCi_photo());
                 map.put("ci_star", ciDto.getCi_star());
-                map.put("ci_idx",ciDto.getCi_idx());
+                map.put("ci_idx", ciDto.getCi_idx());
             }
             fulllList.add(map);
         }
-
 
 
         model.addAttribute("list", fulllList);
@@ -110,7 +109,7 @@ public class ReviewBoardController {
         model.addAttribute("currentPage", currentPage);
 
 
-        model.addAttribute("totalCount",totalCount);
+        model.addAttribute("totalCount", totalCount);
 
         return "/main/review/reviewlist";
     }
@@ -126,19 +125,18 @@ public class ReviewBoardController {
 
     @GetMapping("/reviewriterform")
     public String form(@RequestParam(defaultValue = "1") int currentPage,
-                       @RequestParam(defaultValue = "0") int rb_idx, Model model){
+                       @RequestParam(defaultValue = "0") int rb_idx, Model model) {
         List<CompanyinfoDto> ciNameList = reviewService.selectciname();
         model.addAttribute("ciNameList", ciNameList);
-        model.addAttribute("currentPage",currentPage);
-        model.addAttribute("rb_idx",rb_idx);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("rb_idx", rb_idx);
         return "/main/review/reviewform";
     }
 
 
-
     @PostMapping("/insert")
     @ResponseBody
-    public void insertreview(@RequestParam int rb_type,String rb_content, int rb_star, int m_idx, int ci_idx) {
+    public void insertreview(@RequestParam int rb_type, String rb_content, int rb_star, int m_idx, int ci_idx) {
         ReviewDto dto = new ReviewDto();
         dto.setRb_type(rb_type);
         dto.setRb_content(rb_content);
@@ -151,39 +149,40 @@ public class ReviewBoardController {
 
     }
 
-  @PostMapping("/updateform")
-  @ResponseBody
-    public void update(@RequestParam int rb_idx, int rb_type,String rb_content, int rb_star, int m_idx, int ci_idx){
-        ReviewDto dto=reviewService.getData(rb_idx);
-      ReviewDto rdto = new ReviewDto();
-      dto.setRb_type(rb_type);
-      dto.setRb_content(rb_content);
-      dto.setRb_star(rb_star);
-      dto.setM_idx(m_idx);
-      dto.setCi_idx(ci_idx);
-reviewService.updatereview(rdto);
+    @GetMapping("/updateform")
 
-  }
+    public String update(int rb_idx, Model model) {
+        ReviewDto dto = reviewService.getData(rb_idx);
+        model.addAttribute("dto", dto);
 
-
-  @PostMapping("/update")
-    public String update(int rb_idx,ReviewDto dto){
-        dto.setRb_idx(rb_idx);
         reviewService.updatereview(dto);
-        return "redirect:list";
-  }
+        return "/main/review/reviewupdateform";
+    }
 
-@GetMapping("/delete")
-    public String delete(int rb_idx)
-{
-    reviewService.deletereview(rb_idx);
-    return "redirect:list";
-}
+
+    @PostMapping("/update")
+    @ResponseBody
+    public void update(@RequestParam int rb_type, String rb_content, int rb_star, int m_idx, int ci_idx) {
+        ReviewDto dto = new ReviewDto();
+        dto.setRb_type(rb_type);
+        dto.setRb_content(rb_content);
+        dto.setRb_star(rb_star);
+        dto.setM_idx(m_idx);
+        dto.setCi_idx(ci_idx);
+        reviewService.updatereview(dto);
+
+    };
+
+    @GetMapping("/delete")
+    public String delete(int rb_idx) {
+        reviewService.deletereview(rb_idx);
+        return "redirect:list";
+    }
 
     @PostMapping("/like")
     @ResponseBody
     public Map<String, Object> like(@RequestParam int rb_idx) {
-      reviewService.increaseLikeCount(rb_idx);
+        reviewService.increaseLikeCount(rb_idx);
 
         Map<String, Object> result = new HashMap<>();
 

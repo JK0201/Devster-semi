@@ -80,7 +80,7 @@
 
 
 
-<form action="update" method="post" enctype="multipart/form-data">
+<form name="update-form">
 
 
     <div style="width: 500px; margin-left: 100px;">
@@ -98,7 +98,7 @@
         <option value="2"${dto.rb_type == 2 ? 'selected' : ''}>코딩테스트 후기</option>
         <option value="3"${dto.rb_type == 3 ? 'selected' : ''}>합격 후기</option>
     </select>
-            <input id="rearch-input" type="text" name="ci_idx" value="${dto.ci_idx}">
+            <input id="rearch-input" type="text" name="ci_idx" >
             <div id="search-result"></div>
         <br>
 
@@ -170,7 +170,7 @@
         <textarea style="width: 80%; height: 100px" class="form-control rb_content" id="rb_content" name="rb_content">
            ${dto.rb_content}</textarea>
 
-        <button type="submit">게시글등록</button>
+        <button type="button" id="btnup">게시글등록</button>
         <button type="button" onclick="history.back()">뒤로가기</button>
 
     </div>
@@ -226,19 +226,20 @@
         });
     });
 
-    $("#btnSb").click(function (){
+    $("#btnup").click(function (){
         var rb_type = $(".rb_type").val();
         var rb_star = $("input[name='rb_star']:checked").val();
         var rb_content = $(".rb_content").val();
         var m_idx = $("input[name='m_idx']").val();
-        insertAjax(ci_idx, rb_type, rb_star, rb_content, m_idx);
+        updateAjax(ci_idx, rb_type, rb_star, rb_content, m_idx);
     });
 
-    function insertAjax(ci_idx, rb_type, rb_star, rb_content, m_idx) {
+    function updateAjax(ci_idx, rb_type, rb_star, rb_content, m_idx) {
 
 
         $.ajax({
-            url : "insert",
+            url : "./update",
+            dataType: "json",
             data: { "rb_type": rb_type,
                 "rb_star": rb_star,
                 "rb_content": rb_content,
@@ -249,7 +250,7 @@
 
             method: 'post',
             success : function (res) {
-                alert("입력 완료");
+                alert("수정 완료");
                 location.href="list";
             }
 

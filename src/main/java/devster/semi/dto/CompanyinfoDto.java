@@ -11,7 +11,7 @@ public class CompanyinfoDto {
    private int ci_idx;
    private String ci_name;
     private int ci_ppl;
-    private int ci_sale;
+    private String ci_sale;
     private String ci_photo;
     private int ci_sal;
     private int ci_star;
