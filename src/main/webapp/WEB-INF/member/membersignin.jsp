@@ -253,7 +253,7 @@
                     success: res => {
                         const kakao_account = res.kakao_account;
                         // console.log(kakao_account);
-                        console.log(kakao_account.email);
+                        // console.log(kakao_account.email);
                         // console.log(res.properties.nickname);
                         // console.log(res.properties.profile_image);
                         // let m_nickname = res.properties.nickname;
