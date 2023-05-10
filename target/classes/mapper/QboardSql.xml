@@ -41,12 +41,6 @@
     <update id="updateReadCount" parameterType="int">
         update qboard set qb_readcount=qb_readcount+1 where qb_idx=#{qb_idx}
     </update>
-    <update id="increaseLikeCount" parameterType="int">
-        update qboard set qb_like=qb_like+1 where qb_idx=#{qb_idx}
-    </update>
-    <update id="increaseDislikeCount" parameterType="int">
-        update qboard set qb_dislike=qb_dislike+1 where qb_idx=#{qb_idx}
-    </update>
     <select id="bestfreeboardPosts" resultType="FreeBoardDto">
         SELECT *
         FROM freeboard
@@ -54,6 +48,86 @@
         AND <![CDATA[ fb_dislike < 20 ]]>
         ORDER BY fb_like DESC
         limit 10
+    </select>
+
+<!-- 좋아요 / 싫어요 관련 메서드들 -->
+
+    <update id="increaseGoodRp">
+        UPDATE qboard
+        SET qb_like =
+                qb_like + 1
+        WHERE qb_idx =
+              #{qb_idx}
+    </update>
+
+    <update id="increaseBadRp">
+        UPDATE qboard
+        SET qb_dislike = qb_dislike
+            + 1
+        WHERE qb_idx =
+              #{qb_idx}
+    </update>
+
+    <update id="decreaseGoodRp">
+        UPDATE qboard
+        SET qb_like =
+                qb_like - 1
+        WHERE qb_idx =
+              #{qb_idx}
+    </update>
+
+    <update id="decreaseBadRp">
+        UPDATE qboard
+        SET qb_dislike =
+                qb_dislike - 1
+        WHERE qb_idx =
+              #{qb_idx}
+    </update>
+
+    <select id="getGoodRpCount" resultType="int">
+        SELECT qb_like
+        FROM qboard
+        WHERE qb_idx = #{qb_idx}
+    </select>
+
+    <select id="getBadRpCount" resultType="int">
+        SELECT qb_dislike
+        FROM qboard
+        WHERE qb_idx = #{qb_idx}
+    </select>
+
+    <insert id="addIncreasingGoodRpInfo" parameterType="map">
+        INSERT INTO qboard_like
+        SET qb_idx = #{qb_idx},
+            m_idx = #{m_idx},
+            likeStatus = 1
+    </insert>
+
+    <delete id="deleteGoodRpInfo" parameterType="map">
+        DELETE FROM qboard_like
+        WHERE qb_idx = #{qb_idx}
+          AND m_idx = #{m_idx}
+          AND likeStatus = 1
+    </delete>
+
+    <insert id="addIncreasingBadRpInfo" parameterType="map">
+        INSERT INTO qboard_like
+        SET qb_idx = #{qb_idx},
+            m_idx = #{m_idx},
+            likeStatus = 2
+    </insert>
+
+    <delete id="deleteBadRpInfo" parameterType="map">
+        DELETE FROM qboard_like
+        WHERE qb_idx = #{qb_idx}
+          AND m_idx = #{m_idx}
+          AND likeStatus = 2
+    </delete>
+
+    <select id="getRpInfoBym_idx" resultType="integer">
+        SELECT likeStatus
+        FROM qboard_like
+        WHERE qb_idx = #{qb_idx} AND m_idx = #{m_idx};
     </select>
 
 </mapper>

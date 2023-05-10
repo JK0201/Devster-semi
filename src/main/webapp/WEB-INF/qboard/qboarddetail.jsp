@@ -14,16 +14,130 @@
     <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <style>
         body, body * {
             font-family: 'Jua'
         }
+        .already-added {
+            background-color: #0D3EA3;
+            color: white;
+        }
     </style>
+
     <script>
-        $(document).ready(function (){
-            answer();
-        })
+<%--        버튼 상태 관련 이벤트  --%>
+        $(document).ready(function() {
+            <!-- jsp 실행 이전의 리액션 여부 체크 및 버튼 색상 표현 -->
+            $(function() {
+                checkAddRpBefore();
+            });
+
+            <!-- 좋아요 버튼 클릭 이벤트 및 ajax 실행 -->
+            $("#add-goodRp-btn").click(function() {
+
+                <!-- 이미 싫어요가 눌려 있는 경우 반려 -->
+                if (isAlreadyAddBadRp == true) {
+                    alert('이미 싫어요를 누르셨습니다.');
+                    return;
+                }
+
+                <!-- 좋아요가 눌려 있지 않은 경우 좋아요 1 추가 -->
+                if (isAlreadyAddGoodRp == false) {
+                    $.ajax({
+                        url : "/qboard/increaseGoodRp",
+                        type : "POST",
+                        data : {
+                            "qb_idx" : ${dto.qb_idx},
+                            "m_idx" : ${sessionScope.memidx}
+                        },
+                        success : function(goodReactionPoint) {
+                            $("#add-goodRp-btn").addClass("already-added");
+                            $(".add-goodRp").html(goodReactionPoint);
+                            isAlreadyAddGoodRp = true;
+                        },
+                        error : function() {
+                            alert('서버 에러, 다시 시도해주세요.');
+                        }
+                    });
+
+                    <!-- 이미 좋아요가 눌려 있는 경우 좋아요 1 감소 -->
+                } else if (isAlreadyAddGoodRp == true){
+                    $.ajax({
+                        url : "/qboard/decreaseGoodRp",
+                        type : "POST",
+                        data : {
+                            "qb_idx" : ${dto.qb_idx},
+                            "m_idx" : ${sessionScope.memidx}
+                        },
+                        success : function(goodReactionPoint) {
+                            $("#add-goodRp-btn").removeClass("already-added");
+                            $(".add-goodRp").html(goodReactionPoint);
+                            isAlreadyAddGoodRp = false;
+                        },
+                        error : function() {
+                            alert('서버 에러, 다시 시도해주세요.');
+                        }
+                    });
+                } else {
+                    return;
+                }
+            });
+
+            <!-- 싫어요 버튼 클릭 이벤트 및 ajax 실행 -->
+            $("#add-badRp-btn").click(function() {
+
+                <!-- 이미 좋아요가 눌려 있는 경우 반려 -->
+                if (isAlreadyAddGoodRp == true) {
+                    alert('이미 좋아요를 누르셨습니다.');
+                    return;
+                }
+
+                <!-- 싫어요가 눌려 있지 않은 경우 싫어요 1 추가 -->
+                if (isAlreadyAddBadRp == false) {
+                    $.ajax({
+                        url : "/qboard/increaseBadRp",
+                        type : "POST",
+                        data : {
+                            "qb_idx" : ${dto.qb_idx},
+                            "m_idx" : ${sessionScope.memidx}
+                        },
+                        success : function(badReactionPoint) {
+                            $("#add-badRp-btn").addClass("already-added");
+                            $(".add-badRp").html(badReactionPoint);
+                            isAlreadyAddBadRp = true;
+                        },
+                        error : function() {
+                            alert('서버 에러, 다시 시도해주세요.');
+                        }
+                    });
+
+                    <!-- 이미 싫어요가 눌려 있는 경우 싫어요 1 감소 -->
+                } else if (isAlreadyAddBadRp == true) {
+                    $.ajax({
+                        url : "/qboard/decreaseBadRp",
+                        type : "POST",
+                        data : {
+                            "qb_idx" : ${dto.qb_idx},
+                            "m_idx" : ${sessionScope.memidx}
+                        },
+                        success : function(badReactionPoint) {
+                            $("#add-badRp-btn").removeClass("already-added");
+                            $(".add-badRp").html(badReactionPoint);
+                            isAlreadyAddBadRp = false;
+                        },
+                        error : function() {
+                            alert('서버 에러, 다시 시도해주세요.');
+                        }
+                    });
+                } else {
+                    return;
+                }
+            });
+        });
     </script>
+
 </head>
 <body>
 <div class="fullOutLine">
@@ -92,10 +206,15 @@
                     수정
                 </button>
             </c:if>
-            <button type="button" onclick="like()" id="btnlike" class="btn btn-success">좋아요 <span
-                    id="likeCount">${dto.qb_like}</span></button>
-            <button type="button" onclick="dislike()" id="btndislike" class="btn btn-danger">싫어요 <span
-                    id="dislikeCount">${dto.qb_dislike}</span></button>
+<%--            좋아요 / 싫어요 버튼--%>
+            <span id="add-goodRp-btn" class="btn btn-outline" >
+                  좋아요👍
+                  <span class="add-goodRp ml-2">${dto.qb_like}</span>
+                </span>
+            <span id="add-badRp-btn" class="ml-5 btn btn-outline">
+                  싫어요👎
+                  <span class="add-badRp ml-2">${dto.qb_dislike}</span>
+            </span>
             <button class="btn btn-warning" type="button" onclick="location.href='./list?currentPage=${currentPage}'">
                 목록
             </button>
@@ -122,48 +241,24 @@
 </body>
 
 <script>
-    function like() {
-        let qb_idx = ${dto.qb_idx};
+<%--    현재 버튼이 눌려있는지 확인해서 상태에 따라 버튼에 색상표시  --%>
+    var isAlreadyAddGoodRp = ${isAlreadyAddGoodRp};
+    var isAlreadyAddBadRp = ${isAlreadyAddBadRp};
 
-        $.ajax({
-            type: "post",
-            url: "./like",
-            data: {"qb_idx": qb_idx},
-            dataType: "json",
-            success: function (response) {
-                // 새로고침 없이 좋아요 카운터 업데이트
-                let currentLikeCount = parseInt($("#likeCount").text(), 10);
-                let updatedLikeCount = currentLikeCount + 1;
-                $("#likeCount").text(updatedLikeCount);
-                $("#btnlike").prop("disabled", true);
-                $("#btndislike").prop("disabled", true);
-
-                alert("좋아요를 눌렀어요.");
-            }
+    function checkAddRpBefore() {
+        <!-- 변수값에 따라 각 id가 부여된 버튼에 클래스 추가(이미 눌려있다는 색상 표시) -->
+        if (isAlreadyAddGoodRp == true) {
+            $("#add-goodRp-btn").addClass("already-added");
+        } else if (isAlreadyAddBadRp == true) {
+            $("#add-badRp-btn").addClass("already-added");
+        } else {
+            return;
+        }
+        $(function() {
+            checkAddRpBefore();
         });
-    }
+    };
 
-
-    function dislike() {
-        let qb_idx = ${dto.qb_idx}
-
-            $.ajax({
-                type: "post",
-                url: "./dislike",
-                data: {"qb_idx": qb_idx},
-                dataType: "json",
-                success: function (response) {
-                    // 새로고침 없이 싫어요 카운터 업데이트
-                    let currentDislikeCount = parseInt($("#dislikeCount").text(), 10);
-                    let updatedDislikeCount = currentDislikeCount + 1;
-                    $("#dislikeCount").text(updatedDislikeCount);
-                    $("#btnlike").prop("disabled", true);
-                    $("#btndislike").prop("disabled", true);
-
-                    alert("싫어요를 눌렀어요.");
-                }
-            });
-    }
 
     //댓글 불러오기
     function answer() {
