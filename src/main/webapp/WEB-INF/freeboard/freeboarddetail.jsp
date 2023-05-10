@@ -115,14 +115,15 @@
 </div>
 <hr>
 
-<div class="commentwrite">
-    <form name="commentinsert">
+<div class="commentwrite" style="margin-bottom: 30px; margin-top: 50px; height: 50px;">
+<%--    <form name="commentinsert" width="600">--%>
         <input type="hidden" name="fb_idx" value="${dto.fb_idx}">
-        <input type="text" name="fbc_content" id="commentContent" class="form-control">
-        <button type="button" id="writepost" class="btn btn-sm btn-secondary"><i class="bi bi-pencil"></i>&nbsp;댓글쓰기</button>
-    </form>
+
+        <input type="text" name="fbc_content" id="commentContent" class="form-control" style="width: 500px; float: left">
+        <button type="button" id="writepost" class="btn btn-sm btn-secondary" style="width: 100px; float: left; margin-left: 5px;"><i class="bi bi-pencil"></i>&nbsp;댓글쓰기</button>
+<%--    </form>--%>
 </div>
-<div id="commentBox" style="margin-left: 100px; width: 600px; border: 3px solid black"></div>
+<div id="commentBox" style="margin-left: 100px; width: 800px; border: 1px solid gray"></div><hr>
 
 
 <script>
@@ -139,6 +140,12 @@
 
             success: function (response) {
                 // alert("댓글이 작성되었습니다.");
+
+                let fbc_ref = response.fbc_ref;
+                let fbc_step = response.fbc_step;
+
+                $("#writepost").attr("fbc_ref", fbc_ref);
+                $("#writepost").attr("fbc_step", fbc_step);
                 commentList();
             },
             error: function (request, status, error) {
@@ -147,6 +154,11 @@
 
         });
     }
+
+    $("#writepost").click(function (){
+        insert();
+        $("#commentContent").val("");
+    })
 
     // 댓글 리스트 가져오는 사용자 함수
     function commentList(){
@@ -162,25 +174,30 @@
                         let s = "";
                         $.each(res, function (idx, ele) {
                             s += `
-                            <div class='answerBox' data-index="\${idx}">
-                            <h4>`;
+                            <div class='answerBox' data-index="\${idx}"><input type="hidden" name="fbc_idx" value="\${ele.fbc_idx}">
+                            <b style='margin-left: 10px;'>`;
 
                             if (ele.m_photo === null || ele.m_photo === 'no') {
-                                s += `<img src="/photo/profile.jpg" style="width:50px; height: 50px; border:3px solid black; border-radius:100px;">`;
+                                s += `<img src="/photo/profile.jpg" style="width:20px; height: 20px; border:1px solid black; border-radius:100px;">`;
                             } else {
-                                s += `<img src="http://${imageUrl}/member/\${item.m_photo}" style="width:50px; height: 50px; border:3px solid black; border-radius:100px;">`;
+                                s += `<img src="http://${imageUrl}/member/\${ele.m_photo}" style="width:20px; height: 20px; border:1px solid black; border-radius:100px;">`;
                             }
 
-s+=`\${ele.nickname}</h4>
-                            <h6>\${ele.fbc_writeday}</h6>
-                            <h5>\${ele.fbc_content}</h5>`;
+s+=`&nbsp;\${ele.nickname}</b><br><br>
+                            <b style="color: #999; float:right; font-size: 15px; font-weight: lighter; margin-right: 15px;" align='right'>\${ele.fbc_writeday}</b>
+                            <h5 style='display: inline; margin-left: 10px; font-size: 18px;'>\${ele.fbc_content}</h5>
+                            <span style='color: red; font-size: 13px;'>[\${ele.replyCnt}]</span><br><br>`;
 
                             if (ele.m_idx == ${sessionScope.memidx}) {
-                                s += `<button class="btn btn-outline-dark" type="button" onclick="deleteComment(\${ele.fbc_idx})">삭제</button>
-                                <button class="btn btn-outline-dark" type="button" data-fbcidx="\${ele.fbc_idx}" onclick="updateCommentForm(\${ele.fbc_idx},\${idx})">수정</button>`;
+                                s += `<button class="btn btn-outline-dark btn-sm" type="button" onclick="deleteComment(\${ele.fbc_idx})" style="margin-left: 10px;">삭제</button>
+                                <button class="btn btn-outline-dark btn-sm" type="button" data-fbcidx="\${ele.fbc_idx}" onclick="updateCommentForm(\${ele.fbc_idx},\${idx})">수정</button>`;
                             }
 
-                            s += `<button class="btn btn-outline-dark" type="button" style="float: right; margin-right: 10px;" onclick="">답글</button><hr></div>`;
+                            s += `
+                                   <span style='cursor: pointer; color: blue; font-size: 15px;' class='reCommentBtn' id="reCommentBtn_" data-index="\${idx}">답글 달기 </span>
+<span style='display:none; cursor: pointer; color: blue; font-size: 15px;' class='reCommentCloseBtn' id='reCommentCloseBtn_' data-index="\${idx}">답글 닫기 </span>
+                                    <hr><div class='mx-4 reCommentDiv' id='reCommentDiv_' data-index="\${idx}"></div>
+</div>`;
                         });
 
                         var totalCount = res[0].totalCount;
@@ -227,11 +244,11 @@ s+=`\${ele.nickname}</h4>
             success: function (response) {
                 let s =
                     `
-            <h3>수정</h3>
             <form name="commentupdate">
         <input type="hidden" name="fb_idx" value="\${response.fb_idx}">
-        <input type="text" name="fbc_content" id="commentContent" class="form-control" value="\${response.fbc_content}">
-        <button type="button" id="writepost" class="btn btn-sm btn-secondary"><i class="bi bi-pencil"></i>&nbsp;댓글수정</button>
+
+        <input type="text" name="fbc_content" id="commentContent" class="form-control" style="width: 500px; float: left" value="\${response.fbc_content}">
+        <button type="button" id="writepost" class="btn btn-sm btn-secondary" style="width: 100px; float: left; margin-left: 5px;"><i class="bi bi-pencil"></i>&nbsp;댓글수정</button>
     </form>
             <hr>
             `;
@@ -248,6 +265,7 @@ s+=`\${ele.nickname}</h4>
             }
         });
     }
+
 
     function updateComment(fbc_idx, idx) {
         let $targetAnswerBox = $(`.answerBox[data-index="\${idx}"]`);
@@ -318,10 +336,144 @@ s+=`\${ele.nickname}</h4>
         });
     }
 
-    $("#writepost").click(function (){
-        insert();
-        $("#commentContent").val("");
-    })
+
+    /*답글 버튼 클릭*/
+    $(document).on("click",".reCommentBtn",function (){
+        const _this = $(this);
+        //const cid = reComment.find("#commentId").val();
+        const fbc_ref = $(this).siblings('input').val();
+
+        console.log(fbc_ref);
+
+        _this.siblings('.reCommentDiv').show();
+        _this.hide();
+        _this.siblings('.reCommentCloseBtn').show();
+
+        $.ajax({
+            type: "get",
+            url: "/freecomment/recommentlist",
+            data: {"fbc_ref": fbc_ref},
+            success: function (res) {
+                let html = "";
+                $.each(res, function (idx, ele) {
+                    html += `
+                            <div class='replyBox' data-index="\${idx}" style="margin-bottom: 30px;">
+                            <input type="hidden" name="fbc_idx" value="\${ele.fbc_idx}">
+                            <b style='margin-left: 10px;'>`;
+
+                    if (ele.m_photo === null || ele.m_photo === 'no') {
+                        html += `<i class="bi bi-arrow-return-right" style="color: #94969B"></i>&nbsp;<img src="/photo/profile.jpg" style="width:20px; height: 20px; border:1px solid black; border-radius:100px;">`;
+                    } else {
+                        html += `<i class="bi bi-arrow-return-right" style="color: #94969B"></i>&nbsp;<img src="http://${imageUrl}/member/\${ele.m_photo}" style="width:20px; height: 20px; border:1px solid black; border-radius:100px;">`;
+                    }
+
+                    html+=`&nbsp;\${ele.nickname}</b><br><br>
+                            <b style="color: #999; float:right; font-size: 15px; font-weight: lighter; margin-right: 15px;" align='right'>\${ele.fbc_writeday}</b>
+                            <h5 style='display: inline; margin-left: 10px; font-size: 18px;'>\${ele.fbc_content}</h5>
+                            <br><br>`;
+
+                    if (ele.m_idx == ${sessionScope.memidx}) {
+                        html += `<button class="btn btn-outline-dark btn-sm" type="button" onclick="deleteComment(\${ele.fbc_idx})" style="margin-left: 10px;">답글삭제</button>
+                                <button class="btn btn-outline-dark btn-sm" type="button" data-fbcidx="\${ele.fbc_idx}" onclick="updateReplyForm(\${ele.fbc_idx},\${idx})">답글수정</button>`;
+                    }
+                    html+= "<hr></div>";
+                });
+
+
+                html += "<input style='width: 90%; margin-bottom: 30px;' id='reComment_"+fbc_ref+"' class='reComment' name='reComment' placeholder='댓글을 입력해 주세요' type='text'>";
+                html += `<button type='button' class='btn btn-primary btn-sm reCommentSubmit' onclick='insertReply(\${fbc_ref})'>등록</button>`;
+
+                _this.siblings(".reCommentDiv").html(html);
+
+            },
+            error: function (request, status, error) {
+                alert("code: " + request.status + "\n" + "error: " + error);
+            }
+        });
+
+    });
+
+    $(document).on("click",".reCommentCloseBtn",function (){
+        const _this = $(this);
+        _this.siblings('.reCommentDiv').hide();
+        _this.hide();
+        _this.siblings('.reCommentBtn').show();
+    });
+
+    function insertReply(fbc_ref){
+
+        let m_idx = ${sessionScope.memidx};
+        let fbc_content = $(`#reComment_\${fbc_ref}`).val();
+        console.log(fbc_ref);
+        $.ajax({
+            type: "post",
+            url: "/freecomment/insertreply",
+            data: {"m_idx" : m_idx, "fbc_content":fbc_content, "fbc_ref":fbc_ref, "fb_idx":${dto.fb_idx}},
+
+            success: function (response) {
+                alert("답글이 작성되었습니다.");
+
+                commentList();
+            },
+            error: function (request, status, error) {
+                alert("code: " + request.status + "\n" + "error: " + error);
+            }
+
+        });
+    }
+
+    function updateReplyForm(fbc_idx, idx) {
+        let $targetReplyBox = $(`.replyBox[data-index="\${idx}"]`);
+        const fbc_ref = $(".reCommentBtn").siblings('input').val();
+
+        $.ajax({
+            type: "get",
+            url: "/freecomment/updateform",
+            data: {"fbc_idx": fbc_idx},
+            dataType : "json",
+            success: function (response) {
+
+                let html = "<form name='replyupdate'> <input style='width: 90%; margin-bottom: 30px;' id='reComment_"+fbc_ref+"' class='reComment' name='fbc_content' value=`\${response.fbc_content}` type='text'>";
+
+                html += `<button type='button' class='btn btn-primary btn-sm reCommentSubmit' id="updatereply">수정</button></form>`;
+
+                $targetReplyBox.html(html);
+
+                $targetReplyBox.find('#updatereply').on('click', function() {
+                    // 이벤트 리스너 내부에서 수정을 처리하는 코드를 작성합니다.
+
+                    updateReply(fbc_idx, idx);
+                });
+
+            },
+            error: function (xhr, status, error) {
+                // 에러 처리를 여기에서 처리합니다.
+            }
+        });
+    }
+    function updateReply(fbc_idx, idx) {
+        let $targetReplyBox = $(`.replyBox[data-index="\${idx}"]`);
+        let formData = new FormData($targetReplyBox.find('form')[0]);
+
+        formData.append("fbc_idx",fbc_idx);
+
+        $.ajax({
+            type: "post",
+            url: "/freecomment/update",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function () {
+                alert("답글이 수정되었습니다.")
+                commentList();
+            },
+            error: function (xhr, status, error) {
+                // 에러 처리를 여기에서 처리합니다.
+            }
+        });
+    }
+
+
 </script>
 
 </body>

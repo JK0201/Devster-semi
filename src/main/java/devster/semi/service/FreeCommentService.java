@@ -47,29 +47,37 @@ public class FreeCommentService implements FreeCommentServiceInter{
 
     @Override
     public void insertFreeComment(FreeCommentDto dto) {
-        int fbc_ref = dto.getFbc_ref();
+
+        // 부모댓글 insert
+        int fbc_ref = dto.getFbc_idx();
         int fbc_step = dto.getFbc_step();
-        int fbc_depth = dto.getFbc_depth();
 
-        if(dto.getFb_idx()==0){
-            // 댓글
-            fbc_step = 0;
-            fbc_depth = 0;
-            fbc_ref = freeCommentMapper.getMaxNum() + 1; // 새 그룹번호
+        fbc_step++;
 
-        } else {
-            // 대댓글
-
-            // 전달받은그룹 중 step보다 큰 값 있으면 +1
-            this.updateStep(fbc_ref, fbc_step);
-            fbc_step++;
-            fbc_depth++;
-        }
         dto.setFbc_ref(fbc_ref);
         dto.setFbc_step(fbc_step);
-        dto.setFbc_depth(fbc_depth);
 
         freeCommentMapper.insertFreeComment(dto);
+
+
+    }
+
+    @Override
+    public void insertFreeReply(FreeCommentDto dto) {
+
+        // 자식댓글
+        int fbc_step = dto.getFbc_step();
+
+        fbc_step++;
+
+        dto.setFbc_step(fbc_step);
+
+        freeCommentMapper.insertFreeReply(dto);
+    }
+
+    @Override
+    public List<FreeCommentDto> getReplyOfRef(int fbc_idx) {
+        return freeCommentMapper.getReplyOfRef(fbc_idx);
     }
 
     @Override
@@ -80,6 +88,11 @@ public class FreeCommentService implements FreeCommentServiceInter{
     @Override
     public void deleteFreeComment(int fbc_idx) {
         freeCommentMapper.deleteFreeComment(fbc_idx);
+    }
+
+    @Override
+    public int countReply(int fbc_idx) {
+        return freeCommentMapper.countReply(fbc_idx);
     }
 
     @Override

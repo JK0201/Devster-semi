@@ -17,16 +17,26 @@
     </select>
 
     <select id="getAllCommentList" resultType="FreeCommentDto" parameterType="int">
-        select * from freecomment where fb_idx=#{fb_idx} order by fbc_ref asc , fbc_step asc
+        select * from freecomment where fb_idx=#{fb_idx} and fbc_depth=0 order by fbc_ref asc , fbc_idx desc
     </select>
 
     <select id="getFreeComment" parameterType="int" resultType="FreeCommentDto">
         select * from freecomment where fbc_idx=#{fbc_idx}
     </select>
 
+    <select id="countReply" parameterType="int" resultType="int">
+        SELECT COUNT(*) FROM freecomment WHERE fbc_ref=#{fbc_idx} and fbc_depth=1
+    </select>
+
     <insert id="insertFreeComment" parameterType="FreeCommentDto">
-        insert into freecomment (m_idx, fb_idx, fbc_content, fbc_writeday, fbc_ref, fbc_step, fbc_depth) values (#{m_idx}, #{fb_idx},#{fbc_content}, now(), #{fbc_ref}, #{fbc_step},#{fbc_depth})
+        insert into freecomment (m_idx, fb_idx, fbc_content, fbc_writeday, fbc_ref, fbc_step, fbc_depth) values (#{m_idx}, #{fb_idx},#{fbc_content}, now(), #{fbc_ref}, #{fbc_step},0)
     </insert>
+    <insert id="insertFreeReply" parameterType="FreeCommentDto">
+        insert into freecomment (m_idx, fb_idx, fbc_content, fbc_writeday, fbc_ref, fbc_step, fbc_depth) values (#{m_idx}, #{fb_idx},#{fbc_content}, now(), #{fbc_ref}, #{fbc_step},1)
+    </insert>
+    <select id="getReplyOfRef" parameterType="int" resultType="FreeCommentDto">
+        select * from freecomment where fbc_ref=#{fbc_idx} and fbc_depth=1
+    </select>
     <update id="updateFreeComment" parameterType="FreeCommentDto">
         update freecomment set fbc_content=#{fbc_content} where fbc_idx=#{fbc_idx}
     </update>

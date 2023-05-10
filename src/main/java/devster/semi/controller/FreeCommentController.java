@@ -47,6 +47,8 @@ public class FreeCommentController {
 
             map.put("m_photo", freeCommentService.selectPhotoOfFbc_idx(dto.getFbc_idx()));
             map.put("nickname", freeCommentService.selectNickNameOfFbc_idx(dto.getFbc_idx()));
+            map.put("replyCnt", freeCommentService.countReply(dto.getFbc_idx()));
+
 
             map.put("fbc_content",dto.getFbc_content());
             map.put("fbc_idx",dto.getFbc_idx());
@@ -54,7 +56,7 @@ public class FreeCommentController {
             map.put("fbc_step",dto.getFbc_step());
             map.put("fbc_ref",dto.getFbc_ref());
             map.put("fbc_depth",dto.getFbc_depth());
-            map.put("fbc_like",dto.getFbc_like());
+//            map.put("fbc_like",dto.getFbc_like());
             map.put("fbc_writeday",formattedDate);
             map.put("totalCount",totalCount);
 
@@ -72,6 +74,7 @@ public class FreeCommentController {
         dto.setM_idx(m_idx);
         dto.setFb_idx(fb_idx);
         dto.setFbc_content(fbc_content);
+
         freeCommentService.insertFreeComment(dto);
     }
 
@@ -90,6 +93,51 @@ public class FreeCommentController {
     public void update(FreeCommentDto dto, int fbc_idx) {
         dto.setFbc_idx(fbc_idx);
         freeCommentService.updateFreeComment(dto);
+    }
+
+    @GetMapping("/recommentlist")
+    public List<Map<String, Object>> replylist(@RequestParam int fbc_ref){
+        List<FreeCommentDto> list = freeCommentService.getReplyOfRef(fbc_ref);
+
+        List<Map<String,Object>> fullList = new ArrayList<>();
+
+        for(FreeCommentDto dto : list){
+            Map<String, Object> map = new HashMap<>();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd HH:mm");
+            String formattedDate = sdf.format(dto.getFbc_writeday());
+
+            map.put("m_photo", freeCommentService.selectPhotoOfFbc_idx(dto.getFbc_idx()));
+            map.put("nickname", freeCommentService.selectNickNameOfFbc_idx(dto.getFbc_idx()));
+
+
+            map.put("fbc_content",dto.getFbc_content());
+            map.put("fbc_idx",dto.getFbc_idx());
+            map.put("m_idx",dto.getM_idx());
+            map.put("fbc_step",dto.getFbc_step());
+            map.put("fbc_ref",dto.getFbc_ref());
+            map.put("fbc_depth",dto.getFbc_depth());
+            //map.put("fbc_like",dto.getFbc_like());
+            map.put("fbc_writeday",formattedDate);
+
+            fullList.add(map);
+        }
+
+        return fullList;
+
+    }
+
+    @ResponseBody
+    @PostMapping("/insertreply")
+    public void insertreply(String fbc_content, int fbc_ref, int m_idx, int fb_idx){
+        FreeCommentDto dto = new FreeCommentDto();
+
+        dto.setM_idx(m_idx);
+        dto.setFbc_ref(fbc_ref);
+        dto.setFbc_content(fbc_content);
+        dto.setFb_idx(fb_idx);
+        System.out.println(dto);
+        freeCommentService.insertFreeReply(dto);
     }
 }
 
