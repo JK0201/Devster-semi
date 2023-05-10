@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import devster.semi.dto.HireBoardDto;
-
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
@@ -22,5 +21,11 @@ public interface HireMapper {
 
     public int getHireTotalCount();
     public List<HireBoardDto> getHirePagingList(Map<String,Integer> map);
+//
+//    public void bookmarkHireBoard(HireBookmarkDto dto);
 
+//    public HireBookmarkDto getBookmarkData(int m_idx, int hb_idx);
+    public void addIncreasingBkmkInfo(Map<String,Integer> map);
+    public void deleteBkmkInfo(Map<String,Integer> map);
+    public Integer getBkmkInfoBym_idx(Map<String,Integer> map);
 }

@@ -16,4 +16,6 @@ public class HireBoardDto {
     private int hb_readcount;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone = "Asia/Seoul")
     private Timestamp fb_writeday;
+
+
 }
