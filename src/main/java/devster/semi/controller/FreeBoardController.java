@@ -4,6 +4,7 @@ import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.NoticeBoardDto;
 import devster.semi.service.FreeBoardService;
 import devster.semi.service.NoticeBoardService;
+import devster.semi.service.FreeCommentService;
 import naver.cloud.NcpObjectStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -20,6 +22,7 @@ public class FreeBoardController {
 
     @Autowired
     private FreeBoardService freeBoardService;
+
 
     @Autowired
     private NcpObjectStorageService storageService;
@@ -69,13 +72,35 @@ public class FreeBoardController {
             Map<String,Object> map = new HashMap<>();
             map.put("fb_idx",String.valueOf(dto.getFb_idx()));
             map.put("nickName",freeBoardService.selectNickNameOfMidx(dto.getFb_idx()));
+            map.put("commentCnt", freeBoardService.commentCnt(dto.getFb_idx()));
+
+            String m_photo = freeBoardService.selectPhotoOfMidx(dto.getFb_idx());
+            if(m_photo!="no"){
+                map.put("m_photo", m_photo);
+            } else {
+                map.put("m_photo", "/photo/profile.jpg");
+            }
             map.put("fb_subject",dto.getFb_subject());
             map.put("fb_content",dto.getFb_content());
             map.put("fb_like",dto.getFb_like());
             map.put("fb_dislike",dto.getFb_dislike());
             map.put("fb_readcount",dto.getFb_readcount());
-            String currentTimestampToString = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(dto.getFb_writeday());
-            map.put("fb_writeday", currentTimestampToString);
+            map.put("fb_writeday", dto.getFb_writeday());
+
+
+            // 사진이 들어있으면
+            if(dto.getFb_photo()!="no"){
+                // 사진이 두장이상이면
+                if(dto.getFb_photo().contains(",")){
+                    int index = dto.getFb_photo().indexOf(",");
+                    String result = dto.getFb_photo().substring(0, index);
+                    map.put("fb_photo", result);
+                } else { //사진이 한장이면
+                    map.put("fb_photo", dto.getFb_photo());
+                }
+            }
+
+
             fulllList.add(map);
         }
 
@@ -140,25 +165,38 @@ public class FreeBoardController {
     }
 
     @GetMapping("/freeboarddetail")
-    public String detail(int fb_idx, int currentPage, Model model){
+    public String detail(int fb_idx, int currentPage, Model model, HttpSession session){
 
         freeBoardService.updateReadCount(fb_idx);
         FreeBoardDto dto = freeBoardService.getData(fb_idx);
         String nickName = freeBoardService.selectNickNameOfMidx(dto.getFb_idx());
+        String m_photo = freeBoardService.selectPhotoOfMidx(dto.getFb_idx());
+
+        //        버튼 상태에 관한 정보를 디테일 페이지로 보내줌.
+        boolean isAlreadyAddGoodRp = freeBoardService.isAlreadyAddGoodRp(fb_idx,(int)session.getAttribute("memidx"));
+        boolean isAlreadyAddBadRp = freeBoardService.isAlreadyAddBadRp(fb_idx,(int)session.getAttribute("memidx"));
+
+        if(m_photo.equals("no")) {
+            m_photo = "photo/profile.jpg"; // 버켓에 넣어야 뜰듯....
+        }
 
         model.addAttribute("dto", dto);
         model.addAttribute("nickname",nickName);
+        model.addAttribute("m_photo",m_photo);
         model.addAttribute("currentPage",currentPage);
+        model.addAttribute("isAlreadyAddGoodRp", isAlreadyAddGoodRp);
+        model.addAttribute("isAlreadyAddBadRp", isAlreadyAddBadRp);
 
-        //Controller 디테일 페이지 보내는 부분.
-        //사진 여러장 분할 처리.
-        List<String> list = new ArrayList<>();
-        StringTokenizer st = new StringTokenizer(dto.getFb_photo(),",");
-        while (st.hasMoreElements()) {
-            list.add(st.nextToken());
+        if(dto.getFb_photo()!="n"){
+            //Controller 디테일 페이지 보내는 부분.
+            //사진 여러장 분할 처리.
+            List<String> list = new ArrayList<>();
+            StringTokenizer st = new StringTokenizer(dto.getFb_photo(),",");
+            while (st.hasMoreElements()) {
+                list.add(st.nextToken());
+            }
+            model.addAttribute("list",list);
         }
-
-        model.addAttribute("list",list);
 
         return "/main/freeboard/freeboarddetail";
     }
@@ -220,34 +258,89 @@ public class FreeBoardController {
         return "redirect:./freeboarddetail?fb_idx="+dto.getFb_idx()+"&currentPage="+currentPage;
     }
 
-    @PostMapping("/like")
+//    @PostMapping("/like")
+//    @ResponseBody
+//    public Map<String, Object> like(@RequestParam int fb_idx) {
+//        freeBoardService.increaseLikeCount(fb_idx);
+//        freeBoardService.notUpdateReadCount(fb_idx);
+//
+//        Map<String, Object> result = new HashMap<>();
+//
+//        result.put("likeCount", freeBoardService.getData(fb_idx).getFb_like());
+//        result.put("likeText", "좋아요 " + freeBoardService.getData(fb_idx).getFb_like());
+//        result.put("dislikeCount", freeBoardService.getData(fb_idx).getFb_dislike());
+//        result.put("dislikeText", "싫어요 " + freeBoardService.getData(fb_idx).getFb_dislike());
+//
+//        return result;
+//    }
+//
+//    @PostMapping("/dislike")
+//    @ResponseBody
+//    public Map<String, Object> dislike(@RequestParam int fb_idx) {
+//        freeBoardService.increaseDislikeCount(fb_idx);
+//        freeBoardService.notUpdateReadCount(fb_idx);
+//
+//        Map<String, Object> result = new HashMap<>();
+//        result.put("likeCount", freeBoardService.getData(fb_idx).getFb_like());
+//        result.put("likeText", "좋아요 " + freeBoardService.getData(fb_idx).getFb_like());
+//        result.put("dislikeCount", freeBoardService.getData(fb_idx).getFb_dislike());
+//        result.put("dislikeText", "싫어요 " + freeBoardService.getData(fb_idx).getFb_dislike());
+//        return result;
+//    }
+
+    //좋아요 증가 메서드
+    @RequestMapping("/increaseGoodRp")
     @ResponseBody
-    public Map<String, Object> like(@RequestParam int fb_idx) {
-        freeBoardService.increaseLikeCount(fb_idx);
-        freeBoardService.notUpdateReadCount(fb_idx);
+    public int increaseGoodRp(int fb_idx,int m_idx) {
+        // article 테이블에서 해당 게시물의 좋아요 1 증가
+        freeBoardService.increaseGoodRp(fb_idx);
+        // article 테이블에서 해당 게시물의 최신화된 좋아요 수 불러오기
+        int goodRp = freeBoardService.getGoodRpCount(fb_idx);
 
-        Map<String, Object> result = new HashMap<>();
+        // reactionPoint 테이블에 리액션 정보(게시물 id, 사용자 id)를 기록
+        freeBoardService.addIncreasingGoodRpInfo(fb_idx,m_idx);
 
-        result.put("likeCount", freeBoardService.getData(fb_idx).getFb_like());
-        result.put("likeText", "좋아요 " + freeBoardService.getData(fb_idx).getFb_like());
-        result.put("dislikeCount", freeBoardService.getData(fb_idx).getFb_dislike());
-        result.put("dislikeText", "싫어요 " + freeBoardService.getData(fb_idx).getFb_dislike());
-
-        return result;
+        return goodRp;
     }
 
-    @PostMapping("/dislike")
+    //좋아요 감소 메서드
+    @RequestMapping("/decreaseGoodRp")
     @ResponseBody
-    public Map<String, Object> dislike(@RequestParam int fb_idx) {
-        freeBoardService.increaseDislikeCount(fb_idx);
-        freeBoardService.notUpdateReadCount(fb_idx);
+    public int decreaseGoodRp(int fb_idx,int m_idx) {
+        // article 테이블에서 해당 게시물의 좋아요 1 감소
+        freeBoardService.decreaseGoodRp(fb_idx);
+        // article 테이블에서 해당 게시물의 최신화된 좋아요 수 불러오기
+        int goodRp = freeBoardService.getGoodRpCount(fb_idx);
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("likeCount", freeBoardService.getData(fb_idx).getFb_like());
-        result.put("likeText", "좋아요 " + freeBoardService.getData(fb_idx).getFb_like());
-        result.put("dislikeCount", freeBoardService.getData(fb_idx).getFb_dislike());
-        result.put("dislikeText", "싫어요 " + freeBoardService.getData(fb_idx).getFb_dislike());
-        return result;
+        // reactionPoint 테이블에 리액션 정보(게시물 id, 사용자 id) 기록을 삭제
+        freeBoardService.deleteGoodRpInfo(fb_idx,m_idx);
+
+        return goodRp;
+    }
+
+
+    //싫어요 증가 메서드
+    @RequestMapping("/increaseBadRp")
+    @ResponseBody
+    public int increaseBadRp(int fb_idx, int m_idx) {
+        freeBoardService.increaseBadRp(fb_idx);
+        int badRp = freeBoardService.getBadRpCount(fb_idx);
+
+        freeBoardService.addIncreasingBadRpInfo(fb_idx,m_idx);
+
+        return badRp;
+    }
+
+    //싫어요 감소 메서드
+    @RequestMapping("/decreaseBadRp")
+    @ResponseBody
+    public int decreaseBadRp(int fb_idx, int m_idx) {
+        freeBoardService.decreaseBadRp(fb_idx);
+        int badRp = freeBoardService.getBadRpCount(fb_idx);
+
+        freeBoardService.deleteBadRpInfo(fb_idx, m_idx);
+
+        return badRp;
     }
 
 

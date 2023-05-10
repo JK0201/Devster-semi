@@ -29,9 +29,9 @@
         <!--hidden-->
         <input type="hidden" name="fb_idx" value="${dto.fb_idx}">
         <input type="hidden" name="currentPage" value="${currentPage}">
+        <input type="hidden" name="m_idx" value="${sessionScope.memidx}">
 
         <div>
-            작성자 : <input type="text" name="m_idx" value="${dto.m_idx}"><br>
             제목 : <input type="text" name="fb_subject" value="${dto.fb_subject}"><br>
             사진 : <input type="file" name="upload" id="myfile" multiple><br><br>
             <textarea name="fb_content" >${dto.fb_content}</textarea><br><br>

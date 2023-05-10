@@ -31,8 +31,8 @@
     </ul>
 
     <ul class="clear util_menu">
-        <li><button type="button" class="btn btnsignup" onclick="location.href='member/signup'">회원가입</button></li>
-        <li><button type="button" class="btn btnsignin" onclick="location.href='member/signin'">로그인</button></li>
+        <li><button type="button" class="btn btnsignup" onclick="location.href='../member/selmember'">회원가입</button></li>
+        <li><button type="button" class="btn btnsignin" onclick="location.href='../member/signin'">로그인</button></li>
     </ul>
 </div>
 

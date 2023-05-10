@@ -17,7 +17,22 @@ public interface FreeBoardMapper {
     public void deleteBoard(int fb_idx);
     public void updateBoard(FreeBoardDto dto);
     public String selectNickNameOfMidx(int fb_idx);
+    public String selectPhotoOfMidx(int fb_idx);
+    public int commentCnt(int fb_idx);
     public void increaseLikeCount(int fb_idx);
     public void increaseDislikeCount(int fb_idx);
+
+    //좋아요 / 싫어요 관련 메서드들
+    public void increaseGoodRp(int fb_idx);
+    public void increaseBadRp(int fb_idx);
+    public void decreaseGoodRp(int fb_idx);
+    public void decreaseBadRp(int fb_idx);
+    public int getGoodRpCount(int fb_idx);
+    public int getBadRpCount(int fb_idx);
+    public void addIncreasingGoodRpInfo(Map<String,Integer> map);
+    public void deleteGoodRpInfo(Map<String,Integer> map);
+    public void addIncreasingBadRpInfo(Map<String,Integer> map);
+    public void deleteBadRpInfo(Map<String,Integer> map);
+    public Integer getRpInfoBym_idx(Map<String,Integer> map);
 
 }
