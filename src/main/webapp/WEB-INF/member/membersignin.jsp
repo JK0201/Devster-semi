@@ -18,76 +18,106 @@
     <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"
             charset="utf-8"></script>
     <style>
-        #compinput {
+        .compinput {
             display: none;
         }
 
-        i.chkyes {
+        #chkyes {
             display: none;
         }
     </style>
 </head>
 <body>
+<div style="border:2px solid black; width:300px;">
+    로그인 : ${sessionScope.logstat}
+    <br>
+    m_idx : ${sessionScope.memidx}
+    <br>
+    nickname : ${sessionScope.memnick}
+    <br>
+    state : ${sessionScope.memstate}
+    <br>
+    ai_idx : ${sessionScope.acaidx}
+    <br>
+    cm_idx : ${sessionScope.cmidx}
+    <br>
+    compname: ${sessionScope.cmname}
+    <br>
+    <button type="button" id="outtest">로그아웃</button>
+</div>
 <div>
     <div>
-        <b id="normmember">일반회원 로그인</b>
+        <strong id="normmember">일반회원 로그인</strong>
         &nbsp;&nbsp;&nbsp;
-        <b id="compmember">회사계정 로그인</b>
-        <div id="norminput">
-            <sapn>개인 :</sapn>
-            <input type="text" name="m_email" id="m_email">
-            <br>
-            <span>비밀번호 : </span><input type="password" name="m_pass" id="m_pass">
-        </div>
-        <div id="compinput">
-            <sapn>회사 :</sapn>
-            <input type="text" name="cm_email">
-            <br>
-            <span>비밀번호 : </span><input type="password" name="cm_pass">
-        </div>
-        <label id="chkbtn">
-            <i class="bi bi-circle chkno" chkbtn="on"></i>
-            <i class="bi bi-check-circle-fill chkyes" chkbtn="off"></i>
-            <span>로그인 상태 유지하기</span>
-        </label>
-        <div>
-            <button type="button" id="signinbtn">로그인</button>
-            -또는-
-            <div style="margin-bottom: 30px;">
-                <a id="kakao-login-btn" href="javascript:kakaoLogin()">
-                    <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222"
-                         alt="카카오 로그인 버튼"/>
-                </a>
-            </div>
-            <div id="naver_id_login"></div>
-        </div>
-        <div>
-            <a href="signup">회원가입</a>
-            <b>|</b>
-            <a href="#">계정 찾기</a>
-            <b>|</b>
-            <a href="#">비밀번호 찾기</a>
-        </div>
+        <strong id="compmember">회사계정 로그인</strong>
     </div>
+    <div class="norminput">
+        <strong>개인 </strong>
+        <input type="text" id="m_email" required>
+        <strong>비밀번호 </strong>
+        <input type="password" id="m_pass" required>
+    </div>
+    <div class="compinput">
+        <strong>회사 </strong>
+        <input type="text" id="cm_email">
+        <strong>비밀번호 </strong>
+        <input type="password" id="cm_pass">
+    </div>
+    <label id="chkbtn">
+        <i class="bi bi-circle" id="chkno"></i>
+        <i class="bi bi-check-circle-fill" id="chkyes"></i>
+        <strong>로그인 상태 유지하기</strong>
+    </label>
+    <div class="norminput">
+        <button type="button" id="signinbtn">로그인</button>
+        -또는-
+        <div style="margin-bottom: 30px;">
+            <a id="kakao-login-btn" href="javascript:kakaoLogin()">
+                <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222"
+                     alt="카카오 로그인 버튼"/>
+            </a>
+        </div>
+        <div id="naver_id_login"></div>
+        <a href="selmember">회원가입</a>
+        <strong>|</strong>
+        <a href="accountfinder">계정 찾기</a>
+        <strong>|</strong>
+        <a href="passfinder">비밀번호 찾기</a>
+    </div>
+    <div class="compinput">
+        <button type="button" id="csigninbtn">로그인</button>
+        <a href="compsignup">회원가입</a>
+        <strong>|</strong>
+        <a href="caccountfinder">계정 찾기</a>
+        <strong>|</strong>
+        <a href="cpassfinder">비밀번호 찾기</a>
+    </div>
+</div>
 </div>
 <script>
     $("#normmember").click(function () {
-        $("#norminput").show();
-        $("#compinput").hide();
+        $(".norminput").show();
+        $(".compinput").hide();
+        $("#cm_email").val("");
+        $("#cm_pass").val("");
     });
 
     $("#compmember").click(function () {
-        $("#norminput").hide();
-        $("#compinput").show();
+        $(".norminput").hide();
+        $(".compinput").show();
+        $("#m_email").val("");
+        $("#m_pass").val("");
     });
 
     $("#chkbtn").click(function () {
-        $("i.chkyes").toggle();
-        $("i.chkno").toggle();
+        $("#chkyes").toggle();
+        $("#chkno").toggle();
+        chkbtn = !chkbtn;
     });
 
     //norm
     let chkbtn = false;
+    let cnt = 0;
 
     $("#signinbtn").click(function () {
         let m_email = $("#m_email").val();
@@ -101,34 +131,33 @@
             alert("비밀번호를 입력해주세요");
             return false;
         }
-        console.log(m_email + "," + m_pass);
-        $.ajax({
-            type: "get",
-            url: "emailchk",
-            dataType: "json",
-            data: {"m_email": m_email},
-            success: function (res) {
-                if (res.result == "no") {
-                    alert("이메일과 비밀번호를 확인해주세요");
-                } else {
-                    $.ajax({
-                        type: "get",
-                        url: "emailpasschk",
-                        dataType: "json",
-                        data: {"m_email": m_email, "m_pass": m_pass},
-                        success: function (res) {
-                            if(res.result=="yes") {
-                                alert("ㅎㅇ 출석포인트 +10점");
-                                location.href="../";
-                            }
-                            else {
-                                alert("이메일과 비밀번호를 확인해주세요");
-                            }
-                        }
-                    });
+
+        if (cnt < 4) {
+            $.ajax({
+                type: "get",
+                url: "emailpasschk",
+                dataType: "json",
+                data: {"m_email": m_email, "m_pass": m_pass},
+                success: function (res) {
+                    if (res.result == "yes") {
+                        alert("ㅎㅇ 출석포인트 +10점");
+                        location.href = "../";
+                    } else {
+                        cnt++;
+                        alert(cnt + "회 잘못 입력하셨습니다\n이메일과 비밀번호를 확인해주세요\n5회 잘못입력시 로그인 제한");
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            $.ajax({
+                type: "get",
+                url: "blocksignin",
+                dataType:"text",
+                success:function() {
+                    alert("이용정지");
+                }
+            });
+        }
     });
 
     $("#m_email").keyup(function (e) {
@@ -143,6 +172,49 @@
         }
     });
 
+    //cm
+    $("#csigninbtn").click(function () {
+        let cm_email = $("#cm_email").val();
+        let cm_pass = $("#cm_pass").val();
+
+        if (cm_email == "") {
+            alert("이메일을 입력해주세요");
+            return false;
+        }
+        if (cm_pass == "") {
+            alert("비밀번호를 입력해주세요");
+            return false;
+        }
+
+        $.ajax({
+            type: "get",
+            url: "cemailpasschk",
+            dataType: "json",
+            data: {"cm_email": cm_email, "cm_pass": cm_pass},
+            success: function (res) {
+                if (res.result == "yes") {
+                    alert("ㅎㅇ 출석포인트 +10점");
+                    location.href = "../";
+                } else {
+                    alert("이메일과 비밀번호를 확인해주세요");
+                }
+            }
+        });
+    });
+
+    $("#cm_email").keyup(function (e) {
+        if (e.keyCode == 13) {
+            $("#csigninbtn").click();
+        }
+    });
+
+    $("#cm_pass").keyup(function (e) {
+        if (e.keyCode == 13) {
+            $("#csigninbtn").click();
+        }
+    });
+
+
     //naver
     var naver_id_login = new naver_id_login("Qr3pEkAiiIBJ_L9HaGiY", "http://localhost:9000/member/navercallback");
     var state = naver_id_login.getUniqState();
@@ -152,14 +224,6 @@
     naver_id_login.setPopup();
     naver_id_login.init_naver_id_login();
 
-    function redirectToMainPage() {
-        window.location.href = "../";
-    }
-
-    function redirectToSignUp() {
-        window.location.href = "signup"
-    }
-
     //kakao
     window.Kakao.init("82a8d8044b53724691554098e719219c");
 
@@ -167,33 +231,38 @@
 
         window.Kakao.Auth.login({
 
-            scope: 'profile_nickname, profile_image, account_email,',
+            // scope: 'profile_nickname, profile_image, account_email',
+            scope: 'account_email',
             success: function (res) {
                 console.log(res);
                 window.Kakao.API.request({
                     url: '/v2/user/me',
                     success: res => {
                         const kakao_account = res.kakao_account;
-                        console.log(kakao_account);
-                        console.log(kakao_account.email);
-                        console.log(res.properties.nickname);
-                        console.log(res.properties.profile_image)
+                        // console.log(kakao_account);
+                        // console.log(kakao_account.email);
+                        // console.log(res.properties.nickname);
+                        // console.log(res.properties.profile_image);
+                        // let m_nickname = res.properties.nickname;
+                        // let m_photo = res.properties.profile_image;
                         let m_email = kakao_account.email;
-                        alert(m_email);
-
                         $.ajax({
                             type: "get",
-                            url: "emailchk",
+                            url: "apichk",
                             data: {"m_email": m_email},
                             dataType: "json",
                             success: function (res) {
                                 if (res.result == "yes") {
-                                    alert("계정 있음");
+                                    alert("ㅎㅇ 출석포인트 +10점");
                                     location.href = "../";
 
                                 } else {
-                                    alert("계정 없음");
-                                    location.href = "signup";
+                                    let b = confirm("계정 없음");
+                                    if (b) {
+                                        location.href = "apisignup?m_email=" + m_email;
+                                    } else {
+                                        return false;
+                                    }
                                 }
                             }
                         });
@@ -202,6 +271,28 @@
             }
         });
     }
+
+    //save
+    $("#chkbtn").click(function () {
+        if (chkbtn) {
+            console.log("yes");
+        } else {
+            console.log("no");
+        }
+    });
+
+    //out
+    $("#outtest").click(function () {
+        $.ajax({
+            type: "get",
+            url: "outtest",
+            dataType: "text",
+            success: function () {
+                alert("로그아웃");
+                location.href = "";
+            }
+        });
+    });
 </script>
 </body>
 </html>
