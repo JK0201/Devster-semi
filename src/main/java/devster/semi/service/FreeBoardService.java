@@ -78,6 +78,110 @@ public class FreeBoardService implements FreeBoardServiceInter{
         freeBoardMapper.increaseDislikeCount(fb_idx);
     }
 
+    //좋아요 / 싫어요 관련 메서드들
+    @Override
+    public void increaseGoodRp(int fb_idx) {
+        freeBoardMapper.increaseGoodRp(fb_idx);
+    }
+
+    @Override
+    public void increaseBadRp(int fb_idx) {
+        freeBoardMapper.increaseBadRp(fb_idx);
+    }
+
+    @Override
+    public void decreaseGoodRp(int fb_idx) {
+        freeBoardMapper.decreaseGoodRp(fb_idx);
+    }
+
+    @Override
+    public void decreaseBadRp(int fb_idx) {
+        freeBoardMapper.decreaseBadRp(fb_idx);
+    }
+
+    @Override
+    public int getGoodRpCount(int fb_idx) {
+        return freeBoardMapper.getGoodRpCount(fb_idx);
+    }
+
+    @Override
+    public int getBadRpCount(int fb_idx) {
+        return freeBoardMapper.getBadRpCount(fb_idx);
+    }
+
+    @Override
+    public void addIncreasingGoodRpInfo(int fb_idx, int m_idx) {
+        // 현재 게시물이 소속된 게시판 id를 가져옴
+        Map<String,Integer> map = new HashMap<>();
+        map.put("fb_idx",fb_idx);
+        map.put("m_idx",m_idx);
+        freeBoardMapper.addIncreasingGoodRpInfo(map);
+
+    }
+
+    @Override
+    public void deleteGoodRpInfo(int fb_idx, int m_idx) {
+        Map<String,Integer> map = new HashMap<>();
+        map.put("fb_idx",fb_idx);
+        map.put("m_idx",m_idx);
+        freeBoardMapper.deleteGoodRpInfo(map);
+
+    }
+
+    @Override
+    public void addIncreasingBadRpInfo(int fb_idx, int m_idx) {
+
+        Map<String,Integer> map = new HashMap<>();
+        map.put("fb_idx",fb_idx);
+        map.put("m_idx",m_idx);
+        freeBoardMapper.addIncreasingBadRpInfo(map);
+    }
+
+    @Override
+    public void deleteBadRpInfo(int fb_idx, int m_idx) {
+        Map<String,Integer> map = new HashMap<>();
+        map.put("fb_idx",fb_idx);
+        map.put("m_idx",m_idx);
+        freeBoardMapper.deleteBadRpInfo(map);
+
+    }
+
+    @Override
+    public boolean isAlreadyAddGoodRp(int fb_idx, int m_idx) {
+        // 좋아요 = 1, 싫어요 = 2, 취소 시 데이터 삭제
+        // 현재 게시물에서, loginedm_idx의 pointTypeCode값이 1이면 좋아요 상태
+        int getPointTypeCodeBym_idx = getRpInfoBym_idx(fb_idx, m_idx);
+
+        if (getPointTypeCodeBym_idx == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isAlreadyAddBadRp(int fb_idx, int m_idx) {
+        // 좋아요 = 1, 싫어요 = 2, 취소 시 데이터 삭제
+        // 현재 게시물에서, loginedm_idx의 pointTypeCode값이 2면 좋아요 상태
+        int getPointTypeCodeBym_idx = getRpInfoBym_idx(fb_idx,m_idx);
+
+        if (getPointTypeCodeBym_idx == 2) {
+            return true;
+        }
+        return false;
+    }
+
+    private Integer getRpInfoBym_idx(int fb_idx, int m_idx) {
+        // 현재 사용자 id와 게시물 id로 좋아요/싫어요 기록을 가져옴
+        Map<String,Integer> map = new HashMap<>();
+        map.put("fb_idx",fb_idx);
+        map.put("m_idx",m_idx);
+        Integer getPointTypeCodeBym_idx = freeBoardMapper.getRpInfoBym_idx(map);
+        if(getPointTypeCodeBym_idx == null) {
+            getPointTypeCodeBym_idx = 0;
+        }
+        return (int)getPointTypeCodeBym_idx;
+    }
+    
     @Override
     public int commentCnt(int fb_idx) {
         return freeBoardMapper.commentCnt(fb_idx);

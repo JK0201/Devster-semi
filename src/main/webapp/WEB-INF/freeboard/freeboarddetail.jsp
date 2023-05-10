@@ -63,14 +63,128 @@
             border-radius: 100px;
         }
 
+        .already-added {
+           background-color:cornflowerblue;
+            color: white;
+        }
     </style>
 
     <script>
-        $(document).ready(function (){
-            commentList();
-        })
+    $(document).ready(function (){
+        commentList();
 
-    </script>
+        <!-- jsp 실행 이전의 리액션 여부 체크 및 버튼 색상 표현 -->
+        $(function() {
+            checkAddRpBefore();
+        });
+
+        <!-- 좋아요 버튼 클릭 이벤트 및 ajax 실행 -->
+        $("#add-goodRp-btn").click(function() {
+
+            <!-- 이미 싫어요가 눌려 있는 경우 반려 -->
+            if (isAlreadyAddBadRp == true) {
+                alert('이미 싫어요를 누르셨습니다.');
+                return;
+            }
+
+            <!-- 좋아요가 눌려 있지 않은 경우 좋아요 1 추가 -->
+            if (isAlreadyAddGoodRp == false) {
+                $.ajax({
+                    url : "/freeboard/increaseGoodRp",
+                    type : "POST",
+                    data : {
+                        "fb_idx" : ${dto.fb_idx},
+                        "m_idx" : ${sessionScope.memidx}
+                    },
+                    success : function(goodReactionPoint) {
+                        $("#add-goodRp-btn").addClass("already-added");
+                        $(".add-goodRp").html(goodReactionPoint);
+                        isAlreadyAddGoodRp = true;
+                    },
+                    error : function() {
+                        alert('서버 에러, 다시 시도해주세요.');
+                    }
+                });
+
+                <!-- 이미 좋아요가 눌려 있는 경우 좋아요 1 감소 -->
+            } else if (isAlreadyAddGoodRp == true){
+                $.ajax({
+                    url : "/freeboard/decreaseGoodRp",
+                    type : "POST",
+                    data : {
+                        "fb_idx" : ${dto.fb_idx},
+                        "m_idx" : ${sessionScope.memidx}
+                    },
+                    success : function(goodReactionPoint) {
+                        $("#add-goodRp-btn").removeClass("already-added");
+                        $(".add-goodRp").html(goodReactionPoint);
+                        isAlreadyAddGoodRp = false;
+                    },
+                    error : function() {
+                        alert('서버 에러, 다시 시도해주세요.');
+                    }
+                });
+            } else {
+                return;
+            }
+        });
+
+        <!-- 싫어요 버튼 클릭 이벤트 및 ajax 실행 -->
+        $("#add-badRp-btn").click(function() {
+
+            <!-- 이미 좋아요가 눌려 있는 경우 반려 -->
+            if (isAlreadyAddGoodRp == true) {
+                alert('이미 좋아요를 누르셨습니다.');
+                return;
+            }
+
+            <!-- 싫어요가 눌려 있지 않은 경우 싫어요 1 추가 -->
+            if (isAlreadyAddBadRp == false) {
+                $.ajax({
+                    url : "/freeboard/increaseBadRp",
+                    type : "POST",
+                    data : {
+                        "fb_idx" : ${dto.fb_idx},
+                        "m_idx" : ${sessionScope.memidx}
+                    },
+                    success : function(badReactionPoint) {
+                        $("#add-badRp-btn").addClass("already-added");
+                        $(".add-badRp").html(badReactionPoint);
+                        isAlreadyAddBadRp = true;
+                    },
+                    error : function() {
+                        alert('서버 에러, 다시 시도해주세요.');
+                    }
+                });
+
+                <!-- 이미 싫어요가 눌려 있는 경우 싫어요 1 감소 -->
+            } else if (isAlreadyAddBadRp == true) {
+                $.ajax({
+                    url : "/freeboard/decreaseBadRp",
+                    type : "POST",
+                    data : {
+                        "fb_idx" : ${dto.fb_idx},
+                        "m_idx" : ${sessionScope.memidx}
+                    },
+                    success : function(badReactionPoint) {
+                        $("#add-badRp-btn").removeClass("already-added");
+                        $(".add-badRp").html(badReactionPoint);
+                        isAlreadyAddBadRp = false;
+                    },
+                    error : function() {
+                        alert('서버 에러, 다시 시도해주세요.');
+                    }
+                });
+            } else {
+                return;
+            }
+        });
+
+
+
+    });
+
+</script>
 </head>
 
 <body>
@@ -97,10 +211,19 @@
             </c:if>
         </c:forEach>
     </div>
-    <div class="footbox">
+  <%--  <div class="footbox">
         <i class="bi bi-hand-thumbs-up thumbsup" onclick="like()"></i>&nbsp;${dto.fb_like}&nbsp;
         <i class="bi bi-hand-thumbs-down thumbsdown" onclick="dislike()"></i>&nbsp;${dto.fb_dislike}&nbsp;
-    </div>
+    </div>--%>
+    <%--            좋아요 / 싫어요 버튼--%>
+    <span id="add-goodRp-btn" class="btn btn-outline" >
+                  좋아요👍
+                  <span class="add-goodRp ml-2">${dto.fb_like}</span>
+                </span>
+    <span id="add-badRp-btn" class="ml-5 btn btn-outline">
+                  싫어요👎
+                  <span class="add-badRp ml-2">${dto.fb_dislike}</span>
+            </span>
 
 
 </div>
@@ -296,46 +419,6 @@ s+=`&nbsp;\${ele.nickname}</b><br><br>
         }
     }
 
-    function like() {
-        let fb_idx = ${dto.fb_idx};
-        let fb_readcount = ${dto.fb_readcount};
-
-        $.ajax({
-            type: "post",
-            url: "./like",
-            data: {"fb_idx":fb_idx},
-            dataType: "json",
-            success: function(response) {
-                $("#btnlike").prop("disabled", true);
-                $("#btndislike").prop("disabled", true);
-
-                location.href=`./freeboarddetail?fb_idx=\${fb_idx}&currentPage=`+${currentPage};
-
-                alert("좋아요를 눌렀어요.");
-            }
-        });
-    }
-
-    function dislike() {
-
-        let fb_idx = ${dto.fb_idx}
-
-        $.ajax({
-            type: "post",
-            url: "./dislike",
-            data: {"fb_idx": fb_idx},
-            dataType: "json",
-            success: function(response) {
-                $("#btnlike").prop("disabled", true);
-                $("#btndislike").prop("disabled", true);
-
-                location.href=`./freeboarddetail?fb_idx=\${fb_idx}&currentPage=`+${currentPage};
-
-                alert("싫어요를 눌렀어요.");
-            }
-        });
-    }
-
 
     /*답글 버튼 클릭*/
     $(document).on("click",".reCommentBtn",function (){
@@ -472,6 +555,26 @@ s+=`&nbsp;\${ele.nickname}</b><br><br>
             }
         });
     }
+
+    // 좋아요 싫어요...
+    <%--    현재 버튼이 눌려있는지 확인해서 상태에 따라 버튼에 색상표시  --%>
+    var isAlreadyAddGoodRp = ${isAlreadyAddGoodRp};
+    var isAlreadyAddBadRp = ${isAlreadyAddBadRp};
+
+    function checkAddRpBefore() {
+        <!-- 변수값에 따라 각 id가 부여된 버튼에 클래스 추가(이미 눌려있다는 색상 표시) -->
+        if (isAlreadyAddGoodRp == true) {
+            $("#add-goodRp-btn").addClass("already-added");
+        } else if (isAlreadyAddBadRp == true) {
+            $("#add-badRp-btn").addClass("already-added");
+        } else {
+            return;
+        }
+        $(function() {
+            checkAddRpBefore();
+        });
+    };
+
 
 
 </script>
