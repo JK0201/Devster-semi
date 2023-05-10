@@ -18,29 +18,7 @@
     </style>
 </head>
 <body>
-<%
-   String type=request.getParameter("type");
-%>
-<div>
-    <%=type%>
-    1234
-    내용
-</div>
-<div style="width:100px; height:50px; border: 1px solid black" id="signup">
-    <a>동의보감</a>
-</div>
-<div style="width:100px; height:50px; border: 1px solid black">
-    <a href="../">취소</a>
-</div>
-<script>
-    let type="<%=type%>";
-    $("#signup").click(function(){
-        if(type=="0")
-            location.href="signup";
-        else
-            location.href="compsignup";
-    });
-</script>
+ㅊㅋ합ㄴ디ㅏ
 </body>
 </html>
 

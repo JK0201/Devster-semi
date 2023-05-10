@@ -554,7 +554,7 @@
                 contentType: false,
                 success: function () {
                     alert("회원가입을 축하드립니다\n +100 포인트");
-                    location.href = "../";
+                    location.href = "grats";
                 }
             });
         }

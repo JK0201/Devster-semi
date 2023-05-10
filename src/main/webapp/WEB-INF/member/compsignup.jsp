@@ -554,7 +554,7 @@
                 contentType: false,
                 success: function () {
                     alert("회원가입을 축하드립니다\n헤드헌터계정은 인증까지..");
-                    location.href="../";
+                    location.href="grats";
                 }
             });
         }
