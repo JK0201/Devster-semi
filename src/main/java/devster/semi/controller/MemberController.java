@@ -149,7 +149,7 @@ public class MemberController {
             m_pass = SHA256Util.getEncrypt(m_pass, salt);
             chk = memberService.emailpasschk(m_email, m_pass);
         } catch (NullPointerException e) {
-            chk=0;
+            chk = 0;
         }
 
         if (chk == 1) {
@@ -181,12 +181,12 @@ public class MemberController {
         String salt = memberService.CmGetSaltById(cm_email);
         int chk;
         Map<String, String> map = new HashMap<>();
-        try{
-        //SHA256+salting
-        cm_pass = SHA256Util.getEncrypt(cm_pass, salt);
-        chk = memberService.cmEmailPassChk(cm_email, cm_pass);
-        } catch(NullPointerException e) {
-            chk=0;
+        try {
+            //SHA256+salting
+            cm_pass = SHA256Util.getEncrypt(cm_pass, salt);
+            chk = memberService.cmEmailPassChk(cm_email, cm_pass);
+        } catch (NullPointerException e) {
+            chk = 0;
         }
 
         if (chk == 1) {
@@ -252,6 +252,20 @@ public class MemberController {
         return cond;
     }
 
+    @GetMapping("/signincheck")
+    @ResponseBody
+    public String signInCheck(HttpSession session) {
+        String signin = (String) session.getAttribute("signin");
+        String cond = "";
+        if (signin == null) {
+            cond = "yes";
+        } else {
+            cond = "no";
+        }
+
+        return cond;
+    }
+
     @GetMapping("/blocksend")
     @ResponseBody
     public void blockSend(HttpSession session) {
@@ -269,7 +283,7 @@ public class MemberController {
     @GetMapping("/blocksignin")
     @ResponseBody
     public void blockSignIn(HttpSession session) {
-        session.setAttribute("signin","block");
+        session.setAttribute("signin", "block");
         session.setMaxInactiveInterval(30);
     }
 
@@ -403,5 +417,10 @@ public class MemberController {
     @GetMapping("/agreement")
     public String agreement() {
         return "/main/member/agreement";
+    }
+
+    @GetMapping("/grats")
+    public String grats() {
+        return "/main/member/grats";
     }
 }

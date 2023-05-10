@@ -69,7 +69,7 @@
         <strong>로그인 상태 유지하기</strong>
     </label>
     <div class="norminput">
-        <button type="button" id="signinbtn">로그인</button>
+        <button type="button" id="signinbtn" class="btn btn-outline-primary">로그인</button>
         -또는-
         <div style="margin-bottom: 30px;">
             <a id="kakao-login-btn" href="javascript:kakaoLogin()">
@@ -120,44 +120,57 @@
     let cnt = 0;
 
     $("#signinbtn").click(function () {
-        let m_email = $("#m_email").val();
-        let m_pass = $("#m_pass").val();
+        $.ajax({
+            type: "get",
+            url: "signincheck",
+            cache: false,
+            success: function (res) {
+                if (res == "yes") {
+                    if (cnt < 4) {
+                        let m_email = $("#m_email").val();
+                        let m_pass = $("#m_pass").val();
 
-        if (m_email == "") {
-            alert("이메일을 입력해주세요");
-            return false;
-        }
-        if (m_pass == "") {
-            alert("비밀번호를 입력해주세요");
-            return false;
-        }
+                        if (m_email == "") {
+                            alert("이메일을 입력해주세요");
+                            return false;
+                        }
+                        if (m_pass == "") {
+                            alert("비밀번호를 입력해주세요");
+                            return false;
+                        }
 
-        if (cnt < 4) {
-            $.ajax({
-                type: "get",
-                url: "emailpasschk",
-                dataType: "json",
-                data: {"m_email": m_email, "m_pass": m_pass},
-                success: function (res) {
-                    if (res.result == "yes") {
-                        alert("ㅎㅇ 출석포인트 +10점");
-                        location.href = "../";
+                        $.ajax({
+                            type: "get",
+                            url: "emailpasschk",
+                            dataType: "json",
+                            data: {"m_email": m_email, "m_pass": m_pass},
+                            success: function (res) {
+                                if (res.result == "yes") {
+                                    alert("ㅎㅇ 출석포인트 +10점");
+                                    location.href = "../";
+                                } else {
+                                    cnt++;
+                                    alert(cnt + "회 잘못 입력하셨습니다\n이메일과 비밀번호를 확인해주세요\n5회 잘못입력시 로그인 제한");
+                                }
+                            }
+                        });
                     } else {
-                        cnt++;
-                        alert(cnt + "회 잘못 입력하셨습니다\n이메일과 비밀번호를 확인해주세요\n5회 잘못입력시 로그인 제한");
+                        $.ajax({
+                            type: "get",
+                            url: "blocksignin",
+                            dataType: "text",
+                            success: function () {
+                                alert("이용정지");
+                                $("#signinbtn").prop("disabled",true);
+                            }
+                        });
                     }
+                } else {
+                    alert("로그인 제한");
+                    $("#signinbtn").prop("disabled",true);
                 }
-            });
-        } else {
-            $.ajax({
-                type: "get",
-                url: "blocksignin",
-                dataType:"text",
-                success:function() {
-                    alert("이용정지");
-                }
-            });
-        }
+            }
+        });
     });
 
     $("#m_email").keyup(function (e) {
