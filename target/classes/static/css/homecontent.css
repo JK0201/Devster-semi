@@ -57,6 +57,98 @@ section.main .wrap .container .maincontent{
     /*border: 1px solid #000;*/
 }
 
+/* ============================== 공지사항 ================================= */
+
+/*공지사항 뱃지*/
+section.main .wrap .container table.noticeboard_table .notice_box{
+    width: 40px;
+    height: 20px;
+    background-color: #aaaaaa;
+    display: inline-block;
+    font-size: 12px;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 4px;
+    color: #eeeeee;
+
+}
+
+/*사진 옆 아이콘*/
+section.main .wrap .container table.noticeboard_table td.nb_subject a{
+    float: left;
+}
+
+section.main .wrap .container table.noticeboard_table td.nb_subject a .icon_img{
+    background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
+    background-size: 590px 907px;
+    background-position: -163px -600px;
+    content: '';
+    width: 18px;
+    height: 24px;
+    float: right;
+    margin-left: 10px;
+}
+
+
+section.main .wrap .container table.noticeboard_table{
+    width: 736px;
+    float: left;
+}
+section.main .wrap .container table.noticeboard_table h2{
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    border-bottom: 2px solid #eee;
+    height: 47px;
+    line-height: 47px;
+    position: relative;
+    /*float: left;*/
+}
+section.main .wrap .container table.noticeboard_table h2 img{
+    width: 34px;
+    height: 34px;
+    margin-bottom: 6px;
+    /*vertical-align: middle;*/
+
+}
+
+section.main .wrap .container table.noticeboard_table h2 span{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    color: #222;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+/*section.main table.qboard_table span{
+    float: left;
+}*/
+section.main .wrap .container table.noticeboard_table tr{
+    height: 30px;
+}
+
+section.main .wrap .container table.noticeboard_table .nb_subject{
+    font-size: 15px;
+    width: 85%;
+
+}
+section.main .wrap .container table.noticeboard_table .nb_subject a{
+    margin-left: 4px;
+}
+section.main .wrap .container table.noticeboard_table .nb_readcount{
+    font-size: 12px;
+    color: #94969B;
+    width: 10%;
+
+}
+/*section.main .wrap .container table.noticeboard_table .nb_like{
+    font-size: 12px;
+    color: #94969B;
+    width: 5%;
+}*/
+section.main .wrap .container table.noticeboard_table i{margin-right: 3px;}
+
 /* ============================== 일반게시판 ================================= */
 
 /*사진 옆 아이콘*/
@@ -117,6 +209,7 @@ section.main .wrap .container table.freeboard_table h2{
     position: relative;
     /*float: left;*/
 }
+/* 일반게시판 아이콘*/
 section.main .wrap .container table.freeboard_table h2 img{
     width: 32px;
     height: 32px;
@@ -244,18 +337,22 @@ section.main .wrap .container table.qboard_table i{margin-right: 3px;}
 /*사진 옆 아이콘*/
 section.main .wrap .container table.hireboard_table td.hb_subject a{
     float: left;
+    max-width: 250px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 
 
-section.main .wrap .container table.hireboard_table td.hb_subject a .icon_img{
+section.main .wrap .container table.hireboard_table td.hb_subject div.icon_img{
     background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
     background-size: 590px 907px;
     background-position: -163px -600px;
     content: '';
     width: 18px;
     height: 24px;
-    float: right;
+    display: inline-block;
 }
 
 /*조회수 아이콘*/
@@ -310,6 +407,7 @@ section.main .wrap .container table.hireboard_table h2 span{
 }*/
 section.main .wrap .container table.hireboard_table tr{
     height: 30px;
+
 }
 
 section.main .wrap .container table.hireboard_table .hb_subject{
@@ -319,6 +417,7 @@ section.main .wrap .container table.hireboard_table .hb_subject{
 }
 section.main .wrap .container table.hireboard_table .hb_subject a{
     margin-left: 4px;
+    float: left;
 }
 section.main .wrap .container table.hireboard_table .hb_readcount{
     font-size: 12px;

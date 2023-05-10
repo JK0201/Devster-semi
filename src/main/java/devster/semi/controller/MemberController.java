@@ -81,7 +81,7 @@ public class MemberController {
             String memnick=memberService.getOneData(m_email).getM_nickname();
             int memstate = memberService.getOneData(m_email).getM_state();
             int acaidx = memberService.getOneData(m_email).getAi_idx();
-
+            int state = memberService.getOneData(m_email).getM_state();
             //포인트 증가 (1회증가로 나중에 로직짜기)
             memberService.dailyPoint(m_email);
 
@@ -90,6 +90,7 @@ public class MemberController {
             session.setAttribute("memnick",memnick);
             session.setAttribute("memstate", memstate);
             session.setAttribute("acaidx", acaidx);
+            session.setAttribute("state",state);
         } else {
             map.put("result", "no");
         }

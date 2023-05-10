@@ -1,37 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<div class="fb_wrap">
 
-    <h1>Free Board</h1>
+<div class="nb_wrap">
 
-    <!--=============================================================================-->
-
-    <div class="noticeboard_part" style="border: 1px solid red">
-        <h1>공지</h1>
-        <ul class="clear">
-            <c:if test="${NoticeBoardTotalCount>0}">
-                <c:forEach var="dto" items="${nblist}">
-
-
-                            <li>
-                                <a href="../noticeboard/noticeboarddetail?nb_idx=${dto.nb_idx}&currentPage=${currentPage}"
-                                   style="color: #000;">
-                                        ${dto.nb_subject}
-                                    <c:if test="${dto.nb_photo!='n'}">
-                                        &nbsp; <i class="bi bi-images"></i>
-                                    </c:if>
-                                </a>
-                            </li>
-
-                        </ul>
-                </c:forEach>
-            </c:if>
-        </ul>
-    </div>
-    <!--=============================================================================-->
-
-    <table class="freeboard_table">
+    <table class="noticeboard_table">
+        <caption align="top"><h1>Notice Board</h1></caption>
 
         <thead>
         <tr>
@@ -39,15 +13,11 @@
             <th>작성자</th>
             <th>제목</th>
             <th>조회</th>
-            <th>좋아요</th>
-            <th>싫어요</th>
             <th>작성일</th>
         </tr>
         </thead>
 
         <tbody>
-
-
         <c:if test="${totalCount==0}">
             <h2>등록된 게시글이 없습니다..</h2>
         </c:if>
@@ -55,26 +25,24 @@
         <c:if test="${totalCount>0}">
             <c:forEach var="dto" items="${list}">
                 <tr>
-                    <td>${dto.fb_idx}번</td>
+
+                    <td>${dto.nb_idx}번</td>
 
                     <td>${dto.nickName}</td>
 
                     <td>
-                        <a href="freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}" style="color: #000;">
-                                ${dto.fb_subject}
-                            <c:if test="${dto.fb_photo!='no'}">
+                        <a href="noticeboarddetail?nb_idx=${dto.nb_idx}&currentPage=${currentPage}"
+                           style="color: #000;">
+                                ${dto.nb_subject}
+                            <c:if test="${dto.nb_photo!='n'}">
                                 &nbsp; <i class="bi bi-images"></i>
                             </c:if>
                         </a>
                     </td>
 
-                    <td>${dto.fb_readcount}</td>
+                    <td>${dto.nb_readcount}</td>
 
-                    <td>${dto.fb_like}</td>
-
-                    <td>${dto.fb_dislike}</td>
-
-                    <td>${dto.fb_writeday}</td>
+                    <td>${dto.nb_writeday}</td>
                 </tr>
 
             </c:forEach>
@@ -83,12 +51,11 @@
         <tfoot>
         <tr>
             <td>총 ${totalCount}개의 게시글
-                <button type="button" onclick="location.href='./freewriteform'">글쓰기</button>
+                <button type="button" onclick="location.href='./noticewriteform'">글쓰기</button>
             </td>
         </tr>
         </tfoot>
     </table>
-
 
     <!-- 페이징 처리 -->
     <div style="width:700px; text-align: center; font-size: 20px; background-color: rgba(255, 255, 255, 0.6)">
@@ -117,7 +84,4 @@
                href="list?currentPage=${endPage+1 }">&nbsp;다음&nbsp;</a>
         </c:if>
     </div>
-
 </div>
-
-

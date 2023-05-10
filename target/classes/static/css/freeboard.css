@@ -19,7 +19,7 @@ section.main .fb_wrap table.freeboard_table{
     float: left;
 }
 
-.icon_img{
+section.main .fb_wrap .icon_img{
     background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
     background-size: 600px 900px;
     background-position: -166px -600px;
@@ -32,3 +32,13 @@ section.main .fb_wrap table.freeboard_table{
 section.main .fb_wrap .fb_page_list{
 
 }
+
+/*=============================================공지사항=============================================*/
+
+.noticeboard_part ul{
+    padding: 0 !important;
+    margin: 0 !important;
+}
+.noticeboard_part ul li{
+    float: left;
+} 
