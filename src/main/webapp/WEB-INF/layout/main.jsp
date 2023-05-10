@@ -13,12 +13,48 @@
 
         <div class="maincontent clear">
 
+            <!-- ========================= 공지사항 ===========================-->
+
+            <table class="noticeboard_table">
+
+                <caption align="top" class="clear">
+                    <h2>
+                        <img src="/photo/icon_notice.png">공지사항
+                        <span><a href="noticeboard/list" class="btn-more">더보기<i class="bi bi-chevron-right"></i></a></span>
+                    </h2>
+                </caption>
+
+                <tbody>
+                <c:if test="${NoticeBoardTotalCount == 0}">
+                    <h2>등록된 게시글이 없습니다..</h2>
+                </c:if>
+
+                <c:if test="${NoticeBoardTotalCount>0}">
+                    <c:forEach var="dto" items="${nblist}">
+                        <tr>
+                            <td class="nb_subject clear">
+                                <a href="noticeboard/noticeboarddetail?nb_idx=${dto.nb_idx}&currentPage=${currentPage}"
+                                   style="color: #000;"><div class="notice_box">공지</div>
+                                        ${dto.nb_subject}
+                                    <c:if test="${dto.nb_photo!='n'}">
+                                        <div class="icon_img"><img></div>
+                                    </c:if>
+                                </a>
+                            </td>
+
+
+                        </tr>
+                    </c:forEach>
+                </c:if>
+                </tbody>
+            </table>
+
             <!-- ========================= 일반게시판 ===========================-->
             <table class="freeboard_table">
                 <caption align="top" class="clear">
 
                     <h2>
-                        <img src="/photo/ico-best.png">일반게시판
+                        <img src="/photo/icon_fb.png">일반게시판
                         <span><a href="freeboard/list" class="btn-more">더보기<i
                                 class="bi bi-chevron-right"></i></a></span>
                     </h2>
@@ -83,7 +119,7 @@
 
                 <caption align="top" class="clear">
                     <h2>
-                        <img src="/photo/ico-best.png">질문게시판
+                        <img src="/photo/icon_question.png">질문게시판
                         <span><a href="qboard/list" class="btn-more">더보기<i class="bi bi-chevron-right"></i></a></span>
                     </h2>
                 </caption>
@@ -120,7 +156,7 @@
                 <caption align="top" class="clear">
 
                     <h2>
-                        <img src="/photo/ico-best.png">채용정보
+                        <img src="/photo/icon_job.png">채용정보
                         <span><a href="hire/list" class="btn-more">더보기<i class="bi bi-chevron-right"></i></a></span>
                     </h2>
 
@@ -138,12 +174,12 @@
                             <td class="hb_subject clear">
                                 <a href="hire/hireboarddetail?hb_idx=${dto.hb_idx}&currentPage=${currentPage}"
                                    style="color: #000;">
-                                        ${dto.hb_subject}
+                                        ${dto.hb_subject}</a>
                                     <c:if test="${dto.hb_photo!=''}">
                                         &nbsp; <%--<i class="bi bi-images"></i>--%>
                                         <div class="icon_img"><img></div>
                                     </c:if>
-                                </a>
+
                             </td>
 
                             <td class="hb_readcount clear">
@@ -171,3 +207,5 @@
     </div>
 
 </div>
+
+

@@ -2,9 +2,12 @@ package devster.semi.controller;
 
 import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.HireBoardDto;
+import devster.semi.dto.NoticeBoardDto;
 import devster.semi.dto.QboardDto;
 import devster.semi.mapper.HireMapper;
 import devster.semi.service.FreeBoardService;
+import devster.semi.service.HireService;
+import devster.semi.service.NoticeBoardService;
 import devster.semi.service.QboardService;
 import naver.cloud.NcpObjectStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,12 @@ public class HomeController {
 
 	@Autowired
 	private HireMapper hireMapper;
+
+	@Autowired
+	private HireService hireService;
+
+	@Autowired
+	private NoticeBoardService noticeBoardService;
 
 	@Autowired
 	private NcpObjectStorageService storageService;
@@ -91,10 +100,21 @@ public class HomeController {
 
 		//===========================채용정보 게시판===============================//
 
-		List<HireBoardDto> hirelist=hireMapper.getAllPosts();
+		int hireboardtotalCount = hireService.getHireTotalCount();
+		List<HireBoardDto> hirelist=hireService.getHirePagingList(startNum, perPage);
+		/*List<HireBoardDto> hirelist=hireMapper.getAllPosts();*/
 		//model 에 저장
-		model.addAttribute("currentPage",currentPage);
 		model.addAttribute("hirelist", hirelist);
+		model.addAttribute("currentPage",currentPage);
+
+		//===========================공지사항===============================//
+
+		int NoticeBoardTotalCount = noticeBoardService.getTotalCount();
+		List<NoticeBoardDto> nblist = noticeBoardService.getPagingList(startNum, perPage);
+
+		model.addAttribute("nblist", nblist);
+		model.addAttribute("NoticeBoardTotalCount",NoticeBoardTotalCount);
+
 
 		return "/sub";//tiles.xml 에 이 이름으로 정의된 definition 이 적용됨
 

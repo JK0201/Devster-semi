@@ -25,6 +25,7 @@
         <input type="hidden" name="m_idx" value="${sessionScope.memidx}">
         <input type="hidden" name="qb_idx" value="${dto.qb_idx}">
         <input type="hidden" name="currentPage" value="${currentPage}">
+
         제목 : <input type="text" name="qb_subject" value="${dto.qb_subject}"><br>
         내용 : <textarea name="qb_content">${dto.qb_content}</textarea><br>
         사진 : <input type="file" name="upload" multiple><br>

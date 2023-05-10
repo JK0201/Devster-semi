@@ -55,12 +55,12 @@ input,select{vertical-align:middle;} /*세로정렬 가운데 */
 .hidden{display:none;}
 
 a{
-    color: #000;
-}
-a:visited {color: #000; text-decoration: none;}
-
-a{
+    color: #000 !important;
     text-decoration:none !important;
+}
+
+a:visited {color: #000 !important;
+    text-decoration: none !important;
 }
 
 a:hover {
