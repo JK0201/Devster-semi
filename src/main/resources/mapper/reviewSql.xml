@@ -7,11 +7,10 @@
     </insert>
 
     <select id="GetAllReview" resultType="reviewDto">
-        select * from reviewboard desc
+        select * from reviewboard  order by rb_idx desc
     </select>
-
     <select id="getTotalcount" resultType="int">
-        select count(*) from reviewboard order by rb_idx desc
+        select count(*) from reviewboard
     </select>
     <select id="getPagingList" parameterType="Map" resultType="reviewDto">
         select * from reviewboard limit #{start},#{perPage}
@@ -34,8 +33,9 @@
         update reviewboard set rb_content=#{rb_content} ,rb_star=#{rb_star} ,rb_type=#{rb_type},ci_idx=#{ci_idx}  where rb_idx=#{rb_idx}
     </update>
     <select id="getData" parameterType="int" resultType="reviewDto">
-        select * from reviewboard where rb_idx=#{rb_idx}
+        select * from reviewboard where rb_idx=#{rb_idx}  order by rb_idx desc
     </select>
+
     <update id="increaseLikeCount" parameterType="int">
         update reviewboard set rb_like=rb_like+1 where rb_idx=#{rb_idx}
     </update>
@@ -43,12 +43,24 @@
         update reviewboard set rb_dislike=rb_dislike+1 where rb_idx=#{rb_idx}
     </update>
     <!--회사 정보 출력-->
-    <select id="selectciname" resultType="String">
+    <select id="selectciname" resultType="companyinfoDto">
         select ci_name,ci_idx from companyinfo
     </select>
 
     <select id="getDataciinfo" parameterType="int" resultType="CompanyinfoDto">
+        SELECT *
+        FROM  companyinfo co
+                 JOIN reviewboard re ON re.ci_idx = co.ci_idx
+        WHERE co.ci_idx = #{ci_idx}
+        ORDER BY co.ci_idx desc
+            LIMIT 1
+    </select>
+    <select id="getciinfoData" resultType="CompanyinfoDto" parameterType="int">
         select * from companyinfo where ci_idx=#{ci_idx}
     </select>
-
+    <select id="insertselciname" resultType="companyinfoDto" parameterType="String">
+        SELECT ci_idx, ci_name
+        FROM companyinfo
+        WHERE ci_name LIKE '%'||#{keyword}||'%'
+    </select>
 </mapper>

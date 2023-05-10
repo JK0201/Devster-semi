@@ -18,4 +18,7 @@ public interface ReviewServiceInter {
     public void increaseLikeCount(int rb_idx);
     public void increaseDislikeCount(int rb_idx);
     public List<CompanyinfoDto> selectciname ();
+    public List<CompanyinfoDto> getDataciinfo(int ci_idx);
+    public List<CompanyinfoDto> getciinfoData(int ci_idx);
+    public List<CompanyinfoDto> insertselciname(String keyword);
 }

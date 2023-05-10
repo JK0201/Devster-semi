@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,8 +37,8 @@ public class ReviewBoardController {
 
         int totalCount = reviewService.getTotalcount();
         int totalPage; // 총 페이지 수
-        int perPage = 20; // 한 페이지당 보여줄 글 갯수
-        int perBlock = 10; // 한 블록당 보여질 페이지의 갯수
+        int perPage = 7; // 한 페이지당 보여줄 글 갯수
+        int perBlock = 5; // 한 블록당 보여질 페이지의 갯수
         int startNum; // 각 페이지에서 보여질 글의 시작번호
         int startPage; // 각 블록에서 보여질 시작 페이지 번호
         int endPage; // 각 블록에서 보여질 끝 페이지 번호
@@ -78,8 +79,23 @@ public class ReviewBoardController {
             map.put("rb_content",dto.getRb_content());
             String currentTimestampToString = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(dto.getRb_writeday());
             map.put("rb_writeday", currentTimestampToString);
+
+
+            List<CompanyinfoDto> ciDtoList = reviewService.getDataciinfo(dto.getCi_idx());
+            if (ciDtoList != null && !ciDtoList.isEmpty()) {
+                CompanyinfoDto ciDto = ciDtoList.get(0);
+                map.put("ci_name", ciDto.getCi_name());
+                map.put("ci_ppl", ciDto.getCi_ppl());
+                DecimalFormat decimalFormat = new DecimalFormat("#,###");
+                map.put("ci_sale", decimalFormat.format(ciDto.getCi_sale()) + "원");
+                map.put("ci_sal", decimalFormat.format(ciDto.getCi_sal()) + "원");
+                map.put("ci_photo", ciDto.getCi_photo());
+                map.put("ci_star", ciDto.getCi_star());
+                map.put("ci_idx",ciDto.getCi_idx());
+            }
             fulllList.add(map);
         }
+
 
 
         model.addAttribute("list", fulllList);
@@ -98,6 +114,13 @@ public class ReviewBoardController {
         return "/main/review/reviewlist";
     }
 
+    @GetMapping("/getCompanyInfo")
+    @ResponseBody
+    public List<CompanyinfoDto> getCompanyInfo(@RequestParam int ci_idx) {
+        /*List<Map<String, Object>> ciinfoList = new ArrayList<>();*/
+        List<CompanyinfoDto> companyinfoList = reviewService.getciinfoData(ci_idx);
+        return companyinfoList;
+    }
 
 
     @GetMapping("/reviewriterform")
@@ -109,6 +132,7 @@ public class ReviewBoardController {
         model.addAttribute("rb_idx",rb_idx);
         return "/main/review/reviewform";
     }
+
 
 
   @PostMapping("/insert")
@@ -170,5 +194,9 @@ public class ReviewBoardController {
         return result;
     }
 
-
+    @GetMapping("/search")
+    public @ResponseBody List<CompanyinfoDto> getSearchResult(String keyword) {
+        List<CompanyinfoDto> ciNameList = reviewService.insertselciname(keyword);
+        return ciNameList;
+    }
 }

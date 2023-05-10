@@ -90,10 +90,54 @@
                 </select>
 
              회사 선택:
-             <select name="ci_idx">
-                 <c:forEach var="ci" items="${ciNameList}">
-                     <option value="${ci.ci_idx}">${ci.ci_name}</option>
+             <%--<select name="ci_idx">
+                 <c:forEach var="ciInfo" items="${ciNameList}">
+                     <option value="${ciInfo.ci_idx}">${ciInfo.ci_name}</option>
                  </c:forEach>
+             </select>--%>
+             <div>
+                 <input id="search" type="text" placeholder="Search...">
+                 <div id="search-results"></div>
+             </div>
+
+                 <script>
+                     $(function() {
+                     // 검색창에서 키 입력 시, 검색어에 해당하는 회사 정보를 검색하여 표시
+                     $('#search').on('keyup', function() {
+                         var query = $(this).val();
+                         $.ajax({
+                             url: "search",
+                             method: 'GET',
+                             data: {
+                                 "keyword": query
+                             },
+                             dataType:"json",
+                             success: function(data) {
+                                 var html = '';
+                                 $.each(data,function(idx,ele) {
+                                    if(ele.ci_name.includes(query)) {
+                                        html += '<div class="data" data-ci-idx="' + ele.ci_idx + '">' + ele.ci_name + '</div>';
+                                        html += "<br>";
+                                    }
+                                 });
+                                 $('#search-results').html(html);
+                             },
+                             error: function() {
+                                 $('#search-results').html('Error occurred');
+                             }
+                         });
+                     });
+
+                         // 회사 정보를 클릭하면 해당 회사 정보를 insert 버튼에 전달
+                         $(document).on('click', '.data', function() {
+                             var ci_idx = $(this).data('ci_idx');
+                             $('#ci_idx').val(ci_idx);
+                         });
+                     });
+
+
+             </script>
+
              </select>
          <div class="star-rb_star">
              <input type="radio" id="5-stars" name="rb_star" value="5" />

@@ -68,4 +68,18 @@ public class ReviewService implements ReviewServiceInter{
 
     @Override
     public List<CompanyinfoDto>selectciname(){return reviewMapper.selectciname();}
+@Override
+public List<CompanyinfoDto> getDataciinfo(int ci_idx) {
+    return reviewMapper.getDataciinfo(ci_idx);
+}
+
+    @Override
+    public List<CompanyinfoDto> getciinfoData(int ci_idx) {
+        return reviewMapper.getciinfoData(ci_idx);
+    }
+
+    @Override
+    public List<CompanyinfoDto> insertselciname(String keyword) {
+        return reviewMapper.insertselciname(keyword);
+    }
 }

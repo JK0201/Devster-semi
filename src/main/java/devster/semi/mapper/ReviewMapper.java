@@ -5,6 +5,7 @@ import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.QboardDto;
 import devster.semi.dto.ReviewDto;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -23,4 +24,7 @@ public interface ReviewMapper {
     public void increaseLikeCount(int rb_idx);
     public void increaseDislikeCount(int rb_idx);
     public List<CompanyinfoDto> selectciname ();
+    public List<CompanyinfoDto> getDataciinfo(int ci_idx);
+    public List<CompanyinfoDto> getciinfoData(int ci_idx);
+    public List<CompanyinfoDto> insertselciname(String keyword);
 }
