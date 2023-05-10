@@ -29,11 +29,15 @@
         }
 
         const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
-        if (betweenTimeDay < 365) {
+        if (betweenTimeDay < 8) {
             return `\${betweenTimeDay}일전`;
         }
 
-        return `\${Math.floor(betweenTimeDay / 365)}년전`;
+        const month = String(timeValue.getMonth() + 1).padStart(2, '0');
+        const day = String(timeValue.getDate()).padStart(2, '0');
+        const formattedDate = `\${month}-\${day}`;
+
+        return `\${formattedDate}`;
     }
 </script>
 

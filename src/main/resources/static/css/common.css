@@ -54,6 +54,24 @@ input,select{vertical-align:middle;} /*세로정렬 가운데 */
 }
 .hidden{display:none;}
 
+a{
+    color: #000 !important;
+    text-decoration:none !important;
+}
+
+a:visited {color: #000 !important;
+    text-decoration: none !important;
+}
+
+a:hover {
+    color: black !important;
+}
+
+ul{
+    margin: 0;
+    padding: 0;
+}
+
 
 
 
