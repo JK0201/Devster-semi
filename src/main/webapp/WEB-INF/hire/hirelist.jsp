@@ -6,10 +6,11 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../commonvar.jsp" %>
+
 <html>
 <head>
   <meta charset="UTF-8">
@@ -86,40 +87,48 @@
   </c:if>
 </c:forEach>
 
+
 </div>
 
-<div style="width: 700px; text-align: center; font-size: 20px; margin-left: 270px;" >
-  <!-- 이전 -->
-  <c:if test="${startPage > 1}">
-    <a style="color: black; text-decoration: none; cursor: pointer;" href="list?currentPage=${startPage-1}">이전</a>
-  </c:if>
-  <c:if test="${startPage <= 1}">
-    <a style="color: black; text-decoration: none; cursor: pointer; visibility: hidden;" href="list?currentPage=${startPage-1}">이전</a>
-  </c:if>
-  <!-- 페이지 번호 출력 -->
-  <c:forEach var="pp" begin="${startPage}" end="${endPage}">
-    <c:if test="${currentPage == pp }">
-      <a style="color: green; text-decoration: none; cursor: pointer;" href="list?currentPage=${pp}">${pp}</a>
+<div class="paginate">
+    <!-- 이전 -->
+    <c:if test="${startPage > 1}">
+        <a style="color: black; text-decoration: none; cursor: pointer;"
+           href="list?currentPage=${startPage-1}"><div class="icon_pre"></div></a>
     </c:if>
-    <c:if test="${currentPage != pp }">
-      <a style="color: black; text-decoration: none; cursor: pointer;" href="list?currentPage=${pp}">${pp}</a>
+    <c:if test="${startPage <= 1}">
+        <a style="color: black; text-decoration: none; cursor: pointer;
+        visibility: hidden;" href="list?currentPage=${startPage-1}"><div class="icon_pre"></div></a>
     </c:if>
-    &nbsp;
-  </c:forEach>
-  <!-- 다음 -->
-  <c:if test="${endPage < totalPage}">
-    <a style="color: black; text-decoration: none; cursor: pointer;" href="list?currentPage=${endPage+1}">다음</a>
-  </c:if>
-  <c:if test="${endPage >= totalPage}">
-    <a style="color: black; text-decoration: none; cursor: pointer; visibility: hidden;" href="list?currentPage=${endPage+1}">다음</a>
-  </c:if>
+    <!-- 페이지 번호 출력 -->
+    <c:forEach var="pp" begin="${startPage}" end="${endPage}">
+        <c:if test="${currentPage == pp }">
+            <a style="color: green; text-decoration: none; cursor: pointer;" href="list?currentPage=${pp}">${pp}</a>
+        </c:if>
+        <c:if test="${currentPage != pp }">
+            <a style="color: black; text-decoration: none; cursor: pointer;" href="list?currentPage=${pp}">${pp}</a>
+        </c:if>
+        &nbsp;
+    </c:forEach>
+    <!-- 다음 -->
+    <c:if test="${endPage < totalPage}">
+       <a style="color: black; text-decoration: none; cursor: pointer;" href="list?currentPage=${endPage+1}"><div class="icon_next"></div></a>
+    </c:if>
+    <c:if test="${endPage >= totalPage}">
+       <a style="color: black; text-decoration: none; cursor: pointer;
+        visibility: hidden;" href="list?currentPage=${endPage+1}"><div class="icon_next"></div></a>
+    </c:if>
+
+
 </div>
+
 
 
 </script>
 
 </body>
 </html>
+
 
 
 

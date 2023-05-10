@@ -34,10 +34,100 @@
                  JOIN member m ON fb.m_idx = m.m_idx
         WHERE fb.fb_idx = #{fb_idx};
     </select>
-    <update id="increaseLikeCount" parameterType="int">
-        update freeboard set fb_like=fb_like+1 where fb_idx=#{fb_idx}
+    <select id="selectPhotoOfMidx" parameterType="int" resultType="String">
+        SELECT m.m_photo
+        FROM freeboard fb
+                 JOIN member m ON fb.m_idx = m.m_idx
+        WHERE fb.fb_idx = #{fb_idx};
+    </select>
+    <select id="commentCnt" parameterType="int" resultType="int">
+        SELECT COUNT(*) FROM freecomment WHERE fb_idx=#{fb_idx}
+    </select>
+
+
+<!--    <update id="increaseLikeCount" parameterType="int">-->
+<!--        update freeboard set fb_like=fb_like+1 where fb_idx=#{fb_idx}-->
+<!--    </update>-->
+<!--    <update id="increaseDislikeCount" parameterType="int">-->
+<!--        update freeboard set fb_dislike=fb_dislike+1 where fb_idx=#{fb_idx}-->
+<!--    </update>-->
+    <!-- 좋아요 / 싫어요 관련 메서드들 -->
+
+    <update id="increaseGoodRp">
+        UPDATE freeboard
+        SET fb_like =
+                fb_like + 1
+        WHERE fb_idx =
+              #{fb_idx}
     </update>
-    <update id="increaseDislikeCount" parameterType="int">
-        update freeboard set fb_dislike=fb_dislike+1 where fb_idx=#{fb_idx}
+
+    <update id="increaseBadRp">
+        UPDATE freeboard
+        SET fb_dislike = fb_dislike
+            + 1
+        WHERE fb_idx =
+              #{fb_idx}
     </update>
+
+    <update id="decreaseGoodRp">
+        UPDATE freeboard
+        SET fb_like =
+                fb_like - 1
+        WHERE fb_idx =
+              #{fb_idx}
+    </update>
+
+    <update id="decreaseBadRp">
+        UPDATE freeboard
+        SET fb_dislike =
+                fb_dislike - 1
+        WHERE fb_idx =
+              #{fb_idx}
+    </update>
+
+    <select id="getGoodRpCount" resultType="int">
+        SELECT fb_like
+        FROM freeboard
+        WHERE fb_idx = #{fb_idx}
+    </select>
+
+    <select id="getBadRpCount" resultType="int">
+        SELECT fb_dislike
+        FROM freeboard
+        WHERE fb_idx = #{fb_idx}
+    </select>
+
+    <insert id="addIncreasingGoodRpInfo" parameterType="map">
+        INSERT INTO fboard_like
+        SET fb_idx = #{fb_idx},
+            m_idx = #{m_idx},
+            likeStatus = 1
+    </insert>
+
+    <delete id="deleteGoodRpInfo" parameterType="map">
+        DELETE FROM fboard_like
+        WHERE fb_idx = #{fb_idx}
+          AND m_idx = #{m_idx}
+          AND likeStatus = 1
+    </delete>
+
+    <insert id="addIncreasingBadRpInfo" parameterType="map">
+        INSERT INTO fboard_like
+        SET fb_idx = #{fb_idx},
+            m_idx = #{m_idx},
+            likeStatus = 2
+    </insert>
+
+    <delete id="deleteBadRpInfo" parameterType="map">
+        DELETE FROM fboard_like
+        WHERE fb_idx = #{fb_idx}
+          AND m_idx = #{m_idx}
+          AND likeStatus = 2
+    </delete>
+
+    <select id="getRpInfoBym_idx" resultType="integer">
+        SELECT likeStatus
+        FROM fboard_like
+        WHERE fb_idx = #{fb_idx} AND m_idx = #{m_idx};
+    </select>
 </mapper>

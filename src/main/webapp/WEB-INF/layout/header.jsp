@@ -25,72 +25,30 @@
         <li><a href="${root}/freeboard/list">일반게시판</a></li>
         <li><a href="${root}/qboard/list">질문게시판</a></li>
         <li><a href="${root}/hire/list">채용정보</a></li>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <li><a href="${root}/guest/list">학원별게시판</a></li>
         <li><a href="${root}/contact">회사후기</a></li>
+        <li><a href="${root}/noticeboard/list">공지사항</a></li>
     </ul>
 
     <ul class="clear util_menu">
-        <li><button type="button" class="btn btnsignup">회원가입</button></li>
-        <li><button type="button" class="btn btnsignin">로그인</button></li>
+        <li><button type="button" class="btn btnsignup" onclick="location.href='../member/selmember'">회원가입</button></li>
+        <li><button type="button" class="btn btnsignin" onclick="location.href='../member/signin'">로그인</button></li>
     </ul>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll(".gnb li a");
+
+        navLinks.forEach((link) => {
+            if (link.getAttribute("href") === currentPath) {
+                link.classList.add("selected");
+            } else {
+                link.classList.remove("selected");
+            }
+        });
+    });
+</script>
 <%--</body>
 </html>--%>

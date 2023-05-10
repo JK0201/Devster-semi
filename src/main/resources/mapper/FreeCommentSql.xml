@@ -1,4 +1,55 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="devster.semi.mapper">
+<mapper namespace="devster.semi.mapper.FreeCommentMapper">
+    <select id="getTotalComment" parameterType="int" resultType="int">
+        select count(*) from freecomment where fb_idx=#{fb_idx}
+    </select>
+    <select id="selectNickNameOfFbc_idx" parameterType="int" resultType="String">
+        SELECT m.m_nickname
+        FROM freecomment f
+                 JOIN member m ON f.m_idx = m.m_idx
+        WHERE f.fbc_idx = #{fbc_idx}
+    </select>
+    <select id="selectPhotoOfFbc_idx" parameterType="int" resultType="String">
+        SELECT m.m_photo
+        FROM freecomment f
+                 JOIN member m ON f.m_idx = m.m_idx
+        WHERE f.fbc_idx = #{fbc_idx}
+    </select>
+
+    <select id="getAllCommentList" resultType="FreeCommentDto" parameterType="int">
+        select * from freecomment where fb_idx=#{fb_idx} and fbc_depth=0 order by fbc_ref asc , fbc_idx desc
+    </select>
+
+    <select id="getFreeComment" parameterType="int" resultType="FreeCommentDto">
+        select * from freecomment where fbc_idx=#{fbc_idx}
+    </select>
+
+    <select id="countReply" parameterType="int" resultType="int">
+        SELECT COUNT(*) FROM freecomment WHERE fbc_ref=#{fbc_idx} and fbc_depth=1
+    </select>
+
+    <insert id="insertFreeComment" parameterType="FreeCommentDto">
+        insert into freecomment (m_idx, fb_idx, fbc_content, fbc_writeday, fbc_ref, fbc_step, fbc_depth) values (#{m_idx}, #{fb_idx},#{fbc_content}, now(), #{fbc_ref}, #{fbc_step},0)
+    </insert>
+    <insert id="insertFreeReply" parameterType="FreeCommentDto">
+        insert into freecomment (m_idx, fb_idx, fbc_content, fbc_writeday, fbc_ref, fbc_step, fbc_depth) values (#{m_idx}, #{fb_idx},#{fbc_content}, now(), #{fbc_ref}, #{fbc_step},1)
+    </insert>
+    <select id="getReplyOfRef" parameterType="int" resultType="FreeCommentDto">
+        select * from freecomment where fbc_ref=#{fbc_idx} and fbc_depth=1
+    </select>
+    <update id="updateFreeComment" parameterType="FreeCommentDto">
+        update freecomment set fbc_content=#{fbc_content} where fbc_idx=#{fbc_idx}
+    </update>
+    <delete id="deleteFreeComment" parameterType="int">
+        delete from freecomment where fbc_idx=#{fbc_idx}
+    </delete>
+
+    <select id="getMaxNum" resultType="int">
+        select ifnull(max(fbc_idx),0) from freecomment
+    </select>
+    <update id="updateStep" parameterType="Map">
+        update freecomment set fbc_step=fbc_step+1 where fbc_ref=#{fbc_ref} and fbc_step &gt; #{fbc_step}
+    </update>
+
 
 </mapper>
