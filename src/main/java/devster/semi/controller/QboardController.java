@@ -112,8 +112,8 @@ public class QboardController {
                 //사진 업로드.
                 fileName += (storageService.uploadFile(bucketName, "qboard", mfile) + ",");
             }
+            fileName=fileName.substring(0,fileName.length()-1);
         }
-        fileName=fileName.substring(0,fileName.length()-1);
 //        업로드를 한 경우에만 버킷에 이미지를 저장한다.
         dto.setQb_photo(fileName);
 

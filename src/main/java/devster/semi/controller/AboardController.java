@@ -117,15 +117,15 @@ public class AboardController {
             storageService.deleteFile(bucketName, "aboard", st.nextToken());
         }
 
-        if (upload == null || upload.isEmpty() || upload.get(0).getOriginalFilename() == null) { // 업로드를 안한경우.
+        if (upload.get(0).getOriginalFilename().equals("")) { // 업로드를 안한경우.
             fileName = "no";
         } else {
             for(MultipartFile mfile : upload) {
                 //사진 업로드.
                 fileName += (storageService.uploadFile(bucketName, "aboard", mfile) + ",");
             }
+            fileName=fileName.substring(0,fileName.length()-1);
         }
-        fileName=fileName.substring(0,fileName.length()-1);
 //        업로드를 한 경우에만 버킷에 이미지를 저장한다.
         dto.setAb_photo(fileName);
         aboardService.updateAnswer(dto);

@@ -109,4 +109,14 @@ public class MemberService implements MemberServiceInter {
         int chk = memberMapper.cmEmailPassChk(map);
         return chk;
     }
+
+    @Override
+    public MemberDto getOneDataByM_idx(int m_idx) {
+        return memberMapper.getOneDataByM_idx(m_idx);
+    }
+
+    @Override
+    public String getAcaNameByAi_idx(int ai_idx) {
+        return memberMapper.getAcaNameByAi_idx(ai_idx);
+    }
 }

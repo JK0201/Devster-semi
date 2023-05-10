@@ -102,4 +102,14 @@
         values (#{cm_email}, #{cm_pass}, #{cm_compname}, #{cm_post}, #{cm_addr}, #{cm_tele}, #{cm_name}, #{cm_cp},
                 #{salt})
     </insert>
+    <select id="getOneDataByM_idx" parameterType="int" resultType="MemberDto">
+        select * from member where m_idx=#{m_idx}
+    </select>
+
+    <select id="getAcaNameByAi_idx" parameterType="int" resultType="String">
+        SELECT a.ai_name
+        FROM member m
+                 JOIN academyinfo a
+                      ON m.ai_idx = a.ai_idx;
+    </select>
 </mapper>

@@ -31,4 +31,7 @@ public interface MemberServiceInter {
     public int cmEmailChk(String cm_email);
     public int compNameChk(String cm_compname);
     public int cmEmailPassChk(String cm_email, String cm_pass);
+    public MemberDto getOneDataByM_idx(int m_idx);
+    public String getAcaNameByAi_idx(int ai_idx);
+
 }

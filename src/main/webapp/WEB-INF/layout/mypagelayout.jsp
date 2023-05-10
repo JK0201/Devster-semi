@@ -13,19 +13,18 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-
     <style>
 
     </style>
     <tiles:insertAttribute name="css"/>
 </head>
 <body>
-<div class="mainlayout">
+<div class="mypagelayout">
     <header class="header">
         <tiles:insertAttribute name="header"/>
     </header>
-    <section class="info">
-        <tiles:insertAttribute name="info"/>
+    <section class="menu">
+        <tiles:insertAttribute name="menu"/>
     </section>
     <section class="main">
         <tiles:insertAttribute name="main"/>

@@ -398,8 +398,7 @@ public class MemberController {
 
     //out
     @GetMapping("/outtest")
-    @ResponseBody
-    public void outTest(HttpSession session) {
+    public String outTest(HttpSession session) {
         session.removeAttribute("logstat");
         session.removeAttribute("memidx");
         session.removeAttribute("memnick");
@@ -407,6 +406,8 @@ public class MemberController {
         session.removeAttribute("acaidx");
         session.removeAttribute("cmidx");
         session.removeAttribute("cmname");
+
+        return "redirect:/";
     }
 
     @GetMapping("/selmember")
