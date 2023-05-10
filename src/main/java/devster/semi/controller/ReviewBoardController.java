@@ -151,13 +151,18 @@ public class ReviewBoardController {
 
     }
 
-  @GetMapping("/updateform")
-    public String update(int rb_idx,Model model){
+  @PostMapping("/updateform")
+  @ResponseBody
+    public void update(@RequestParam int rb_idx, int rb_type,String rb_content, int rb_star, int m_idx, int ci_idx){
         ReviewDto dto=reviewService.getData(rb_idx);
-        model.addAttribute("dto",dto);
+      ReviewDto rdto = new ReviewDto();
+      dto.setRb_type(rb_type);
+      dto.setRb_content(rb_content);
+      dto.setRb_star(rb_star);
+      dto.setM_idx(m_idx);
+      dto.setCi_idx(ci_idx);
+reviewService.updatereview(rdto);
 
-
-        return "/main/review/reviewupdateform";
   }
 
 

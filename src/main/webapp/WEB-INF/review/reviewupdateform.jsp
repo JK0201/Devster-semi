@@ -79,10 +79,7 @@
 <body>
 
 
-<img id="showimg">
 
-<b>${dto.rb_idx}</b>
-<b>${dto.rb_star}</b>
 <form action="update" method="post" enctype="multipart/form-data">
 
 
@@ -94,14 +91,14 @@
         <c:set var="m_nic" value="${sessionScope.memnick}"/>
 
         <p>로그인한 회원: ${m_nic}</p>
-        <input type="hidden" name="m_idx" value="${m_idx}">
+        <input type="hidden" name="m_idx" value="${m_idx}" >
 
         타입 : <select class="rb_type" name="rb_type">
         <option value="1"${dto.rb_type == 1 ? 'selected' : ''}>면접 후기</option>
         <option value="2"${dto.rb_type == 2 ? 'selected' : ''}>코딩테스트 후기</option>
         <option value="3"${dto.rb_type == 3 ? 'selected' : ''}>합격 후기</option>
     </select>
-            <input id="rearch-input" type="text" name="ci_idx" placeholder="회사 이름을 검색하세요" required>
+            <input id="rearch-input" type="text" name="ci_idx" value="${dto.ci_idx}">
             <div id="search-result"></div>
         <br>
 
@@ -179,7 +176,9 @@
     </div>
 </form>
 <script>
+    var ci_idx;
     $(function() {
+
         // 검색창에서 키 입력 시, 검색어에 해당하는 회사 정보를 검색하여 표시
         $('#rearch-input').on('keyup', function() {
             var query = $(this).val();
@@ -212,19 +211,50 @@
                 event.preventDefault();
                 var selected = $('#search-result .data:first-child');
                 if (selected.length > 0) {
-                    var ci_idx = selected.data('ci-idx');
-                    $('#rearch-input').val(ci_idx);
+                    var ci_name = selected.text(); // 회사명(ci_name) 가져오기
+                    $('#rearch-input').val(ci_name); // 검색창에 선택한 회사 정보의 이름을 표시
                 }
             }
         });
 
-        // 회사 정보를 클릭하면 해당 회사 정보를 input의 value 값으로 설정
+
         $(document).on('click', '.data', function() {
-            var ci_idx = $(this).data('ci-idx');
-            $('#rearch-input').val(ci_idx); // input의 value 값을 변경
+            ci_idx = $(this).attr("data-ci-idx");
+
+            var ci_name = $(this).text();
+            $('#rearch-input').val(ci_name);
         });
     });
 
+    $("#btnSb").click(function (){
+        var rb_type = $(".rb_type").val();
+        var rb_star = $("input[name='rb_star']:checked").val();
+        var rb_content = $(".rb_content").val();
+        var m_idx = $("input[name='m_idx']").val();
+        insertAjax(ci_idx, rb_type, rb_star, rb_content, m_idx);
+    });
+
+    function insertAjax(ci_idx, rb_type, rb_star, rb_content, m_idx) {
+
+
+        $.ajax({
+            url : "insert",
+            data: { "rb_type": rb_type,
+                "rb_star": rb_star,
+                "rb_content": rb_content,
+                "m_idx": m_idx,
+                "ci_idx": ci_idx
+
+            },
+
+            method: 'post',
+            success : function (res) {
+                alert("입력 완료");
+                location.href="list";
+            }
+
+        });
+    }
 
 </script>
 </body>
