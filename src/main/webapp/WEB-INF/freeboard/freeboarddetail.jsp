@@ -72,7 +72,7 @@
     <script>
     $(document).ready(function (){
         commentList();
-        $("#reCommentDiv_").show();
+
 
 
         <!-- jsp 실행 이전의 리액션 여부 체크 및 버튼 색상 표현 -->
@@ -424,7 +424,69 @@ s+=`&nbsp;\${ele.nickname}</b><br><br>
         }
     }
 
-    function replyList(fbc_ref){
+    <%--function replyList(fbc_ref){--%>
+
+    <%--    $.ajax({--%>
+    <%--        type: "get",--%>
+    <%--        url: "/freecomment/recommentlist",--%>
+    <%--        data: {"fbc_ref": fbc_ref},--%>
+    <%--        success: function (res) {--%>
+    <%--            let html = "";--%>
+    <%--            $.each(res, function (idx, ele) {--%>
+    <%--                html += `--%>
+    <%--                        <div class='replyBox' data-index="\${idx}" style="margin-bottom: 30px;">--%>
+    <%--                        <input type="hidden" name="fbc_idx" value="\${ele.fbc_idx}">--%>
+    <%--                        <b style='margin-left: 10px;'>`;--%>
+
+    <%--                if (ele.m_photo === null || ele.m_photo === 'no') {--%>
+    <%--                    html += `<i class="bi bi-arrow-return-right" style="color: #94969B"></i>&nbsp;<img src="/photo/profile.jpg" style="width:20px; height: 20px; border:1px solid black; border-radius:100px;">`;--%>
+    <%--                } else {--%>
+    <%--                    html += `<i class="bi bi-arrow-return-right" style="color: #94969B"></i>&nbsp;<img src="http://${imageUrl}/member/\${ele.m_photo}" style="width:20px; height: 20px; border:1px solid black; border-radius:100px;">`;--%>
+    <%--                }--%>
+
+    <%--                html+=`&nbsp;\${ele.nickname}</b><br><br>--%>
+    <%--                        <b style="color: #999; float:right; font-size: 15px; font-weight: lighter; margin-right: 15px;" align='right'>\${ele.fbc_writeday}</b>--%>
+    <%--                        <h5 style='display: inline; margin-left: 10px; font-size: 18px;'>\${ele.fbc_content}</h5>--%>
+    <%--                        <br><br>`;--%>
+
+    <%--                if (ele.m_idx == ${sessionScope.memidx}) {--%>
+    <%--                    html += `<button class="btn btn-outline-dark btn-sm" type="button" onclick="deleteComment(\${ele.fbc_idx})" style="margin-left: 10px;">답글삭제</button>--%>
+    <%--                            <button class="btn btn-outline-dark btn-sm" type="button" data-fbcidx="\${ele.fbc_idx}" onclick="updateReplyForm(\${ele.fbc_idx},\${idx})">답글수정</button>`;--%>
+    <%--                }--%>
+    <%--                html+= "<hr></div>";--%>
+    <%--            });--%>
+
+
+    <%--            html += "<input style='width: 90%; margin-bottom: 30px;' id='reComment_"+fbc_ref+"' class='reComment' name='reComment' placeholder='댓글을 입력해 주세요' type='text'>";--%>
+    <%--            html += `<button type='button' class='btn btn-primary btn-sm reCommentSubmit' onclick='insertReply(\${fbc_ref})'>등록</button>`;--%>
+
+    <%--            $(".reCommentBtn").siblings(".reCommentDiv").html(html);--%>
+
+
+    <%--        },--%>
+    <%--        error: function (request, status, error) {--%>
+    <%--            alert("code: " + request.status + "\n" + "error: " + error);--%>
+    <%--        }--%>
+    <%--    });--%>
+
+    <%--}--%>
+
+
+    /*답글 버튼 클릭*/
+    $(document).on("click",".reCommentBtn",function (){
+        const _this = $(this);
+        //const cid = reComment.find("#commentId").val();
+        const fbc_ref = $(this).siblings('input').val();
+        //
+        // console.log(fbc_ref);
+
+        //replyList(fbc_ref);
+
+        _this.siblings('.reCommentDiv').show();
+        _this.hide();
+        _this.siblings('.reCommentCloseBtn').show();
+
+
 
         $.ajax({
             type: "get",
@@ -460,75 +522,13 @@ s+=`&nbsp;\${ele.nickname}</b><br><br>
                 html += "<input style='width: 90%; margin-bottom: 30px;' id='reComment_"+fbc_ref+"' class='reComment' name='reComment' placeholder='댓글을 입력해 주세요' type='text'>";
                 html += `<button type='button' class='btn btn-primary btn-sm reCommentSubmit' onclick='insertReply(\${fbc_ref})'>등록</button>`;
 
-                $(".reCommentBtn").siblings(".reCommentDiv").html(html);
-
+                _this.siblings(".reCommentDiv").html(html);
 
             },
             error: function (request, status, error) {
                 alert("code: " + request.status + "\n" + "error: " + error);
             }
         });
-
-    }
-
-
-    /*답글 버튼 클릭*/
-    $(document).on("click",".reCommentBtn",function (){
-        const _this = $(this);
-        //const cid = reComment.find("#commentId").val();
-        const fbc_ref = $(this).siblings('input').val();
-        //
-        // console.log(fbc_ref);
-
-        replyList(fbc_ref);
-
-        _this.siblings('.reCommentDiv').show();
-        _this.hide();
-        _this.siblings('.reCommentCloseBtn').show();
-
-
-
-        <%--$.ajax({--%>
-        <%--    type: "get",--%>
-        <%--    url: "/freecomment/recommentlist",--%>
-        <%--    data: {"fbc_ref": fbc_ref},--%>
-        <%--    success: function (res) {--%>
-        <%--        let html = "";--%>
-        <%--        $.each(res, function (idx, ele) {--%>
-        <%--            html += `--%>
-        <%--                    <div class='replyBox' data-index="\${idx}" style="margin-bottom: 30px;">--%>
-        <%--                    <input type="hidden" name="fbc_idx" value="\${ele.fbc_idx}">--%>
-        <%--                    <b style='margin-left: 10px;'>`;--%>
-
-        <%--            if (ele.m_photo === null || ele.m_photo === 'no') {--%>
-        <%--                html += `<i class="bi bi-arrow-return-right" style="color: #94969B"></i>&nbsp;<img src="/photo/profile.jpg" style="width:20px; height: 20px; border:1px solid black; border-radius:100px;">`;--%>
-        <%--            } else {--%>
-        <%--                html += `<i class="bi bi-arrow-return-right" style="color: #94969B"></i>&nbsp;<img src="http://${imageUrl}/member/\${ele.m_photo}" style="width:20px; height: 20px; border:1px solid black; border-radius:100px;">`;--%>
-        <%--            }--%>
-
-        <%--            html+=`&nbsp;\${ele.nickname}</b><br><br>--%>
-        <%--                    <b style="color: #999; float:right; font-size: 15px; font-weight: lighter; margin-right: 15px;" align='right'>\${ele.fbc_writeday}</b>--%>
-        <%--                    <h5 style='display: inline; margin-left: 10px; font-size: 18px;'>\${ele.fbc_content}</h5>--%>
-        <%--                    <br><br>`;--%>
-
-        <%--            if (ele.m_idx == ${sessionScope.memidx}) {--%>
-        <%--                html += `<button class="btn btn-outline-dark btn-sm" type="button" onclick="deleteComment(\${ele.fbc_idx})" style="margin-left: 10px;">답글삭제</button>--%>
-        <%--                        <button class="btn btn-outline-dark btn-sm" type="button" data-fbcidx="\${ele.fbc_idx}" onclick="updateReplyForm(\${ele.fbc_idx},\${idx})">답글수정</button>`;--%>
-        <%--            }--%>
-        <%--            html+= "<hr></div>";--%>
-        <%--        });--%>
-
-
-        <%--        html += "<input style='width: 90%; margin-bottom: 30px;' id='reComment_"+fbc_ref+"' class='reComment' name='reComment' placeholder='댓글을 입력해 주세요' type='text'>";--%>
-        <%--        html += `<button type='button' class='btn btn-primary btn-sm reCommentSubmit' onclick='insertReply(\${fbc_ref})'>등록</button>`;--%>
-
-        <%--        _this.siblings(".reCommentDiv").html(html);--%>
-
-        <%--    },--%>
-        <%--    error: function (request, status, error) {--%>
-        <%--        alert("code: " + request.status + "\n" + "error: " + error);--%>
-        <%--    }--%>
-        <%--});--%>
 
     });
 
@@ -573,7 +573,7 @@ s+=`&nbsp;\${ele.nickname}</b><br><br>
             dataType : "json",
             success: function (response) {
 
-                let html = "<form name='replyupdate'> <input style='width: 90%; margin-bottom: 30px;' id='reComment_"+fbc_ref+"' class='reComment' name='fbc_content' value='' type='text'>";
+                let html = `<form name='replyupdate'> <input style='width: 90%; margin-bottom: 30px;' id='reComment_`+fbc_ref+`' class='reComment' name='fbc_content' value="\${response.fbc_content}" type='text'>`;
 
                 html += `<button type='button' class='btn btn-primary btn-sm reCommentSubmit' id="updatereply">수정</button></form>`;
 
