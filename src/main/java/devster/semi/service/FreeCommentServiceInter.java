@@ -19,4 +19,5 @@ public interface FreeCommentServiceInter {
     public int countReply(int fbc_idx);
     public String selectNickNameOfFbc_idx(int fbc_idx);
     public String selectPhotoOfFbc_idx(int fbc_idx);
+
 }

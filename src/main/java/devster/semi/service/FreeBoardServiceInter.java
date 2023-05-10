@@ -1,6 +1,7 @@
 package devster.semi.service;
 
 import devster.semi.dto.FreeBoardDto;
+import devster.semi.dto.FreeCommentDto;
 
 import java.util.List;
 import java.util.Map;
@@ -33,5 +34,6 @@ public interface FreeBoardServiceInter {
     public boolean isAlreadyAddGoodRp(int fb_idx, int m_idx);
     public boolean isAlreadyAddBadRp(int fb_idx, int m_idx);
 
+    public List<FreeBoardDto> bestfreeboardPosts();
 
 }

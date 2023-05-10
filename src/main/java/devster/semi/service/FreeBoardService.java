@@ -1,6 +1,7 @@
 package devster.semi.service;
 
 import devster.semi.dto.FreeBoardDto;
+import devster.semi.dto.FreeCommentDto;
 import devster.semi.mapper.FreeBoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -168,6 +169,11 @@ public class FreeBoardService implements FreeBoardServiceInter{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<FreeBoardDto> bestfreeboardPosts() {
+        return freeBoardMapper.bestfreeboardPosts();
     }
 
     private Integer getRpInfoBym_idx(int fb_idx, int m_idx) {

@@ -21,6 +21,7 @@ public interface FreeBoardMapper {
     public int commentCnt(int fb_idx);
     public void increaseLikeCount(int fb_idx);
     public void increaseDislikeCount(int fb_idx);
+    public List<FreeBoardDto> bestfreeboardPosts();
 
     //좋아요 / 싫어요 관련 메서드들
     public void increaseGoodRp(int fb_idx);

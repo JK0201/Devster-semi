@@ -330,6 +330,13 @@ public class FreeBoardController {
     }
 
 
+    @PostMapping("/bestPostsForBanner")
+    @ResponseBody
+    public List<FreeBoardDto> bestPosts(){
+        List<FreeBoardDto> list = freeBoardService.bestfreeboardPosts();
+        return list;
+    }
+
 }
 
 
