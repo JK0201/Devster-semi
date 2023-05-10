@@ -535,6 +535,7 @@
         } else {
             alert("잘했어");
             let formData = new FormData();
+
             formData.append("m_type", $("#m_type").val());
             formData.append("ai_name", $("#ai_name").val());
             formData.append("m_email", $("#m_email").val());

@@ -188,15 +188,22 @@
             formData.append("m_email", $("#m_email").val());
             formData.append("m_nickname", $("#m_nickname").val());
             formData.append("ai_name", $("#ai_name").val());
-            formData.append("upload", $("#ai_name").val());
+            formData.append("upload", $("#upload")[0].files[0]);
+
+            console.log($("#m_email").val());
+            console.log($("#m_type").val());
+            console.log($("#m_nickname").val());
+            console.log($("#ai_name").val());
+            console.log($("#upload")[0].files[0]);
+
             $.ajax({
-                type: "get",
+                type: "post",
                 url: "apisignupform",
                 dataType: "text",
                 data: formData,
                 processData: false,
                 contentType: false,
-                success:function() {
+                success: function () {
                     alert("회원가입을 축하드립니다\n +100 포인트");
                     location.href = "../";
                 }

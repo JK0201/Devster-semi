@@ -18,6 +18,24 @@
     </style>
 </head>
 <body>
-
+<div style="width:100px; height:50px; border: 1px solid black" id="norm">
+    <a>일반회원</a>
+</div>
+<div style="width:100px; height:50px; border: 1px solid black" id="comp">
+    <a>기업회원</a>
+</div>
+<script>
+    $("#norm").click(function(){
+       let type="0";
+       console.log(type);
+       location.href="agreement?type="+type;
+    });
+    $("#comp").click(function(){
+        let type="2";
+        console.log(type);
+        location.href="agreement?type="+type;
+    })
+</script>
 </body>
 </html>
+

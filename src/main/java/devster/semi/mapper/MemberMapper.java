@@ -25,11 +25,15 @@ public interface MemberMapper {
     public void dailyPoint(String m_email);
 
     public MemberDto getOneData(String m_email);
+    public CompanyMemberDto getCmOneData(String cm_email);
     public List<AcademyInfoDto> searchAcaInfo(String ai_name);
     public int getAcademyIdx(String ai_name);
     public void addNewMember(MemberDto dto);
     public void addNewCMemeber(CompanyMemberDto dto);
     public String getSaltById(String m_email);
+    public String CmGetSaltById(String cm_email);
     public int cmEmailChk(String cm_email);
     public int compNameChk(String cm_compname);
+    public int cmEmailPassChk(Map<String,String> map);
+
 }

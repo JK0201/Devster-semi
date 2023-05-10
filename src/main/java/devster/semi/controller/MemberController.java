@@ -9,6 +9,7 @@ import devster.semi.service.MemberService;
 import devster.semi.service.SmsService;
 import devster.semi.utilities.SHA256Util;
 import naver.cloud.ObjectStorageService;
+import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -113,6 +114,7 @@ public class MemberController {
             //포인트 증가 (1회증가로 나중에 로직짜기)
             memberService.dailyPoint(m_email);
 
+            session.setMaxInactiveInterval(60 * 60 * 4);
             session.setAttribute("logstat", "yes");
             session.setAttribute("memidx", memidx);
             session.setAttribute("memnick", memnick);
@@ -139,13 +141,16 @@ public class MemberController {
     @ResponseBody
     public Map<String, String> emailPassChk(String m_email, String m_pass, HttpSession session) {
         String salt = memberService.getSaltById(m_email);
-        //DB에 저장되어있는 pass
-        String pass = memberService.getOneData(m_email).getM_pass();
-
-        //SHA256+salting
-        m_pass = SHA256Util.getEncrypt(m_pass, salt);
-        int chk = memberService.emailpasschk(m_email, m_pass);
+        int chk;
         Map<String, String> map = new HashMap<>();
+
+        try {
+            //SHA256+salting
+            m_pass = SHA256Util.getEncrypt(m_pass, salt);
+            chk = memberService.emailpasschk(m_email, m_pass);
+        } catch (NullPointerException e) {
+            chk=0;
+        }
 
         if (chk == 1) {
             map.put("result", "yes");
@@ -157,11 +162,42 @@ public class MemberController {
             //포인트 증가 (1회증가로 나중에 로직짜기)
             memberService.dailyPoint(m_email);
 
+            session.setMaxInactiveInterval(60 * 60 * 4);
             session.setAttribute("logstat", "yes");
             session.setAttribute("memidx", memidx);
             session.setAttribute("memnick", memnick);
             session.setAttribute("memstate", memstate);
             session.setAttribute("acaidx", acaidx);
+        } else {
+            map.put("result", "no");
+        }
+
+        return map;
+    }
+
+    @GetMapping("/cemailpasschk")
+    @ResponseBody
+    public Map<String, String> cEmailPassChk(String cm_email, String cm_pass, HttpSession session) {
+        String salt = memberService.CmGetSaltById(cm_email);
+        int chk;
+        Map<String, String> map = new HashMap<>();
+        try{
+        //SHA256+salting
+        cm_pass = SHA256Util.getEncrypt(cm_pass, salt);
+        chk = memberService.cmEmailPassChk(cm_email, cm_pass);
+        } catch(NullPointerException e) {
+            chk=0;
+        }
+
+        if (chk == 1) {
+            map.put("result", "yes");
+            int cmidx = memberService.getCmOneData(cm_email).getCm_idx();
+            String cmname = memberService.getCmOneData(cm_email).getCm_compname();
+
+            session.setMaxInactiveInterval(60 * 60 * 4);
+            session.setAttribute("logstat", "yes");
+            session.setAttribute("cmidx", cmidx);
+            session.setAttribute("cmname", cmname);
         } else {
             map.put("result", "no");
         }
@@ -230,6 +266,13 @@ public class MemberController {
         session.setMaxInactiveInterval(30);
     }
 
+    @GetMapping("/blocksignin")
+    @ResponseBody
+    public void blockSignIn(HttpSession session) {
+        session.setAttribute("signin","block");
+        session.setMaxInactiveInterval(30);
+    }
+
     @PostMapping("/signupform")
     @ResponseBody
     public void signUpForm(MemberDto dto, String ai_name, MultipartFile upload) {
@@ -254,6 +297,7 @@ public class MemberController {
         } else {
             m_photo = storageService.uploadFile(bucketName, "member", upload);
         } //업로드 어떻게 할지 생각하기
+
 
         dto.setAi_name(ai_name); // 학원 보류
 
@@ -293,9 +337,44 @@ public class MemberController {
         memberService.addNewCMemeber(dto);
     }
 
+    @PostMapping("/apisignupform")
+    @ResponseBody
+    public void apiSignUpForm(MemberDto dto, String ai_name, MultipartFile upload) {
+        System.out.println(dto.getM_email());
+        System.out.println(ai_name);
+
+        String salt = SHA256Util.generateSalt();
+        String m_pass = dto.getM_email();
+        m_pass = SHA256Util.getEncrypt(m_pass, salt);
+
+        if (dto.getAi_name() == null) {
+            dto.setAi_name("no");
+        } //학원 보류
+
+        String m_photo = "";
+        if (upload == null) {
+            m_photo = "no";
+        } else {
+            m_photo = storageService.uploadFile(bucketName, "member", upload);
+        }
+
+        dto.setAi_name(ai_name);
+
+        dto.setSalt(salt);
+        dto.setM_pass(m_pass);
+        dto.setM_photo(m_photo);
+
+        //소셜 로그인
+        dto.setM_name("API");
+        dto.setM_tele("API");
+        dto.setAi_idx(memberService.getAcademyIdx(dto.getAi_name()));
+
+        memberService.addNewMember(dto);
+    }
+
     @GetMapping("/compnamechk")
     @ResponseBody
-    Map<String, String> compNameChk(String cm_compname) {
+    public Map<String, String> compNameChk(String cm_compname) {
         int chk = memberService.compNameChk(cm_compname);
         Map<String, String> map = new HashMap<>();
         map.put("result", chk == 1 ? "yes" : "no");
@@ -303,4 +382,26 @@ public class MemberController {
         return map;
     }
 
+    //out
+    @GetMapping("/outtest")
+    @ResponseBody
+    public void outTest(HttpSession session) {
+        session.removeAttribute("logstat");
+        session.removeAttribute("memidx");
+        session.removeAttribute("memnick");
+        session.removeAttribute("memstate");
+        session.removeAttribute("acaidx");
+        session.removeAttribute("cmidx");
+        session.removeAttribute("cmname");
+    }
+
+    @GetMapping("/selmember")
+    public String selMember() {
+        return "/main/member/memberselect";
+    }
+
+    @GetMapping("/agreement")
+    public String agreement() {
+        return "/main/member/agreement";
+    }
 }

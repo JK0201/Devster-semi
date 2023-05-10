@@ -533,7 +533,6 @@
             alert("잘했어");
             let formData = new FormData();
             let cm_addr = $("#addr").val() + "," + $("#addrinfo").val().trim();
-            console.log(cm_addr);
 
             formData.append("cm_email", $("#cm_email").val());
             formData.append("cm_pass", $("#cm_pass").val());

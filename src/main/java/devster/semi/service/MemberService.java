@@ -52,6 +52,12 @@ public class MemberService implements MemberServiceInter {
     }
 
     @Override
+    public CompanyMemberDto getCmOneData(String cm_email) {
+        CompanyMemberDto dto=memberMapper.getCmOneData(cm_email);
+        return dto;
+    }
+
+    @Override
     public void dailyPoint(String m_email) {
         memberMapper.dailyPoint(m_email);
     }
@@ -76,6 +82,10 @@ public class MemberService implements MemberServiceInter {
         return memberMapper.getSaltById(m_email);
     }
 
+    public String CmGetSaltById(String cm_email) {
+        return memberMapper.CmGetSaltById(cm_email);
+    }
+
     @Override
     public int cmEmailChk(String cm_email) {
         return memberMapper.cmEmailChk(cm_email);
@@ -89,5 +99,14 @@ public class MemberService implements MemberServiceInter {
     @Override
     public void addNewCMemeber(CompanyMemberDto dto) {
         memberMapper.addNewCMemeber(dto);
+    }
+
+    @Override
+    public int cmEmailPassChk(String cm_email, String cm_pass) {
+        Map<String, String> map = new HashMap<>();
+        map.put("cm_email", cm_email);
+        map.put("cm_pass", cm_pass);
+        int chk = memberMapper.cmEmailPassChk(map);
+        return chk;
     }
 }

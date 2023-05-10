@@ -28,7 +28,7 @@
     </style>
 </head>
 <body>
-<div>
+<div style="border:2px solid black; width:300px;">
     로그인 : ${sessionScope.logstat}
     <br>
     m_idx : ${sessionScope.memidx}
@@ -38,58 +38,61 @@
     state : ${sessionScope.memstate}
     <br>
     ai_idx : ${sessionScope.acaidx}
-
+    <br>
+    cm_idx : ${sessionScope.cmidx}
+    <br>
+    compname: ${sessionScope.cmname}
+    <br>
+    <button type="button" id="outtest">로그아웃</button>
+</div>
+<div>
     <div>
-        <div>
-            <strong id="normmember">일반회원 로그인</strong>
-            &nbsp;&nbsp;&nbsp;
-            <strong id="compmember">회사계정 로그인</strong>
-        </div>
-        <div class="norminput">
-            <strong>개인 </strong>
-            <input type="text" id="m_email" required>
-            <strong>비밀번호 </strong>
-            <input type="password" id="m_pass" required>
-        </div>
-        <div class="compinput">
-            <strong>회사 </strong>
-            <input type="text" id="cm_email">
-            <strong>비밀번호 </strong>
-            <input type="password" id="cm_pass">
-        </div>
-        <label id="chkbtn">
-            <i class="bi bi-circle" id="chkno"></i>
-            <i class="bi bi-check-circle-fill" id="chkyes"></i>
-            <strong>로그인 상태 유지하기</strong>
-        </label>
-        <div>
-            <button type="button" id="signinbtn">로그인</button>
-        </div>
-        <div class="norminput">
-            -또는-
-            <div style="margin-bottom: 30px;">
-                <a id="kakao-login-btn" href="javascript:kakaoLogin()">
-                    <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222"
-                         alt="카카오 로그인 버튼"/>
-                </a>
-            </div>
-            <div id="naver_id_login"></div>
-        </div>
-        <div class="norminput">
-            <a href="signup">회원가입</a>
-            <strong>|</strong>
-            <a href="accountfinder">계정 찾기</a>
-            <strong>|</strong>
-            <a href="passfinder">비밀번호 찾기</a>
-        </div>
-        <div class="compinput">
-            <a href="compsignup">회원가입</a>
-            <strong>|</strong>
-            <a href="caccountfinder">계정 찾기</a>
-            <strong>|</strong>
-            <a href="cpassfinder">비밀번호 찾기</a>
-        </div>
+        <strong id="normmember">일반회원 로그인</strong>
+        &nbsp;&nbsp;&nbsp;
+        <strong id="compmember">회사계정 로그인</strong>
     </div>
+    <div class="norminput">
+        <strong>개인 </strong>
+        <input type="text" id="m_email" required>
+        <strong>비밀번호 </strong>
+        <input type="password" id="m_pass" required>
+    </div>
+    <div class="compinput">
+        <strong>회사 </strong>
+        <input type="text" id="cm_email">
+        <strong>비밀번호 </strong>
+        <input type="password" id="cm_pass">
+    </div>
+    <label id="chkbtn">
+        <i class="bi bi-circle" id="chkno"></i>
+        <i class="bi bi-check-circle-fill" id="chkyes"></i>
+        <strong>로그인 상태 유지하기</strong>
+    </label>
+    <div class="norminput">
+        <button type="button" id="signinbtn">로그인</button>
+        -또는-
+        <div style="margin-bottom: 30px;">
+            <a id="kakao-login-btn" href="javascript:kakaoLogin()">
+                <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222"
+                     alt="카카오 로그인 버튼"/>
+            </a>
+        </div>
+        <div id="naver_id_login"></div>
+        <a href="selmember">회원가입</a>
+        <strong>|</strong>
+        <a href="accountfinder">계정 찾기</a>
+        <strong>|</strong>
+        <a href="passfinder">비밀번호 찾기</a>
+    </div>
+    <div class="compinput">
+        <button type="button" id="csigninbtn">로그인</button>
+        <a href="compsignup">회원가입</a>
+        <strong>|</strong>
+        <a href="caccountfinder">계정 찾기</a>
+        <strong>|</strong>
+        <a href="cpassfinder">비밀번호 찾기</a>
+    </div>
+</div>
 </div>
 <script>
     $("#normmember").click(function () {
@@ -114,6 +117,7 @@
 
     //norm
     let chkbtn = false;
+    let cnt = 0;
 
     $("#signinbtn").click(function () {
         let m_email = $("#m_email").val();
@@ -128,20 +132,32 @@
             return false;
         }
 
-        $.ajax({
-            type: "get",
-            url: "emailpasschk",
-            dataType: "json",
-            data: {"m_email": m_email, "m_pass": m_pass},
-            success: function (res) {
-                if (res.result == "yes") {
-                    alert("ㅎㅇ 출석포인트 +10점");
-                    location.href = "../";
-                } else {
-                    alert("이메일과 비밀번호를 확인해주세요");
+        if (cnt < 4) {
+            $.ajax({
+                type: "get",
+                url: "emailpasschk",
+                dataType: "json",
+                data: {"m_email": m_email, "m_pass": m_pass},
+                success: function (res) {
+                    if (res.result == "yes") {
+                        alert("ㅎㅇ 출석포인트 +10점");
+                        location.href = "../";
+                    } else {
+                        cnt++;
+                        alert(cnt + "회 잘못 입력하셨습니다\n이메일과 비밀번호를 확인해주세요\n5회 잘못입력시 로그인 제한");
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            $.ajax({
+                type: "get",
+                url: "blocksignin",
+                dataType:"text",
+                success:function() {
+                    alert("이용정지");
+                }
+            });
+        }
     });
 
     $("#m_email").keyup(function (e) {
@@ -155,6 +171,49 @@
             $("#signinbtn").click();
         }
     });
+
+    //cm
+    $("#csigninbtn").click(function () {
+        let cm_email = $("#cm_email").val();
+        let cm_pass = $("#cm_pass").val();
+
+        if (cm_email == "") {
+            alert("이메일을 입력해주세요");
+            return false;
+        }
+        if (cm_pass == "") {
+            alert("비밀번호를 입력해주세요");
+            return false;
+        }
+
+        $.ajax({
+            type: "get",
+            url: "cemailpasschk",
+            dataType: "json",
+            data: {"cm_email": cm_email, "cm_pass": cm_pass},
+            success: function (res) {
+                if (res.result == "yes") {
+                    alert("ㅎㅇ 출석포인트 +10점");
+                    location.href = "../";
+                } else {
+                    alert("이메일과 비밀번호를 확인해주세요");
+                }
+            }
+        });
+    });
+
+    $("#cm_email").keyup(function (e) {
+        if (e.keyCode == 13) {
+            $("#csigninbtn").click();
+        }
+    });
+
+    $("#cm_pass").keyup(function (e) {
+        if (e.keyCode == 13) {
+            $("#csigninbtn").click();
+        }
+    });
+
 
     //naver
     var naver_id_login = new naver_id_login("Qr3pEkAiiIBJ_L9HaGiY", "http://localhost:9000/member/navercallback");
@@ -200,9 +259,8 @@
                                 } else {
                                     let b = confirm("계정 없음");
                                     if (b) {
-                                        location.href="apisignup?m_email="+m_email;
-                                    }
-                                    else {
+                                        location.href = "apisignup?m_email=" + m_email;
+                                    } else {
                                         return false;
                                     }
                                 }
@@ -221,6 +279,19 @@
         } else {
             console.log("no");
         }
+    });
+
+    //out
+    $("#outtest").click(function () {
+        $.ajax({
+            type: "get",
+            url: "outtest",
+            dataType: "text",
+            success: function () {
+                alert("로그아웃");
+                location.href = "";
+            }
+        });
     });
 </script>
 </body>
