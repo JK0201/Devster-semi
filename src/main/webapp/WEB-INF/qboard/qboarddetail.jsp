@@ -195,7 +195,7 @@
         <br>
 
         <div class="buttons" style="clear: both">
-            <c:if test="${dto.m_idx == sessionScope.memidx}">
+            <c:if test="${dto.m_idx == sessionScope.memidx || sessionScope.memstate == 100}">
                 <button class="btn btn-outline-dark" type="button"
                         onclick="deletePost(${dto.qb_idx})">
                     삭제
@@ -291,7 +291,7 @@
                             s += `<img src="http://${imageUrl}/aboard/\${photos}" style="width:400px;"><br>`;
                         };
                     });
-                    if (item.m_idx == ${sessionScope.memidx}) {
+                    if (item.m_idx == ${sessionScope.memidx} || ${sessionScope.memstate == 100} ) {
                         s += `
     <button class="btn btn-outline-dark" type="button" onclick="deleteComment(\${item.ab_idx})">
         삭제

@@ -3,4 +3,25 @@
     <select id="getOneDatabyCm_idx" parameterType="int" resultType="CompanyMemberDto">
         select * from companymember where cm_idx=#{cm_idx}
     </select>
+    <delete id="deleteNormalUser" parameterType="String">
+        delete from member where m_email =#{m_email}
+    </delete>
+    <delete id="deleteCompUser" parameterType="String">
+        delete from companymember where cm_email =#{cm_email}
+    </delete>
+    <update id="updateAcaPhoto" parameterType="MemberDto">
+        update member set m_filename=#{m_filename} where m_idx=#{m_idx}
+    </update>
+    <select id="checkAcaPhoto" parameterType="int" resultType="String">
+        select m_filename from member where m_idx=#{m_idx}
+    </select>
+    <update id="updateDeafualtPhoto" parameterType="int">
+        update member set m_photo='no' where m_idx = #{m_idx}
+    </update>
+    <update id="updateProfile" parameterType="MemberDto">
+        update member set m_nickname=#{m_nickname}, m_pass=#{m_pass}, m_name=#{m_name}, m_tele=#{m_tele}, m_photo=#{m_photo},salt=#{salt} where m_idx=#{m_idx}
+    </update>
+    <update id="updateProfileCm" parameterType="CompanyMemberDto">
+        update companymember set cm_compname=#{cm_compname}, cm_pass=#{cm_pass}, cm_name=#{cm_name}, cm_tele=#{cm_tele}, cm_addr=#{cm_addr}, cm_cp=#{cm_cp}, salt=#{salt} where cm_idx=#{cm_idx}
+    </update>
 </mapper>

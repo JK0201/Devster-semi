@@ -31,7 +31,15 @@
             별명 : ${dto.m_nickname}<br>
             포인트 : ${dto.m_point}<br>
         </h2>
-        <img src="http://${imageUrl}/member/${dto.m_photo}" style="width: 300px">
+        <div id="imgbox">
+
+        </div>
+        <script>
+            let s = '<img src="http://${imageUrl}/member/${dto.m_photo}" style="width: 300px">';
+            if(${dto.m_photo != 'no'}) {
+                $("#imgbox").html(s);
+            }
+        </script>
     </div>
 </body>
 </html>

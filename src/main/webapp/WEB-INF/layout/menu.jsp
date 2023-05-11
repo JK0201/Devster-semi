@@ -41,10 +41,9 @@
     <c:when test="${sessionScope.cmidx != null && sessionScope.memidx == null}">
         <h2 id="name">${sessionScope.cmname} 님</h2>
         <ul>
-            <li onclick="">나의 정보</li>
-            <hr/>
-            <li onclick="">계정 설정</li>
-            <li onclick="">계정 탈퇴</li>
+            <li><a href="/">나의 정보</a></li>
+            <li><a href="/mypage/updateuserform">계정 설정</a></li>
+            <li><a href="/mypage/deleteuserform">계정 탈퇴</a></li>
             <hr/>
             <li onclick="">구직자 이력서 보기</li>
         </ul>
@@ -55,12 +54,12 @@
             <c:when test="${sessionScope.memstate == 1}">
                 <h2 id="name">${sessionScope.memnick} 님</h2>
                 <ul>
-                    <li onclick="">나의 정보</li>
+                    <li><a href="/mypage/">나의 정보</a></li>
                     <li onclick="">채용정보 스크랩</li>
                     <li onclick="">내 이력서</li>
                     <hr/>
-                    <li onclick="">계정 설정</li>
-                    <li onclick="">계정 탈퇴</li>
+                    <li><a href="/mypage/updateuserform">계정 설정</a></li>
+                    <li><a href="/mypage/deleteuserform">계정 탈퇴</a></li>
                     <hr/>
                 </ul>
                 </div>
@@ -71,6 +70,14 @@
                     <li onclick="">공지사항 리스트</li>
                     <li onclick="">일반 회원 가입 승인</li>
                     <li onclick="">기업 회원 가입 승인</li>
+                </ul>
+                </div>
+            </c:when>
+            <c:when test="${sessionScope.memstate == 0}">
+                <h2 id="name">${sessionScope.memnick} 님</h2>
+                <ul>
+                    <li><a href="/mypage/">학원 인증 사진 업로드</a></li>
+                    <li><a href="/mypage/deleteuserform">계정 탈퇴</a></li>
                 </ul>
                 </div>
             </c:when>

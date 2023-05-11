@@ -438,4 +438,5 @@ public class MemberController {
     public String passFinder() {
         return "/main/member/passfinder";
     }
+
 }
