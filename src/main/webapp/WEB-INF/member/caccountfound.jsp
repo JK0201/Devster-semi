@@ -18,19 +18,38 @@
     </style>
 </head>
 <body>
-<div style="width:200px; height:100px; border: 1px solid black" id="norm">
-        개인회원
+<b>${cm_name}</b>
+<br>
+<b>${cm_cp}</b>
+<div>
     <div>
-        <a href="accfinder">아이디 찾기</a>
-        <a href="passfinder">비밀번호 찾기</a>
+        기업회원 아이디 찾기<br>
+        ------------------------<br>
+        ${cm_name} 담당자님이 요청하신 이메일이 ${list.size()}건 검색되었습니다
+
     </div>
-</div>
-<div style="width:200px; height:100px; border: 1px solid black" id="comp">
-    기업회원
-    <div>
-        <a href="caccfinder">아이디 찾기</a>
-        <a href="cpassfinder">비밀번호 찾기</a>
-    </div>
+    <table class="table">
+        <tr>
+            <th>이메일</th>
+            <th>회사명</th>
+            <th>가입일</th>
+        </tr>
+        <c:forEach items="${list}" var="dto">
+            <tr>
+                <td>
+                        ${dto.cm_email}
+                </td>
+                <td>
+                        ${dto.cm_compname}
+                </td>
+                <td>
+                    <fmt:formatDate value="${dto.cm_date}" pattern="yyyy-MM-dd"/>
+                </td>
+            </tr>
+        </c:forEach>
+        <button type="button">로그인</button>
+        <button type="button">비밀번호 찾기</button>
+    </table>
 </div>
 </body>
 </html>

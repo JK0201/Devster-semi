@@ -29,17 +29,13 @@
         }
     </style>
 </head>
-<%
-    String m_email = request.getParameter("m_email");
-    String m_pass = request.getParameter("m_pass");
-%>
 <body>
 <input type="hidden" id="m_type" value="1">
-<input type="hidden" id="m_email" value="<%=m_email%>">
-<input type="hidden" id="m_pass" value="<%=m_pass%>">
+<input type="hidden" id="m_email" value="${m_email}">
+<input type="hidden" id="m_pass" value="${m_pass}">
 <div style="width : 500px;">
-    <b>이메일 <%=m_email%>
-        패스 <%=m_pass%>
+    <b>이메일 ${m_email}
+        패스 ${m_pass}
     </b>
     <br>
     <div>

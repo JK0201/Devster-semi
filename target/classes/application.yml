@@ -9,16 +9,16 @@ spring:
       prefix: /WEB-INF/
       suffix: .jsp
 
-#mysql setting
+  #mysql setting
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://db-g6duj-kr.vpc-pub-cdb.ntruss.com/mymini?serverTimezone=Asia/Seoul
     username: mymini
     password: bit123!@#
-    servlet:
-      multipart:
-        max-file-size:
-          20MB
+  servlet:
+    multipart:
+      max-file-size:
+        20MB
 
 #mybatis
 mybatis:

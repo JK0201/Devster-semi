@@ -102,4 +102,58 @@
         values (#{cm_email}, #{cm_pass}, #{cm_compname}, #{cm_post}, #{cm_addr}, #{cm_tele}, #{cm_name}, #{cm_cp},
                 #{salt})
     </insert>
+
+    <select id="NPCheck" resultType="int" parameterType="Map">
+        select count(*)
+        from member
+        where m_name = #{m_name}
+          and m_tele = #{m_tele}
+    </select>
+
+    <select id="NPGetList" resultType="MemberDto" parameterType="Map">
+        select m_email, m_type, m_date
+        from member
+        where m_name = #{m_name}
+          and m_tele = #{m_tele}
+    </select>
+
+    <select id="cNPCheck" resultType="int" parameterType="Map">
+        select count(*)
+        from companymember
+        where cm_name = #{cm_name}
+          and cm_cp = #{cm_cp}
+    </select>
+
+
+    <select id="cNPGetList" resultType="CompanyMemberDto" parameterType="Map">
+        select cm_email, cm_compname, cm_date
+        from companymember
+        where cm_name = #{cm_name}
+          and cm_cp = #{cm_cp}
+    </select>
+
+    <select id="pFindCheck" resultType="int" parameterType="Map">
+        select count(*)
+        from member
+        where m_email = #{m_email}
+          and m_name = #{m_name}
+          and m_tele = #{m_tele}
+          and m_type = 0
+    </select>
+
+    <select id="eFindCheck" resultType="int" parameterType="Map">
+        select count(*)
+        from member
+        where m_email = #{m_email}
+          and m_name = #{m_name}
+          and m_type = 0
+    </select>
+
+    <update id="updatePass" parameterType="Map">
+        update member
+        set m_pass=#{m_pass}
+        where m_email = #{m_email}
+          and m_name = #{m_name}
+          and m_type = 0
+    </update>
 </mapper>

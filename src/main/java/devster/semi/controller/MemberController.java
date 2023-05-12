@@ -9,7 +9,6 @@ import devster.semi.service.MemberService;
 import devster.semi.service.SmsService;
 import devster.semi.utilities.SHA256Util;
 import naver.cloud.ObjectStorageService;
-import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,9 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/member")
@@ -68,7 +65,16 @@ public class MemberController {
     }
 
     @GetMapping("/apisignup")
-    public String apiSignUp() {
+    public String apiSignUp(HttpSession session, Model m) {
+        String m_email = (String) session.getAttribute("m_email");
+        String m_pass = (String) session.getAttribute("m_pass");
+
+        session.removeAttribute("m_email");
+        session.removeAttribute("m_pass");
+
+        m.addAttribute("m_email", m_email);
+        m.addAttribute("m_pass", m_pass);
+
         return "/main/member/apisignup";
     }
 
@@ -100,7 +106,7 @@ public class MemberController {
     //kakao naver check
     @GetMapping("/apichk")
     @ResponseBody
-    public Map<String, String> kanachk(String m_email, HttpSession session) {
+    public Map<String, String> kanachk(String m_email, String m_pass, HttpSession session) {
         int chk = memberService.apichk(m_email);
         Map<String, String> map = new HashMap<>();
 
@@ -122,6 +128,8 @@ public class MemberController {
             session.setAttribute("acaidx", acaidx);
         } else {
             map.put("result", "no");
+            session.setAttribute("m_email", m_email);
+            session.setAttribute("m_pass", m_pass);
         }
 
         return map;
@@ -168,7 +176,7 @@ public class MemberController {
             session.setAttribute("memnick", memnick);
             session.setAttribute("memstate", memstate);
             session.setAttribute("acaidx", acaidx);
-            session.setAttribute("state",state);
+            session.setAttribute("state", state);
         } else {
             map.put("result", "no");
         }
@@ -436,5 +444,152 @@ public class MemberController {
     @GetMapping("/passfinder")
     public String passFinder() {
         return "/main/member/passfinder";
+    }
+
+    @GetMapping("/caccfinder")
+    public String cAccFinder() {
+        return "/main/member/caccountfinder";
+    }
+
+    @GetMapping("/cpassfinder")
+    public String cPassFinder() {
+        return "/main/member/cpassfinder";
+    }
+
+    @GetMapping("/npcheck") //name + phone check
+    @ResponseBody
+    public Map<String, String> NPCheck(String m_name, String m_tele) {
+        String[] tokens = m_tele.split("-");
+        String phoneNoHyphen = String.join("", tokens);
+        tokens = phoneNoHyphen.split("\\s");
+        m_tele = String.join("", tokens);
+
+        int chk = memberService.NPCheck(m_name, m_tele);
+
+        Map<String, String> map = new HashMap<>();
+        map.put("result", chk > 0 ? "yes" : "no");
+
+        return map;
+    }
+
+    @PostMapping("/paccinfo")
+    @ResponseBody
+    public void pAccInfo(String m_name, String m_tele, HttpSession session) {
+        session.setAttribute("m_name", m_name);
+        session.setAttribute("m_tele", m_tele);
+    }
+
+    @GetMapping("/paccfound")
+    public String pAccFound(HttpSession session, Model model) {
+        String m_name = (String) session.getAttribute("m_name");
+        String m_tele = (String) session.getAttribute("m_tele");
+
+        session.removeAttribute("m_name");
+        session.removeAttribute("m_tele");
+
+        List<MemberDto> list = memberService.NPGetList(m_name, m_tele);
+
+        model.addAttribute("m_name", m_name);
+        model.addAttribute("m_tele", m_tele);
+        model.addAttribute("list", list);
+        return "/main/member/accountfound";
+    }
+
+    @GetMapping("/cnpcheck") //name + phone check
+    @ResponseBody
+    public Map<String, String> cNPCheck(String cm_name, String cm_cp) {
+        String[] tokens = cm_cp.split("-");
+        String phoneNoHyphen = String.join("", tokens);
+        tokens = phoneNoHyphen.split("\\s");
+        cm_cp = String.join("", tokens);
+
+        int chk = memberService.cNPCheck(cm_name, cm_cp);
+
+        Map<String, String> map = new HashMap<>();
+        map.put("result", chk > 0 ? "yes" : "no");
+
+        return map;
+    }
+
+    @PostMapping("/cpaccinfo")
+    @ResponseBody
+    public void cPAccInfo(String cm_name, String cm_cp, HttpSession session) {
+        session.setAttribute("cm_name", cm_name);
+        session.setAttribute("cm_cp", cm_cp);
+    }
+
+    @GetMapping("/cpaccfound")
+    public String cPAccFound(HttpSession session, Model model) {
+        String cm_name = (String) session.getAttribute("cm_name");
+        String cm_cp = (String) session.getAttribute("cm_cp");
+
+        session.removeAttribute("cm_name");
+        session.removeAttribute("cm_cp");
+
+        List<CompanyMemberDto> list = memberService.cNPGetList(cm_name, cm_cp);
+
+        model.addAttribute("cm_name", cm_name);
+        model.addAttribute("cm_cp", cm_cp);
+        model.addAttribute("list", list);
+        return "/main/member/caccountfound";
+    }
+
+    @GetMapping("/pfindcheck")
+    @ResponseBody
+    public Map<String, String> pFindCheck(String m_email, String m_name, String m_tele) {
+        String[] tokens = m_tele.split("-");
+        String phoneNoHyphen = String.join("", tokens);
+        tokens = phoneNoHyphen.split("\\s");
+        m_tele = String.join("", tokens);
+
+        int chk = memberService.pFindCheck(m_email, m_name, m_tele);
+
+        Map<String, String> map = new HashMap<>();
+        map.put("result", chk == 1 ? "yes" : "no");
+
+        return map;
+    }
+
+    @GetMapping("/findaccinfo")
+    @ResponseBody
+    public void pFindAccInfo(String m_email, String m_name, HttpSession session) {
+        session.setAttribute("m_email", m_email);
+        session.setAttribute("m_name", m_name);
+    }
+
+    @GetMapping("/update")
+    public String pUpdate(HttpSession session, Model model) {
+        String m_email = (String) session.getAttribute("m_email");
+        String m_name = (String) session.getAttribute("m_name");
+
+        session.removeAttribute("m_email");
+        session.removeAttribute("m_name");
+
+        model.addAttribute("m_email", m_email);
+        model.addAttribute("m_name", m_name);
+        return "/main/member/passupdate";
+    }
+
+    @GetMapping("/efindcheck")
+    @ResponseBody
+    public Map<String, String> eFindCheck(String m_email, String m_name) {
+        int chk = memberService.eFindCheck(m_email, m_name);
+
+        Map<String, String> map = new HashMap<>();
+        map.put("result", chk == 1 ? "yes" : "no");
+
+        return map;
+    }
+
+    @GetMapping("/updatepass")
+    @ResponseBody
+    public void updatePass(String m_email, String m_name, String m_pass) {
+        System.out.println(m_pass);
+        String salt = SHA256Util.generateSalt();
+        String pass = m_pass;
+        m_pass = SHA256Util.getEncrypt(pass, salt);
+        System.out.println(m_pass);
+
+        memberService.updatePass(m_email, m_name, m_pass);
     }
 }

@@ -22,12 +22,16 @@
 </head>
 <body>
 <div>
-    개인회원 아이디 찾기
+    기업회원 아이디 찾기
+    <div>
+        <label clsss="empmode">사업자등록번호로 찾기</label>
+        <label class="phonemode">휴대폰 번호로 찾기</label>
+    </div>
     <div id="phonefinder">
         회원정보에 등록된 정보로 아이디를 찾을수 있습니다.
         <div>
             <div>
-                이름 <input type="text" id="pname">
+                담당자명(이름) <input type="text" id="pname">
                 <span id="pnamechkicon"></span>
             </div>
             <div class="input-group">
@@ -48,22 +52,6 @@
     </div>
 </div>
 <script>
-    $(".emailmode").click(function () {
-        $("#emailfinder").show();
-        $("#phonefinder").hide();
-        $("#pname").val("");
-        $("#pnum").val("");
-        $("#pregnum").val("");
-
-    });
-    $(".phonemode").click(function () {
-        $("#emailfinder").hide();
-        $("#phonefinder").show();
-        $("#ename").val("");
-        $("#enum").val("");
-        $("#eregnum").val("");
-    });
-
     //name check
     $("#pname").keyup(function () {
         let m_name = $(this).val();
@@ -75,18 +63,7 @@
         }
     });
 
-    //name check
-    $("#ename").keyup(function () {
-        let m_name = $(this).val();
-        if (!validName(m_name)) {
-            $("#enamechkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
-                "<span>옳바른 이름을 입력해주세요</span>");
-        } else {
-            $("#enamechkicon").html("<i class='bi bi-check' style='color:green;'></i>");
-        }
-    });
-
-    //name patter
+    //name pattern
     function validName(name) {
         let namePattern = /^[가-힣]+$/;
         return namePattern.test(name);
@@ -184,14 +161,14 @@
     let cnt = 0;
 
     $(document).on("click", "#pnumbtn", function () {
-        let m_name = $("#pname").val();
-        let m_tele = $("#pnum").val();
+        let cm_name = $("#pname").val();
+        let cm_cp = $("#pnum").val();
 
         $.ajax({
             type: "get",
-            url: "npcheck",
+            url: "cnpcheck",
             dataType: "json",
-            data: {"m_name": m_name, "m_tele": m_tele},
+            data: {"cm_name": cm_name, "cm_cp": cm_cp},
             success: function (res) {
                 if (res.result == "no") {
                     alert("등록되지 않은 회원입니다");
@@ -284,14 +261,14 @@
 
     $(document).on("click", "#psubmitbtn", function () {
         if ($("#pregnum").val() == code) {
-            let m_name = $("#pname").val();
-            let m_tele = $("#pnum").val();
+            let cm_name = $("#pname").val();
+            let cm_cp = $("#pnum").val();
 
             $.ajax({
                 type: "get",
-                url: "npcheck",
+                url: "cnpcheck",
                 dataType: "json",
-                data: {"m_name": m_name, "m_tele": m_tele},
+                data: {"cm_name": cm_name, "cm_cp": cm_cp},
                 success: function (res) {
                     if (res.result == "no") {
                         alert("이름과 전화번호를 확인해주세요");
@@ -306,11 +283,11 @@
 
                         $.ajax({
                             type: "post",
-                            url: "paccinfo",
-                            data: {"m_name": m_name, "m_tele": m_tele},
+                            url: "cpaccinfo",
+                            data: {"cm_name": cm_name, "cm_cp": cm_cp},
                             dataType: "text",
                             success: function () {
-                                location.href = "paccfound";
+                                location.href = "cpaccfound";
                             }
                         });
                     }

@@ -3,6 +3,8 @@ package devster.semi.dto;
 import lombok.Data;
 import org.apache.ibatis.type.Alias;
 
+import java.sql.Timestamp;
+
 @Data
 @Alias("CompanyMemberDto")
 public class CompanyMemberDto {
@@ -18,4 +20,6 @@ public class CompanyMemberDto {
     private String cm_cp;
     private String salt;
     private int cm_new; //가입완료 + 요청:0, 완료:1
+    private Timestamp cm_date;
 }
+

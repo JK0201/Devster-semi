@@ -259,17 +259,16 @@
                         $.ajax({
                             type: "get",
                             url: "apichk",
-                            data: {"m_email": m_email},
+                            data: {"m_email": m_email,"m_pass":m_pass},
                             dataType: "json",
                             success: function (res) {
                                 if (res.result == "yes") {
                                     alert("ㅎㅇ 출석포인트 +10점");
                                     location.href="../";
-
                                 } else {
                                     let b = confirm("계정 없음");
                                     if (b) {
-                                        location.href = "apisignup?m_email=" + m_email+"&m_pass="+m_pass;
+                                        location.href = "apisignup";
                                     } else {
                                         return false;
                                     }
