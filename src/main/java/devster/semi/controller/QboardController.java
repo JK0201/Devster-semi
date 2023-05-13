@@ -1,7 +1,9 @@
 package devster.semi.controller;
 
 import devster.semi.dto.FreeBoardDto;
+import devster.semi.dto.NoticeBoardDto;
 import devster.semi.dto.QboardDto;
+import devster.semi.service.NoticeBoardService;
 import devster.semi.service.QboardService;
 import naver.cloud.NcpObjectStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ import java.util.*;
 public class QboardController {
     @Autowired
     QboardService qboardService;
+
+    @Autowired
+    private NoticeBoardService noticeBoardService;
 
     @Autowired
     private NcpObjectStorageService storageService;
@@ -91,6 +96,15 @@ public class QboardController {
         model.addAttribute("no", no);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalCount",totalCount);
+
+
+        //===========================공지사항===============================//
+
+        int NoticeBoardTotalCount = noticeBoardService.getTotalCount();
+        List<NoticeBoardDto> nblist = noticeBoardService.getTopThree();
+
+        model.addAttribute("nblist", nblist);
+        model.addAttribute("NoticeBoardTotalCount",NoticeBoardTotalCount);
 
         return "/main/qboard/qboardlist";
     }

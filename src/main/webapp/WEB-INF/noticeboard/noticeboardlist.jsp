@@ -51,7 +51,9 @@
         <tfoot>
         <tr>
             <td>총 ${totalCount}개의 게시글
-                <button type="button" onclick="location.href='./noticewriteform'">글쓰기</button>
+                <c:if test="${sessionScope.memstate == 100}">
+                    <button type="button" onclick="location.href='./noticewriteform'">글쓰기</button>
+                </c:if>
             </td>
         </tr>
         </tfoot>

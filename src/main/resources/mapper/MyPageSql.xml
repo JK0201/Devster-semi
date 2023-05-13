@@ -24,4 +24,20 @@
     <update id="updateProfileCm" parameterType="CompanyMemberDto">
         update companymember set cm_compname=#{cm_compname}, cm_pass=#{cm_pass}, cm_name=#{cm_name}, cm_tele=#{cm_tele}, cm_addr=#{cm_addr}, cm_cp=#{cm_cp}, salt=#{salt} where cm_idx=#{cm_idx}
     </update>
+    <select id="getHireBookmarkList" parameterType="int" resultType="HireBoardDto">
+        SELECT hb.*
+        FROM hireboard hb
+                 INNER JOIN hirebookmark hbm ON hb.hb_idx = hbm.hb_idx
+        WHERE hbm.m_idx = #{m_idx}
+    </select>
+    <select id="getDatasStateZero" resultType="MemberDto">
+        select * from member where m_state=0 AND not m_filename = 'no'
+    </select>
+    <update id="updateMstate" parameterType="int">
+        update member set m_state=1 where m_idx=#{m_idx}
+    </update>
+
+    <update id="rejectUpgrade" parameterType="int">
+        update member set m_filename='no' where m_idx=#{m_idx}
+    </update>
 </mapper>

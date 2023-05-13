@@ -1,9 +1,12 @@
 package devster.semi.service;
 
+import com.google.inject.internal.util.Lists;
 import devster.semi.dto.CompanyMemberDto;
+import devster.semi.dto.HireBoardDto;
 import devster.semi.dto.MemberDto;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 public interface MyPageServiceInter {
@@ -15,6 +18,11 @@ public interface MyPageServiceInter {
     public void updateDeafualtPhoto(int m_idx);
     public void updateProfile(MemberDto dto);
     public void updateProfileCm(CompanyMemberDto dto);
+    public List<HireBoardDto> getHireBookmarkList(int m_idx);
+    public List<MemberDto> getDatasStateZero();
+    public void updateMstate(int m_idx);
+    public void rejectUpgrade(int m_idx);
+
 
 
 }

@@ -16,9 +16,6 @@
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <style>
-        body, body * {
-            font-family: 'Jua'
-        }
     </style>
     <script>
         $(document).ready(function () {

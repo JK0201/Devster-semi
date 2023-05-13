@@ -1,9 +1,11 @@
 package devster.semi.mapper;
 
 import devster.semi.dto.CompanyMemberDto;
+import devster.semi.dto.HireBoardDto;
 import devster.semi.dto.MemberDto;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
 import java.util.Map;
 
 @Mapper
@@ -16,5 +18,10 @@ public interface MypageMapper {
     public void updateDeafualtPhoto(int m_idx);
     public void updateProfile(MemberDto dto);
     public void updateProfileCm(CompanyMemberDto dto);
+    public List<HireBoardDto> getHireBookmarkList(int m_idx);
+    public List<MemberDto> getDatasStateZero();
+    public void updateMstate(int m_idx);
+    public void rejectUpgrade(int m_idx);
+
 
 }
