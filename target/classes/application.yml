@@ -16,15 +16,9 @@ spring:
     username: mymini
     password: bit123!@#
   servlet:
-<<<<<<< HEAD
-      multipart:
-        max-file-size:
-          20MB
-=======
     multipart:
       max-file-size:
         20MB
->>>>>>> 255b4f616380e3e53ede67d9192ddb9da644347b
 
 #mybatis
 mybatis:

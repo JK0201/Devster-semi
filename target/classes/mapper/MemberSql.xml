@@ -102,7 +102,6 @@
         values (#{cm_email}, #{cm_pass}, #{cm_compname}, #{cm_post}, #{cm_addr}, #{cm_tele}, #{cm_name},#{cm_filename}, #{cm_cp},
                 #{salt})
     </insert>
-<<<<<<< HEAD
     <select id="getOneDataByM_idx" parameterType="int" resultType="MemberDto">
         select * from member where m_idx=#{m_idx}
     </select>
@@ -113,7 +112,6 @@
                  JOIN academyinfo a
                       ON m.ai_idx = a.ai_idx;
     </select>
-=======
 
     <select id="NPCheck" resultType="int" parameterType="Map">
         select count(*)
@@ -168,5 +166,4 @@
           and m_name = #{m_name}
           and m_type = 0
     </update>
->>>>>>> 255b4f616380e3e53ede67d9192ddb9da644347b
 </mapper>
