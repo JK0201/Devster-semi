@@ -176,6 +176,7 @@ public class FreeBoardService implements FreeBoardServiceInter{
         return freeBoardMapper.bestfreeboardPosts();
     }
 
+
     private Integer getRpInfoBym_idx(int fb_idx, int m_idx) {
         // 현재 사용자 id와 게시물 id로 좋아요/싫어요 기록을 가져옴
         Map<String,Integer> map = new HashMap<>();
@@ -191,6 +192,30 @@ public class FreeBoardService implements FreeBoardServiceInter{
     @Override
     public int commentCnt(int fb_idx) {
         return freeBoardMapper.commentCnt(fb_idx);
+    }
+
+
+    //    검색
+    @Override
+    public List<FreeBoardDto> searchlist(String searchOption, String keyword, int start, int perpage) {
+        Map<String,Object> map = new HashMap<>();
+
+        map.put("searchOption", searchOption);
+        map.put("keyword", keyword);
+        map.put("start", start);
+        map.put("perpage", perpage);
+
+        return freeBoardMapper.searchlist(map);
+    }
+
+    @Override
+    public int countsearch(String searchOption, String keyword) {
+        Map<String,Object> map = new HashMap<>();
+
+        map.put("searchOption", searchOption);
+        map.put("keyword", keyword);
+
+        return freeBoardMapper.countsearch(map);
     }
 
 }

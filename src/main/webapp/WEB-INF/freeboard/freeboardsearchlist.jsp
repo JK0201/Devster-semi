@@ -32,7 +32,6 @@
     .idxbox{
         font-size: 13px;
         color: gray;
-        height: 30px;
     }
     .subjectbox{
         font-size: 18px;
@@ -58,6 +57,10 @@
         color: gray;
     }
 
+    tr{
+        height: 100px;
+    }
+
     .memberimg{
         width: 23px;
         height: 23px;
@@ -75,6 +78,7 @@
     .quickmenu ul li:last-child {border-bottom:0;}
 
     /* 서치바 */
+
     .searchdiv{
         /*position: absolute;*/
         position: relative;
@@ -141,96 +145,64 @@
     });
 </script>
 
-    <div class="allpage">
     <!-- 검색창 -->
     <div class="searchdiv">
-        <input id="searchinput" name="keyword" type="search" placeholder="관심있는 내용을 검색해보세요!" autocomplete="off" class="searchbar">
+        <input id="searchinput" name="keyword" type="search" autocomplete="off" value="${keyword}"
+               class="searchbar">
         <i class="bi bi-search"></i>
 
         <select id="searchOption">
-            <option id="all" value="all">전체검색</option>
-            <option id="searchnickname" value="m_nickname">작성자 검색</option>
-            <option id="searchsubject" value="fb_subject">제목 검색</option>
+            <option id="all">전체검색</option>
+            <option id="searchnickname">작성자 검색</option>
+            <option id="searchcontent">제목 검색</option>
         </select>
     </div>
 
     <script>
 
         $("#searchinput").keydown(function (e){
+            // 검색내용
+            var keyword = $(this).val();
 
             // 일단은 엔터 눌러야 검색되는걸로 -> 나중에 뭐 클릭해도 검색되게 바꿔도될듯?
             if(e.keyCode==13){
-                // 검색내용
-                var keyword = $(this).val();
-                var searchOption = $("#searchOption").val();
-                console.log(keyword);
-                console.log(searchOption);
-
                 // null 값 검색시 -> 아무일도 안일어남
                 if(keyword==''){
-                    alert("검색하실 내용을 입력해주세요.")
+                    // alert("검색하실 내용을 입력해주세요.")
                     return
                 } else {
-                    alert("검색결과출력.");
-
-                    $.ajax({
-                        type: "post",
-                        url: "./freeboardsearchlist",
-                        data: {"keyword":keyword, "searchOption":searchOption},
-                       dataType: "json",
-                        success: function (res) {
-                            let s = '';
-
-                            $.each(res, function (idx, ele) {
-
-                                    s += `번호 : \${ele.fb_idx}<br>`;
-                                    s += `제목 : \${ele.fb_subject}<br>`;
-                                    s += `작성자 : \${ele.m_nickname}<br>`;
-
-                                    s += `내용 : \${ele.fb_content}<br>`;
-                                    s += `검색한내용 : \${ele.keyword}<br>`;
-                                    s += `검색 카테고리 : \${ele.searchOption}<br>`;
-                                    s += `작성일 : \${ele.fb_writeday}<br>`;
-                                    s += `댓글수 : \${ele.commentCnt}<br>`;
-                                    s += `조회 : \${ele.fb_readcount}<br>`;
-                                    s += `좋아요 : \${ele.fb_like}<br>`;
-                                    s += `싫어요 : \${ele.fb_dislike}<br>`;
-                                    s += `사진 : <hr>`;
-
-                            })
-                            $(".roop").html(s);
-                        },
-                        error: function (xhr, status, error) {
-                            // 요청이 실패했을 때의 처리 로직
-                            console.log("Error:", error);
-                        }
-                    });
+                    search(keyword);
                 }
             }
         });
+
+        // 검색 함수
+        function search(keyword){
+
+        }
 
     </script>
 
 
 
 <table class="freeboard_table table table-bordered">
-    <caption align="top"><h4 style="color: black; font-weight: bold;"><img src="/photo/ico-best.png" style="padding-bottom: 10px; width: 50px;">일반게시판
-        <button class="btn btn-secondary" type="button" style="float: right; margin-right: 150px; margin-top: 30px;" onclick="location.href='./freewriteform'"><i class="bi bi-pen"></i>&nbsp;글쓰기</button>
-    </h4>
+    <caption align="top"><h2><img src="/photo/ico-best.png" style="padding-bottom: 10px;">일반게시판
+        <button class="btn btn-secondary btn-sm" type="button" style="float: right;" onclick="location.href='./freewriteform'">글쓰기</button>
+    </h2>
     </caption>
 
 
     <tr>
-        <td class="alert alert-outline-secondary">총 ${totalCount}개의 게시글<hr>
+        <td class="alert alert-outline-secondary">총 ${searchCount}개의 게시글
         </td>
     </tr>
-    <tr class="roop">
+    <tr>
 
-        <c:if test="${totalCount==0}">
+        <c:if test="${searchCount==0}">
             <h2 class="alert alert-outline-secondary">등록된 게시글이 없습니다..</h2>
         </c:if>
 
-        <c:if test="${totalCount>0}">
+        <c:if test="${searchCount>0}">
             <c:forEach var="dto" items="${list}" varStatus="i">
 
         <c:if test="${dto.fb_dislike > 19}">
@@ -246,8 +218,8 @@
                 </tr>
 
                 <c:if test="${dto.fb_photo=='n'}">
-                    &nbsp;<tr>
-                    <td style="width: 90%">
+                    &nbsp;<tr style="height: 130px;">
+                    <td style="width: 100%">
                         <a href="freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}" style="color: #000;">
                                 <span >
 
@@ -263,7 +235,7 @@
                     </td></tr>
                 </c:if>
                 <c:if test="${dto.fb_photo!='n'}">
-                    &nbsp;<tr>
+                    &nbsp;<tr style="height: 130px;">
                     <td style="width: 80%">
                         <a href="freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}" style="color: #000;">
                                     <span>
@@ -333,10 +305,10 @@
                 </tr>
 
                 <c:if test="${dto.fb_photo=='n'}">
-                    &nbsp;<tr style="height: 90px;">
-                    <td style="width: 90%">
+                    &nbsp;<tr style="height: 130px;">
+                    <td style="width: 100%">
                         <a href="freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}" style="color: #000;">
-                                <span>
+                                <span >
 
                                     <c:set var="length" value="${fn:length(dto.fb_content)}"/>
                                     ${fn:substring(dto.fb_content, 0, 130)}
@@ -350,7 +322,7 @@
                     </td></tr>
                 </c:if>
                 <c:if test="${dto.fb_photo!='n'}">
-                    &nbsp;<tr style="height: 90px;">
+                    &nbsp;<tr style="height: 130px;">
                     <td style="width: 80%">
                         <a href="freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}" style="color: #000;">
                                     <span>
@@ -441,7 +413,7 @@
     </c:forEach>
 
     <!-- 다음 -->
-    <c:if test="${endPage<totalPage}">
+    <c:if test="${endPage<searchPage}">
     <a style="font-size:17px; font-weight: bold; color: black; text-decoration: none; cursor: pointer;" href="list?currentPage=${endPage+1 }">&nbsp;다음&nbsp;</a>
     </c:if>
 </div>
@@ -451,7 +423,6 @@
             <li class="quickmenu_head"><p style="font-size: 30px">베스트 게시글</p></li>
         </ul>
     </div>
-</div>
 </div>
 
 <script>

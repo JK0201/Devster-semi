@@ -36,4 +36,8 @@ public interface FreeBoardServiceInter {
 
     public List<FreeBoardDto> bestfreeboardPosts();
 
+    // 검색
+    public List<FreeBoardDto> searchlist(String searchOption, String keyword, int start, int perpage);
+    public int countsearch(String searchOption, String keyword);
+
 }
