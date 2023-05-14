@@ -50,8 +50,8 @@
                                 <img src="http://${imageUrl}/member_academy/\${dto.m_filename}" style="width: 600px; border: 3px solid black">
                                 <h3>학원명 : \${dto.ai_name}</h3>
                                 <h3>이름 : \${dto.m_name}</h3>
-                                <button type="button" class="btn btn-outline-success" onclick="upgradeState(\${dto.m_idx})">승인</button>
-                                <button type="button" class="btn btn-outline-danger" onclick="rejectUpgrade(\${dto.m_idx})">반려</button>
+                                <button type="button" class="btn btn-outline-success" onclick="normalUpgradeState(\${dto.m_idx})">승인</button>
+                                <button type="button" class="btn btn-outline-danger" onclick="normalRejectUpgrade(\${dto.m_idx})">반려</button>
                             </div>
                         `;
                     })
