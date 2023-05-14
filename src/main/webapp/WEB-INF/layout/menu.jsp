@@ -73,8 +73,8 @@
                 <h2 id="name">관리자 님</h2>
                 <ul>
                     <li><a href="/mypage/list">공지사항</a></li>
-                    <li><a href="/mypage/approvelist">일반 회원 가입 승인</a></li>
-                    <li>기업 회원 가입 승인</li>
+                    <li><a href="/mypage/approvelist?iscomp=0">일반 회원 가입 승인</a></li>
+                    <li><a href="/mypage/approvelist?iscomp=1">기업 회원 가입 승인</a></li>
                 </ul>
                 </div>
             </c:when>

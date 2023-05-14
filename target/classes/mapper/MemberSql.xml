@@ -98,8 +98,8 @@
     </select>
 
     <insert id="addNewCMemeber" parameterType="CompanyMemberDto">
-        insert into companymember (cm_email, cm_pass, cm_compname, cm_post, cm_addr, cm_tele, cm_name, cm_cp, salt)
-        values (#{cm_email}, #{cm_pass}, #{cm_compname}, #{cm_post}, #{cm_addr}, #{cm_tele}, #{cm_name}, #{cm_cp},
+        insert into companymember (cm_email, cm_pass, cm_compname, cm_post, cm_addr, cm_tele, cm_name, cm_filename, cm_cp, salt)
+        values (#{cm_email}, #{cm_pass}, #{cm_compname}, #{cm_post}, #{cm_addr}, #{cm_tele}, #{cm_name},#{cm_filename}, #{cm_cp},
                 #{salt})
     </insert>
     <select id="getOneDataByM_idx" parameterType="int" resultType="MemberDto">

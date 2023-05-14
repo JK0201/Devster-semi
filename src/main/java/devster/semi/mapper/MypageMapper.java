@@ -19,9 +19,12 @@ public interface MypageMapper {
     public void updateProfile(MemberDto dto);
     public void updateProfileCm(CompanyMemberDto dto);
     public List<HireBoardDto> getHireBookmarkList(int m_idx);
-    public List<MemberDto> getDatasStateZero();
+    public List<MemberDto> getDatasStateZeroByMember();
     public void updateMstate(int m_idx);
-    public void rejectUpgrade(int m_idx);
+    public void rejectUpgradeMstate(int m_idx);
+    public List<CompanyMemberDto> getDatasStateZeroByCompany();
+    public void updateCmstate(int cm_idx);
+    public void rejectUpgradeCmstate(int cm_idx);
 
 
 }

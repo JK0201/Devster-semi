@@ -314,25 +314,47 @@ public class MyPageController {
     }
 
     @GetMapping("/approvelist")
-    public String approvelist() {
-        return "/mypage/mypage/mpageacademycheck";
+    public String approvelist(int iscomp,Model model) {
+        if(iscomp == 1) {
+            model.addAttribute("iscomp",1);
+            return "/mypage/mypage/mpageacademycheck";
+        } else {
+            return "/mypage/mypage/mpageacademycheck";
+        }
     }
 
-    @PostMapping("/academycheck")
+    @PostMapping("/normalacademycheck")
     @ResponseBody
     public List<MemberDto> checkacaname() {
-        return myPageService.getDatasStateZero();
+        return myPageService.getDatasStateZeroByMember();
     }
 
-    @PostMapping("/upgradestate")
+    @PostMapping("/normalupgradestate")
     @ResponseBody
-    public void upgradestate(int m_idx) {
+    public void updateMstate(int m_idx) {
         myPageService.updateMstate(m_idx);
     }
 
-    @PostMapping("/rejectupgrade")
+    @PostMapping("/normalrejectupgrade")
     @ResponseBody
-    public void rejectupgrade(int m_idx) {
-        myPageService.rejectUpgrade(m_idx);
+    public void rejectUpgradeMstate(int m_idx) {
+        myPageService.rejectUpgradeMstate(m_idx);
+    }
+    @PostMapping("/companycheck")
+    @ResponseBody
+    public List<CompanyMemberDto> companycheck() {
+        return myPageService.getDatasStateZeroByCompany();
+    }
+
+    @PostMapping("/companyupgradestate")
+    @ResponseBody
+    public void updateCmstate(int cm_idx) {
+        myPageService.updateCmstate(cm_idx);
+    }
+
+    @PostMapping("/companyrejectupgrade")
+    @ResponseBody
+    public void rejectUpgradeCmstate(int cm_idx) {
+        myPageService.rejectUpgradeCmstate(cm_idx);
     }
 }

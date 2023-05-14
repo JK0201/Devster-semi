@@ -544,7 +544,7 @@
             formData.append("cm_name", $("#cm_name").val());
             formData.append("cm_cp", $("#cm_cp").val());
 
-            formData.append("cm_filename",$("#upload").val());
+            formData.append("upload",$("#upload")[0].files[0]);
 
             $.ajax({
                 type: "post",

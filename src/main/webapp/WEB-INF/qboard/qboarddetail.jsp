@@ -165,7 +165,7 @@
                 </h3>
                 <br>
                 <c:choose>
-                    <c:when test="${list[0] == 'n'}">
+                    <c:when test="${list[0] == 'n' || list[0] == 'no'}">
                         <!-- 이미지가 없을 때는 아무것도 출력하지 않음 -->
                     </c:when>
                     <c:otherwise>
@@ -182,7 +182,7 @@
                 </h3>
                 <br>
             <c:choose>
-                <c:when test="${list[0] == 'n'}">
+                <c:when test="${list[0] == 'n' || list[0] == 'no'}">
                     <!-- 이미지가 없을 때는 아무것도 출력하지 않음 -->
                 </c:when>
                 <c:otherwise>

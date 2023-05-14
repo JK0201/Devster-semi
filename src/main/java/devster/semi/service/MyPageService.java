@@ -8,10 +8,8 @@ import devster.semi.mapper.MypageMapper;
 import naver.cloud.NcpObjectStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class MyPageService implements MyPageServiceInter {
@@ -71,8 +69,8 @@ public class MyPageService implements MyPageServiceInter {
     }
 
     @Override
-    public List<MemberDto> getDatasStateZero() {
-        return mypageMapper.getDatasStateZero();
+    public List<MemberDto> getDatasStateZeroByMember() {
+        return mypageMapper.getDatasStateZeroByMember();
     }
 
     @Override
@@ -82,8 +80,26 @@ public class MyPageService implements MyPageServiceInter {
     }
 
     @Override
-    public void rejectUpgrade(int m_idx) {
-        mypageMapper.rejectUpgrade(m_idx);
+    public void rejectUpgradeMstate(int m_idx) {
+        storageService.deleteFile(bucketName,"member_academy",memberMapper.getOneDataByM_idx(m_idx).getM_filename());
+        mypageMapper.rejectUpgradeMstate(m_idx);
+    }
+
+    @Override
+    public List<CompanyMemberDto> getDatasStateZeroByCompany() {
+        return mypageMapper.getDatasStateZeroByCompany();
+    }
+
+    @Override
+    public void updateCmstate(int cm_idx) {
+        storageService.deleteFile(bucketName,"company_member",mypageMapper.getOneDatabyCm_idx(cm_idx).getCm_filename());
+        mypageMapper.updateCmstate(cm_idx);
+    }
+
+    @Override
+    public void rejectUpgradeCmstate(int cm_idx) {
+        storageService.deleteFile(bucketName,"company_member",mypageMapper.getOneDatabyCm_idx(cm_idx).getCm_filename());
+        mypageMapper.rejectUpgradeCmstate(cm_idx);
     }
 
 

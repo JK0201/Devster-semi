@@ -236,6 +236,12 @@
                         </li>
                     `
             });
+                s+=
+                    `
+                        <button type="button" onclick="window.scrollTo({top:0});">
+                         <i class="bi bi-arrow-up-square-fill"></i>
+                        </button>
+                    `;
             $(".quickmenu ul").append(s);
         },
         error: function(jqXHR, textStatus, errorThrown) {
