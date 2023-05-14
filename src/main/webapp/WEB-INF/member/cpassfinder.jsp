@@ -18,20 +18,7 @@
     </style>
 </head>
 <body>
-<div style="width:200px; height:100px; border: 1px solid black" id="norm">
-        개인회원
-    <div>
-        <a href="accfinder">아이디 찾기</a>
-        <a href="passfinder">비밀번호 찾기</a>
-    </div>
-</div>
-<div style="width:200px; height:100px; border: 1px solid black" id="comp">
-    기업회원
-    <div>
-        <a href="caccfinder">아이디 찾기</a>
-        <a href="cpassfinder">비밀번호 찾기</a>
-    </div>
-</div>
+
 </body>
 </html>
 

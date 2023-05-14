@@ -5,7 +5,7 @@
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/freeboard/freeboarddetail.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/freeboard" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/layout/header.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/layout" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/mypage/mpageupdateuserform.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/mypage" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member/accountfinder.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/qboard/qboarddetail.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/qboard" />
       </map>
     </option>

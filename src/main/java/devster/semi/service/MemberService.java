@@ -53,7 +53,7 @@ public class MemberService implements MemberServiceInter {
 
     @Override
     public CompanyMemberDto getCmOneData(String cm_email) {
-        CompanyMemberDto dto=memberMapper.getCmOneData(cm_email);
+        CompanyMemberDto dto = memberMapper.getCmOneData(cm_email);
         return dto;
     }
 
@@ -118,5 +118,74 @@ public class MemberService implements MemberServiceInter {
     @Override
     public String getAcaNameByAi_idx(int ai_idx) {
         return memberMapper.getAcaNameByAi_idx(ai_idx);
+    }
+    @Override
+    public int NPCheck(String m_name, String m_tele) {
+        Map<String, String> map = new HashMap<>();
+        map.put("m_name", m_name);
+        map.put("m_tele", m_tele);
+        int chk = memberMapper.NPCheck(map);
+
+        return chk;
+    }
+
+    @Override
+    public List<MemberDto> NPGetList(String m_name, String m_tele) {
+        Map<String, String> map = new HashMap<>();
+        map.put("m_name", m_name);
+        map.put("m_tele", m_tele);
+        List<MemberDto> list = memberMapper.NPGetList(map);
+
+        return list;
+    }
+
+    @Override
+    public int cNPCheck(String cm_name, String cm_cp) {
+        Map<String, String> map = new HashMap<>();
+        map.put("cm_name", cm_name);
+        map.put("cm_cp", cm_cp);
+        int chk = memberMapper.cNPCheck(map);
+
+        return chk;
+    }
+
+    @Override
+    public List<CompanyMemberDto> cNPGetList(String cm_name, String cm_cp) {
+        Map<String, String> map = new HashMap<>();
+        map.put("cm_name", cm_name);
+        map.put("cm_cp", cm_cp);
+        List<CompanyMemberDto> list = memberMapper.cNPGetList(map);
+
+        return list;
+    }
+
+    @Override
+    public int pFindCheck(String m_email, String m_name, String m_tele) {
+        Map<String, String> map = new HashMap<>();
+        map.put("m_email", m_email);
+        map.put("m_name", m_name);
+        map.put("m_tele", m_tele);
+        int chk = memberMapper.pFindCheck(map);
+
+        return chk;
+    }
+    @Override
+    public int eFindCheck(String m_email, String m_name) {
+        Map<String, String> map = new HashMap<>();
+        map.put("m_email", m_email);
+        map.put("m_name", m_name);
+        int chk = memberMapper.eFindCheck(map);
+
+        return chk;
+    }
+
+    @Override
+    public void updatePass(String m_email, String m_name, String m_pass) {
+        Map<String, String> map=new HashMap<>();
+        map.put("m_eamil",m_email);
+        map.put("m_name",m_name);
+        map.put("m_pass",m_pass);
+
+        memberMapper.updatePass(map);
     }
 }
