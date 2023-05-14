@@ -24,9 +24,6 @@
     <header class="header">
         <tiles:insertAttribute name="header"/>
     </header>
-    <section class="menu">
-        <tiles:insertAttribute name="menu"/>
-    </section>
     <section class="info">
         <tiles:insertAttribute name="info"/>
     </section>

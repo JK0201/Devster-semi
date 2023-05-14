@@ -1,0 +1,38 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="devster.semi.mapper.NoticeBoardMapper">
+    <select id="getTotalCount" resultType="int">
+        select count(*) from noticeboard
+    </select>
+    <select id="getPagingList" parameterType="Map" resultType="NoticeBoardDto">
+        select * from noticeboard order by nb_idx desc limit #{start}, #{perpage}
+    </select>
+    <select id="getData" parameterType="int" resultType="NoticeBoardDto">
+        select * from noticeboard where nb_idx=#{nb_idx}
+    </select>
+    <insert id="insertBoard" parameterType="NoticeBoardDto">
+        insert into noticeboard (m_state, nb_subject, nb_content, nb_photo,nb_writeday) VALUES (#{m_state},#{nb_subject},#{nb_content},#{nb_photo},now())
+    </insert>
+    <update id="updateReadCount" parameterType="int">
+        update noticeboard set nb_readcount=nb_readcount+1 where nb_idx=#{nb_idx}
+    </update>
+    <delete id="deleteBoard" parameterType="int">
+        delete from noticeboard where nb_idx=#{nb_idx}
+    </delete>
+    <update id="updateBoard" parameterType="NoticeBoardDto">
+        update noticeboard set nb_subject=#{nb_subject}, nb_content=#{nb_content}
+        <if test="nb_photo!='no'">
+            ,nb_photo=#{nb_photo}
+        </if>
+        where nb_idx=#{nb_idx}
+    </update>
+   <!-- <select id="selectNickNameOfMstate" parameterType="int" resultType="String">
+        SELECT m.m_nickname
+        FROM noticeboard nb
+                 JOIN member m ON nb.m_state = m.m_state
+        WHERE nb.nb_idx = #{nb_idx}
+    </select>-->
+
+    <select id="getTopThree" resultType="NoticeBoardDto">
+        select * from noticeboard order by nb_idx desc limit 3
+    </select>
+</mapper>

@@ -9,10 +9,42 @@
 <div class="fb_wrap">
 
 
-<script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <h1>Free Board</h1>
+
+    <!--=============================================================================-->
+
+    <div class="noticeboard_part" style="border: 1px solid red">
+        <h1>공지</h1>
+        <ul class="clear">
+            <c:if test="${NoticeBoardTotalCount>0}">
+                <c:forEach var="dto" items="${nblist}">
+
+
+                            <li>
+                                <a href="../noticeboard/noticeboarddetail?nb_idx=${dto.nb_idx}&currentPage=${currentPage}"
+                                   style="color: #000;">
+                                        ${dto.nb_subject}
+                                    <c:if test="${dto.nb_photo!='n'}">
+                                        &nbsp; <i class="bi bi-images"></i>
+                                    </c:if>
+                                </a>
+                            </li>
+
+                        </ul>
+                </c:forEach>
+            </c:if>
+        </ul>
+    </div>
+    <!--=============================================================================-->
+
+    <table class="freeboard_table">
+
+
+
+<%--<script src="https://code.jquery.com/jquery-3.6.3.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Gothic+A1&family=Gowun+Batang&family=Hahmlet&family=Song+Myung&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">--%>
 
 <style>
     .freeboard_table{
@@ -225,6 +257,11 @@
         </td>
     </tr>
     <tr class="roop">
+
+
+        <tbody>
+
+
 
         <c:if test="${totalCount==0}">
             <h2 class="alert alert-outline-secondary">등록된 게시글이 없습니다..</h2>
@@ -446,6 +483,7 @@
     </c:if>
 </div>
 
+
     <div class="quickmenu">
         <ul>
             <li class="quickmenu_head"><p style="font-size: 30px">베스트 게시글</p></li>
@@ -481,3 +519,9 @@
     });
 
 </script>
+
+
+
+
+</div>
+

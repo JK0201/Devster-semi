@@ -1,7 +1,9 @@
 package devster.semi.controller;
 
 import devster.semi.dto.FreeBoardDto;
+import devster.semi.dto.NoticeBoardDto;
 import devster.semi.dto.QboardDto;
+import devster.semi.service.NoticeBoardService;
 import devster.semi.service.QboardService;
 import naver.cloud.NcpObjectStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ import java.util.*;
 public class QboardController {
     @Autowired
     QboardService qboardService;
+
+    @Autowired
+    private NoticeBoardService noticeBoardService;
 
     @Autowired
     private NcpObjectStorageService storageService;
@@ -62,7 +67,9 @@ public class QboardController {
                 Map<String,Object> map = new HashMap<>();
                 map.put("qb_idx",dto.getQb_idx());
                 map.put("nickName",qboardService.selectNickNameOfQb_idx(dto.getQb_idx()));
+
                 String photo = qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
+                int countComment = qboardService.countComment(dto.getQb_idx());
 
                 if(photo.equals("no")) {
                     photo = "/photo/profile.jpg";
@@ -70,6 +77,7 @@ public class QboardController {
                     photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
                 }
                 map.put("photo",photo);
+                map.put("count",countComment);
                 map.put("qb_subject",dto.getQb_subject());
                 map.put("qb_content",dto.getQb_content());
                 map.put("qb_writeday", dto.getQb_writeday());
@@ -88,6 +96,15 @@ public class QboardController {
         model.addAttribute("no", no);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalCount",totalCount);
+
+
+        //===========================공지사항===============================//
+
+        int NoticeBoardTotalCount = noticeBoardService.getTotalCount();
+        List<NoticeBoardDto> nblist = noticeBoardService.getTopThree();
+
+        model.addAttribute("nblist", nblist);
+        model.addAttribute("NoticeBoardTotalCount",NoticeBoardTotalCount);
 
         return "/main/qboard/qboardlist";
     }
@@ -109,8 +126,8 @@ public class QboardController {
                 //사진 업로드.
                 fileName += (storageService.uploadFile(bucketName, "qboard", mfile) + ",");
             }
+            fileName=fileName.substring(0,fileName.length()-1);
         }
-        fileName=fileName.substring(0,fileName.length()-1);
 //        업로드를 한 경우에만 버킷에 이미지를 저장한다.
         dto.setQb_photo(fileName);
 
@@ -181,7 +198,7 @@ public class QboardController {
         QboardDto dto = qboardService.getOnePost(qb_idx);
         String nickName = qboardService.selectNickNameOfQb_idx(dto.getQb_idx());
         String photo = qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
-        
+
 //        버튼 상태에 관한 정보를 디테일 페이지로 보내줌.
         boolean isAlreadyAddGoodRp = qboardService.isAlreadyAddGoodRp(qb_idx,(int)session.getAttribute("memidx"));
         boolean isAlreadyAddBadRp = qboardService.isAlreadyAddBadRp(qb_idx,(int)session.getAttribute("memidx"));

@@ -1,7 +1,9 @@
 package devster.semi.controller;
 
 import devster.semi.dto.FreeBoardDto;
+import devster.semi.dto.NoticeBoardDto;
 import devster.semi.service.FreeBoardService;
+import devster.semi.service.NoticeBoardService;
 import devster.semi.service.FreeCommentService;
 import naver.cloud.NcpObjectStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class FreeBoardController {
     private NcpObjectStorageService storageService;
 
     private String bucketName="devster-bucket";
+
+    @Autowired
+    private NoticeBoardService noticeBoardService;
 
     @GetMapping("/list")
     public String list(@RequestParam(defaultValue = "1") int currentPage, Model model){
@@ -111,6 +116,14 @@ public class FreeBoardController {
 
 
         model.addAttribute("totalCount",totalCount);
+
+        //===========================공지사항===============================//
+
+        int NoticeBoardTotalCount = noticeBoardService.getTotalCount();
+        List<NoticeBoardDto> nblist = noticeBoardService.getTopThree();
+
+        model.addAttribute("nblist", nblist);
+        model.addAttribute("NoticeBoardTotalCount",NoticeBoardTotalCount);
 
 
         return "/main/freeboard/freeboardlist";
@@ -394,6 +407,7 @@ public class FreeBoardController {
 
         return goodRp;
     }
+
 
     //싫어요 증가 메서드
     @RequestMapping("/increaseBadRp")
