@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-
 <script>
     $(document).ready(function(){
         var currentPosition = parseInt($(".quickmenu").css("top"));
@@ -80,12 +79,16 @@
 </style>
 
 <h2 style="margin-top: 60px; font-family:'배달의민족 을지로체 TTF'">QnA Board</h2>
-<h5 class="alert alert-danger" style="width: 800px">총 ${totalCount}개의 글이 있습니다.</h5>
+<h5 class="alert alert-danger" style="width: 800px">총 ${searchCount}개의 글이 있습니다.</h5>
 
 <!--=============================================================================-->
 
 <div class="noticeboard_part" style="border: 1px solid red; width: 800px">
     <h1>공지</h1>
+    <div>
+       <b>'${keyword}' 검색결과 :
+           총 ${searchCount}개의 게시글</b>
+    </div>
     <ul class="clear">
         <c:if test="${NoticeBoardTotalCount>0}">
         <c:forEach var="dto" items="${nblist}">
@@ -182,7 +185,6 @@
 <!--=============================================================================-->
 
 <table class="table table-bordered" style="width: 800px">
-
     <tr style="background-color: #ddd">
         <th style="width: 40px">번호</th>
         <th style="width: 250px">제목</th>
@@ -192,20 +194,18 @@
         <th style="width: 60px">비추천</th>
         <th style="width: 120px">작성일</th>
     </tr>
-    <c:if test="${totalCount == 0}">
+    <c:if test="${searchCount == 0}">
         <tr height="50">
             <td colspan="5" align="center" valign="middle">
                 <b style="font-size: 1.3em">등록된 게시글이 없습니다.</b>
             </td>
         </tr>
     </c:if>
-    <c:if test="${totalCount>0}">
+    <c:if test="${searchCount>0}">
         <c:forEach var="dto" items="${list}">
-
             <c:if test="${dto.qb_dislike > 19}">
                 <tbody class="backdrop">
             <tr style="filter: blur(2px);">
-
                 <td align="center">
                         ${no}
                     <c:set var="no" value="${no-1}"/>
@@ -214,7 +214,6 @@
                 <td>
                     <a href="detail?qb_idx=${dto.qb_idx}&currentPage=${currentPage}" style="color: black; text-decoration: none; cursor: pointer;">
                         <!-- 사진이 있을경우 아이콘 출력 -->
-
 <%--                        <c:if test="${dto.qb_photo!=''}">--%>
 <%--                            <i class="bi bi-images"></i>--%>
 <%--                        </c:if>--%>
@@ -278,7 +277,6 @@
                 var formattedWriteday = timeForToday("${dto.qb_writeday}");
                 writedayElement.textContent = formattedWriteday;
             </script>
-
         </c:forEach>
     </c:if>
 </table>

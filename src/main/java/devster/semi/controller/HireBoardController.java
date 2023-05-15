@@ -3,6 +3,9 @@ package devster.semi.controller;
 
 import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.HireBoardDto;
+
+
+import devster.semi.dto.NoticeBoardDto;
 import devster.semi.mapper.HireMapper;
 import devster.semi.service.HireService;
 import naver.cloud.NcpObjectStorageService;
@@ -12,9 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 
 @Controller
@@ -195,6 +196,162 @@ public class HireBoardController {
 
         //수정후 내용보기로 이동한다
         return "redirect:./hireboarddetail?hb_idx="+dto.getHb_idx()+"&currentPage="+currentPage;
+    }
+
+    // 검색
+    @PostMapping("/hboardsearchlist")
+    @ResponseBody
+    public List<Map<String, Object>> searchlist(@RequestParam(defaultValue = "1") int currentPage, @RequestParam(defaultValue = "") String keyword, Model model){
+
+
+        int searchCount = hireService.countsearch(keyword);
+        int totalPage; // 총 페이지 수
+        int perPage = 20; // 한 페이지당 보여줄 글 갯수
+        int perBlock = 10; // 한 블록당 보여질 페이지의 갯수
+        int startNum; // 각 페이지에서 보여질 글의 시작번호
+        int startPage; // 각 블록에서 보여질 시작 페이지 번호
+        int endPage; // 각 블록에서 보여질 끝 페이지 번호
+        int no; // 글 출력시 출력할 시작번호
+
+        // 총 페이지 수
+        totalPage = searchCount / perPage + (searchCount % perPage == 0 ? 0 : 1);
+        // 시작 페이지
+        startPage = (currentPage - 1) / perBlock * perBlock + 1;
+        // 끝 페이지
+        endPage = startPage + perBlock - 1;
+
+        // endPage가 totalPage 보다 큰 경우
+        if (endPage > totalPage)
+            endPage = totalPage;
+
+        // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
+        startNum = (currentPage - 1) * perPage;
+
+        // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
+        // no = totalCount - (currentPage - 1) * perPage;
+        no = searchCount - startNum;
+
+        // 각 페이지에 필요한 게시글 db에서 가져오기
+        List<HireBoardDto> list = hireService.searchlist(keyword, startNum, perPage);
+
+        List<Map<String,Object>> fulllList =new ArrayList<>();
+
+        for(HireBoardDto dto : list) {
+            Map<String,Object> map = new HashMap<>();
+            map.put("hb_idx",String.valueOf(dto.getHb_idx()));
+
+
+            map.put("hb_subject",dto.getHb_subject());
+            map.put("hb_content",dto.getHb_content());
+            map.put("hb_readcount",dto.getHb_readcount());
+            map.put("hb_writeday", dto.getFb_writeday());
+
+            map.put("keyword", keyword);
+
+            // 출력시 필요한 변수들 model에 전부 저장
+            model.addAttribute("searchCount", searchCount);
+            model.addAttribute("startPage", startPage);
+            model.addAttribute("endPage", endPage);
+            model.addAttribute("totalPage", totalPage);
+            model.addAttribute("no", no);
+            model.addAttribute("currentPage", currentPage);
+
+
+            // 사진이 들어있으면
+            if(dto.getHb_photo()!="no"){
+                // 사진이 두장이상이면
+                if(dto.getHb_photo().contains(",")){
+                    int index = dto.getHb_photo().indexOf(",");
+                    String result = dto.getHb_photo().substring(0, index);
+                    map.put("hb_photo", result);
+                } else { //사진이 한장이면
+                    map.put("hb_photo", dto.getHb_photo());
+                }
+            }
+
+            fulllList.add(map);
+        }
+
+        return fulllList;
+    }
+
+    @GetMapping("/searchlist")
+    public String searchlist(@RequestParam(defaultValue = "1") int currentPage, Model model,@RequestParam(defaultValue = "") String keyword){
+
+
+        int searchCount = hireService.countsearch(keyword);
+        int totalPage; // 총 페이지 수
+        int perPage = 20; // 한 페이지당 보여줄 글 갯수
+        int perBlock = 10; // 한 블록당 보여질 페이지의 갯수
+        int startNum; // 각 페이지에서 보여질 글의 시작번호
+        int startPage; // 각 블록에서 보여질 시작 페이지 번호
+        int endPage; // 각 블록에서 보여질 끝 페이지 번호
+        int no; // 글 출력시 출력할 시작번호
+
+        // 총 페이지 수
+        totalPage = searchCount / perPage + (searchCount % perPage == 0 ? 0 : 1);
+        // 시작 페이지
+        startPage = (currentPage - 1) / perBlock * perBlock + 1;
+        // 끝 페이지
+        endPage = startPage + perBlock - 1;
+
+        // endPage가 totalPage 보다 큰 경우
+        if (endPage > totalPage)
+            endPage = totalPage;
+
+        // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
+        startNum = (currentPage - 1) * perPage;
+
+        // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
+        // no = totalCount - (currentPage - 1) * perPage;
+        no = searchCount - startNum;
+
+        // 각 페이지에 필요한 게시글 db에서 가져오기
+        List<HireBoardDto> list = hireService.searchlist(keyword,startNum, perPage);
+
+        List<Map<String,Object>> fulllList =new ArrayList<>();
+
+        for(HireBoardDto dto : list) {
+            Map<String,Object> map = new HashMap<>();
+            map.put("hb_idx",String.valueOf(dto.getHb_idx()));
+
+
+            map.put("hb_subject",dto.getHb_subject());
+            map.put("hb_content",dto.getHb_content());
+
+            map.put("hb_readcount",dto.getHb_readcount());
+            map.put("hb_writeday", dto.getFb_writeday());
+
+
+            // 사진이 들어있으면
+            if(dto.getHb_photo()!="no"){
+                // 사진이 두장이상이면
+                if(dto.getHb_photo().contains(",")){
+                    int index = dto.getHb_photo().indexOf(",");
+                    String result = dto.getHb_photo().substring(0, index);
+                    map.put("hb_photo", result);
+                } else { //사진이 한장이면
+                    map.put("hb_photo", dto.getHb_photo());
+                }
+            }
+
+            fulllList.add(map);
+        }
+
+        model.addAttribute("list", fulllList);
+
+        // 출력시 필요한 변수들 model에 전부 저장
+        model.addAttribute("searchCount", searchCount);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("totalPage", totalPage);
+        model.addAttribute("no", no);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("keyword", keyword);
+
+
+
+        return "/main/hire/hiresearchlist";
     }
 
 }

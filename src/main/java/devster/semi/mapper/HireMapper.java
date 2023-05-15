@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import devster.semi.dto.HireBoardDto;
+
+
+import devster.semi.dto.QboardDto;
+
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
@@ -22,6 +26,10 @@ public interface HireMapper {
 
     public int getHireTotalCount();
     public List<HireBoardDto> getHirePagingList(Map<String,Integer> map);
+
+    // 검색
+    public List<HireBoardDto> searchlist(Map<String, Object> map);
+    public int countsearch(String keyword); // keyword만 파라미터로
 
 
 }

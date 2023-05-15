@@ -5,7 +5,13 @@
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://db-g6duj-kr.vpc-pub-cdb.ntruss.com:3306</jdbc-url>
+      <jdbc-url>jdbc:mysql://db-g6duj-kr.vpc-pub-cdb.ntruss.com/mymini?serverTimezone=Asia/Seoul</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="mymini" uuid="e96d40d7-40ae-49a5-b660-3602fe8f0d0f">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://db-g6duj-kr.vpc-pub-cdb.ntruss.com:3306/mymini</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
