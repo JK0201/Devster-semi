@@ -58,6 +58,73 @@
             }
         });
     });
+
+        // 회원권한관리------------------------------------------------
+        // 비로그인 상태 (sessionScope.logstat != yes)
+        if(${sessionScope.logstat!='yes'}){
+
+            $(".gnb a#free").click(function (){
+                alert("로그인 후 이용가능한 기능입니다.");
+                location.href='../member/signin';
+                return false;
+            });
+            $(".gnb a#notice").click(function (){
+                alert("로그인 후 이용가능한 기능입니다.");
+                location.href='../member/signin';
+                return false;
+            });
+            $(".gnb a#qna").click(function (){
+                alert("로그인 후 이용가능한 기능입니다.");
+                location.href='../member/signin';
+                return false;
+            });
+            $(".gnb a#hire").click(function (){
+                alert("로그인 후 이용가능한 기능입니다.");
+                location.href='../member/signin';
+                return false;
+            });
+            $(".gnb a#academy").click(function (){
+                alert("로그인 후 이용가능한 기능입니다.");
+                location.href='../member/signin';
+                return false;
+            });
+            $(".gnb a#review").click(function (){
+                alert("로그인 후 이용가능한 기능입니다.");
+                location.href='../member/signin';
+                return false;
+            });
+
+        }
+        // 인증 안된 회원 (sessionScope.memstate == 0)
+        if(${sessionScope.memstate==0}){
+
+            $(".qboard_table a").click(function (){
+                alert("인증 후 이용가능한 기능입니다.");
+                location.href='/';
+                return false;
+            });
+            $(".gnb a#qna").click(function (){
+                alert("인증 후 이용가능한 기능입니다.");
+                location.href='/';
+                return false;
+            });
+            $(".gnb a#hire").click(function (){
+                alert("인증 후 이용가능한 기능입니다.");
+                location.href='/';
+                return false;
+            });
+            $(".gnb a#academy").click(function (){
+                alert("인증 후 이용가능한 기능입니다.");
+                location.href='/';
+                return false;
+            });
+            $(".gnb a#review").click(function (){
+                alert("인증 후 이용가능한 기능입니다.");
+                location.href='../member/signin';
+                return false;
+            });
+
+        }
 </script>
 <%--</body>
 </html>--%>

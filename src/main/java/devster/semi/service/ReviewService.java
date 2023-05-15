@@ -218,6 +218,27 @@ public List<CompanyinfoDto> getDataciinfo(int ci_idx) {
         }
         return false;
     }
+// 검색
+    @Override
+    public List<ReviewDto> searchlist(String searchOption, String keyword, int start, int perpage) {
+        Map<String,Object> map = new HashMap<>();
+
+        map.put("searchOption", searchOption);
+        map.put("keyword", keyword);
+        map.put("start", start);
+        map.put("perpage", perpage);
+
+        return reviewMapper.searchlist(map);
+    }
+
+    @Override
+    public int countsearch(String searchOption, String keyword) {
+        Map<String,Object> map = new HashMap<>();
+
+        map.put("searchOption", searchOption);
+        map.put("keyword", keyword);
+        return reviewMapper.countsearch(map);
+    }
 
     private Integer getRpInfoBym_idx(int rb_idx, int m_idx) {
         // 현재 사용자 id와 게시물 id로 좋아요/싫어요 기록을 가져옴

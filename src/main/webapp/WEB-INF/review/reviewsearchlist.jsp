@@ -245,6 +245,10 @@
     });
 
 </script>
+<div>
+    '${keyword}' 검색결과 :
+    총 ${searchCount}개의 게시글
+</div>
 
 <div id="quanbu">
 <button type="button" class="btn btn-sm btn-outline-danger"
@@ -259,7 +263,7 @@
 </select>
 
 <h5 class="alert alert-success">
-    총 ${totalCount}개의 글이 등록되어있습니다</h5><br>
+    총 ${searchCount}개의 글이 등록되어있습니다</h5><br>
 
 <div class="rb_listmain clear">
 
