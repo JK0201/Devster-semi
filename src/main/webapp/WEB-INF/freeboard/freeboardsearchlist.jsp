@@ -56,7 +56,7 @@
         font-size: 14px;
         color: gray;
     }
-    
+
     .memberimg{
         width: 23px;
         height: 23px;
