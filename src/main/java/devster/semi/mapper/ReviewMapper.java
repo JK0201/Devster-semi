@@ -27,4 +27,29 @@ public interface ReviewMapper {
     public List<CompanyinfoDto> getDataciinfo(int ci_idx);
     public List<CompanyinfoDto> getciinfoData(int ci_idx);
     public List<CompanyinfoDto> insertselciname(String keyword);
+
+    public void updateci_star(int ci_idx);
+
+    void insertReviewboard(ReviewDto Dto);
+
+    // 해당 회사의 평균 별점 계산 후 companyinfo 테이블에 업데이트
+    void updateCompanyinfoStar(CompanyinfoDto companyinfoDto);
+
+    // ci_idx를 기준으로 companyinfo 테이블에서 회사 정보 가져오기
+    CompanyinfoDto selectCompanyinfoByCiIdx(int ci_idx);
+
+
+    //좋아요 / 싫어요 관련 메서드들
+    public void increaseGoodRp(int rb_idx);
+    public void increaseBadRp(int rb_idx);
+    public void decreaseGoodRp(int rb_idx);
+    public void decreaseBadRp(int rb_idx);
+    public int getGoodRpCount(int rb_idx);
+    public int getBadRpCount(int rb_idx);
+    public void addIncreasingGoodRpInfo(Map<String,Integer> map);
+    public void deleteGoodRpInfo(Map<String,Integer> map);
+    public void addIncreasingBadRpInfo(Map<String,Integer> map);
+    public void deleteBadRpInfo(Map<String,Integer> map);
+    public Integer getRpInfoBym_idx(Map<String,Integer> map);
+
 }

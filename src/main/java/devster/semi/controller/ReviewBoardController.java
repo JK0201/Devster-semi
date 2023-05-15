@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.convert.PeriodUnit;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -68,8 +70,13 @@ public class ReviewBoardController {
 
         List<Map<String, Object>> fulllList = new ArrayList<>();
 
+
         for (ReviewDto dto : list) {
             Map<String, Object> map = new HashMap<>();
+            // 버튼 상태에 대한 정보를 디테일 페이지로 보내줌.
+            boolean isAlreadyAddGoodRp = reviewService.isAlreadyAddGoodRp(dto.getRb_idx(),dto.getM_idx());
+            boolean isAlreadyAddBadRp = reviewService.isAlreadyAddBadRp(dto.getRb_idx(), dto.getM_idx());
+
             map.put("rb_idx", String.valueOf(dto.getRb_idx()));
             map.put("m_idx", String.valueOf(dto.getM_idx()));
             map.put("rb_like", dto.getRb_like());
@@ -80,6 +87,8 @@ public class ReviewBoardController {
             map.put("rb_content", dto.getRb_content());
             String currentTimestampToString = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(dto.getRb_writeday());
             map.put("rb_writeday", currentTimestampToString);
+            map.put("isAlreadyAddGoodRp",isAlreadyAddGoodRp);
+            map.put("isAlreadyAddBadRp",isAlreadyAddBadRp);
 
 
             List<CompanyinfoDto> ciDtoList = reviewService.getDataciinfo(dto.getCi_idx());
@@ -96,6 +105,7 @@ public class ReviewBoardController {
             }
             fulllList.add(map);
         }
+
 
 
         model.addAttribute("list", fulllList);
@@ -136,7 +146,7 @@ public class ReviewBoardController {
 
     @PostMapping("/insert")
     @ResponseBody
-    public void insertreview(@RequestParam int rb_type, String rb_content, int rb_star, int m_idx, int ci_idx) {
+    public boolean insertreview(@RequestParam int rb_type, String rb_content, int rb_star, int m_idx, Integer ci_idx) {
         ReviewDto dto = new ReviewDto();
         dto.setRb_type(rb_type);
         dto.setRb_content(rb_content);
@@ -144,8 +154,9 @@ public class ReviewBoardController {
         dto.setM_idx(m_idx);
         dto.setCi_idx(ci_idx);
 
-
         reviewService.insertreview(dto); // ReviewDto 객체 insert 하기
+
+        return  true;
 
     }
 
@@ -154,15 +165,19 @@ public class ReviewBoardController {
     public String update(int rb_idx, Model model) {
         ReviewDto dto = reviewService.getData(rb_idx);
         model.addAttribute("dto", dto);
-
+        List<CompanyinfoDto> ciNameList = reviewService.selectciname();
+        model.addAttribute("ciNameList", ciNameList);
+        model.addAttribute("rb_idx", rb_idx);
         reviewService.updatereview(dto);
+        reviewService.updateCompanyinfoStar(campanyinfoDto);
         return "/main/review/reviewupdateform";
+
     }
 
 
     @PostMapping("/update")
     @ResponseBody
-    public void update(@RequestParam int rb_type, String rb_content, int rb_star, int m_idx, int ci_idx) {
+    public boolean update(@RequestParam int rb_type, String rb_content, int rb_star, int m_idx, int ci_idx) {
         ReviewDto dto = new ReviewDto();
         dto.setRb_type(rb_type);
         dto.setRb_content(rb_content);
@@ -170,7 +185,7 @@ public class ReviewBoardController {
         dto.setM_idx(m_idx);
         dto.setCi_idx(ci_idx);
         reviewService.updatereview(dto);
-
+        return  true;
     };
 
     @GetMapping("/delete")
@@ -179,37 +194,67 @@ public class ReviewBoardController {
         return "redirect:list";
     }
 
-    @PostMapping("/like")
-    @ResponseBody
-    public Map<String, Object> like(@RequestParam int rb_idx) {
-        reviewService.increaseLikeCount(rb_idx);
-
-        Map<String, Object> result = new HashMap<>();
-
-        result.put("likeCount", reviewService.getData(rb_idx).getRb_like());
-        result.put("likeText", "좋아요 " + reviewService.getData(rb_idx).getRb_like());
-        result.put("dislikeCount", reviewService.getData(rb_idx).getRb_dislike());
-        result.put("dislikeText", "싫어요 " + reviewService.getData(rb_idx).getRb_dislike());
-
-        return result;
-    }
-
-    @PostMapping("/dislike")
-    @ResponseBody
-    public Map<String, Object> dislike(@RequestParam int rb_idx) {
-        reviewService.increaseDislikeCount(rb_idx);
-
-        Map<String, Object> result = new HashMap<>();
-        result.put("likeCount", reviewService.getData(rb_idx).getRb_like());
-        result.put("likeText", "좋아요 " + reviewService.getData(rb_idx).getRb_like());
-        result.put("dislikeCount", reviewService.getData(rb_idx).getRb_dislike());
-        result.put("dislikeText", "싫어요 " + reviewService.getData(rb_idx).getRb_dislike());
-        return result;
-    }
 
     @GetMapping("/search")
     public @ResponseBody List<CompanyinfoDto> getSearchResult(String keyword) {
         List<CompanyinfoDto> ciNameList = reviewService.insertselciname(keyword);
         return ciNameList;
     }
+
+
+ //좋아요 증가 메서드
+ @RequestMapping("/increaseGoodRp")
+ @ResponseBody
+ public int increaseGoodRp(int rb_idx,int m_idx) {
+     // article 테이블에서 해당 게시물의 좋아요 1 증가
+     reviewService.increaseGoodRp(rb_idx);
+     // article 테이블에서 해당 게시물의 최신화된 좋아요 수 불러오기
+     int goodRp = reviewService.getGoodRpCount(rb_idx);
+
+     // reactionPoint 테이블에 리액션 정보(게시물 id, 사용자 id)를 기록
+     reviewService.addIncreasingGoodRpInfo(rb_idx,m_idx);
+
+     return goodRp;
+ }
+
+    //좋아요 감소 메서드
+    @RequestMapping("/decreaseGoodRp")
+    @ResponseBody
+    public int decreaseGoodRp(int rb_idx,int m_idx) {
+        // article 테이블에서 해당 게시물의 좋아요 1 감소
+        reviewService.decreaseGoodRp(rb_idx);
+        // article 테이블에서 해당 게시물의 최신화된 좋아요 수 불러오기
+        int goodRp = reviewService.getGoodRpCount(rb_idx);
+
+        // reactionPoint 테이블에 리액션 정보(게시물 id, 사용자 id) 기록을 삭제
+        reviewService.deleteGoodRpInfo(rb_idx,m_idx);
+
+        return goodRp;
+    }
+
+    //싫어요 증가 메서드
+    @RequestMapping("/increaseBadRp")
+    @ResponseBody
+    public int increaseBadRp(int rb_idx, int m_idx) {
+        reviewService.increaseBadRp(rb_idx);
+        int badRp = reviewService.getBadRpCount(rb_idx);
+
+        reviewService.addIncreasingBadRpInfo(rb_idx,m_idx);
+
+        return badRp;
+    }
+
+    //싫어요 감소 메서드
+    @RequestMapping("/decreaseBadRp")
+    @ResponseBody
+    public int decreaseBadRp(int rb_idx, int m_idx) {
+        reviewService.decreaseBadRp(rb_idx);
+        int badRp = reviewService.getBadRpCount(rb_idx);
+
+        reviewService.deleteBadRpInfo(rb_idx, m_idx);
+
+        return badRp;
+    }
+
+
 }

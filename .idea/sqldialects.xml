@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-<<<<<<< HEAD
-    <file url="file://$PROJECT_DIR$/src/main/resources/mapper/FreeBoardSql.xml" dialect="MySQL" />
-=======
-    <file url="file://$PROJECT_DIR$/src/main/resources/mapper/AboardSql.xml" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/mapper/FreeBoardSql.xml" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/mapper/HireBoardSql.xml" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/mapper/MemberSql.xml" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/mapper/QboardSql.xml" dialect="MySQL" />
->>>>>>> main
+    <file url="file://$PROJECT_DIR$/src/main/resources/mapper/reviewSql.xml" dialect="GenericSQL" />
+    <file url="PROJECT" dialect="MySQL" />
   </component>
 </project>

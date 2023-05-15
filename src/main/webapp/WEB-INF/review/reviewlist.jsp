@@ -79,8 +79,8 @@
             /*flex-direction: row-reverse;*/
             font-size: 1.5em;
             justify-content: space-around;
-          /*  padding: 0 .2em;*/
-      /*      text-align: center;*/
+            /*  padding: 0 .2em;*/
+            /*      text-align: center;*/
             width: 5em;
             float: left;
             padding-left: 90px;
@@ -90,16 +90,16 @@
             display: none;
         }
 
-       /* .star-ci_star_list label {
-            color: #ccc;
-            cursor: pointer;
-            font-size: 1.5em;
-        }
+        /* .star-ci_star_list label {
+             color: #ccc;
+             cursor: pointer;
+             font-size: 1.5em;
+         }
 
-        .star-ci_star_list :checked ~ label {
-            color: #f90;
-        }
-*/
+         .star-ci_star_list :checked ~ label {
+             color: #f90;
+         }
+ */
 
         .clear:after { /* 자식이 모두 float 을 사용할때 부모가 높이를 갖게하기 위함 */
             content: "";
@@ -138,7 +138,14 @@
             right: 5px
         }
 
+        .already-added {
+            background-color: #0D3EA3;
+            color: white;
+        }
+
     </style>
+    </head>
+
 <body>
 <button type="button" class="btn btn-sm btn-outline-danger"
         onclick="location.href='./reviewriterform'" style="margin-bottom: 10px">상품등록
@@ -157,7 +164,23 @@
 <div class="rb_listmain clear">
 
     <c:forEach var="dto" items="${list}" varStatus="i">
-        <div class="review" data-type="${dto.rb_type}">
+        <script>
+            <%--    현재 버튼이 눌려있는지 확인해서 상태에 따라 버튼에 색상표시  --%>
+            function checkAddRpBefore() {
+                <!-- 변수값에 따라 각 id가 부여된 버튼에 클래스 추가(이미 눌려있다는 색상 표시) -->
+                if (isAlreadyAddGoodRp${dto.rb_idx} == true) {
+                    $("#add-goodRp-btn"+${dto.rb_idx}).addClass("already-added");
+                } else if (isAlreadyAddBadRp${dto.rb_idx} == true) {
+                    $("#add-badRp-btn"+${dto.rb_idx}).addClass("already-added");
+                } else {
+                    return;
+                }
+                $(function() {
+                    checkAddRpBefore();
+                });
+            };
+        </script>
+        <div class="review" data-type="${dto.rb_type}"><
 
             <div class="rb_listc">
                 <p>
@@ -182,8 +205,7 @@
             <div class="rb_listm">
 
                 게시글 번호 : ${i.count}<br>
-                <p id="like-${dto.rb_idx}">좋아요:${dto.rb_like}</p>
-                <p id="dislike-${dto.rb_idx}">싫어요: ${dto.rb_dislike}</p>
+                    ${dto.rb_idx}
 
                     <%--별점: ${dto.rb_star}--%>
                 <div class="star-rb_star">
@@ -211,11 +233,130 @@
                         onclick="delreview(${dto.rb_idx})" style="margin-bottom: 10px">글 삭제
                 </button>
             </c:if>
-            <button type="button" onclick="like(${dto.rb_idx},${dto.rb_like})" id="btnlike">좋아요</button>
-            <button type="button" onclick="dislike(${dto.rb_idx},${dto.rb_dislike})" id="btndislike">싫어요</button>
+                <%--            좋아요 / 싫어요 버튼--%>
+            <span id="add-goodRp-btn${dto.rb_idx}" class="btn btn-outline" >
+                  좋아요👍
+                  <span class="add-goodRp${dto.rb_idx} ml-2">${dto.rb_like}</span>
+                </span>
+            <span id="add-badRp-btn${dto.rb_idx}" class="ml-5 btn btn-outline">
+                  싫어요👎
+                  <span class="add-badRp${dto.rb_idx} ml-2">${dto.rb_dislike}</span>
+            </span>
             <hr>
 
         </div>
+        <script>
+            var isAlreadyAddGoodRp${dto.rb_idx} = ${dto.isAlreadyAddGoodRp};
+            var isAlreadyAddBadRp${dto.rb_idx} = ${dto.isAlreadyAddBadRp};
+            checkAddRpBefore();
+        </script>
+        <script>
+            <%--        버튼 상태 관련 이벤트  --%>
+            $(document).ready(function() {
+
+                <!-- 좋아요 버튼 클릭 이벤트 및 ajax 실행 -->
+                $("#add-goodRp-btn${dto.rb_idx}").click(function() {
+
+                    <!-- 이미 싫어요가 눌려 있는 경우 반려 -->
+                    if (isAlreadyAddBadRp${dto.rb_idx} == true) {
+                        alert('이미 싫어요를 누르셨습니다.');
+                        return;
+                    }
+
+                    <!-- 좋아요가 눌려 있지 않은 경우 좋아요 1 추가 -->
+                    if (isAlreadyAddGoodRp${dto.rb_idx} == false) {
+                        $.ajax({
+                            url : "/review/increaseGoodRp",
+                            type : "POST",
+                            data : {
+                                "rb_idx" : ${dto.rb_idx},
+                                "m_idx" : ${sessionScope.memidx}
+                            },
+                            success : function(goodReactionPoint) {
+                                $("#add-goodRp-btn${dto.rb_idx}").addClass("already-added");
+                                $(".add-goodRp${dto.rb_idx}").html(goodReactionPoint);
+                                isAlreadyAddGoodRp${dto.rb_idx} = true;
+                            },
+                            error : function() {
+                                alert('서버 에러, 다시 시도해주세요.');
+                            }
+                        });
+
+                        <!-- 이미 좋아요가 눌려 있는 경우 좋아요 1 감소 -->
+                    } else if (isAlreadyAddGoodRp${dto.rb_idx} == true){
+                        $.ajax({
+                            url : "/review/decreaseGoodRp",
+                            type : "POST",
+                            data : {
+                                "rb_idx" : ${dto.rb_idx},
+                                "m_idx" : ${sessionScope.memidx}
+                            },
+                            success : function(goodReactionPoint) {
+                                $("#add-goodRp-btn${dto.rb_idx}").removeClass("already-added");
+                                $(".add-goodRp${dto.rb_idx}").html(goodReactionPoint);
+                                isAlreadyAddGoodRp${dto.rb_idx} = false;
+                            },
+                            error : function() {
+                                alert('서버 에러, 다시 시도해주세요.');
+                            }
+                        });
+                    } else {
+                        return;
+                    }
+                });
+
+                <!-- 싫어요 버튼 클릭 이벤트 및 ajax 실행 -->
+                $("#add-badRp-btn${dto.rb_idx}").click(function() {
+
+                    <!-- 이미 좋아요가 눌려 있는 경우 반려 -->
+                    if (isAlreadyAddGoodRp${dto.rb_idx} == true) {
+                        alert('이미 좋아요를 누르셨습니다.');
+                        return;
+                    }
+
+                    <!-- 싫어요가 눌려 있지 않은 경우 싫어요 1 추가 -->
+                    if (isAlreadyAddBadRp${dto.rb_idx} == false) {
+                        $.ajax({
+                            url : "/review/increaseBadRp",
+                            type : "POST",
+                            data : {
+                                "rb_idx" : ${dto.rb_idx},
+                                "m_idx" : ${sessionScope.memidx}
+                            },
+                            success : function(badReactionPoint) {
+                                $("#add-badRp-btn${dto.rb_idx}").addClass("already-added");
+                                $(".add-badRp${dto.rb_idx}").html(badReactionPoint);
+                                isAlreadyAddBadRp${dto.rb_idx} = true;
+                            },
+                            error : function() {
+                                alert('서버 에러, 다시 시도해주세요.');
+                            }
+                        });
+
+                        <!-- 이미 싫어요가 눌려 있는 경우 싫어요 1 감소 -->
+                    } else if (isAlreadyAddBadRp${dto.rb_idx} == true) {
+                        $.ajax({
+                            url : "/review/decreaseBadRp",
+                            type : "POST",
+                            data : {
+                                "rb_idx" : ${dto.rb_idx},
+                                "m_idx" : ${sessionScope.memidx}
+                            },
+                            success : function(badReactionPoint) {
+                                $("#add-badRp-btn${dto.rb_idx}").removeClass("already-added");
+                                $(".add-badRp${dto.rb_idx}").html(badReactionPoint);
+                                isAlreadyAddBadRp${dto.rb_idx} = false;
+                            },
+                            error : function() {
+                                alert('서버 에러, 다시 시도해주세요.');
+                            }
+                        });
+                    } else {
+                        return;
+                    }
+                });
+            });
+        </script>
     </c:forEach>
 </div>
 
@@ -230,53 +371,14 @@
 
 
 <script>
+
+
     <%--삭제 이벤트--%>
 
     function delreview(rb_idx) {
         if (confirm("삭제하시겠습니까?")) {
             location.href = "./delete?rb_idx=" + rb_idx;
         }
-    }
-
-    function like(rb_idx, rb_like) {
-
-
-        $.ajax({
-            type: "post",
-            url: "./like",
-            data: {"rb_idx": rb_idx},
-            dataType: "json",
-            success: function (response) {
-                $("#btnlike").prop("disabled", true);
-                $("#btndislike").prop("disabled", true);
-
-                alert("좋아요를 눌렀어요.");
-            }
-        });
-        $("#like-" + rb_idx).text("좋아요 : " + (rb_like + 1));
-
-
-    }
-
-    function dislike(rb_idx, rb_dislike) {
-
-
-        $.ajax({
-            type: "post",
-            url: "./dislike",
-            data: {"rb_idx": rb_idx},
-            dataType: "json",
-            success: function (response) {
-                $("#btnlike").prop("disabled", true);
-                $("#btndislike").prop("disabled", true);
-
-
-                alert("싫어요를 눌렀어요.");
-            }
-        });
-        $("#dislike-" + rb_idx).text("좋아요 : " + (rb_dislike + 1));
-
-
     }
 
     /*popup 레이어 */
@@ -375,6 +477,7 @@
         });
     }
 
+
 </script>
 
 
@@ -407,6 +510,23 @@
            href="list?currentPage=${endPage+1}">다음</a>
     </c:if>
 </div>
+
+<script>
+    <%--    현재 버튼이 눌려있는지 확인해서 상태에 따라 버튼에 색상표시  --%>
+    function checkAddRpBefore(rb_idx,isAlreadyAddGoodRp,isAlreadyAddBadRp) {
+        <!-- 변수값에 따라 각 id가 부여된 버튼에 클래스 추가(이미 눌려있다는 색상 표시) -->
+        if (isAlreadyAddGoodRp == true) {
+            $("#add-goodRp-btn"+rb_idx).addClass("already-added");
+        } else if (isAlreadyAddBadRp == true) {
+            $("#add-badRp-btn"+rb_idx).addClass("already-added");
+        } else {
+            return;
+        }
+        $(function() {
+            checkAddRpBefore();
+        });
+    };
+</script>
 
 </body>
 </html>

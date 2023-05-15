@@ -87,7 +87,7 @@
         <option value="3">합격 후기</option>
     </select>
         <br>
-        <input id="rearch-input" type="text" name="ci_idx" placeholder="회사 이름을 검색하세요" required>
+        <input id="rearch-input" type="text" name="ci_idx" placeholder="회사 이름을 검색하세요" required value="${ci_idx}">
         <div id="search-result"></div>
 
         <div class="star-rb_star">
@@ -166,6 +166,7 @@
         var rb_star = $("input[name='rb_star']:checked").val();
         var rb_content = $(".rb_content").val();
         var m_idx = $("input[name='m_idx']").val();
+    /*    var ci_idx = $("input[name='ci_idx']").val() || null;*/
         insertAjax(ci_idx, rb_type, rb_star, rb_content, m_idx);
     });
 
@@ -173,20 +174,21 @@
 
 
         $.ajax({
-            url : "insert",
+            url : "./insert",
+            dataType: "json",
             data: { "rb_type": rb_type,
                 "rb_star": rb_star,
                 "rb_content": rb_content,
                 "m_idx": m_idx,
                 "ci_idx": ci_idx
-
             },
 
             method: 'post',
             success : function (res) {
+                if(res){
                 alert("입력 완료");
                 location.href="list";
-            }
+            }}
 
         });
     }
