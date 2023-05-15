@@ -156,6 +156,10 @@ public class ReviewBoardController {
 
         reviewService.insertreview(dto); // ReviewDto 객체 insert 하기
 
+        // updateCompanyinfoStar 메서드 호출
+        CompanyinfoDto companyinfoDto = new CompanyinfoDto();
+        companyinfoDto.setCi_idx(ci_idx);
+        reviewService.updateCompanyinfoStar(companyinfoDto);
         return  true;
 
     }
@@ -177,14 +181,21 @@ public class ReviewBoardController {
 
     @PostMapping("/update")
     @ResponseBody
-    public boolean update(@RequestParam int rb_type, String rb_content, int rb_star, int m_idx, int ci_idx) {
+    public boolean update(@RequestParam int rb_type, String rb_content, int rb_star, int m_idx, int ci_idx,int rb_idx) {
         ReviewDto dto = new ReviewDto();
         dto.setRb_type(rb_type);
         dto.setRb_content(rb_content);
         dto.setRb_star(rb_star);
         dto.setM_idx(m_idx);
         dto.setCi_idx(ci_idx);
+        dto.setRb_idx(rb_idx);
         reviewService.updatereview(dto);
+
+        // updateCompanyinfoStar 메서드 호출
+        CompanyinfoDto companyinfoDto = new CompanyinfoDto();
+        companyinfoDto.setCi_idx(ci_idx);
+        reviewService.updateCompanyinfoStar(companyinfoDto);
+
         return  true;
     };
 

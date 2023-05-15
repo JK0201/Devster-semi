@@ -68,7 +68,7 @@
 
     <div style="width: 500px; margin-left: 100px;">
         <%-- 세션에서 로그인한 회원의 아이디를 가져옴 --%>
-        <input type="hidden" name="rb_idx" value="${dto.rb_idx}">
+        <input type="hidden" name="rb_idx" value="${dto.rb_idx}" class="rb_idx">
 
         <c:set var="m_idx" value="${sessionScope.memidx}"/>
         <c:set var="m_nic" value="${sessionScope.memnick}"/>
@@ -214,10 +214,11 @@
         var rb_star = $("input[name='rb_star']:checked").val();
         var rb_content = $(".rb_content").val();
         var m_idx = $("input[name='m_idx']").val();
-        updateAjax(ci_idx, rb_type, rb_star, rb_content, m_idx);
+        var rb_idx = $(".rb_idx").val();
+        updateAjax(ci_idx, rb_type, rb_star, rb_content, m_idx, rb_idx);
     });
 
-    function updateAjax(ci_idx, rb_type, rb_star, rb_content, m_idx) {
+    function updateAjax(ci_idx, rb_type, rb_star, rb_content, m_idx, rb_idx) {
 
 
         $.ajax({
@@ -227,7 +228,8 @@
                 "rb_star": rb_star,
                 "rb_content": rb_content,
                 "m_idx": m_idx,
-                "ci_idx": ci_idx
+                "ci_idx": ci_idx,
+                "rb_idx":rb_idx,
 
             },
 

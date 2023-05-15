@@ -3,9 +3,8 @@
 <mapper namespace="devster.semi.mapper.ReviewMapper">
     <insert id="insertreview" parameterType="reviewDto">
         INSERT INTO reviewboard (rb_type, rb_content, rb_star, m_idx, ci_idx)
-        VALUES (#{rb_type}, #{rb_content}, #{rb_star}, #{m_idx}, #{ci_idx},
+        VALUES (#{rb_type}, #{rb_content}, #{rb_star}, #{m_idx}, #{ci_idx})
     </insert>
-
     <select id="GetAllReview" resultType="reviewDto">
         select * from reviewboard  order by rb_writeday desc
     </select>
@@ -177,7 +176,7 @@
     <select id="getRpInfoBym_idx" resultType="integer">
         SELECT likeStatus
         FROM rboard_like
-        WHERE rb_idx = #{rb_idx} AND m_idx = #{m_idx};
+        WHERE rb_idx = #{rb_idx} AND m_idx = #{m_idx}
     </select>
 
 </mapper>
