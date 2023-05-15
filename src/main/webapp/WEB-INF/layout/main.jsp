@@ -253,47 +253,60 @@
 </div>
 
 <script>
-
-    // 비로그인 상태 (sessionScope.logstat != yes)
+    // 비로그인 상태 (sessionScope.logstat != yes) 디테일 못들어가게/ 검색 안되게
     if(${sessionScope.logstat!='yes'}){
 
-        $("a").click(function (){
+        $(".freeboard_table a").click(function (){
+            alert("로그인 후 이용가능한 기능입니다.");
+            location.href='../member/signin';
+            return false;
+        });
+        $(".qboard_table a").click(function (){
+            alert("로그인 후 이용가능한 기능입니다.");
+            location.href='../member/signin';
+            return false;
+        });
+        $(".hireboard_table a").click(function (){
+            alert("로그인 후 이용가능한 기능입니다.");
+            location.href='../member/signin';
+            return false;
+        });
+        $(".noticeboard_table a").click(function (){
+            alert("로그인 후 이용가능한 기능입니다.");
+            location.href='../member/signin';
+            return false;
+        });
+        $("#searchinput").click(function (){
             alert("로그인 후 이용가능한 기능입니다.");
             location.href='../member/signin';
             return false;
         });
 
     }
+
     // 인증 안된 회원 (sessionScope.memstate == 0)
     if(${sessionScope.memstate==0}){
 
         $(".qboard_table a").click(function (){
             alert("인증 후 이용가능한 기능입니다.");
-            location.href='./';
+            history.back();
             return false;
         });
-        $(".gnb a#qna").click(function (){
+        $(".hireboard_table a").click(function (){
             alert("인증 후 이용가능한 기능입니다.");
-            location.href='./';
-            return false;
-        });
-        $(".gnb a#hire").click(function (){
-            alert("인증 후 이용가능한 기능입니다.");
-            location.href='./';
-            return false;
-        });
-        $(".gnb a#academy").click(function (){
-            alert("인증 후 이용가능한 기능입니다.");
-            location.href='./';
-            return false;
-        });
-        $(".gnb a#review").click(function (){
-            alert("인증 후 이용가능한 기능입니다.");
-            location.href='./';
+            history.back();
             return false;
         });
 
+        $("#searchinput").click(function (){
+            alert("인증 후 이용가능한 기능입니다.");
+            history.back();
+            return false;
+        });
+
+
     }
+
 
 </script>
 
