@@ -25,7 +25,7 @@
         <li><a href="${root}/freeboard/list">일반게시판</a></li>
         <li><a href="${root}/qboard/list">질문게시판</a></li>
         <li><a href="${root}/hire/list">채용정보</a></li>
-        <li><a href="${root}/guest/list">학원별게시판</a></li>
+        <li><a href="${root}/academyboard/list">학원별게시판</a></li>
         <li><a href="${root}/contact">회사후기</a></li>
         <li><a href="${root}/noticeboard/list">공지사항</a></li>
     </ul>

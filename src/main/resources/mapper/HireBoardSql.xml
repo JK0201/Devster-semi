@@ -7,7 +7,7 @@
     </select>
 
     <insert id="insertHireBoard" parameterType="HireBoardDto">
-        insert into hireboard (hb_idx,hb_subject,hb_content,hb_photo,fb_writeday) values (#{hb_idx},#{hb_subject},#{hb_content},#{hb_photo},now())
+        insert into hireboard (cm_idx,hb_idx,hb_subject,hb_content,hb_photo,fb_writeday) values (#{cm_idx},#{hb_idx},#{hb_subject},#{hb_content},#{hb_photo},now())
     </insert>
 
 

@@ -61,20 +61,22 @@
 <body>
 
 
-
+<c:if test="${sessionScope.cmdix || sessionScope.memstate==100}">
 <button type="button" class="btn btn-sm btn-outline-success writebtn"
         onclick="location.href='form'" style="margin-bottom: 10px" >글작성</button>
+</c:if>
+
 
 <br>
 
 <div class="parentdiv">
 <c:forEach var="dto" items="${list}" varStatus="i">
   <div class="box">
-    <a href="hireboarddetail?hb_idx=${dto.hb_idx}&currentPage=${currentPage}&m_idx=${sessionScope.memidx}"><h5 style="text-align: center;"><b>${dto.hb_subject}</b></h5></a>
+    <a href="hireboarddetail?hb_idx=${dto.hb_idx}&currentPage=${currentPage}"><h5 style="text-align: center;"><b>${dto.hb_subject}</b></h5></a>
     <br>
     <b>조회수 : ${dto.hb_readcount}</b>
     <br><b><fmt:formatDate value="${dto.fb_writeday}" pattern="yyyy-MM-dd"/></b>
-    <a href="hireboarddetail?hb_idx=${dto.hb_idx}&currentPage=${currentPage}&m_idx=${sessionScope.memidx}">
+    <a href="hireboarddetail?hb_idx=${dto.hb_idx}&currentPage=${currentPage}">
       <img src="http://${imageUrl}/hire/${dto.hb_photo}" id="photo">
     </a>
 

@@ -1,34 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-
-    <data-source source="LOCAL" name="mymini@db-g6duj-kr.vpc-pub-cdb.ntruss.com" uuid="a5bb6228-52c9-49ce-a781-bc2abf011d24">
-      <driver-ref>mysql.8</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://db-g6duj-kr.vpc-pub-cdb.ntruss.com:3306/mymini</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
     <data-source source="LOCAL" name="mymini@db-g6duj-kr.vpc-pub-cdb.ntruss.com [2]" uuid="6add6d3f-d053-4cf8-81c5-2953f4376c92">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://db-g6duj-kr.vpc-pub-cdb.ntruss.com/mymini</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-    <data-source source="LOCAL" name="@localhost" uuid="d1f263b8-8b2e-4b75-8d9e-e4fe1c316b0d">
-      <driver-ref>mysql.8</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-    <data-source source="LOCAL" name="db-g6duj-kr.vpc-pub-cdb.ntruss.com" uuid="072a37d2-d12b-4da8-b7f5-6174d4853b82">
-      <driver-ref>mysql.8</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://db-g6duj-kr.vpc-pub-cdb.ntruss.com:3306</jdbc-url>
-
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

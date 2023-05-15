@@ -90,6 +90,7 @@
     </script>
 </head>
 <body>
+
 <%--로그인 : ${sessionScope.logstat}--%>
 <%--<br>--%>
 <%--m_idx : ${sessionScope.memidx}--%>
@@ -118,10 +119,12 @@
 <%--    </c:if><br><hr>--%>
 </div>
 <div>
+<c:if test="${sessionScope.cmidx==dto.cm_idx || sessionScope.memstate==100}">
 <%--    <c:if test="${sessionScope.memdix==dto.hb_idx}">--%>
     <button type="button" class="btn btn-sm btn-outline-success" onclick="location.href='./hireupdateform?hb_idx=${dto.hb_idx}&currentPage=${currentPage}'">수정</button>
     <button type="button" class="btn btn-sm btn-outline-success" onclick="del(${dto.hb_idx})">삭제</button>
 <%--    </c:if>--%>
+</c:if>
     <button type="button" class="btn btn-sm btn-outline-success" onclick="location.href='./list?currentPage=${currentPage}'">목록</button>
 
 <%--    <c:if test="${bdto.hb_idx}">--%>
