@@ -35,7 +35,6 @@
     }
 
 </style>
->>>>>>> main
 
 <div class="hb_wrap clear">
 
