@@ -68,6 +68,23 @@ public class HireService implements HireServiceInter{
     return hireMapper.getHirePagingList(map);
     }
 
+    // 검색
+    @Override
+    public List<HireBoardDto> searchlist(String keyword, int start, int perpage) {
+        Map<String,Object> map = new HashMap<>();
+
+        map.put("keyword", keyword);
+        map.put("start", start);
+        map.put("perpage", perpage);
+
+        return hireMapper.searchlist(map);
+    }
+
+    @Override
+    public int countsearch(String keyword) {
+        return hireMapper.countsearch(keyword);
+    }
+
 }
 
 

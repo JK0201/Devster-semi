@@ -56,11 +56,7 @@
         font-size: 14px;
         color: gray;
     }
-
-    tr{
-        height: 100px;
-    }
-
+    
     .memberimg{
         width: 23px;
         height: 23px;
@@ -186,14 +182,16 @@
 
 
 <table class="freeboard_table table table-bordered">
-    <caption align="top"><h2><img src="/photo/ico-best.png" style="padding-bottom: 10px;">일반게시판
-        <button class="btn btn-secondary btn-sm" type="button" style="float: right;" onclick="location.href='./freewriteform'">글쓰기</button>
-    </h2>
+    <caption align="top"><h4 style="color: black; font-weight: bold;"><img src="/photo/icon_fb.png" style="width: 40px;">일반게시판
+        <button class="btn btn-secondary" type="button" style="float: right; margin-right: 150px; margin-top: 30px;" onclick="location.href='./freewriteform'"><i class="bi bi-pen"></i>&nbsp;글쓰기</button>
+    </h4>
     </caption>
 
 
     <tr>
-        <td class="alert alert-outline-secondary">총 ${searchCount}개의 게시글
+        <td class="alert alert-outline-secondary">
+            '${keyword}' 검색결과 :
+            총 ${searchCount}개의 게시글
         </td>
     </tr>
     <tr>

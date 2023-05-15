@@ -50,6 +50,9 @@
         <i class="bi bi-search"></i>
     </div>
 
+    <div><b>'${keyword}' 검색결과 :
+        총 ${searchCount}개의 게시글</b></div>
+
     <script>
 
         $("#searchinput").keydown(function (e){

@@ -79,12 +79,16 @@
 </style>
 
 <h2 style="margin-top: 60px; font-family:'배달의민족 을지로체 TTF'">QnA Board</h2>
-<h5 class="alert alert-danger" style="width: 800px">총 ${totalCount}개의 글이 있습니다.</h5>
+<h5 class="alert alert-danger" style="width: 800px">총 ${searchCount}개의 글이 있습니다.</h5>
 
 <!--=============================================================================-->
 
 <div class="noticeboard_part" style="border: 1px solid red; width: 800px">
     <h1>공지</h1>
+    <div>
+       <b>'${keyword}' 검색결과 :
+           총 ${searchCount}개의 게시글</b>
+    </div>
     <ul class="clear">
         <c:if test="${NoticeBoardTotalCount>0}">
         <c:forEach var="dto" items="${nblist}">
@@ -190,14 +194,14 @@
         <th style="width: 60px">비추천</th>
         <th style="width: 120px">작성일</th>
     </tr>
-    <c:if test="${totalCount == 0}">
+    <c:if test="${searchCount == 0}">
         <tr height="50">
             <td colspan="5" align="center" valign="middle">
                 <b style="font-size: 1.3em">등록된 게시글이 없습니다.</b>
             </td>
         </tr>
     </c:if>
-    <c:if test="${totalCount>0}">
+    <c:if test="${searchCount>0}">
         <c:forEach var="dto" items="${list}">
             <c:if test="${dto.qb_dislike > 19}">
                 <tbody class="backdrop">

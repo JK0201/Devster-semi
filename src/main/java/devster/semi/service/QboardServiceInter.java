@@ -33,5 +33,9 @@ public interface QboardServiceInter {
     public boolean isAlreadyAddGoodRp(int qb_idx, int m_idx);
     public boolean isAlreadyAddBadRp(int qb_idx, int m_idx);
     public int countComment(int qb_idx);
+
+    // 검색
+    public List<QboardDto> searchlist(String searchOption, String keyword, int start, int perpage);
+    public int countsearch(String searchOption, String keyword);
     
 }

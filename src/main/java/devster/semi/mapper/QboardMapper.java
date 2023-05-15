@@ -37,4 +37,8 @@ public interface QboardMapper {
     public void deleteBadRpInfo(Map<String,Integer> map);
     public Integer getRpInfoBym_idx(Map<String,Integer> map);
 
+    // 검색
+    public List<QboardDto> searchlist(Map<String, Object> map);
+    public int countsearch(Map<String, Object> map);
+
 }
