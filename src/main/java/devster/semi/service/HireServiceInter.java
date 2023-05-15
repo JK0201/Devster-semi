@@ -25,6 +25,9 @@ public interface HireServiceInter {
     public int getHireTotalCount();
     public List<HireBoardDto> getHirePagingList(int start, int perpage);
 
+    public List<HireBoardDto> searchlist(String keyword, int start, int perpage);
+    public int countsearch(String keyword);
+
 
 
 }

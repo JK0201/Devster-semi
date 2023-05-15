@@ -1,12 +1,16 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: hyunohsmacbook
+  Date: 2023/05/02
+  Time: 10:56 AM
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../commonvar.jsp" %>
 
-<script>
-    let photos ='';
-</script>
 
 <style>
     /* 서치바 */
@@ -35,7 +39,6 @@
     }
 
 </style>
->>>>>>> main
 
 <div class="hb_wrap clear">
 
@@ -46,6 +49,9 @@
         <input id="searchinput" name="keyword" type="search" placeholder="관심있는 내용을 검색해보세요!" autocomplete="off" class="searchbar">
         <i class="bi bi-search"></i>
     </div>
+
+    <div><b>'${keyword}' 검색결과 :
+        총 ${searchCount}개의 게시글</b></div>
 
     <script>
 
@@ -114,11 +120,7 @@
 
             <span class="hb_photo">
                 <a href="hireboarddetail?hb_idx=${dto.hb_idx}&currentPage=${currentPage}">
-                    <script>
-                        photos = '${dto.hb_photo}'.split(',');
-                        $("#photo${dto.hb_idx}").attr("src",`http://${imageUrl}/hire/${photos[0]}`);
-                    </script>
-                    <img src="" id="photo${dto.hb_idx}">
+                    <img src="http://${imageUrl}/hire/${dto.hb_photo}" id="photo">
                 </a>
             </span>
 

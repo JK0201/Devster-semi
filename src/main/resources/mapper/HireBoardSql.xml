@@ -38,4 +38,18 @@
         SELECT * FROM hireboard ORDER BY hb_idx DESC LIMIT #{start}, #{perpage}
     </select>
 
+    <!-- 검색 : 회사이름검색만 (join 없음) -->
+    <select id="searchlist" resultType="HireBoardDto" parameterType="Map">
+        SELECT hb.*
+        FROM hireboard hb
+        WHERE hb.hb_subject LIKE CONCAT('%', #{keyword}, '%')
+        order by hb_idx desc limit #{start}, #{perpage}
+    </select>
+
+    <select id="countsearch" resultType="int" parameterType="String">
+        select count(*) from hireboard hb
+        WHERE hb.hb_subject LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
+
 </mapper>

@@ -64,4 +64,5 @@ public interface MemberMapper {
     public void updatePass(Map<String, String> map);
 
     public int eFindCheck(Map<String, String> map);
+
 }
