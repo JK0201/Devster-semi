@@ -43,18 +43,43 @@
             border-radius: 10px;
             font-weight: bold;
         }
+
         #sizetxt {
-            font-size: 20px;
-            float:left;
+            font-size: 25px;
+            float: left;
             margin-left: 5px;
             font-weight: bold;
+            color: #bdbebd;
         }
+
+        #pregressbar {
+
+        }
+
         .btnupload {
+            font-size: 25px;
+            float: right;
+            margin-right: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #bdbebd;
+        }
+
+        .btnupload:hover {
+            color: rgb(128, 7, 173);
+        }
+
+        .alldelbtn {
             font-size: 25px;
             float: right;
             margin-right: 15px;
             font-weight: bold;
             cursor: pointer;
+            color: #bdbebd;
+        }
+
+        .alldelbtn:hover {
+            color: rgb(128, 7, 173);
         }
 
         #preview {
@@ -102,7 +127,9 @@
         <input type="file" accept=".jpg, .jpeg, .png, .gif" multiple id="filebtn" class="btn-file d-none">
         <div style="width:600px; height:50px;">
             <span id="sizetxt"><span id="mbsize">0.0</span> / 20Mb</span>
-            <i class="bi bi-plus-circle btnupload"></i></div>
+            <i class="bi bi-recycle alldelbtn"></i>
+            <i class="bi bi-plus-circle btnupload"></i>
+        </div>
         <div id="preview" align="center">
             <i class="bi bi-cloud-upload" style="color:#bdbebd; font-size: 50px;"></i><br>
             <b style="color:#bdbebd; font-size: 15px;">최대 3장이내의 jpeg, jpg, png, gif 파일만 업로드 가능</b>
@@ -115,14 +142,6 @@
 </section>
 <script>
     var filesarr = [];
-    $(".btnupload").mouseover(function () {
-        $(this).attr("class", "bi bi-plus-circle-fill btnupload");
-        $(this).css("color", "rgb(128, 7, 173)");
-    });
-    $(".btnupload").mouseout(function () {
-        $(this).attr("class", "bi bi-plus-circle btnupload");
-        $(this).css("color", "black");
-    });
 
     $(".btnupload").click(function () {
         $("#filebtn").click();
@@ -139,7 +158,7 @@
             imgpreview(file);
             filesarr = filesarr.concat(file);
             console.log(filesarr.length);
-            updatetotalsize()
+            updatetotalsize();
         }
 
         //유효성
@@ -212,7 +231,7 @@
             imgpreview(file);
             filesarr = filesarr.concat(file);
             console.log(filesarr.length);
-            updatetotalsize()
+            updatetotalsize();
         }
     });
 
@@ -238,7 +257,7 @@
                 s += "<img src='" + e.target.result + "' class='img-thumbnail imgpreview'>";
                 s += "<i class='bi bi-dash-circle previewdelbtn' onclick='deletefile(\"" + fileidx + "\")'></i>";
                 s += "</div>"
-                s += "<h6>" + f.name + "</h6>";
+                s += "<h5>" + f.name + "</h5>";
                 s += "</div>";
                 $("#preview").hide().fadeIn("fast");
                 $("#preview").append(s);
@@ -276,14 +295,34 @@
             }
             console.log(filesarr.length);
             if (filesarr.length == 0) {
-                $("#preview").html('<i class="bi bi-cloud-upload" style="color:#bdbebd; font-size: 50px;"></i>' +
-                    '<br><b style="color:#bdbebd; font-size: 15px;">최대 3장이내의 jpeg, jpg, png, gif 파일만 업로드 가능</b>' +
+                $("#preview").html('<i class="bi bi-cloud-upload" style="color:#bdbebd; font-size: 50px;"></i><br>' +
+                    '<b style="color:#bdbebd; font-size: 15px;">최대 3장이내의 jpeg, jpg, png, gif 파일만 업로드 가능</b>' +
                     '<br><br>' +
                     '<div id="dndtext">Drag & Drop</div>').hide().fadeIn("fast");
             }
-            updatetotalsize()
+            updatetotalsize();
         });
     }
+
+    //all del button
+    $(".alldelbtn").click(function () {
+        for (let idx = 0; idx < filesarr.length; idx++) {
+            $("#box" + idx).fadeOut("slow", function () {
+                $(this).remove();
+            });
+        }
+        filesarr = [];
+        fileidx = 0;
+
+        console.log(filesarr.length);
+        if (filesarr.length == 0) {
+            $("#preview").html('<i class="bi bi-cloud-upload" style="color:#bdbebd; font-size: 50px;"></i><br>' +
+                '<b style="color:#bdbebd; font-size: 15px;">최대 3장이내의 jpeg, jpg, png, gif 파일만 업로드 가능</b>' +
+                '<br><br>' +
+                '<div id="dndtext">Drag & Drop</div>').hide().fadeIn("fast");
+        }
+        updatetotalsize();
+    });
 
     //유효성 검사
     function isValid(data) {
@@ -341,7 +380,7 @@
             console.log(filesarr[i]);
             formData.append("upload", filesarr[i]);
         }
-        console.log(formData);
+
         $.ajax({
             type: "post",
             url: "dndtest",
