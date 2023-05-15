@@ -34,4 +34,6 @@ public interface QboardServiceInter {
     public void deleteBadRpInfo(int qb_idx, int m_idx);
     public boolean isAlreadyAddGoodRp(int qb_idx, int m_idx);
     public boolean isAlreadyAddBadRp(int qb_idx, int m_idx);
+    public int countComment(int qb_idx);
+    
 }

@@ -5,7 +5,6 @@
 <tiles-definitions>
     <definition name="mainLayout" template="/WEB-INF/layout/mainlayout.jsp">
         <put-attribute name="header" value="/WEB-INF/layout/header.jsp"/>
-        <put-attribute name="menu" value="/WEB-INF/layout/menu.jsp"/>
         <put-attribute name="info" value="/WEB-INF/layout/info.jsp"/>
         <put-attribute name="main" value="/WEB-INF/layout/main.jsp"/>
         <put-attribute name="css" value="/WEB-INF/layout/css.jsp"/>
@@ -14,6 +13,11 @@
         <put-attribute name="header" value="/WEB-INF/layout/header.jsp"/>
         <put-attribute name="menu" value="/WEB-INF/layout/menu.jsp"/>
         <put-attribute name="main" value="/WEB-INF/layout/main.jsp"/>
+        <put-attribute name="css" value="/WEB-INF/layout/css.jsp"/>
+    </definition>
+    <definition name="mypageLayout" template="/WEB-INF/layout/mypagelayout.jsp">
+        <put-attribute name="header" value="/WEB-INF/layout/header.jsp"/>
+        <put-attribute name="menu" value="/WEB-INF/layout/menu.jsp"/>
         <put-attribute name="css" value="/WEB-INF/layout/css.jsp"/>
     </definition>
 
@@ -26,12 +30,18 @@
     <definition name="/sub" extends="subLayout">
         <put-attribute name="main" value="/WEB-INF/layout/main.jsp"/>
     </definition>
+    <definition name="/mypage" extends="mypageLayout">
+        <put-attribute name="main" value="/WEB-INF/mypage/mpageprofile.jsp"/>
+    </definition>
 
     <!-- wild card macro -->
     <definition name="/main/*/*" extends="mainLayout">
         <put-attribute name="main" value="/WEB-INF/{1}/{2}.jsp"/>
     </definition>
     <definition name="/sub/*/*" extends="subLayout">
+        <put-attribute name="main" value="/WEB-INF/{1}/{2}.jsp"/>
+    </definition>
+    <definition name="/mypage/*/*" extends="mypageLayout">
         <put-attribute name="main" value="/WEB-INF/{1}/{2}.jsp"/>
     </definition>
 </tiles-definitions>

@@ -84,6 +84,7 @@ public class QboardService implements QboardServiceInter{
         return qboardMapper.bestfreeboardPosts();
     }
 
+
     //좋아요 / 싫어요 관련 메서드들
 
 
@@ -161,6 +162,11 @@ public class QboardService implements QboardServiceInter{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public int countComment(int qb_idx) {
+        return qboardMapper.countComment(qb_idx);
     }
 
     private Integer getRpInfoBym_idx(int qb_idx, int m_idx) {
