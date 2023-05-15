@@ -151,9 +151,47 @@
 
     <update id="updatePass" parameterType="Map">
         update member
-        set m_pass=#{m_pass}
-        where m_email = #{m_email}
-          and m_name = #{m_name}
-          and m_type = 0
+        set m_pass=#{m_pass}, salt=#{salt}
+        where m_email=#{m_email}
+        and m_name=#{m_name}
+        and m_type=0;
     </update>
+
+    <select id="CPFindCheck" resultType="int" parameterType="Map">
+        select count(*)
+        from companymember
+        where cm_email = #{cm_email}
+          and cm_name = #{cm_name}
+          and cm_cp = #{cm_cp}
+    </select>
+
+    <update id="CUpdatePass" parameterType="Map">
+        update companymember
+        set cm_pass=#{cm_pass}, salt=#{salt}
+        where cm_email=#{cm_email}
+          and cm_name=#{cm_name}
+    </update>
+
+    <select id="CEFindCheck" resultType="int" parameterType="Map">
+        select count(*)
+        from companymember
+        where cm_email = #{cm_email}
+          and cm_name = #{cm_name}
+    </select>
+
+    <select id="compRegChk" resultType="int" parameterType="String">
+        select count(*)
+        from companymember
+        where cm_reg=#{cm_reg}
+    </select>
+
+    <update id="testupdate" parameterType="String">
+        update member
+        set m_photo=#{m_photo}
+        where m_idx=99
+    </update>
+
+    <select id="getphoto" resultType="String">
+        select m_photo from member where m_idx=#{m_idx}
+    </select>
 </mapper>

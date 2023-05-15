@@ -54,6 +54,16 @@ public interface MemberServiceInter {
 
     public int eFindCheck(String m_email, String m_name);
 
-    public void updatePass(String m_email, String m_name, String m_pass);
+    public void updatePass(String m_email, String m_name, String m_pass, String salt);
 
+    public int CPFindCheck(String cm_email, String cm_name, String cm_cp);
+
+    public void CUpdatePass(String cm_email, String cm_name, String cm_pass, String salt);
+
+    public int CEFindCheck(String cm_email, String cm_name);
+    public int compRegChk(String cm_reg);
+
+    public void testupdate(String m_photo);
+
+    public String getphoto(int m_idx);
 }

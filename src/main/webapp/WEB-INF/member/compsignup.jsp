@@ -26,6 +26,17 @@
         }
     </style>
 </head>
+<script>
+    $(function () {
+        var refresh = localStorage.getItem("refresh");
+        if (!refresh) {
+            localStorage.setItem("refresh", true);
+            location.reload();
+        } else {
+            localStorage.removeItem("refresh");
+        }
+    });
+</script>
 <body>
 <div style="width : 500px;">
     <div>
@@ -416,8 +427,8 @@
     }
 
     //addr pattern
-    $("#addrinfo").keyup(function(){
-        let addrinfo=$(this).val();
+    $("#addrinfo").keyup(function () {
+        let addrinfo = $(this).val();
         if (!validAddrPattern(addrinfo)) {
             $("#addrchkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
                 "<span>옳바른 주소를 입력해주세요</span>");
@@ -427,9 +438,10 @@
     });
 
     function validAddrPattern(addr) {
-        let addrPattern=/^[0-9a-zA-Z가-힣()\-,.\s]{1,}$/
+        let addrPattern = /^[0-9a-zA-Z가-힣()\-,.\s]{1,}$/
         return addrPattern.test(addr)
     }
+
     //name check
     $("#cm_name").keyup(function () {
         let cm_name = $(this).val();
@@ -544,7 +556,7 @@
             formData.append("cm_name", $("#cm_name").val());
             formData.append("cm_cp", $("#cm_cp").val());
 
-            formData.append("cm_filename",$("#upload").val());
+            formData.append("cm_filename", $("#upload").val());
 
             $.ajax({
                 type: "post",
@@ -555,7 +567,7 @@
                 contentType: false,
                 success: function () {
                     alert("회원가입을 축하드립니다\n헤드헌터계정은 인증까지..");
-                    location.href="grats";
+                    location.href = "grats";
                 }
             });
         }

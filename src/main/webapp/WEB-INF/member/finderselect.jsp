@@ -21,17 +21,31 @@
 <div style="width:200px; height:100px; border: 1px solid black" id="norm">
         개인회원
     <div>
-        <a href="accfinder">아이디 찾기</a>
-        <a href="passfinder">비밀번호 찾기</a>
+        <label id="accfinder">아이디 찾기</label>
+        <label id="passfinder">비밀번호 찾기</label>
     </div>
 </div>
 <div style="width:200px; height:100px; border: 1px solid black" id="comp">
     기업회원
     <div>
-        <a href="caccfinder">아이디 찾기</a>
-        <a href="cpassfinder">비밀번호 찾기</a>
+        <label id="caccfinder">아이디 찾기</label>
+        <label id="cpassfinder">비밀번호 찾기</label>
     </div>
 </div>
+<script>
+    $("#accfinder").click(function(){
+       location.replace("accfinder");
+    });
+    $("#passfinder").click(function(){
+       location.replace("passfinder");
+    });
+    $("#caccfinder").click(function(){
+       location.replace("caccfinder");
+    });
+    $("#cpassfinder").click(function(){
+       location.replace("cpassfinder");
+    });
+</script>
 </body>
 </html>
 
