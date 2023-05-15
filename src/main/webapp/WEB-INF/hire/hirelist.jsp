@@ -113,11 +113,7 @@
 
             <span class="hb_photo">
                 <a href="hireboarddetail?hb_idx=${dto.hb_idx}&currentPage=${currentPage}">
-                    <script>
-                        photos = '${dto.hb_photo}'.split(',');
-                        $("#photo${dto.hb_idx}").attr("src",`http://${imageUrl}/hire/${photos[0]}`);
-                    </script>
-                    <img src="" id="photo${dto.hb_idx}">
+                    <img src="http://${imageUrl}/hire/${dto.hb_photo.split(",")[0]}" id="photo">
                 </a>
             </span>
 
