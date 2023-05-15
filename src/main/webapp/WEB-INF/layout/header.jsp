@@ -27,7 +27,8 @@
         <li><a href="${root}/hire/list">채용정보</a></li>
         <li><a href="${root}/guest/list">학원별게시판</a></li>
         <li><a href="${root}/contact">회사후기</a></li>
-        <li><a href="${root}/noticeboard/list">공지사항</a></li>
+        <%--<li><a href="${root}/noticeboard/list">공지사항</a></li>--%>
+        <li><a href="${root}/message/list">메세지함</a></li>
     </ul>
 
     <ul class="clear util_menu">

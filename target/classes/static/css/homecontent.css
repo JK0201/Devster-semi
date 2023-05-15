@@ -38,7 +38,7 @@ section.main .wrap .container .searchbar{
     box-sizing: border-box;
 }
 
-.bi-search {
+section.main .wrap .container .searchbar .bi-search {
     position: absolute;
     right: 5px; /* 아이콘과 입력란 사이의 공간을 조절합니다. */
     top: 31px;
