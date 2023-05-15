@@ -37,7 +37,7 @@
         SELECT * FROM hireboard ORDER BY hb_idx DESC LIMIT #{start}, #{perpage}
     </select>
 
-<<<<<<< HEAD
+
 <!--    <insert id="bookmarkHireBoard" parameterType="HireBookmarkDto">-->
 <!--        insert into hirebookmark (m_idx,hb_idx)  values (#{m_idx},#{hb_idx})-->
 <!--    </insert>-->
@@ -66,10 +66,10 @@
         WHERE m_idx = #{m_idx} AND hb_idx = #{hb_idx};
     </select>
 
-</mapper>
 
 
-=======
+
+
     <!-- 검색 : 회사이름검색만 (join 없음) -->
     <select id="searchlist" resultType="HireBoardDto" parameterType="Map">
         SELECT hb.*
@@ -85,4 +85,4 @@
 
 
 </mapper>
->>>>>>> main
+

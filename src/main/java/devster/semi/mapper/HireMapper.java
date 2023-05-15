@@ -4,13 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import devster.semi.dto.HireBoardDto;
-<<<<<<< HEAD
-=======
+
 
 
 import devster.semi.dto.QboardDto;
 
->>>>>>> main
+
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
