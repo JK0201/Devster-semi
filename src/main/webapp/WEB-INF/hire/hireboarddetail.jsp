@@ -17,7 +17,6 @@
         body, body * {
             font-family: 'Jua'
         }
-
         .divparent{
             margin-left:350px;
         }
@@ -37,11 +36,13 @@
 <div class="divparent">
 <div>
     <br style="clear: both;"><br>
+
     제목 : ${dto.hb_subject}<br>
     내용 : ${dto.hb_content}<br>
     작성자 (hb_idx) : ${dto.hb_idx}<br>
     조회수: ${dto.hb_readcount}<br>
     작성일 :  <fmt:formatDate value="${dto.fb_writeday}" pattern="yyyy.MM.dd"/><br>
+
 
 <%--    <c:if test="${dto.hb_photo!='no'}">--%>
 <%--        사진 주소 : ${dto.hb_photo}--%>
@@ -59,6 +60,7 @@
     <button type="button" class="btn btn-sm btn-outline-success" onclick="location.href='./list?currentPage=${currentPage}'">목록</button>
 </div>
 </div>
+
 
 <script>
     function del(hb_idx) {

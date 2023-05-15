@@ -1,5 +1,6 @@
 package devster.semi.service;
 
+
 import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.QboardDto;
 
@@ -12,6 +13,7 @@ public interface QboardServiceInter {
     public void deletePost(int qb_idx);
     public void updatePost(QboardDto dto);
     public QboardDto getOnePost(int qb_idx);
+
     public String selectNickNameOfQb_idx(int qb_idx);
     public String selectPhotoOfQb_idx(int qb_idx);
     public int getTotalCount();
@@ -32,4 +34,10 @@ public interface QboardServiceInter {
     public void deleteBadRpInfo(int qb_idx, int m_idx);
     public boolean isAlreadyAddGoodRp(int qb_idx, int m_idx);
     public boolean isAlreadyAddBadRp(int qb_idx, int m_idx);
+    public int countComment(int qb_idx);
+
+    // 검색
+    public List<QboardDto> searchlist(String searchOption, String keyword, int start, int perpage);
+    public int countsearch(String searchOption, String keyword);
+    
 }

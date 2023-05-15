@@ -70,7 +70,7 @@
     </label>
     <div class="norminput">
         <button type="button" id="signinbtn" class="btn btn-outline-primary">로그인</button>
-        -또는-
+        - 소셜 계정으로 간편 로그인/회원가입 -
         <div style="margin-bottom: 30px;">
             <a id="kakao-login-btn" href="javascript:kakaoLogin()">
                 <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222"
@@ -80,17 +80,13 @@
         <div id="naver_id_login"></div>
         <a href="selmember">회원가입</a>
         <strong>|</strong>
-        <a href="accountfinder">계정 찾기</a>
-        <strong>|</strong>
-        <a href="passfinder">비밀번호 찾기</a>
+        <a href="finder">아이디/비밀번호 찾기</a>
     </div>
     <div class="compinput">
         <button type="button" id="csigninbtn">로그인</button>
         <a href="compsignup">회원가입</a>
         <strong>|</strong>
-        <a href="caccountfinder">계정 찾기</a>
-        <strong>|</strong>
-        <a href="cpassfinder">비밀번호 찾기</a>
+        <a href="finder">아이디/비밀번호 찾기</a>
     </div>
 </div>
 </div>
@@ -248,11 +244,12 @@
             scope: 'account_email',
             success: function (res) {
                 console.log(res);
+                let m_pass=res.access_token;
                 window.Kakao.API.request({
                     url: '/v2/user/me',
                     success: res => {
                         const kakao_account = res.kakao_account;
-                        // console.log(kakao_account);
+                        console.log(kakao_account);
                         // console.log(kakao_account.email);
                         // console.log(res.properties.nickname);
                         // console.log(res.properties.profile_image);
@@ -262,17 +259,16 @@
                         $.ajax({
                             type: "get",
                             url: "apichk",
-                            data: {"m_email": m_email},
+                            data: {"m_email": m_email,"m_pass":m_pass},
                             dataType: "json",
                             success: function (res) {
                                 if (res.result == "yes") {
                                     alert("ㅎㅇ 출석포인트 +10점");
-                                    location.href = "../";
-
+                                    location.href="../";
                                 } else {
                                     let b = confirm("계정 없음");
                                     if (b) {
-                                        location.href = "apisignup?m_email=" + m_email;
+                                        location.href = "apisignup";
                                     } else {
                                         return false;
                                     }

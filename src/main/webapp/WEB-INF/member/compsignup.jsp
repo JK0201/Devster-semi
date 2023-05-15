@@ -126,6 +126,7 @@
                         $("#sendemail").prop("disabled", true);
                         $("#emailchkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
                             "<span>이미 사용중인 E-mail입니다</span>");
+                        $("#sendemail").prop("disabled", true);
                         emailcheck = false;
                     }
                 }
@@ -543,7 +544,7 @@
             formData.append("cm_name", $("#cm_name").val());
             formData.append("cm_cp", $("#cm_cp").val());
 
-            formData.append("cm_filename",$("#upload").val());
+            formData.append("upload",$("#upload")[0].files[0]);
 
             $.ajax({
                 type: "post",

@@ -29,16 +29,25 @@
         }
     </style>
 </head>
-<%
-    String m_email = request.getParameter("m_email");
-%>
 <body>
 <input type="hidden" id="m_type" value="1">
-<input type="hidden" id="m_email" value="<%=m_email%>">
+<input type="hidden" id="m_email" value="${m_email}">
+<input type="hidden" id="m_pass" value="${m_pass}">
 <div style="width : 500px;">
-    <b>이메일 <%=m_email%>
+    <b>이메일 ${m_email}
+        패스 ${m_pass}
     </b>
     <br>
+    <div>
+        <strong>이름 </strong>
+        <input type="text" id="m_name" required placeholder="이름 입력">
+        <span id="namechkicon"></span>
+    </div>
+    <div class="input-group phonechk">
+        <strong>휴대폰</strong>
+        <input type="tel" id="m_tele" required placeholder="'-'빼고 숫자만 입력">
+        <span id="telechkicon"></span>
+    </div>
     <div>
         <strong>닉네임</strong>
         <input type="text" id="m_nickname" required placeholder="2~10자리 / 한글,영문,숫자 사용가능">
@@ -89,6 +98,44 @@
 <script>
     let nickvalid = false;
     let nickname = false;
+    let namevalid = false;
+    let phonevalid = false;
+
+    //name check
+    $("#m_name").keyup(function () {
+        let m_name = $(this).val();
+        if (!validName(m_name)) {
+            $("#namechkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
+                "<span>옳바른 이름을 입력해주세요</span>");
+            namevalid = false;
+        } else {
+            $("#namechkicon").html("<i class='bi bi-check' style='color:green;'></i>");
+            namevalid = true;
+        }
+    });
+
+    function validName(name) {
+        let namePattern = /^[가-힣]+$/;
+        return namePattern.test(name);
+    }
+
+    //phone check
+    $(document).on("keyup", "#m_tele", function () {
+        let phonenum = $("#m_tele").val();
+        if (!validPhone(phonenum)) {
+            $("#telechkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
+                "<span>옳바른 번호를 입력해주세요</span>");
+            phonevalid = false;
+        } else {
+            $("#telechkicon").html("<i class='bi bi-check' style='color:green;'></i>");
+            phonevalid = true;
+        }
+    });
+
+    function validPhone(phonenum) {
+        let phoneNumPattern = /^(010|01[1-9][0-9])-?\d{3,4}-?\d{4}$/;
+        return phoneNumPattern.test(phonenum);
+    }
 
     //nickname check
     $("#m_nickname").keyup(function () {
@@ -170,10 +217,11 @@
 
     //trigger function
     $(document).on("mouseover keyup", function () {
-        if (nickvalid && nickname) {
+        if (nickvalid && nickname && namevalid && phonevalid) {
             $("#submitbtn").prop("disabled", false);
         } else {
             $("#submitbtn").prop("disabled", true);
+            console.log($("#m_pass").val());
         }
     });
 
@@ -181,20 +229,29 @@
         if (!nickvalid || !nickname) {
             alert("닉네임 확인");
             return false;
+        } else if (!namevalid) {
+            alert("이름확인");
+            return false;
+        } else if (!phonevalid) {
+            alert("휴대폰 번호 확인");
+            return false;
         } else {
             alert("잘했어");
             let formData = new FormData();
             formData.append("m_type", $("#m_type").val());
+            formData.append("m_name", $("#m_name").val());
+            formData.append("m_tele", $("#m_tele").val());
             formData.append("m_email", $("#m_email").val());
+            formData.append("m_pass", $("#m_pass").val());
             formData.append("m_nickname", $("#m_nickname").val());
             formData.append("ai_name", $("#ai_name").val());
             formData.append("upload", $("#upload")[0].files[0]);
 
-            console.log($("#m_email").val());
-            console.log($("#m_type").val());
-            console.log($("#m_nickname").val());
-            console.log($("#ai_name").val());
-            console.log($("#upload")[0].files[0]);
+            // console.log($("#m_email").val());
+            // console.log($("#m_type").val());
+            // console.log($("#m_nickname").val());
+            // console.log($("#ai_name").val());
+            // console.log($("#upload")[0].files[0]);
 
             $.ajax({
                 type: "post",
