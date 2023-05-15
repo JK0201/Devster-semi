@@ -1,5 +1,6 @@
 package devster.semi.service;
 
+
 import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.QboardDto;
 
@@ -12,6 +13,7 @@ public interface QboardServiceInter {
     public void deletePost(int qb_idx);
     public void updatePost(QboardDto dto);
     public QboardDto getOnePost(int qb_idx);
+
     public String selectNickNameOfQb_idx(int qb_idx);
     public String selectPhotoOfQb_idx(int qb_idx);
     public int getTotalCount();

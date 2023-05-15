@@ -12,6 +12,8 @@
 <%@ include file="../commonvar.jsp" %>
 
 
+
+
 <style>
     /* 서치바 */
     .searchdiv{
@@ -171,8 +173,10 @@
 
 </div>
 
+
 <button type="button" class="btn btn-sm btn-outline-success hb_write_btn"
         onclick="location.href='form'" style="margin-bottom: 10px">글쓰기
+
 </button>
 
 

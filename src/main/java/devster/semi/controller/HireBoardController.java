@@ -4,6 +4,7 @@ package devster.semi.controller;
 import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.HireBoardDto;
 
+
 import devster.semi.dto.NoticeBoardDto;
 import devster.semi.mapper.HireMapper;
 import devster.semi.service.HireService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
+
 
 @Controller
 @RequestMapping("/hire")
@@ -37,6 +39,7 @@ public class HireBoardController {
     public String list(@RequestParam(defaultValue = "1") int currentPage, Model model)
 
     {
+
 //        System.out.println(currentPage);
         int totalCount = hireService.getHireTotalCount();
         int totalPage; // 총 페이지 수
@@ -96,6 +99,7 @@ public class HireBoardController {
 
 
     @PostMapping("/insertHireBoard")
+
     public String insert(HireBoardDto dto,List<MultipartFile> upload)
     {
         String hb_photo="";
@@ -113,6 +117,7 @@ public class HireBoardController {
         }
 
         hb_photo=hb_photo.substring(0,hb_photo.length()-1);
+
         dto.setHb_photo(hb_photo);
         //db insert
         hireMapper.insertHireBoard(dto);
@@ -129,6 +134,7 @@ public class HireBoardController {
         model.addAttribute("dto", dto);
         model.addAttribute("currentPage",currentPage);
 
+
         //Controller 디테일 페이지 보내는 부분.
         //사진 여러장 분할 처리.
         List<String> list = new ArrayList<>();
@@ -138,6 +144,7 @@ public class HireBoardController {
         }
 
         model.addAttribute("list",list);
+
 
         return "/main/hire/hireboarddetail";
     }

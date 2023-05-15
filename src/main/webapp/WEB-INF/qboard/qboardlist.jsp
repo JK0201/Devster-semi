@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+
 <script>
     $(document).ready(function(){
         var currentPosition = parseInt($(".quickmenu").css("top"));
@@ -181,6 +182,7 @@
 <!--=============================================================================-->
 
 <table class="table table-bordered" style="width: 800px">
+
     <tr style="background-color: #ddd">
         <th style="width: 40px">번호</th>
         <th style="width: 250px">제목</th>
@@ -199,9 +201,11 @@
     </c:if>
     <c:if test="${totalCount>0}">
         <c:forEach var="dto" items="${list}">
+
             <c:if test="${dto.qb_dislike > 19}">
                 <tbody class="backdrop">
             <tr style="filter: blur(2px);">
+
                 <td align="center">
                         ${no}
                     <c:set var="no" value="${no-1}"/>
@@ -210,6 +214,7 @@
                 <td>
                     <a href="detail?qb_idx=${dto.qb_idx}&currentPage=${currentPage}" style="color: black; text-decoration: none; cursor: pointer;">
                         <!-- 사진이 있을경우 아이콘 출력 -->
+
 <%--                        <c:if test="${dto.qb_photo!=''}">--%>
 <%--                            <i class="bi bi-images"></i>--%>
 <%--                        </c:if>--%>
@@ -273,6 +278,7 @@
                 var formattedWriteday = timeForToday("${dto.qb_writeday}");
                 writedayElement.textContent = formattedWriteday;
             </script>
+
         </c:forEach>
     </c:if>
 </table>

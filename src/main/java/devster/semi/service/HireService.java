@@ -2,7 +2,6 @@ package devster.semi.service;
 
 import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.HireBoardDto;
-
 import devster.semi.mapper.HireMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

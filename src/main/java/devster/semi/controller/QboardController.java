@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
+
 @Controller
 @RequestMapping("/qboard")
 public class QboardController {
@@ -60,6 +61,7 @@ public class QboardController {
 
         // 각 페이지에 필요한 게시글 db에서 가져오기
         List<QboardDto> list = qboardService.getPagingList(startNum, perPage);
+
 
         List<Map<String,Object>> fulllList =new ArrayList<>();
 
@@ -115,6 +117,7 @@ public class QboardController {
     }
 
     @PostMapping("/insert")
+
     public String insert(QboardDto dto, List<MultipartFile> upload) {
         String fileName = "";
 
@@ -137,6 +140,7 @@ public class QboardController {
 
     @GetMapping("/delete")
     public String delete(int qb_idx) {
+
         QboardDto dto = qboardService.getOnePost(qb_idx);
 
         List<String> list = new ArrayList<>();
@@ -151,6 +155,7 @@ public class QboardController {
     }
 
     @GetMapping("/updateform")
+
     public String updateForm(int qb_idx, Model model,int currentPage) {
         QboardDto dto = qboardService.getOnePost(qb_idx);
 
@@ -223,6 +228,7 @@ public class QboardController {
         model.addAttribute("currentPage",currentPage);
         model.addAttribute("isAlreadyAddGoodRp", isAlreadyAddGoodRp);
         model.addAttribute("isAlreadyAddBadRp", isAlreadyAddBadRp);
+
 
         return "/main/qboard/qboarddetail";
     }
@@ -475,6 +481,7 @@ public class QboardController {
 
         return "/main/qboard/qboardsearchlist";
     }
+
 
 
 }
