@@ -2,6 +2,9 @@ package devster.semi.dto;
 
 import lombok.Data;
 import org.apache.ibatis.type.Alias;
+
+import java.sql.Timestamp;
+
 @Data
 @Alias("MemberDto")
 public class MemberDto {
@@ -20,4 +23,5 @@ public class MemberDto {
     private String ai_name;
     private String salt;
     private int m_type;
+    private Timestamp m_date;
 }

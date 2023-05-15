@@ -46,6 +46,10 @@
         limit 10
     </select>
 
+    <select id="countComment" parameterType="int" resultType="int">
+        select count(*) from aboard where qb_idx=#{qb_idx}
+    </select>
+
 <!-- 좋아요 / 싫어요 관련 메서드들 -->
 
     <update id="increaseGoodRp">

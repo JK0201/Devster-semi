@@ -30,11 +30,20 @@
         <%--<li><a href="${root}/noticeboard/list">공지사항</a></li>--%>
         <li><a href="${root}/message/list">메세지함</a></li>
     </ul>
-
-    <ul class="clear util_menu">
-        <li><button type="button" class="btn btnsignup" onclick="location.href='../member/selmember'">회원가입</button></li>
-        <li><button type="button" class="btn btnsignin" onclick="location.href='../member/signin'">로그인</button></li>
-    </ul>
+    <c:choose>
+        <c:when test="${sessionScope.logstat == 'yes'}">
+            <ul class="clear util_menu">
+                <li><button type="button" class="btn btnsignup" onclick="location.href='/mypage/'">마이페이지</button></li>
+                <li><button type="button" class="btn btnsignin" onclick="location.href='/member/outtest'">로그아웃</button></li>
+            </ul>
+        </c:when>
+        <c:otherwise>
+            <ul class="clear util_menu">
+                <li><button type="button" class="btn btnsignup" onclick="location.href='../member/selmember'">회원가입</button></li>
+                <li><button type="button" class="btn btnsignin" onclick="location.href='../member/signin'">로그인</button></li>
+            </ul>
+        </c:otherwise>
+    </c:choose>
 </div>
 
 <script>

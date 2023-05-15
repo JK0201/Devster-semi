@@ -51,45 +51,38 @@
     .quickmenu ul li a {position:relative;float:left;width:100%;height:30px;line-height:30px;text-align:center;color:#999;font-size:9.5pt;}
     .quickmenu ul li a:hover {color:#000;}
     .quickmenu ul li:last-child {border-bottom:0;}
-
-    .content {position:relative;min-height:1000px;}
-
-    .notice-item {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-    }
-    .title, .author, .writeday {
-        text-align: left;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    .title {
-        width: 65%;
-    }
-    .author {
-        width: 10%;
-    }
-    .writeday {
-        width: 25%;
-    }
 </style>
 
 <h2 style="margin-top: 60px; font-family:'배달의민족 을지로체 TTF'">QnA Board</h2>
 <h5 class="alert alert-danger" style="width: 800px">총 ${totalCount}개의 글이 있습니다.</h5>
-<h5 class="alert alert-warning" style="width: 800px">
-    공지사항<br>
-    <ul>
-<%--        <c:forEach items="${notices}" var="notice">--%>
-            <li class="notice-item">
-                <div class="title">제목: ${notice.title}</div>
-                <div class="author">작성자: ${notice.author}</div>
-                <div class="writeday">작성일자: ${notice.writeday}</div>
-            </li>
-<%--        </c:forEach>--%>
+
+<!--=============================================================================-->
+
+<div class="noticeboard_part" style="border: 1px solid red; width: 800px">
+    <h1>공지</h1>
+    <ul class="clear">
+        <c:if test="${NoticeBoardTotalCount>0}">
+        <c:forEach var="dto" items="${nblist}">
+
+
+        <li>
+            <a href="../noticeboard/noticeboarddetail?nb_idx=${dto.nb_idx}&currentPage=${currentPage}"
+               style="color: #000;">
+                    ${dto.nb_subject}
+                <c:if test="${dto.nb_photo!='n'}">
+                    &nbsp; <i class="bi bi-images"></i>
+                </c:if>
+            </a>
+        </li>
+
     </ul>
-</h5>
+    </c:forEach>
+    </c:if>
+    </ul>
+</div>
+
+<!--=============================================================================-->
+
 <table class="table table-bordered" style="width: 800px">
     <tr style="background-color: #ddd">
         <th style="width: 40px">번호</th>
@@ -156,12 +149,7 @@
                         <!-- 제목 -->
                         <td>
                             <a href="detail?qb_idx=${dto.qb_idx}&currentPage=${currentPage}" style="color: black; text-decoration: none; cursor: pointer;">
-                                <!-- 사진이 있을경우 아이콘 출력 -->
-                                    <%--                        <c:if test="${dto.qb_photo!=''}">--%>
-                                    <%--                            <i class="bi bi-images"></i>--%>
-                                    <%--                        </c:if>--%>
-                                    <%--   제목이 길경우 150px 만 나오고 말 줄임표...--%>
-                                <span style="text-overflow:ellipsis;overflow: hidden;white-space: nowrap;display: inline-block;max-width: 300px;">${dto.qb_subject}
+                                <span style="text-overflow:ellipsis;overflow: hidden;white-space: nowrap;display: inline-block;max-width: 300px;">${dto.qb_subject} <span style="color: red; font-size: 14px">[${dto.count}]</span>
                                 </span>
                             </a>
                         </td>
@@ -248,6 +236,12 @@
                         </li>
                     `
             });
+                s+=
+                    `
+                        <button type="button" onclick="window.scrollTo({top:0});">
+                         <i class="bi bi-arrow-up-square-fill"></i>
+                        </button>
+                    `;
             $(".quickmenu ul").append(s);
         },
         error: function(jqXHR, textStatus, errorThrown) {
