@@ -58,4 +58,8 @@ public interface ReviewServiceInter {
     public void deleteBadRpInfo(int rb_idx, int m_idx);
     public boolean isAlreadyAddGoodRp(int rb_idx, int m_idx);
     public boolean isAlreadyAddBadRp(int rb_idx, int m_idx);
+
+    // 검색
+    public List<ReviewDto> searchlist(String searchOption, String keyword, int start, int perpage);
+    public int countsearch(String searchOption, String keyword);
 }

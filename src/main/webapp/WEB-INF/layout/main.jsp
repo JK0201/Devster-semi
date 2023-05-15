@@ -12,8 +12,8 @@
                 <option id="freesearch" value="freeboard">일반게시판</option>
                 <option id="qnasearch" value="qboard">질문게시판</option>
                 <option id="hiresearch" value="hireboard">채용정보</option>
-                <%--<option id="academysearch" value="">학원별게시판</option>
-                <option id="reviewsearch" value="">회사후기</option>--%>
+                <%--<option id="academysearch" value="">학원별게시판</option>--%>
+                <option id="reviewsearch" value="reviewboard">회사후기</option>
             </select>
         </div>
         <script>
@@ -40,6 +40,12 @@
 
                         location.href="${root}/hire/searchlist?keyword="+keyword;
                         alert("hireboard 검색");
+
+                    }
+                    if(boardsearchOption == "reviewboard"){ // 5. 회사 후기 검색
+
+                        location.href="${root}/review/searchlist?keyword="+keyword;
+                        alert("reviewboard 검색");
 
                     }
 

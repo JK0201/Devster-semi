@@ -179,4 +179,33 @@
         WHERE rb_idx = #{rb_idx} AND m_idx = #{m_idx}
     </select>
 
+    <!-- 검색 -->
+    <select id="searchlist" resultType="ReviewDto" parameterType="Map">
+        SELECT rb.*
+        FROM reviewboard rb
+        JOIN member m ON rb.m_idx = m.m_idx
+        <include refid="search"></include>
+        order by rb_idx desc limit #{start}, #{perpage}
+    </select>
+
+    <select id="countsearch" resultType="int" parameterType="Map">
+        select count(*) from reviewboard rb JOIN member m ON rb.m_idx = m.m_idx
+        <include refid="search"></include>
+    </select>
+
+    <!-- 검색 반복 쿼리문 -->
+    <sql id="search">
+        <choose>
+            <!-- 전체검색(페이징) -->
+            <when test="searchOption=='all'">
+                WHERE rb.rb_content LIKE CONCAT('%', #{keyword}, '%')
+                OR m.m_nickname LIKE CONCAT('%', #{keyword}, '%')
+            </when>
+            <!-- 전체검색 아닐경우 -->
+            <otherwise>
+                where ${searchOption} LIKE CONCAT('%', #{keyword}, '%')
+            </otherwise>
+        </choose>
+    </sql>
+
 </mapper>
