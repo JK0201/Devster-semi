@@ -142,11 +142,14 @@
             background-color: #0D3EA3;
             color: white;
         }
-
+#quanbu{
+    width: 1400px;
+    padding-left: 230px;}
     </style>
     </head>
 
 <body>
+<div id="quanbu">
 <button type="button" class="btn btn-sm btn-outline-danger"
         onclick="location.href='./reviewriterform'" style="margin-bottom: 10px">상품등록
 </button>
@@ -359,7 +362,7 @@
         </script>
     </c:forEach>
 </div>
-
+</div>
 <!-- 폼 레이어  -->
 <div class="popupLayer">
     <div onClick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</div>
