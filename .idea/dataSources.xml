@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="mymini@db-g6duj-kr.vpc-pub-cdb.ntruss.com [2]" uuid="6add6d3f-d053-4cf8-81c5-2953f4376c92">
+
+    <data-source source="LOCAL" name="mymini" uuid="5989fdb1-6ce0-4f39-812d-54786b38c7db">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://db-g6duj-kr.vpc-pub-cdb.ntruss.com/mymini</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
+      <jdbc-url>jdbc:mysql://db-g6duj-kr.vpc-pub-cdb.ntruss.com/mymini?serverTimezone=Asia/Seoul</jdbc-url>
     </data-source>
   </component>
 </project>

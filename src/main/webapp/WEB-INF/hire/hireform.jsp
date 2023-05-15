@@ -5,7 +5,11 @@
 
 <html>
 <head>
+<<<<<<< HEAD
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+=======
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+>>>>>>> main
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
@@ -26,11 +30,10 @@
         .imgs_wrap img{
             max-width: 200px;
         }
+
     </style>
 </head>
 <body>
-
-
 
 
 <div style="width: 450px;" class="tablediv">
@@ -41,6 +44,7 @@
         <input type="hidden" name="currentPage" value="${currentPage}">
 
         <table  class="table table-bordered" >
+
             <tr>
                 <th style="width: 100px;background-color: #ddd">제목</th>
                 <td>
@@ -60,6 +64,7 @@
                     <input type="text" class="form-control" name="hb_content" id="content" required="required" style="height:80px;">
                 </td>
 <%--                <textarea name="hb_content"></textarea><br><br>--%>
+
             </tr>
             <tr>
                 <td colspan="2" align="center">
@@ -71,6 +76,7 @@
         </table>
     </form>
 </div>
+
 
 <%--<img id="showimg">--%>
 <div>
@@ -123,6 +129,7 @@
             reader.readAsDataURL(f);
         });
     }
+
 
 </script>
 

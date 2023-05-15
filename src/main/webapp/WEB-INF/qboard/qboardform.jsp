@@ -14,20 +14,18 @@
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <style>
-        body, body * {
-            font-family: 'Jua'
-        }
     </style>
 </head>
 <body>
+
 <div style="width: 60%; margin-top: 100px; margin-left: 30px; border: 3px solid black">
     <form action="insert" enctype="multipart/form-data" method="post">
         <input type="hidden" name="m_idx" value="${sessionScope.memidx}">
         <div style="width: 300px">
-            <input class="form-control" type="text" name="qb_subject" value="${dto.qb_subject}" placeholder="제목">
+            <input class="form-control" type="text" name="qb_subject" value="${dto.qb_subject}" placeholder="제목" required>
         </div>
         <div style="width: 300px">
-            <textarea name="qb_content" class="form-control" placeholder="내용">${dto.qb_content}</textarea>
+            <textarea name="qb_content" class="form-control" placeholder="내용" required>${dto.qb_content}</textarea>
         </div>
         <div style="width: 300px">
             <input class="form-control" type="file" name="upload" multiple><br>
@@ -37,4 +35,5 @@
     </form>
 </div>
 </body>
+
 </html>

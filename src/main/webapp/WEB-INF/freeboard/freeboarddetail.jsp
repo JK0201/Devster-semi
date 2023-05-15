@@ -619,6 +619,7 @@ s+=`&nbsp;\${ele.nickname}</b><br><br>
     var isAlreadyAddGoodRp = ${isAlreadyAddGoodRp};
     var isAlreadyAddBadRp = ${isAlreadyAddBadRp};
 
+
     function checkAddRpBefore() {
         <!-- 변수값에 따라 각 id가 부여된 버튼에 클래스 추가(이미 눌려있다는 색상 표시) -->
         if (isAlreadyAddGoodRp == true) {
@@ -630,6 +631,7 @@ s+=`&nbsp;\${ele.nickname}</b><br><br>
         }
         $(function() {
             checkAddRpBefore();
+
         });
     };
 

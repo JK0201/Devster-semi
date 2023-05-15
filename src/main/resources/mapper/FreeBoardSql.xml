@@ -43,14 +43,22 @@
     <select id="commentCnt" parameterType="int" resultType="int">
         SELECT COUNT(*) FROM freecomment WHERE fb_idx=#{fb_idx}
     </select>
+    <select id="bestfreeboardPosts" resultType="FreeBoardDto">
+        SELECT *
+        FROM freeboard
+        WHERE fb_writeday >= DATE_SUB(NOW(), INTERVAL 1 DAY)
+          AND <![CDATA[ fb_dislike < 20 ]]>
+        ORDER BY fb_like DESC
+        limit 10
+    </select>
 
 
-<!--    <update id="increaseLikeCount" parameterType="int">-->
-<!--        update freeboard set fb_like=fb_like+1 where fb_idx=#{fb_idx}-->
-<!--    </update>-->
-<!--    <update id="increaseDislikeCount" parameterType="int">-->
-<!--        update freeboard set fb_dislike=fb_dislike+1 where fb_idx=#{fb_idx}-->
-<!--    </update>-->
+    <!--    <update id="increaseLikeCount" parameterType="int">-->
+    <!--        update freeboard set fb_like=fb_like+1 where fb_idx=#{fb_idx}-->
+    <!--    </update>-->
+    <!--    <update id="increaseDislikeCount" parameterType="int">-->
+    <!--        update freeboard set fb_dislike=fb_dislike+1 where fb_idx=#{fb_idx}-->
+    <!--    </update>-->
     <!-- 좋아요 / 싫어요 관련 메서드들 -->
 
     <update id="increaseGoodRp">
@@ -130,4 +138,55 @@
         FROM fboard_like
         WHERE fb_idx = #{fb_idx} AND m_idx = #{m_idx};
     </select>
+
+<!--    &lt;!&ndash; 검색 &ndash;&gt;-->
+<!--    <select id="searchFreeboardBySubjectOrNickname" resultType="FreeBoardDto" parameterType="String">-->
+<!--        SELECT fb.*-->
+<!--        FROM freeboard fb-->
+<!--                 JOIN member m ON fb.m_idx = m.m_idx-->
+<!--        WHERE fb.fb_subject LIKE CONCAT('%', #{keyword}, '%')-->
+<!--           OR m.m_nickname LIKE CONCAT('%', #{keyword}, '%')-->
+<!--    </select>-->
+<!--    <select id="searchFreeboardBySubject" resultType="FreeBoardDto" parameterType="String">-->
+<!--        SELECT fb.*-->
+<!--        FROM freeboard fb-->
+<!--                 JOIN member m ON fb.m_idx = m.m_idx-->
+<!--        WHERE fb.fb_subject LIKE CONCAT('%', #{keyword}, '%')-->
+<!--    </select>-->
+<!--    <select id="searchFreeboardByNickname" resultType="FreeBoardDto" parameterType="String">-->
+<!--        SELECT fb.*-->
+<!--        FROM freeboard fb-->
+<!--                 JOIN member m ON fb.m_idx = m.m_idx-->
+<!--        WHERE fb.fb_subject LIKE CONCAT('%', #{keyword}, '%')-->
+<!--           OR m.m_nickname LIKE CONCAT('%', #{keyword}, '%')-->
+<!--    </select>-->
+
+    <!-- 검색 -->
+    <select id="searchlist" resultType="FreeBoardDto" parameterType="Map">
+        SELECT fb.*
+        FROM freeboard fb
+        JOIN member m ON fb.m_idx = m.m_idx
+        <include refid="search"></include>
+        order by fb_idx desc limit #{start}, #{perpage}
+    </select>
+
+    <select id="countsearch" resultType="int" parameterType="Map">
+        select count(*) from freeboard fb JOIN member m ON fb.m_idx = m.m_idx
+        <include refid="search"></include>
+    </select>
+
+    <!-- 검색 반복 쿼리문 -->
+    <sql id="search">
+        <choose>
+            <!-- 전체검색(페이징) -->
+            <when test="searchOption=='all'">
+                WHERE fb.fb_subject LIKE CONCAT('%', #{keyword}, '%')
+                OR m.m_nickname LIKE CONCAT('%', #{keyword}, '%')
+            </when>
+           <!-- 전체검색 아닐경우 -->
+            <otherwise>
+                where ${searchOption} LIKE CONCAT('%', #{keyword}, '%')
+            </otherwise>
+        </choose>
+    </sql>
 </mapper>

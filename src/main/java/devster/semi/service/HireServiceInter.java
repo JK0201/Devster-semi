@@ -3,6 +3,10 @@ package devster.semi.service;
 import java.util.List;
 
 import devster.semi.dto.HireBoardDto;
+<<<<<<< HEAD
+=======
+import devster.semi.dto.QboardDto;
+>>>>>>> main
 
 
 public interface HireServiceInter {
@@ -14,15 +18,19 @@ public interface HireServiceInter {
 
     public void deleteHireBoard(int hb_idx);
 
-
     public void updateHireBoard(HireBoardDto dto);
     public int getHireTotalCount();
     public List<HireBoardDto> getHirePagingList(int start, int perpage);
+
 
 //    public void bookmarkHireBoard(HireBookmarkDto dto);
 //    public HireBookmarkDto getBookmarkData(int m_idx, int hb_idx);
     public void addIncreasingBkmkInfo(int m_idx, int hb_idx);
     public void deleteBkmkInfo(int m_idx, int hb_idx);
     public boolean isAlreadyAddBkmk(int m_idx, int hb_idx);
+
+    public List<HireBoardDto> searchlist(String keyword, int start, int perpage);
+    public int countsearch(String keyword);
+
 
 }

@@ -1,7 +1,6 @@
 package devster.semi.service;
 
 import devster.semi.dto.HireBoardDto;
-
 import devster.semi.mapper.HireMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,6 +66,7 @@ public class HireService implements HireServiceInter{
     return hireMapper.getHirePagingList(map);
     }
 
+
 //    @Override
 //    public void bookmarkHireBoard(HireBookmarkDto dto) {hireMapper.bookmarkHireBoard(dto);}
 //
@@ -106,6 +106,23 @@ public class HireService implements HireServiceInter{
             getBkmkPointTypeCodeBym_idx = 0;
         }
         return (int)getBkmkPointTypeCodeBym_idx;
+
+    // 검색
+    @Override
+    public List<HireBoardDto> searchlist(String keyword, int start, int perpage) {
+        Map<String,Object> map = new HashMap<>();
+
+        map.put("keyword", keyword);
+        map.put("start", start);
+        map.put("perpage", perpage);
+
+        return hireMapper.searchlist(map);
+    }
+
+    @Override
+    public int countsearch(String keyword) {
+        return hireMapper.countsearch(keyword);
+
     }
 
 }
