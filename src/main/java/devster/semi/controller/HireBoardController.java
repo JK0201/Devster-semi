@@ -4,6 +4,7 @@ package devster.semi.controller;
 import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.HireBoardDto;
 
+
 import devster.semi.dto.NoticeBoardDto;
 import devster.semi.mapper.HireMapper;
 import devster.semi.service.HireService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
+
 
 @Controller
 @RequestMapping("/hire")
@@ -39,24 +41,9 @@ public class HireBoardController {
     {
 //        System.out.println(currentPage);
         int totalCount = hireService.getHireTotalCount();
-        int totalPage; // 총 페이지 수
         int perPage = 10; // 한 페이지당 보여줄 글 갯수
-        int perBlock = 10; // 한 블록당 보여질 페이지의 갯수
         int startNum; // 각 페이지에서 보여질 글의 시작번호
-        int startPage; // 각 블록에서 보여질 시작 페이지 번호
-        int endPage; // 각 블록에서 보여질 끝 페이지 번호
         int no; // 글 출력시 출력할 시작번호
-
-        // 총 페이지 수
-        totalPage = totalCount / perPage + (totalCount % perPage == 0 ? 0 : 1);
-        // 시작 페이지
-        startPage = (currentPage - 1) / perBlock * perBlock + 1;
-        // 끝 페이지
-        endPage = startPage + perBlock - 1;
-
-        // endPage가 totalPage 보다 큰 경우
-        if (endPage > totalPage)
-            endPage = totalPage;
 
         // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
         startNum = (currentPage - 1) * perPage;
@@ -73,11 +60,7 @@ public class HireBoardController {
         //model 에 저장
         model.addAttribute("currentPage",currentPage);
         model.addAttribute("list", list);
-//        model.addAttribute("pagelist", pagelist);
         model.addAttribute("totalCount", totalCount);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-        model.addAttribute("totalPage", totalPage);
         model.addAttribute("no", no);
 
 
@@ -96,6 +79,7 @@ public class HireBoardController {
 
 
     @PostMapping("/insertHireBoard")
+
     public String insert(HireBoardDto dto,List<MultipartFile> upload)
     {
         String hb_photo="";
@@ -113,6 +97,7 @@ public class HireBoardController {
         }
 
         hb_photo=hb_photo.substring(0,hb_photo.length()-1);
+
         dto.setHb_photo(hb_photo);
         //db insert
         hireMapper.insertHireBoard(dto);
@@ -129,6 +114,7 @@ public class HireBoardController {
         model.addAttribute("dto", dto);
         model.addAttribute("currentPage",currentPage);
 
+
         //Controller 디테일 페이지 보내는 부분.
         //사진 여러장 분할 처리.
         List<String> list = new ArrayList<>();
@@ -138,6 +124,7 @@ public class HireBoardController {
         }
 
         model.addAttribute("list",list);
+
 
         return "/main/hire/hireboarddetail";
     }

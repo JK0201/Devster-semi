@@ -4,7 +4,6 @@ import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.NoticeBoardDto;
 import devster.semi.service.FreeBoardService;
 import devster.semi.service.NoticeBoardService;
-import devster.semi.service.FreeCommentService;
 import naver.cloud.NcpObjectStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -319,7 +317,7 @@ public class FreeBoardController {
     public String form(@RequestParam(defaultValue = "1") int currentPage,
                        @RequestParam(defaultValue = "0") int fb_idx, Model model){
 
-        // m_idx는 세션으로 받아와야할듯..
+
         model.addAttribute("currentPage",currentPage);
         model.addAttribute("fb_idx",fb_idx);
 

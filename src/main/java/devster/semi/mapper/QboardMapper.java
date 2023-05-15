@@ -1,9 +1,9 @@
 package devster.semi.mapper;
 
+
 import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.QboardDto;
 import org.apache.ibatis.annotations.Mapper;
-
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +14,7 @@ public interface QboardMapper {
     public void deletePost(int qb_idx);
     public void updatePost(QboardDto dto);
     public QboardDto getOnePost(int qb_idx);
+
     public String selectNickNameOfQb_idx(int qb_idx);
     public String selectPhotoOfQb_idx(int qb_idx);
     public int getTotalCount();
@@ -23,7 +24,6 @@ public interface QboardMapper {
     public void increaseDislikeCount(int qb_idx);
     public List<FreeBoardDto> bestfreeboardPosts();
     public int countComment(int qb_idx);
-    
     //좋아요 / 싫어요 관련 메서드들
     public void increaseGoodRp(int qb_idx);
     public void increaseBadRp(int qb_idx);

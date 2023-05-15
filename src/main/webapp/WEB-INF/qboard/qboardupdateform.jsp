@@ -32,4 +32,5 @@
         <button class="btn btn-outline-dark" type="submit">글 수정</button>
     </form>
 </body>
+
 </html>

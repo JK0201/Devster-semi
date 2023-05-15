@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="devster.semi.mapper.ReviewMapper">
+    <insert id="insertreview" parameterType="reviewDto">
+        INSERT INTO reviewboard (rb_type, rb_content, rb_star, m_idx, ci_idx)
+        VALUES (#{rb_type}, #{rb_content}, #{rb_star}, #{m_idx}, #{ci_idx})
+    </insert>
+    <select id="GetAllReview" resultType="reviewDto">
+        select * from reviewboard  order by rb_writeday desc
+    </select>
+    <select id="getTotalcount" resultType="int">
+        select count(*) from reviewboard
+    </select>
+    <select id="getPagingList" parameterType="Map" resultType="reviewDto">
+        select * from reviewboard order by rb_idx desc limit #{start},#{perPage}
+    </select>
+    <select id="Getmidx" parameterType="int" resultType="reviewDto">
+        select * from reviewboard where m_idx = #{m_idx}
+    </select>
+    <select id="selectnicnameofmidx" parameterType="int" resultType="String">
+        SELECT m.m_nickname
+        FROM reviewboard re
+                 JOIN member m ON re.m_idx = m.m_idx
+        WHERE re.m_idx = #{m_idx}
+        ORDER BY re.rb_idx desc
+           LIMIT 1
+    </select>
+    <delete id="deletereview" parameterType="int">
+        delete from reviewboard where rb_idx=#{rb_idx}
+    </delete>
+    <update id="updatereview" parameterType="reviewDto">
+        update reviewboard set rb_content=#{rb_content} ,rb_star=#{rb_star} ,rb_type=#{rb_type},ci_idx=#{ci_idx}  where rb_idx=#{rb_idx}
+
+    </update>
+    <select id="getData" parameterType="int" resultType="reviewDto">
+        select * from reviewboard where rb_idx=#{rb_idx}  order by rb_idx desc
+    </select>
+
+    <update id="increaseLikeCount" parameterType="int">
+        update reviewboard set rb_like=rb_like+1 where rb_idx=#{rb_idx}
+    </update>
+    <update id="increaseDislikeCount" parameterType="int">
+        update reviewboard set rb_dislike=rb_dislike+1 where rb_idx=#{rb_idx}
+    </update>
+    <!--회사 정보 출력-->
+    <select id="selectciname" resultType="companyinfoDto">
+        select ci_name,ci_idx from companyinfo
+    </select>
+
+    <select id="getDataciinfo" parameterType="int" resultType="CompanyinfoDto">
+        SELECT *
+        FROM  companyinfo co
+                 JOIN reviewboard re ON re.ci_idx = co.ci_idx
+        WHERE co.ci_idx = #{ci_idx}
+        ORDER BY co.ci_idx desc
+            LIMIT 1
+    </select>
+    <select id="getciinfoData" resultType="CompanyinfoDto" parameterType="int">
+        select * from companyinfo where ci_idx=#{ci_idx}
+    </select>
+    <select id="insertselciname" resultType="companyinfoDto" parameterType="String">
+        SELECT ci_idx, ci_name
+        FROM companyinfo
+        WHERE ci_name LIKE '%'||#{keyword}||'%'
+    </select>
+    <!--ci_star avg-->
+  <update id="updateci_star" parameterType="int">
+        UPDATE companyinfo ci
+            JOIN (
+            SELECT ci_idx, AVG(rb_star) as avg_star
+            FROM reviewboard
+            GROUP BY ci_idx
+            ) rb ON ci.ci_idx = rb.ci_idx
+            SET ci.ci_star = rb.avg_star;
+    </update>
+    <!-- reviewboard 테이블에 새로운 리뷰 추가 -->
+    <insert id="insertReviewboard" parameterType="ReviewDto">
+        INSERT INTO reviewboard (ci_idx, rb_star)
+        VALUES (#{ci_idx}, #{rb_star})
+    </insert>
+
+    <!-- 해당 회사의 평균 별점 계산 후 companyinfo 테이블에 업데이트 -->
+
+    <update id="updateCompanyinfoStar" parameterType="CompanyinfoDto">
+        UPDATE companyinfo
+        SET ci_star = (
+            SELECT AVG(rb_star) FROM reviewboard WHERE ci_idx = #{ci_idx}
+        )
+        WHERE ci_idx = #{ci_idx}
+    </update>
+
+    <!-- ci_idx를 기준으로 companyinfo 테이블에서 회사 정보 가져오기 -->
+    <select id="selectCompanyinfoByCiIdx" parameterType="int" resultType="CompanyinfoDto">
+        SELECT ci_idx, ci_name, ci_photo, ci_star
+        FROM companyinfo
+        WHERE ci_idx = #{ci_idx}
+    </select>
+
+
+
+
+    <!-- 좋아요 / 싫어요 관련 메서드들 -->
+
+    <update id="increaseGoodRp">
+        UPDATE reviewboard
+        SET rb_like =
+                rb_like + 1
+        WHERE rb_idx =
+              #{rb_idx}
+    </update>
+
+    <update id="increaseBadRp">
+        UPDATE reviewboard
+        SET rb_dislike = rb_dislike
+            + 1
+        WHERE rb_idx =
+              #{rb_idx}
+    </update>
+
+    <update id="decreaseGoodRp">
+        UPDATE reviewboard
+        SET rb_like =
+                rb_like - 1
+        WHERE rb_idx =
+              #{rb_idx}
+    </update>
+
+    <update id="decreaseBadRp">
+        UPDATE reviewboard
+        SET rb_dislike =
+                rb_dislike - 1
+        WHERE rb_idx =
+              #{rb_idx}
+    </update>
+
+    <select id="getGoodRpCount" resultType="int">
+        SELECT rb_like
+        FROM reviewboard
+        WHERE rb_idx = #{rb_idx}
+    </select>
+
+    <select id="getBadRpCount" resultType="int">
+        SELECT rb_dislike
+        FROM reviewboard
+        WHERE rb_idx = #{rb_idx}
+    </select>
+
+    <insert id="addIncreasingGoodRpInfo" parameterType="map">
+        INSERT INTO rboard_like
+        SET rb_idx = #{rb_idx},
+            m_idx = #{m_idx},
+            likeStatus = 1
+    </insert>
+
+    <delete id="deleteGoodRpInfo" parameterType="map">
+        DELETE FROM rboard_like
+        WHERE rb_idx = #{rb_idx}
+          AND m_idx = #{m_idx}
+          AND likeStatus = 1
+    </delete>
+
+    <insert id="addIncreasingBadRpInfo" parameterType="map">
+        INSERT INTO rboard_like
+        SET rb_idx = #{rb_idx},
+            m_idx = #{m_idx},
+            likeStatus = 2
+    </insert>
+
+    <delete id="deleteBadRpInfo" parameterType="map">
+        DELETE FROM rboard_like
+        WHERE rb_idx = #{rb_idx}
+          AND m_idx = #{m_idx}
+          AND likeStatus = 2
+    </delete>
+
+    <select id="getRpInfoBym_idx" resultType="integer">
+        SELECT likeStatus
+        FROM rboard_like
+        WHERE rb_idx = #{rb_idx} AND m_idx = #{m_idx}
+    </select>
+
+</mapper>

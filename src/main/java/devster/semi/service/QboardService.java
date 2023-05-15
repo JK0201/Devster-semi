@@ -1,11 +1,11 @@
 package devster.semi.service;
 
+
 import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.QboardDto;
 import devster.semi.mapper.QboardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +40,7 @@ public class QboardService implements QboardServiceInter{
     }
 
     @Override
+
     public String selectNickNameOfQb_idx(int qb_idx) {
         return qboardMapper.selectNickNameOfQb_idx(qb_idx);
     }
@@ -47,6 +48,7 @@ public class QboardService implements QboardServiceInter{
     @Override
     public String selectPhotoOfQb_idx(int qb_idx) {
         return qboardMapper.selectPhotoOfQb_idx(qb_idx);
+
     }
 
     @Override
@@ -84,6 +86,7 @@ public class QboardService implements QboardServiceInter{
 
 
     //좋아요 / 싫어요 관련 메서드들
+
 
     public void increaseGoodRp(int qb_idx) {
         qboardMapper.increaseGoodRp(qb_idx);
@@ -200,5 +203,6 @@ public class QboardService implements QboardServiceInter{
         }
         return (int)getPointTypeCodeBym_idx;
     }
+
 }
 

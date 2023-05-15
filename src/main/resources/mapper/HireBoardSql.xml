@@ -10,7 +10,6 @@
         insert into hireboard (hb_idx,hb_subject,hb_content,hb_photo,fb_writeday) values (#{hb_idx},#{hb_subject},#{hb_content},#{hb_photo},now())
     </insert>
 
-
     <select id="getData" parameterType="int" resultType="HireBoardDto">
         select * from hireboard where hb_idx=#{hb_idx}
     </select>
