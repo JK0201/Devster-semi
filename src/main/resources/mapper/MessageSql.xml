@@ -88,7 +88,7 @@
     </select>
 
     <!-- 프로필에 해당하는 메세지 불러오기 -->
-    <select id="getMessageByOtherOtherNick" parameterType="String">
+    <select id="getMessageByOtherOtherNick" parameterType="String" resultType="MessageDto">
         select * from message where recv_nick=#{recv_nick}
     </select>
 

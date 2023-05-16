@@ -7,15 +7,14 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MessageController {
@@ -108,29 +107,27 @@ public class MessageController {
         return flag;
     }
 
+    @ResponseBody
     @RequestMapping("/message/other_profile")
-    public String userProfile(String other_nick, Model model, HttpSession session) {
-        // Add logic here to get the user details using the provided nickname.
+    public Map<String, Object> other_profile(@RequestParam("other_nick") String other_nick, HttpSession session) {
 
-        String nick =(String) session.getAttribute("memnick");
-        MessageDto dto = new MessageDto();
+        Map<String,Object> map = new HashMap<>();
+        System.out.println(other_nick);
 
-        dto.setNick(nick);
-        dto.setRecv_nick(other_nick);
+        List<MessageDto> blist = messageService.getMessageByOtherOtherNick(other_nick);
 
-        //System.out.println(dto.getRecv_nick().toString());
+        map.put("blist",blist);
+        map.put("otherNick",other_nick);
 
+        System.out.println(blist);
+        return map;
+    }
 
-        // Add user details to the model object.
-        ArrayList<MessageDto> list = messageService.getMessageList(dto);
+    @GetMapping("/message/ajaxlist")
+    public String ajaxlist(String other_nick,Model model) {
+        model.addAttribute("other_nick",other_nick);
 
-        System.out.println(list);
-
-        model.addAttribute("list",list);
-
-
-        // Return the profile page.
-        return "/sub/message/other_profile";
+        return "message/ajaxlist";
     }
 }
 

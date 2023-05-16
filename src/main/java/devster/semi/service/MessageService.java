@@ -123,4 +123,10 @@ public class MessageService implements MessageServiceInter{
     public String getSelectRoom(MessageDto dto) {
         return messageMapper.getSelectRoom(dto);
     }*/
+
+
+    @Override
+    public List<MessageDto> getMessageByOtherOtherNick(String other_nick) {
+        return messageMapper.getMessageByOtherOtherNick(other_nick);
+    }
 }
