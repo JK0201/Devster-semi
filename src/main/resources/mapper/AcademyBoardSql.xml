@@ -1,0 +1,145 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="devster.semi.mapper.AcademyBoardMapper">
+    <select id="getTotalCount" resultType="int">
+        select count(*) from academyboard
+    </select>
+    <select id="getPagingList" parameterType="Map" resultType="AcademyBoardDto">
+        select * from academyboard order by ab_idx desc limit #{start}, #{perpage}
+    </select>
+    <select id="getData" parameterType="int" resultType="AcademyBoardDto">
+        select * from academyboard where ab_idx=#{ab_idx}
+    </select>
+    <insert id="insertAcademyBoard" parameterType="AcademyBoardDto">
+        insert into academyboard (m_idx, ab_subject, ab_content, ab_photo,ab_writeday,ai_idx) VALUES (#{m_idx},#{ab_subject},#{ab_content},#{ab_photo},now(),#{ai_idx})
+    </insert>
+    <update id="updateReadCount" parameterType="int">
+        update academyboard set ab_readcount=ab_readcount+1 where ab_idx=#{ab_idx}
+    </update>
+<!--    <update id="notUpdateReadCount" parameterType="int">-->
+<!--        update academyboard set fb_readcount=fb_readcount-1 where ab_idx=#{ab_idx}-->
+<!--    </update>-->
+    <delete id="deleteAcademyBoard" parameterType="int">
+        delete from academyboard where ab_idx=#{ab_idx}
+    </delete>
+    <update id="updateAcademyBoard" parameterType="AcademyBoardDto">
+        update academyboard set ab_subject=#{ab_subject}, ab_content=#{ab_content}
+        <if test="ab_photo!='no'">
+            ,ab_photo=#{ab_photo}
+        </if>
+        where ab_idx=#{ab_idx}
+    </update>
+    <select id="selectNickName2OfMidx" parameterType="int" resultType="String">
+        SELECT m.m_nickname
+        FROM academyboard ab
+                 JOIN member m ON ab.m_idx = m.m_idx
+        WHERE ab.ab_idx = #{ab_idx};
+    </select>
+    <select id="selectPhoto2OfMidx" parameterType="int" resultType="String">
+        SELECT m.m_photo
+        FROM academyboard ab
+                 JOIN member m ON ab.m_idx = m.m_idx
+        WHERE ab.ab_idx = #{ab_idx};
+    </select>
+
+
+
+    <select id="selectNickNameOfMidx" parameterType="int" resultType="String">
+        SELECT m.m_nickname
+        FROM academyboard ab
+                 JOIN member m ON ab.m_idx = m.m_idx
+        WHERE ab.ab_idx = #{ab_idx};
+    </select>
+    <select id="selectPhotoOfMidx" parameterType="int" resultType="String">
+        SELECT m.m_photo
+        FROM academyboard ab
+                 JOIN member m ON ab.m_idx = m.m_idx
+        WHERE ab.ab_idx = #{ab_idx};
+    </select>
+
+
+    <update id="increaseGoodRp">
+        UPDATE academyboard
+        SET ab_like =
+                ab_like + 1
+        WHERE ab_idx =
+              #{ab_idx}
+    </update>
+
+    <update id="increaseBadRp">
+        UPDATE academyboard
+        SET ab_dislike = ab_dislike
+            + 1
+        WHERE ab_idx =
+              #{ab_idx}
+    </update>
+
+    <update id="decreaseGoodRp">
+        UPDATE academyboard
+        SET ab_like =
+                ab_like - 1
+        WHERE ab_idx =
+              #{ab_idx}
+    </update>
+
+    <update id="decreaseBadRp">
+        UPDATE academyboard
+        SET ab_dislike =
+                ab_dislike - 1
+        WHERE ab_idx =
+              #{ab_idx}
+    </update>
+
+    <select id="getGoodRpCount" resultType="int">
+        SELECT ab_like
+        FROM academyboard
+        WHERE ab_idx = #{ab_idx}
+    </select>
+
+    <select id="getBadRpCount" resultType="int">
+        SELECT ab_dislike
+        FROM academyboard
+        WHERE ab_idx = #{ab_idx}
+    </select>
+
+    <insert id="addIncreasingGoodRpInfo" parameterType="map">
+        INSERT INTO academy_like
+        SET ab_idx = #{ab_idx},
+            m_idx = #{m_idx},
+            likeStatus = 1
+    </insert>
+
+    <delete id="deleteGoodRpInfo" parameterType="map">
+        DELETE FROM academy_like
+        WHERE ab_idx = #{ab_idx}
+          AND m_idx = #{m_idx}
+          AND likeStatus = 1
+    </delete>
+
+    <insert id="addIncreasingBadRpInfo" parameterType="map">
+        INSERT INTO academy_like
+        SET ab_idx = #{ab_idx},
+            m_idx = #{m_idx},
+            likeStatus = 2
+    </insert>
+
+    <delete id="deleteBadRpInfo" parameterType="map">
+        DELETE FROM academy_like
+        WHERE ab_idx = #{ab_idx}
+          AND m_idx = #{m_idx}
+          AND likeStatus = 2
+    </delete>
+
+    <select id="getRpInfoBym_idx" resultType="integer">
+        SELECT likeStatus
+        FROM academy_like
+        WHERE ab_idx = #{ab_idx} AND m_idx = #{m_idx};
+    </select>
+
+    <select id="selectAcademyName" parameterType="int" resultType="String">
+        SELECT m.ai_name
+        FROM academyboard ab
+                 JOIN member m ON ab.m_idx = m.m_idx
+        WHERE ab.ab_idx = #{ab_idx};
+    </select>
+
+</mapper>

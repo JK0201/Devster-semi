@@ -1,6 +1,5 @@
 package devster.semi.service;
 
-import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.HireBoardDto;
 import devster.semi.mapper.HireMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +66,47 @@ public class HireService implements HireServiceInter{
     return hireMapper.getHirePagingList(map);
     }
 
+
+//    @Override
+//    public void bookmarkHireBoard(HireBookmarkDto dto) {hireMapper.bookmarkHireBoard(dto);}
+//
+//    @Override
+//    public HireBookmarkDto getBookmarkData(int m_idx, int hb_idx) { return hireMapper.getBookmarkData(m_idx, hb_idx);}
+
+    public void addIncreasingBkmkInfo(int m_idx, int hb_idx) {
+        // 현재 게시물이 소속된 게시판 id를 가져옴
+        Map<String,Integer> map = new HashMap<>();
+        map.put("m_idx",m_idx);
+        map.put("hb_idx",hb_idx);
+        hireMapper.addIncreasingBkmkInfo(map);
+    }
+
+    public void deleteBkmkInfo(int m_idx, int hb_idx) {
+        Map<String,Integer> map = new HashMap<>();
+        map.put("m_idx",m_idx);
+        map.put("hb_idx",hb_idx);
+        hireMapper.deleteBkmkInfo(map);
+    }
+
+    public boolean isAlreadyAddBkmk(int m_idx,int hb_idx) {
+        int getBkmkPointTypeCodeBym_idx = getBkmkInfoBym_idx(m_idx, hb_idx);
+
+        if (getBkmkPointTypeCodeBym_idx == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    private Integer getBkmkInfoBym_idx(int m_idx, int hb_idx) {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("m_idx", m_idx);
+        map.put("hb_idx", hb_idx);
+        Integer getBkmkPointTypeCodeBym_idx = hireMapper.getBkmkInfoBym_idx(map);
+        if (getBkmkPointTypeCodeBym_idx == null) {
+            getBkmkPointTypeCodeBym_idx = 0;
+        }
+        return (int) getBkmkPointTypeCodeBym_idx;
+    }
     // 검색
     @Override
     public List<HireBoardDto> searchlist(String keyword, int start, int perpage) {
@@ -82,6 +122,7 @@ public class HireService implements HireServiceInter{
     @Override
     public int countsearch(String keyword) {
         return hireMapper.countsearch(keyword);
+
     }
 
 }
