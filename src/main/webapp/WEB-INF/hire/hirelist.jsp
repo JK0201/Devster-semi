@@ -175,11 +175,7 @@
 
 
     </div>
-    <c:if test="${sessionScope.cmdix || sessionScope.memstate==100}">
-    <button type="button" class="btn btn-sm btn-outline-success hb_write_btn"
-            onclick="location.href='form'" style="margin-bottom: 10px">글쓰기
-    </button>
-    </c:if>
+
     <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
             <h3 class="hb_subject">
                 <a href="hireboarddetail?hb_idx=${dto.hb_idx}"><b>${dto.hb_subject}</b></a>
@@ -196,9 +192,12 @@
     </div>
 
 
+
+<c:if test="${sessionScope.cmdix || sessionScope.memstate==100}">
 <button type="button" class="btn btn-sm btn-outline-success hb_write_btn"
         onclick="location.href='form'" style="margin-bottom: 10px">글쓰기
 </button>
+</c:if>
     <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 
     <div id="loading" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999;">

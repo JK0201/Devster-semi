@@ -128,7 +128,7 @@ public class HireBoardController {
     }
 
     @GetMapping("/hireboarddetail")
-    public String detail(int hb_idx, int currentPage, Model model, HttpSession session){
+    public String detail(int hb_idx, Model model, HttpSession session){
 
 
         hireService.updateReadCount(hb_idx);
@@ -136,9 +136,6 @@ public class HireBoardController {
 
         //        버튼 상태에 관한 정보를 디테일 페이지로 보내줌.
         boolean isAlreadyAddBkmk = hireService.isAlreadyAddBkmk((int)session.getAttribute("memidx"),hb_idx);
-
-
-
 
         model.addAttribute("dto", dto);
 
