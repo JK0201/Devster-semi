@@ -5,10 +5,60 @@
 <div class="wrap clear">
     <div class="container">
         <div class="searchdiv">
-            <input name="keyword" type="search" placeholder="관심있는 내용을 검색해보세요!" autocomplete="off" value=""
+            <input id="searchinput" name="keyword" type="search" placeholder="관심있는 내용을 검색해보세요!" autocomplete="off" value=""
                    class="searchbar">
             <i class="bi bi-search"></i>
+            <select id="boardSearchOption">
+                <option id="freesearch" value="freeboard">일반게시판</option>
+                <option id="qnasearch" value="qboard">질문게시판</option>
+                <option id="hiresearch" value="hireboard">채용정보</option>
+                <%--<option id="academysearch" value="">학원별게시판</option>--%>
+                <option id="reviewsearch" value="reviewboard">회사후기</option>
+            </select>
         </div>
+        <script>
+
+            $("#searchinput").keydown(function (e){
+
+                if(e.keyCode==13){ //엔터누르면
+
+                    var keyword = $(this).val(); // 검색내용
+                    var boardsearchOption = $("#boardSearchOption").val(); //검색 게시판
+
+                    if(boardsearchOption == "freeboard"){ // 1. 일반게시판 검색
+
+                        location.href="${root}/freeboard/searchlist?keyword="+keyword;
+                        alert("freeboard 검색");
+
+                    }
+                    if(boardsearchOption == "qboard"){ // 2. 질문게시판 검색
+
+                        location.href="${root}/qboard/searchlist?keyword="+keyword;
+                        alert("qboard 검색");
+                    }
+                    if(boardsearchOption == "hireboard"){ // 3. 채용정보게시판 검색
+
+                        location.href="${root}/hire/searchlist?keyword="+keyword;
+                        alert("hireboard 검색");
+
+                    }
+                    if(boardsearchOption == "reviewboard"){ // 5. 회사 후기 검색
+
+                        location.href="${root}/review/searchlist?keyword="+keyword;
+                        alert("reviewboard 검색");
+
+                    }
+
+                    if(keyword==''){
+                        alert("검색 내용을 입력해주세요.")
+                        return false;
+                    }
+
+                }
+
+            });
+
+        </script>
 
 
         <div class="maincontent clear">
@@ -207,5 +257,63 @@
     </div>
 
 </div>
+
+<script>
+    // 비로그인 상태 (sessionScope.logstat != yes) 디테일 못들어가게/ 검색 안되게
+    if(${sessionScope.logstat!='yes'}){
+
+        $(".freeboard_table a").click(function (){
+            alert("로그인 후 이용가능한 기능입니다.");
+            location.href='../member/signin';
+            return false;
+        });
+        $(".qboard_table a").click(function (){
+            alert("로그인 후 이용가능한 기능입니다.");
+            location.href='../member/signin';
+            return false;
+        });
+        $(".hireboard_table a").click(function (){
+            alert("로그인 후 이용가능한 기능입니다.");
+            location.href='../member/signin';
+            return false;
+        });
+        $(".noticeboard_table a").click(function (){
+            alert("로그인 후 이용가능한 기능입니다.");
+            location.href='../member/signin';
+            return false;
+        });
+        $("#searchinput").click(function (){
+            alert("로그인 후 이용가능한 기능입니다.");
+            location.href='../member/signin';
+            return false;
+        });
+
+    }
+
+    // 인증 안된 회원 (sessionScope.memstate == 0)
+    if(${sessionScope.memstate==0}){
+
+        $(".qboard_table a").click(function (){
+            alert("인증 후 이용가능한 기능입니다.");
+            history.back();
+            return false;
+        });
+        $(".hireboard_table a").click(function (){
+            alert("인증 후 이용가능한 기능입니다.");
+            history.back();
+            return false;
+        });
+
+        $("#searchinput").click(function (){
+            alert("인증 후 이용가능한 기능입니다.");
+            history.back();
+            return false;
+        });
+
+
+    }
+
+
+</script>
 
 

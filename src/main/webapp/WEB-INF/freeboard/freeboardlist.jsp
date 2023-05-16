@@ -6,6 +6,7 @@
 <%@ include file="../commonvar.jsp" %>
 
 
+
 <div class="fb_wrap">
 
 
@@ -203,7 +204,7 @@
                     alert("검색하실 내용을 입력해주세요.")
                     return
                 } else {
-                    alert("검색결과출력.");
+                    //alert("검색결과출력.");
 
                     $.ajax({
                         type: "post",
@@ -246,7 +247,7 @@
 
 
 <table class="freeboard_table table table-bordered">
-    <caption align="top"><h4 style="color: black; font-weight: bold;"><img src="/photo/ico-best.png" style="padding-bottom: 10px; width: 50px;">일반게시판
+    <caption align="top"><h4 style="color: black; font-weight: bold;"><img src="/photo/icon_fb.png" style="width: 40px;">일반게시판
         <button class="btn btn-secondary" type="button" style="float: right; margin-right: 150px; margin-top: 30px;" onclick="location.href='./freewriteform'"><i class="bi bi-pen"></i>&nbsp;글쓰기</button>
     </h4>
     </caption>
@@ -511,6 +512,12 @@
                         </li>
                     `
             });
+            s+=
+                `
+                        <button type="button" onclick="window.scrollTo({top:0});">
+                         <i class="bi bi-arrow-up-square-fill"></i>
+                        </button>
+                    `;
             $(".quickmenu ul").append(s);
         },
         error: function(jqXHR, textStatus, errorThrown) {

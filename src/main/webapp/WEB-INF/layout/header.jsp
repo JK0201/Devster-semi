@@ -21,13 +21,14 @@
         </a>
     </div>
     <ul class="clear gnb">
-        <li><a href="${root}/" class="selected">홈</a></li>
-        <li><a href="${root}/freeboard/list">일반게시판</a></li>
-        <li><a href="${root}/qboard/list">질문게시판</a></li>
-        <li><a href="${root}/hire/list">채용정보</a></li>
-        <li><a href="${root}/guest/list">학원별게시판</a></li>
-        <li><a href="${root}/contact">회사후기</a></li>
-        <%--<li><a href="${root}/noticeboard/list">공지사항</a></li>--%>
+
+        <li><a id="home" href="${root}/" class="selected">홈</a></li>
+        <li><a id="free" href="${root}/freeboard/list">일반게시판</a></li>
+        <li><a id="qna" href="${root}/qboard/list">질문게시판</a></li>
+        <li><a id="hire" href="${root}/hire/list">채용정보</a></li>
+        <li><a id="academy" href="${root}/guest/list">학원별게시판</a></li>
+        <li><a id="review" href="${root}/review/list">회사후기</a></li>
+        <li><a id="notice" href="${root}/noticeboard/list">공지사항</a></li>
         <li><a href="${root}/message/list">메세지함</a></li>
     </ul>
     <c:choose>
@@ -59,6 +60,73 @@
             }
         });
     });
+
+        // 회원권한관리------------------------------------------------
+        // 비로그인 상태 (sessionScope.logstat != yes)
+        if(${sessionScope.logstat!='yes'}){
+
+            $(".gnb a#free").click(function (){
+                alert("로그인 후 이용가능한 기능입니다.");
+                location.href='../member/signin';
+                return false;
+            });
+            $(".gnb a#notice").click(function (){
+                alert("로그인 후 이용가능한 기능입니다.");
+                location.href='../member/signin';
+                return false;
+            });
+            $(".gnb a#qna").click(function (){
+                alert("로그인 후 이용가능한 기능입니다.");
+                location.href='../member/signin';
+                return false;
+            });
+            $(".gnb a#hire").click(function (){
+                alert("로그인 후 이용가능한 기능입니다.");
+                location.href='../member/signin';
+                return false;
+            });
+            $(".gnb a#academy").click(function (){
+                alert("로그인 후 이용가능한 기능입니다.");
+                location.href='../member/signin';
+                return false;
+            });
+            $(".gnb a#review").click(function (){
+                alert("로그인 후 이용가능한 기능입니다.");
+                location.href='../member/signin';
+                return false;
+            });
+
+        }
+        // 인증 안된 회원 (sessionScope.memstate == 0)
+        if(${sessionScope.memstate==0}){
+
+            $(".qboard_table a").click(function (){
+                alert("인증 후 이용가능한 기능입니다.");
+                location.href='/';
+                return false;
+            });
+            $(".gnb a#qna").click(function (){
+                alert("인증 후 이용가능한 기능입니다.");
+                location.href='/';
+                return false;
+            });
+            $(".gnb a#hire").click(function (){
+                alert("인증 후 이용가능한 기능입니다.");
+                location.href='/';
+                return false;
+            });
+            $(".gnb a#academy").click(function (){
+                alert("인증 후 이용가능한 기능입니다.");
+                location.href='/';
+                return false;
+            });
+            $(".gnb a#review").click(function (){
+                alert("인증 후 이용가능한 기능입니다.");
+                location.href='../member/signin';
+                return false;
+            });
+
+        }
 </script>
 <%--</body>
 </html>--%>

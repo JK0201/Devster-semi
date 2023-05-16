@@ -17,6 +17,7 @@
     </style>
 </head>
 <body>
+
 <div style="width: 60%; margin-top: 100px; margin-left: 30px; border: 3px solid black">
     <form action="insert" enctype="multipart/form-data" method="post">
         <input type="hidden" name="m_idx" value="${sessionScope.memidx}">
@@ -34,4 +35,5 @@
     </form>
 </div>
 </body>
+
 </html>
