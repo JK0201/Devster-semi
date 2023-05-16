@@ -35,13 +35,11 @@ public class HireBoardController {
 
     @GetMapping("/listajax")
     @ResponseBody
-    public Map<String,Object> list(@RequestParam(defaultValue = "1") int currentPage)
-
+    public Map<String,Object> list(int currentPage)
     {
-//        System.out.println(currentPage);
         int totalCount = hireService.getHireTotalCount();
         int perPage = 10; // 한 페이지당 보여줄 글 갯수
-        int startNum= 1; // 각 페이지에서 보여질 글의 시작번호
+        int startNum; // 각 페이지에서 보여질 글의 시작번호
         int no; // 글 출력시 출력할 시작번호
 
         // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
@@ -61,6 +59,33 @@ public class HireBoardController {
         map.put("no", no);
 
         return map;
+    }
+    @GetMapping("/list")
+    public String list(@RequestParam(defaultValue = "1") int currentPage,Model model)
+
+    {
+        int totalCount = hireService.getHireTotalCount();
+        int perPage = 10; // 한 페이지당 보여줄 글 갯수
+        int startNum= 1; // 각 페이지에서 보여질 글의 시작번호
+        int no; // 글 출력시 출력할 시작번호
+
+        // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
+        startNum = (currentPage - 1) * perPage;
+
+        // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
+        // no = totalCount - (currentPage - 1) * perPage;
+        no = totalCount - startNum;
+
+        // 각 페이지에 필요한 게시글 db에서 가져오기
+        List<HireBoardDto> list = hireService.getHirePagingList(startNum, perPage);
+
+        Map<String,Object> map = new HashMap<>();
+        model.addAttribute("list",list);
+        model.addAttribute("currentPage",currentPage);
+        model.addAttribute("totalCount", totalCount);
+        model.addAttribute("no", no);
+
+        return "/main/hire/hirelist";
     }
 
     @GetMapping("/form")
@@ -100,13 +125,12 @@ public class HireBoardController {
     }
 
     @GetMapping("/hireboarddetail")
-    public String detail(int hb_idx, int currentPage, Model model){
+    public String detail(int hb_idx, Model model){
 
         hireService.updateReadCount(hb_idx);
         HireBoardDto dto = hireService.getData(hb_idx);
 
         model.addAttribute("dto", dto);
-        model.addAttribute("currentPage",currentPage);
 
         //Controller 디테일 페이지 보내는 부분.
         //사진 여러장 분할 처리.

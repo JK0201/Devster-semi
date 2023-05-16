@@ -35,155 +35,27 @@
         pointer-events: none; /* 입력란 위에서 클릭이나 기타 동작이 가능하게 합니다. */
         font-size: 24px;
     }
-    .overlay-loader {
-        display: block;
-        margin: auto;
-        width: 97px;
-        height: 97px;
-        position: relative;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-    }
-    .loader {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        margin: auto;
-        width: 97px;
-        height: 97px;
-        animation-name: rotateAnim;
-        -o-animation-name: rotateAnim;
-        -ms-animation-name: rotateAnim;
-        -webkit-animation-name: rotateAnim;
-        -moz-animation-name: rotateAnim;
-        animation-duration: 0.4s;
-        -o-animation-duration: 0.4s;
-        -ms-animation-duration: 0.4s;
-        -webkit-animation-duration: 0.4s;
-        -moz-animation-duration: 0.4s;
-        animation-iteration-count: infinite;
-        -o-animation-iteration-count: infinite;
-        -ms-animation-iteration-count: infinite;
-        -webkit-animation-iteration-count: infinite;
-        -moz-animation-iteration-count: infinite;
-        animation-timing-function: linear;
-        -o-animation-timing-function: linear;
-        -ms-animation-timing-function: linear;
-        -webkit-animation-timing-function: linear;
-        -moz-animation-timing-function: linear;
-    }
-    .loader div {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        border: 1px solid rgb(0,0,0);
-        position: absolute;
-        top: 2px;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        margin: auto;
-    }
-    .loader div:nth-child(odd) {
-        border-top: none;
-        border-left: none;
-    }
-    .loader div:nth-child(even) {
-        border-bottom: none;
-        border-right: none;
-    }
-    .loader div:nth-child(2) {
-        border-width: 2px;
-        left: 0px;
-        top: -4px;
-        width: 12px;
-        height: 12px;
-    }
-    .loader div:nth-child(3) {
-        border-width: 2px;
-        left: -1px;
-        top: 3px;
-        width: 18px;
-        height: 18px;
-    }
-    .loader div:nth-child(4) {
-        border-width: 3px;
-        left: -1px;
-        top: -4px;
-        width: 23px;
-        height: 23px;
-    }
-    .loader div:nth-child(5) {
-        border-width: 3px;
-        left: -1px;
-        top: 4px;
-        width: 31px;
-        height: 31px;
-    }
-    .loader div:nth-child(6) {
-        border-width: 4px;
-        left: 0px;
-        top: -4px;
-        width: 39px;
-        height: 39px;
-    }
-    .loader div:nth-child(7) {
-        border-width: 4px;
-        left: 0px;
-        top: 6px;
-        width: 49px;
-        height: 49px;
+
+    #myBtn {
+        display: none; /* Hidden by default */
+        position: fixed; /* Fixed/sticky position */
+        bottom: 20px; /* Place the button at the bottom of the page */
+        right: 30px; /* Place the button 30px from the right */
+        z-index: 99; /* Make sure it does not overlap */
+        border: none; /* Remove borders */
+        outline: none; /* Remove outline */
+        background-color: #8007ad; /* Set a background color */
+        color: white; /* Text color */
+        cursor: pointer; /* Add a mouse pointer on hover */
+        padding: 15px; /* Some padding */
+        border-radius: 10px; /* Rounded corners */
+        font-size: 18px; /* Increase font size */
     }
 
-
-    @keyframes rotateAnim {
-        from {
-            transform: rotate(360deg);
-        }
-        to {
-            transform: rotate(0deg);
-        }
+    #myBtn:hover {
+        background-color: #5cb85c; /* Add a dark-grey background on hover */
     }
 
-    @-o-keyframes rotateAnim {
-        from {
-            -o-transform: rotate(360deg);
-        }
-        to {
-            -o-transform: rotate(0deg);
-        }
-    }
-
-    @-ms-keyframes rotateAnim {
-        from {
-            -ms-transform: rotate(360deg);
-        }
-        to {
-            -ms-transform: rotate(0deg);
-        }
-    }
-
-    @-webkit-keyframes rotateAnim {
-        from {
-            -webkit-transform: rotate(360deg);
-        }
-        to {
-            -webkit-transform: rotate(0deg);
-        }
-    }
-
-    @-moz-keyframes rotateAnim {
-        from {
-            -moz-transform: rotate(360deg);
-        }
-        to {
-            -moz-transform: rotate(0deg);
-        }
-    }
 
 </style>
 
@@ -255,119 +127,128 @@
 
     <!--=============================================================================-->
 
+<div class="listbox">
 
-<%--    <c:forEach var="dto" items="${list}" varStatus="i">--%>
-<%--        <div class="box" <c:if test="${i.index % 2 == 1}">style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;"</c:if>>--%>
+    <c:forEach var="dto" items="${list}" varStatus="i">
+        <div class="box" <c:if test="${i.index % 2 == 1}">style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;"</c:if>>
 
-<%--            <span class="hb_writeday"><fmt:formatDate value="${dto.fb_writeday}" pattern="MM/dd"/></span>--%>
-<%--            <span class="hb_readcount"><div class="icon_read"></div> ${dto.hb_readcount}</span>--%>
+            <span class="hb_writeday"><fmt:formatDate value="${dto.fb_writeday}" pattern="MM/dd"/></span>
+            <span class="hb_readcount"><div class="icon_read"></div> ${dto.hb_readcount}</span>
 
-<%--            <span class="hb_photo">--%>
-<%--                <a href="hireboarddetail?hb_idx=${dto.hb_idx}&currentPage=${currentPage}">--%>
-<%--                    <img src="http://${imageUrl}/hire/${dto.hb_photo.split(",")[0]}" id="photo">--%>
-<%--                </a>--%>
-<%--            </span>--%>
+            <span class="hb_photo">
+                <a href="hireboarddetail?hb_idx=${dto.hb_idx}">
+                    <img src="http://${imageUrl}/hire/${dto.hb_photo.split(",")[0]}" id="photo">
+                </a>
+            </span>
 
-<%--            <h3 class="hb_subject">--%>
-<%--                <a href="hireboarddetail?hb_idx=${dto.hb_idx}&currentPage=${currentPage}"><b>${dto.hb_subject}</b></a>--%>
-<%--            </h3>--%>
+            <h3 class="hb_subject">
+                <a href="hireboarddetail?hb_idx=${dto.hb_idx}"><b>${dto.hb_subject}</b></a>
+            </h3>
 
 
-<%--            <div class="hr_tag">--%>
-<%--                <div class="hr_tag_1">이직시200만원</div>--%>
-<%--                <div class="hr_tag_2">유연근무</div>--%>
-<%--            </div>--%>
+            <div class="hr_tag">
+                <div class="hr_tag_1">이직시200만원</div>
+                <div class="hr_tag_2">유연근무</div>
+            </div>
 
-<%--        </div>--%>
-<%--    </c:forEach>--%>
-
+        </div>
+    </c:forEach>
+</div>
     <div class="box" <c:if test="${i.index % 2 == 1}">style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;"</c:if>>
 
-</div>
-<div id="loading" style="display: none;">
-    <div class="overlay-loader">
-        <div class="loader">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div> <!-- 로딩 이미지의 경로를 설정하세요 -->
-</div>
-
-<%--<div class="paginate">--%>
-<%--    <!-- 다음 -->--%>
-<%--    <c:if test="${endPage < totalPage}">--%>
-<%--       <a style="color: black; text-decoration: none; cursor: pointer;" href="list?currentPage=${endPage+1}"><div class="icon_next"></div></a>--%>
-<%--    </c:if>--%>
-<%--    <c:if test="${endPage >= totalPage}">--%>
-<%--       <a style="color: black; text-decoration: none; cursor: pointer;--%>
-<%--        visibility: hidden;" href="list?currentPage=${endPage+1}"><div class="icon_next"></div></a>--%>
-<%--    </c:if>--%>
-<%--</div>--%>
-
+    </div>
 
 <button type="button" class="btn btn-sm btn-outline-success hb_write_btn"
         onclick="location.href='form'" style="margin-bottom: 10px">글쓰기
-
 </button>
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 
-<script>
-    $(document).ready(function () {
+    <div id="loading" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999;">
+        <img src="${root}/photo/809.gif" alt="Loading..." style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"> <!-- 로딩 이미지의 경로를 설정하세요 -->
+    </div>
 
-        var currentpage = 1;
-        var isLoading = false;
-        var noMoreData = false;
 
-        $(window).scroll(function () {
-            if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-                if (!isLoading && !noMoreData) {
-                    isLoading = true;
-                    var nextPage = currentpage + 1;
 
-                    $.ajax({
-                        type: "GET",
-                        url: "list",
-                        data: { currentPage: nextPage },
-                        beforeSend: function () {
-                            $("#loading").show();
-                        },
-                        complete: function () {
-                            $("#loading").hide();
-                            isLoading = false;
-                        },
-                        success: function (res) {
-                            if (res.length == 0) {
-                                noMoreData = true;
-                            } else {
-                                var s = '';
-                                $.each(res, function (idx, ele) {
-                                    s += `<div class="box">`;
-                                    s += `<span class="hb_writeday">\${ele.fb_writeday}</span>`;
-                                    s += `<span class="hb_readcount"><div class="icon_read"></div>\${ele.hb_readcount}</span>`;
-                                    s += `<span class="hb_photo"><a href="hireboarddetail?hb_idx=\${ele.hb_idx}&currentPage=${page}"><img src="http://${imageUrl}/hire/\${ele.hb_photo}" id="photo"></a></span>`;
-                                    s += `<h3 class="hb_subject"><a href="hireboarddetail?hb_idx=\${ele.hb_idx}&currentPage=${page}"><b>\${ele.hb_subject}</b></a></h3>`;
-                                    s += `<div class="hr_tag"><div class="hr_tag_1">이직시200만원</div><div class="hr_tag_2">유연근무</div></div>`;
-                                    s += `</div>`;
-                                })
-                                $(".hb_wrap").append(s);
+
+    <script>
+        $(document).ready(function () {
+
+            var currentpage = 1;
+            var isLoading = false;
+            var noMoreData = false;
+
+            $(window).scroll(function () {
+                if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+                    if (!isLoading && !noMoreData) {
+                        isLoading = true;
+                        var nextPage = currentpage + 1;
+
+                        $.ajax({
+                            type: "GET",
+                            url: "./listajax",
+                            data: { currentPage: nextPage },
+                            beforeSend: function () {
+                                $("#loading").show();
+                            },
+                            complete: function () {
+                                isLoading = false;
+                            },
+                            success: function (res) {
+                                if (res.list.length == 0) {
+                                    noMoreData = true;
+                                    $("#loading").hide();
+                                } else {
+                                    setTimeout(function () {
+                                        currentpage++;
+                                        var s = '';
+                                        $.each(res.list, function (idx, ele) {
+                                            var date = new Date(ele.fb_writeday);
+                                            var formattedDate = date.toLocaleDateString("en-US", {month: '2-digit', day: '2-digit'});
+                                            s += `<div class="box">`;
+                                            s += `<span class="hb_writeday">\${formattedDate}</span>`;
+                                            s += `<span class="hb_readcount"><div class="icon_read"></div>\${ele.hb_readcount}</span>`;
+                                            s += `<span class="hb_photo"><a href="hireboarddetail?hb_idx=\${ele.hb_idx}"><img src="http://${imageUrl}/hire/\${ele.hb_photo.split(",")[0]}" id="photo"></a></span>`;
+                                            s += `<h3 class="hb_subject"><a href="hireboarddetail?hb_idx=\${ele.hb_idx}"><b>\${ele.hb_subject}</b></a></h3>`;
+                                            s += `<div class="hr_tag"><div class="hr_tag_1">이직시200만원</div><div class="hr_tag_2">유연근무</div></div>`;
+                                            s += `</div>`;
+                                        })
+                                        $(".listbox").append(s);
+                                        $("#loading").hide();
+                                    }, 1000);  // 1초 후에 실행
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.log("Error:", error);
+                                $("#loading").hide();
                             }
-                        },
-                        error: function (xhr, status, error) {
-                            console.log("Error:", error);
-                        }
-                    });
+                        });
+                    }
                 }
-            }
+            });
         });
-    });
-</script>
 
 
+        // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function() {scrollFunction()};
 
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("myBtn").style.display = "block";
+        } else {
+            document.getElementById("myBtn").style.display = "none";
+        }
+    }
+
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+
+    </script>
+
+
+</div>
 
 
 
