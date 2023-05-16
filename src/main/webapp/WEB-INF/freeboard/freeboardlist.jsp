@@ -153,18 +153,18 @@
 
         // 퀵메뉴
         $(document).ready(function () {
-            var currentPosition = parseInt($(".quickmenu").css("top"));
-            $(window).scroll(function () {
-                var position = $(window).scrollTop();
-                $(".quickmenu").stop().animate({"top": position + currentPosition + "px"}, 1000);
-            });
 
-            // 스크롤
             var currentpage = 1;
             var isLoading = false;
             var noMoreData = false;
 
+            var currentPosition = parseInt($(".quickmenu").css("top"));
             $(window).scroll(function () {
+                var position = $(window).scrollTop();
+                $(".quickmenu").stop().animate({"top": position + currentPosition + "px"}, 1000);
+
+
+                // 무한스크롤
                 if ($(window).scrollTop() == $(document).height() - $(window).height()) {
                     if (!isLoading && !noMoreData) {
                         isLoading = true;
@@ -192,7 +192,7 @@
                                             var writedayElement = document.getElementById("writeday-${ele.fb_idx}");
                                             var formattedWriteday = timeForToday("${ele.fb_writeday}");
                                             writedayElement.textContent = formattedWriteday;
-                                            
+
 
 
                                         }) //foreach
@@ -210,6 +210,7 @@
                     }
                 }
             });
+
 
         });
 
