@@ -94,7 +94,7 @@ public class MessageController {
     //메세지 리스트에서 메세지 보내기
     @ResponseBody
     @RequestMapping("/message/message_send_inlist.do")
-    public int message_send_inlist(@RequestParam int room, @RequestParam String other_nick,
+    public void message_send_inlist(@RequestParam int room, @RequestParam String other_nick,
                                    @RequestParam String content, HttpSession session) {
 
         MessageDto dto = new MessageDto();
@@ -103,13 +103,7 @@ public class MessageController {
         dto.setRecv_nick(other_nick);
         dto.setContent(content);
 
-        //System.out.println(dto.getContent());
-
-        int flag = messageService.MessageSendInList(dto);
-
-        System.out.println(messageService.MessageSendInList(dto));
-
-        return flag;
+        messageService.MessageSendInList(dto);
     }
 
 }

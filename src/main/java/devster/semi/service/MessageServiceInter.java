@@ -11,7 +11,7 @@ public interface MessageServiceInter {
 
     public ArrayList<MessageDto> getRoomContentList(MessageDto dto);
 
-    public int MessageSendInList(MessageDto dto);
+    public void MessageSendInList(MessageDto dto);
 
 
    /* public String getOtherProfile(MessageDto dto);
