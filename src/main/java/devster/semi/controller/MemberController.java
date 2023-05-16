@@ -4,7 +4,6 @@ import devster.semi.dto.AcademyInfoDto;
 
 import devster.semi.dto.CompanyMemberDto;
 import devster.semi.dto.MemberDto;
-import devster.semi.mapper.MemberMapper;
 import devster.semi.service.MailService;
 import devster.semi.service.MemberService;
 import devster.semi.service.SmsService;
