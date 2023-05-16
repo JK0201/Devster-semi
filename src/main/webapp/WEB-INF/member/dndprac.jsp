@@ -121,7 +121,7 @@
 </script>
 //drag and drop
 
-<section id="dropbox">
+<section id="dropbox" style="margin:0 auto;">
     <span style="font-weight: bold">UPLOAD</span>
     <div class="uploadbox">
         <input type="file" accept=".jpg, .jpeg, .png, .gif" multiple id="filebtn" class="btn-file d-none">
@@ -130,11 +130,11 @@
             <i class="bi bi-recycle alldelbtn"></i>
             <i class="bi bi-plus-circle btnupload"></i>
         </div>
-        <div id="preview" align="center">
-            <i class="bi bi-cloud-upload" style="color:#bdbebd; font-size: 50px;"></i><br>
-            <b style="color:#bdbebd; font-size: 15px;">최대 3장이내의 jpeg, jpg, png, gif 파일만 업로드 가능</b>
+        <div id="preview" style="margin:0 auto; width: 400px;">
+            <div style="margin: 0 auto; width: 100px;"><i class="bi bi-cloud-upload" style="color:#bdbebd; font-size: 50px; text-align: center;margin:0 auto;"></i></div>
+            <b style="color:#bdbebd; font-size: 15px;text-align: center;">최대 3장이내의 jpeg, jpg, png, gif 파일만 업로드 가능</b>
             <br><br>
-            <div id="dndtext">Drag & Drop</div>
+            <div id="dndtext" style="margin: 0 auto;">Drag & Drop</div>
         </div>
         <div style="width:600px; height:50px;"></div>
     </div>
@@ -253,7 +253,7 @@
             reader.onload = function (e) {
                 f.index = fileidx
                 s += "<div id='box" + fileidx + "' style='float:left; position: relative;'>";
-                s += "<div class='imgbox'>";
+                s += "<div class='imgbox' style='margin-left:10px;'>";
                 s += "<img src='" + e.target.result + "' class='img-thumbnail imgpreview'>";
                 s += "<i class='bi bi-dash-circle previewdelbtn' onclick='deletefile(\"" + fileidx + "\")'></i>";
                 s += "</div>"
