@@ -169,6 +169,7 @@ public class MemberService implements MemberServiceInter {
 
         return chk;
     }
+
     @Override
     public int eFindCheck(String m_email, String m_name) {
         Map<String, String> map = new HashMap<>();
@@ -180,12 +181,62 @@ public class MemberService implements MemberServiceInter {
     }
 
     @Override
-    public void updatePass(String m_email, String m_name, String m_pass) {
-        Map<String, String> map=new HashMap<>();
-        map.put("m_eamil",m_email);
-        map.put("m_name",m_name);
-        map.put("m_pass",m_pass);
+    public void updatePass(String m_email, String m_name, String m_pass, String salt) {
+        Map<String, String> map = new HashMap<>();
+        map.put("m_email", m_email);
+        map.put("m_name", m_name);
+        map.put("m_pass", m_pass);
+        map.put("salt", salt);
 
         memberMapper.updatePass(map);
+    }
+
+    @Override
+    public int CPFindCheck(String cm_email, String cm_name, String cm_cp) {
+        Map<String, String> map = new HashMap<>();
+        map.put("cm_email", cm_email);
+        map.put("cm_name", cm_name);
+        map.put("cm_cp", cm_cp);
+        int chk = memberMapper.CPFindCheck(map);
+
+        return chk;
+    }
+
+    @Override
+    public void CUpdatePass(String cm_email, String cm_name, String cm_pass, String salt) {
+        Map<String, String> map = new HashMap<>();
+        map.put("cm_email", cm_email);
+        map.put("cm_name", cm_name);
+        map.put("cm_pass", cm_pass);
+        map.put("salt", salt);
+        System.out.println(map);
+
+        memberMapper.CUpdatePass(map);
+    }
+
+    @Override
+    public int CEFindCheck(String cm_email, String cm_name) {
+        Map<String, String> map = new HashMap<>();
+        map.put("cm_email", cm_email);
+        map.put("cm_name", cm_name);
+
+        int chk = memberMapper.CEFindCheck(map);
+
+        return chk;
+    }
+
+    @Override
+    public int compRegChk(String cm_reg) {
+        return memberMapper.compRegChk(cm_reg);
+    }
+
+    @Override
+    public void testupdate(String m_photo) {
+        memberMapper.testupdate(m_photo);
+    }
+
+    @Override
+    public String getphoto(int m_idx) {
+        return memberMapper.getphoto(m_idx);
     }
 }

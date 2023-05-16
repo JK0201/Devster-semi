@@ -24,4 +24,5 @@ public class MemberDto {
     private String salt;
     private int m_type;
     private Timestamp m_date;
+    private String cm_reg;
 }

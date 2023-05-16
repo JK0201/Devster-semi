@@ -1,7 +1,6 @@
 package devster.semi.controller;
 
 
-import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.HireBoardDto;
 
 import devster.semi.dto.NoticeBoardDto;
@@ -14,6 +13,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 import java.util.*;
 
 @Controller
@@ -125,10 +128,14 @@ public class HireBoardController {
     }
 
     @GetMapping("/hireboarddetail")
-    public String detail(int hb_idx, Model model){
+    public String detail(int hb_idx, Model model, HttpSession session){
+
 
         hireService.updateReadCount(hb_idx);
         HireBoardDto dto = hireService.getData(hb_idx);
+
+        //        버튼 상태에 관한 정보를 디테일 페이지로 보내줌.
+        boolean isAlreadyAddBkmk = hireService.isAlreadyAddBkmk((int)session.getAttribute("memidx"),hb_idx);
 
         model.addAttribute("dto", dto);
 
@@ -141,8 +148,42 @@ public class HireBoardController {
         }
 
         model.addAttribute("list",list);
+        System.out.println(isAlreadyAddBkmk);
+        model.addAttribute("isAlreadyAddBkmk", isAlreadyAddBkmk);
+
+
 
         return "/main/hire/hireboarddetail";
+    }
+
+    //북마크 추가 메서드
+    @RequestMapping("/increaseBkmk")
+    @ResponseBody
+    public void increaseBkmk(int m_idx,int hb_idx) {
+//        // article 테이블에서 해당 게시물 등록
+//        hireService.increaseBkmk(hb_idx);
+//        // article 테이블에서 해당 게시물의 최신화된 좋아요 수 불러오기
+//        int bookMark = hireService.getBkmkCount(hb_idx);
+
+        // reactionPoint 테이블에 리액션 정보(게시물 id, 사용자 id)를 기록
+        hireService.addIncreasingBkmkInfo(m_idx, hb_idx);
+
+//        return;
+    }
+
+    //좋아요 감소 메서드
+    @RequestMapping("/decreaseBkmk")
+    @ResponseBody
+    public void decreaseBkmk(int m_idx,int hb_idx) {
+//        // article 테이블에서 해당 게시물의 좋아요 1 감소
+//        qboardService.decreaseGoodRp(qb_idx);
+//        // article 테이블에서 해당 게시물의 최신화된 좋아요 수 불러오기
+//        int goodRp = qboardService.getGoodRpCount(qb_idx);
+
+        // reactionPoint 테이블에 리액션 정보(게시물 id, 사용자 id) 기록을 삭제
+        hireService.deleteBkmkInfo(m_idx,hb_idx);
+
+//        return goodRp;
     }
 
     @GetMapping("/hireboarddelete")
@@ -155,6 +196,8 @@ public class HireBoardController {
 
         return "redirect:list";
     }
+
+
 
 
     @GetMapping("/hireupdateform")

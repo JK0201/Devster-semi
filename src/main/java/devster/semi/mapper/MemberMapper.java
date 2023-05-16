@@ -61,8 +61,18 @@ public interface MemberMapper {
 
     public int pFindCheck(Map<String, String> map);
 
-    public void updatePass(Map<String, String> map);
-
     public int eFindCheck(Map<String, String> map);
 
+    public void updatePass(Map<String, String> map);
+
+    public int CPFindCheck(Map<String, String> map);
+
+    public void CUpdatePass(Map<String, String> map);
+
+    public int CEFindCheck(Map<String, String> map);
+
+    public int compRegChk(String cm_reg);
+
+    public void testupdate(String m_photo);
+    public String getphoto(int m_idx);
 }
