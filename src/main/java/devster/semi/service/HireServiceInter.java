@@ -9,8 +9,6 @@ import devster.semi.dto.HireBoardDto;
 import devster.semi.dto.QboardDto;
 
 
-
-
 public interface HireServiceInter {
 
     public List<HireBoardDto> getAllPosts();
@@ -20,11 +18,11 @@ public interface HireServiceInter {
 
     public void deleteHireBoard(int hb_idx);
 
-
     public void updateHireBoard(HireBoardDto dto);
     public int getHireTotalCount();
     public List<HireBoardDto> getHirePagingList(int start, int perpage);
 
-
+    public List<HireBoardDto> searchlist(String keyword, int start, int perpage);
+    public int countsearch(String keyword);
 
 }

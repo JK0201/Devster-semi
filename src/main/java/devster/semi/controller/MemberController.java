@@ -350,12 +350,20 @@ public class MemberController {
         tokensCp = cpNoHyphen.split("\\s");
         String cm_cp = String.join("", tokensCp);
 
-        //업로드 어떻게 할건지 생각하기
+        String cm_photo = "";
+
+        if (upload == null) {
+            cm_photo = "no";
+        } else {
+            cm_photo = storageService.uploadFile(bucketName, "company_member", upload);
+        } //업로드 어떻게 할지 생각하기
+
 
         dto.setSalt(salt);
         dto.setCm_pass(cm_pass);
         dto.setCm_tele(cm_tele);
         dto.setCm_cp(cm_cp);
+        dto.setCm_filename(cm_photo);
 
         memberService.addNewCMemeber(dto);
     }
@@ -406,8 +414,7 @@ public class MemberController {
 
     //out
     @GetMapping("/outtest")
-    @ResponseBody
-    public void outTest(HttpSession session) {
+    public String outTest(HttpSession session) {
         session.removeAttribute("logstat");
         session.removeAttribute("memidx");
         session.removeAttribute("memnick");
@@ -415,6 +422,8 @@ public class MemberController {
         session.removeAttribute("acaidx");
         session.removeAttribute("cmidx");
         session.removeAttribute("cmname");
+
+        return "redirect:/";
     }
 
     @GetMapping("/selmember")

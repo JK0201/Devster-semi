@@ -1,0 +1,51 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="devster.semi.mapper.MypageMapper">
+    <select id="getOneDatabyCm_idx" parameterType="int" resultType="CompanyMemberDto">
+        select * from companymember where cm_idx=#{cm_idx}
+    </select>
+    <delete id="deleteNormalUser" parameterType="String">
+        delete from member where m_email =#{m_email}
+    </delete>
+    <delete id="deleteCompUser" parameterType="String">
+        delete from companymember where cm_email =#{cm_email}
+    </delete>
+    <update id="updateAcaPhoto" parameterType="MemberDto">
+        update member set m_filename=#{m_filename} where m_idx=#{m_idx}
+    </update>
+    <select id="checkAcaPhoto" parameterType="int" resultType="String">
+        select m_filename from member where m_idx=#{m_idx}
+    </select>
+    <update id="updateDeafualtPhoto" parameterType="int">
+        update member set m_photo='no' where m_idx = #{m_idx}
+    </update>
+    <update id="updateProfile" parameterType="MemberDto">
+        update member set m_nickname=#{m_nickname}, m_pass=#{m_pass}, m_name=#{m_name}, m_tele=#{m_tele}, m_photo=#{m_photo},salt=#{salt} where m_idx=#{m_idx}
+    </update>
+    <update id="updateProfileCm" parameterType="CompanyMemberDto">
+        update companymember set cm_compname=#{cm_compname}, cm_pass=#{cm_pass}, cm_name=#{cm_name}, cm_tele=#{cm_tele}, cm_addr=#{cm_addr}, cm_cp=#{cm_cp}, salt=#{salt} where cm_idx=#{cm_idx}
+    </update>
+    <select id="getHireBookmarkList" parameterType="int" resultType="HireBoardDto">
+        SELECT hb.*
+        FROM hireboard hb
+                 INNER JOIN hirebookmark hbm ON hb.hb_idx = hbm.hb_idx
+        WHERE hbm.m_idx = #{m_idx}
+    </select>
+    <select id="getDatasStateZeroByMember" resultType="MemberDto">
+        select * from member where m_state=0 AND not m_filename = 'no'
+    </select>
+    <update id="updateMstate" parameterType="int">
+        update member set m_state=1, m_filename ='no' where m_idx=#{m_idx}
+    </update>
+    <update id="rejectUpgradeMstate" parameterType="int">
+        update member set m_filename='no' where m_idx=#{m_idx}
+    </update>
+    <select id="getDatasStateZeroByCompany" resultType="CompanyMemberDto">
+        select * from companymember where cm_new=0 AND not cm_filename = 'no'
+    </select>
+    <update id="updateCmstate" parameterType="int">
+        update companymember set cm_new=1, cm_filename='no' where cm_idx=#{cm_idx}
+    </update>
+    <update id="rejectUpgradeCmstate" parameterType="int">
+        update companymember set cm_filename='no' where cm_idx=#{cm_idx}
+    </update>
+</mapper>

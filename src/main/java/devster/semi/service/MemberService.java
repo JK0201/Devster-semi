@@ -111,6 +111,15 @@ public class MemberService implements MemberServiceInter {
     }
 
     @Override
+    public MemberDto getOneDataByM_idx(int m_idx) {
+        return memberMapper.getOneDataByM_idx(m_idx);
+    }
+
+    @Override
+    public String getAcaNameByAi_idx(int ai_idx) {
+        return memberMapper.getAcaNameByAi_idx(ai_idx);
+    }
+    @Override
     public int NPCheck(String m_name, String m_tele) {
         Map<String, String> map = new HashMap<>();
         map.put("m_name", m_name);

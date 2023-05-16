@@ -25,3 +25,5 @@ mybatis:
   type-aliases-package: devster.semi.dto
   mapper-locations:
     - /mapper/**/*.xml
+
+

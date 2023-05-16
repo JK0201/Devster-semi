@@ -2,7 +2,6 @@ package devster.semi.service;
 
 import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.HireBoardDto;
-
 import devster.semi.mapper.HireMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,6 +65,23 @@ public class HireService implements HireServiceInter{
     map.put("start",start);
     map.put("perpage",perpage);
     return hireMapper.getHirePagingList(map);
+    }
+
+    // 검색
+    @Override
+    public List<HireBoardDto> searchlist(String keyword, int start, int perpage) {
+        Map<String,Object> map = new HashMap<>();
+
+        map.put("keyword", keyword);
+        map.put("start", start);
+        map.put("perpage", perpage);
+
+        return hireMapper.searchlist(map);
+    }
+
+    @Override
+    public int countsearch(String keyword) {
+        return hireMapper.countsearch(keyword);
     }
 
 }

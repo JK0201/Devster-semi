@@ -10,7 +10,6 @@
         insert into hireboard (hb_idx,hb_subject,hb_content,hb_photo,fb_writeday) values (#{hb_idx},#{hb_subject},#{hb_content},#{hb_photo},now())
     </insert>
 
-
     <select id="getData" parameterType="int" resultType="HireBoardDto">
         select * from hireboard where hb_idx=#{hb_idx}
     </select>
@@ -37,5 +36,19 @@
     <select id="getHirePagingList" parameterType="Map" resultType="HireBoardDto">
         SELECT * FROM hireboard ORDER BY hb_idx DESC LIMIT #{start}, #{perpage}
     </select>
+
+    <!-- 검색 : 회사이름검색만 (join 없음) -->
+    <select id="searchlist" resultType="HireBoardDto" parameterType="Map">
+        SELECT hb.*
+        FROM hireboard hb
+        WHERE hb.hb_subject LIKE CONCAT('%', #{keyword}, '%')
+        order by hb_idx desc limit #{start}, #{perpage}
+    </select>
+
+    <select id="countsearch" resultType="int" parameterType="String">
+        select count(*) from hireboard hb
+        WHERE hb.hb_subject LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
 
 </mapper>

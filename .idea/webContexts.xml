@@ -4,10 +4,14 @@
     <option name="state">
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/freeboard/freeboarddetail.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/freeboard" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/freeboard/freeboardlist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/freeboard" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/hire/hirelist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/hire" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/layout/header.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/layout" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member/accountfinder.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member/dndprac.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/qboard/qboarddetail.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/qboard" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/resume/resumewrite.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/resume" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/review/reviewlist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/review" />
       </map>
     </option>
   </component>

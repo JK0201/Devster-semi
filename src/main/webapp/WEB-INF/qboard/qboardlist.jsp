@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+
 <script>
     $(document).ready(function(){
         var currentPosition = parseInt($(".quickmenu").css("top"));
@@ -52,45 +53,136 @@
     .quickmenu ul li a:hover {color:#000;}
     .quickmenu ul li:last-child {border-bottom:0;}
 
-    .content {position:relative;min-height:1000px;}
+    /* 서치바 */
+    .searchdiv{
+        /*position: absolute;*/
+        position: relative;
+    }
+    .searchbar{
+        width: 736px;
+        height: 60px;
+        padding: 0 10px 0 62px;
+        border: 2px solid #222;
+        border-radius: 30px;
+        font-size: 18px;
+        box-sizing: border-box;
+    }
 
-    .notice-item {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-    }
-    .title, .author, .writeday {
-        text-align: left;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    .title {
-        width: 65%;
-    }
-    .author {
-        width: 10%;
-    }
-    .writeday {
-        width: 25%;
+    .bi-search {
+        position: absolute;
+        right: 5px; /* 아이콘과 입력란 사이의 공간을 조절합니다. */
+        top: 31px;
+        left: 27px;
+        transform: translateY(-50%); /* 아이콘을 입력란의 정중앙에 배치합니다. */
+        pointer-events: none; /* 입력란 위에서 클릭이나 기타 동작이 가능하게 합니다. */
+        font-size: 24px;
     }
 </style>
 
 <h2 style="margin-top: 60px; font-family:'배달의민족 을지로체 TTF'">QnA Board</h2>
 <h5 class="alert alert-danger" style="width: 800px">총 ${totalCount}개의 글이 있습니다.</h5>
-<h5 class="alert alert-warning" style="width: 800px">
-    공지사항<br>
-    <ul>
-<%--        <c:forEach items="${notices}" var="notice">--%>
-            <li class="notice-item">
-                <div class="title">제목: ${notice.title}</div>
-                <div class="author">작성자: ${notice.author}</div>
-                <div class="writeday">작성일자: ${notice.writeday}</div>
-            </li>
-<%--        </c:forEach>--%>
+
+<!--=============================================================================-->
+
+<div class="noticeboard_part" style="border: 1px solid red; width: 800px">
+    <h1>공지</h1>
+    <ul class="clear">
+        <c:if test="${NoticeBoardTotalCount>0}">
+        <c:forEach var="dto" items="${nblist}">
+
+
+        <li>
+            <a href="../noticeboard/noticeboarddetail?nb_idx=${dto.nb_idx}&currentPage=${currentPage}"
+               style="color: #000;">
+                    ${dto.nb_subject}
+                <c:if test="${dto.nb_photo!='n'}">
+                    &nbsp; <i class="bi bi-images"></i>
+                </c:if>
+            </a>
+        </li>
+
     </ul>
-</h5>
+    </c:forEach>
+    </c:if>
+    </ul>
+</div>
+
+<!--=============================================================================-->
+
+<!-- 검색창 -->
+<div class="searchdiv">
+    <input id="searchinput" name="keyword" type="search" placeholder="관심있는 내용을 검색해보세요!" autocomplete="off" class="searchbar">
+    <i class="bi bi-search"></i>
+
+    <select id="searchOption">
+        <option id="all" value="all">전체검색</option>
+        <option id="searchnickname" value="m_nickname">작성자 검색</option>
+        <option id="searchsubject" value="qb_subject">제목 검색</option>
+    </select>
+</div>
+
+<script>
+
+    $("#searchinput").keydown(function (e){
+
+        // 일단은 엔터 눌러야 검색되는걸로 -> 나중에 뭐 클릭해도 검색되게 바꿔도될듯?
+        if(e.keyCode==13){
+            // 검색내용
+            var keyword = $(this).val();
+            var searchOption = $("#searchOption").val();
+            console.log(keyword);
+            console.log(searchOption);
+
+            // null 값 검색시 -> 아무일도 안일어남
+            if(keyword==''){
+                alert("검색하실 내용을 입력해주세요.")
+                return
+            } else {
+                //alert("검색결과출력.");
+
+                $.ajax({
+                    type: "post",
+                    url: "./qboardsearchlist",
+                    data: {"keyword":keyword, "searchOption":searchOption},
+                    dataType: "json",
+                    success: function (res) {
+                        let s = '';
+
+                        $.each(res, function (idx, ele) {
+
+                            s += `번호 : \${ele.qb_idx}<br>`;
+                            s += `제목 : \${ele.qb_subject}<br>`;
+                            s += `작성자 : \${ele.m_nickname}<br>`;
+
+                            s += `내용 : \${ele.qb_content}<br>`;
+                            s += `검색한내용 : \${ele.keyword}<br>`;
+                            s += `검색 카테고리 : \${ele.searchOption}<br>`;
+                            s += `작성일 : \${ele.qb_writeday}<br>`;
+                            s += `댓글수 : \${ele.commentCnt}<br>`;
+                            s += `조회 : \${ele.qb_readcount}<br>`;
+                            s += `좋아요 : \${ele.qb_like}<br>`;
+                            s += `싫어요 : \${ele.qb_dislike}<br>`;
+                            s += `사진 : <hr>`;
+
+                        })
+                        $(".table").html(s);
+                    },
+                    error: function (xhr, status, error) {
+                        // 요청이 실패했을 때의 처리 로직
+                        console.log("Error:", error);
+                    }
+                });
+            }
+        }
+    });
+
+</script>
+
+
+<!--=============================================================================-->
+
 <table class="table table-bordered" style="width: 800px">
+
     <tr style="background-color: #ddd">
         <th style="width: 40px">번호</th>
         <th style="width: 250px">제목</th>
@@ -109,9 +201,11 @@
     </c:if>
     <c:if test="${totalCount>0}">
         <c:forEach var="dto" items="${list}">
+
             <c:if test="${dto.qb_dislike > 19}">
                 <tbody class="backdrop">
             <tr style="filter: blur(2px);">
+
                 <td align="center">
                         ${no}
                     <c:set var="no" value="${no-1}"/>
@@ -120,6 +214,7 @@
                 <td>
                     <a href="detail?qb_idx=${dto.qb_idx}&currentPage=${currentPage}" style="color: black; text-decoration: none; cursor: pointer;">
                         <!-- 사진이 있을경우 아이콘 출력 -->
+
 <%--                        <c:if test="${dto.qb_photo!=''}">--%>
 <%--                            <i class="bi bi-images"></i>--%>
 <%--                        </c:if>--%>
@@ -156,12 +251,7 @@
                         <!-- 제목 -->
                         <td>
                             <a href="detail?qb_idx=${dto.qb_idx}&currentPage=${currentPage}" style="color: black; text-decoration: none; cursor: pointer;">
-                                <!-- 사진이 있을경우 아이콘 출력 -->
-                                    <%--                        <c:if test="${dto.qb_photo!=''}">--%>
-                                    <%--                            <i class="bi bi-images"></i>--%>
-                                    <%--                        </c:if>--%>
-                                    <%--   제목이 길경우 150px 만 나오고 말 줄임표...--%>
-                                <span style="text-overflow:ellipsis;overflow: hidden;white-space: nowrap;display: inline-block;max-width: 300px;">${dto.qb_subject}
+                                <span style="text-overflow:ellipsis;overflow: hidden;white-space: nowrap;display: inline-block;max-width: 300px;">${dto.qb_subject} <span style="color: red; font-size: 14px">[${dto.count}]</span>
                                 </span>
                             </a>
                         </td>
@@ -188,6 +278,7 @@
                 var formattedWriteday = timeForToday("${dto.qb_writeday}");
                 writedayElement.textContent = formattedWriteday;
             </script>
+
         </c:forEach>
     </c:if>
 </table>
@@ -248,6 +339,12 @@
                         </li>
                     `
             });
+                s+=
+                    `
+                        <button type="button" onclick="window.scrollTo({top:0});">
+                         <i class="bi bi-arrow-up-square-fill"></i>
+                        </button>
+                    `;
             $(".quickmenu ul").append(s);
         },
         error: function(jqXHR, textStatus, errorThrown) {

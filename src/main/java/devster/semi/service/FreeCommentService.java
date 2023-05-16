@@ -105,5 +105,4 @@ public class FreeCommentService implements FreeCommentServiceInter{
         return freeCommentMapper.selectPhotoOfFbc_idx(fbc_idx);
     }
 
-
 }

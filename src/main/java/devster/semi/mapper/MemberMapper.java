@@ -29,6 +29,10 @@ public interface MemberMapper {
 
     public CompanyMemberDto getCmOneData(String cm_email);
 
+    public MemberDto getOneDataByM_idx(int m_idx);
+
+    public String getAcaNameByAi_idx(int ai_idx);
+
     public List<AcademyInfoDto> searchAcaInfo(String ai_name);
 
     public int getAcademyIdx(String ai_name);
