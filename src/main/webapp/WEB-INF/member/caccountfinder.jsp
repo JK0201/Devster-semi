@@ -20,6 +20,17 @@
         }
     </style>
 </head>
+<script>
+    $(function(){
+        var refresh = localStorage.getItem("refresh");
+        if(!refresh) {
+            localStorage.setItem("refresh",true);
+            location.reload();
+        }else {
+            localStorage.removeItem("refresh");
+        }
+    });
+</script>
 <body>
 <div>
     기업회원 아이디 찾기

@@ -4,6 +4,80 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../commonvar.jsp" %>
 
+    <style>
+        body, body * {
+            font-family: 'Jua'
+        }
+        .divparent{
+            margin-left:350px;
+        }
+
+
+        .already-added {
+            color: red;
+
+        }
+
+        #add-bkmk-btn:hover{
+            cursor:pointer;
+        }
+
+    </style>
+
+    <script>
+        <%--        버튼 상태 관련 이벤트  --%>
+        $(document).ready(function() {
+            <!-- jsp 실행 이전의 리액션 여부 체크 및 버튼 색상 표현 -->
+            $(function() {
+                checkAddBkmkBefore();
+            });
+            <!-- 좋아요 버튼 클릭 이벤트 및 ajax 실행 -->
+            $("#add-bkmk-btn").click(function() {
+                <!-- 북마크가 눌려 있지 않은 경우  추가 -->
+                if (isAlreadyAddBkmk == false) {
+                    $.ajax({
+                        url : "/hire/increaseBkmk",
+                        type : "POST",
+                        data : {
+                            "m_idx" : ${sessionScope.memidx},
+                            "hb_idx" : ${dto.hb_idx}
+                        },
+                        success : function(goodReactionPoint) {
+                            $("#add-bkmk-btn").addClass("already-added");
+                            // $(".add-bookMark").html(goodReactionPoint);
+                            isAlreadyAddBkmk = true;
+                        },
+                        error : function() {
+                            alert('서버 에러, 다시 시도해주세요.');
+                        }
+                    });
+
+                    <!-- 이미 북마크가 눌려 있는 경우 북마크 취소 -->
+                } else if (isAlreadyAddBkmk == true){
+                    $.ajax({
+                        url : "/hire/decreaseBkmk",
+                        type : "POST",
+                        data : {
+                            "m_idx" : ${sessionScope.memidx},
+                            "hb_idx" : ${dto.hb_idx}
+                        },
+                        success : function(goodReactionPoint) {
+                            $("#add-bkmk-btn").removeClass("already-added");
+                            // $(".add-bookMark").html(goodReactionPoint);
+                            isAlreadyAddBkmk = false;
+                        },
+                        error : function() {
+                            alert('서버 에러, 다시 시도해주세요.');
+                        }
+                    });
+                } else {
+                    return;
+                }
+            });
+
+
+            });
+    </script>
 
 
 <%--로그인 : ${sessionScope.logstat}--%>
@@ -41,6 +115,7 @@
             <img src="http://${imageUrl}/hire/${images}" style="float: left">
             <br style="clear: both;"><br>
         </c:forEach>
+
         <%--    </c:if><br><hr>--%>
     </div>
     <div>
@@ -54,6 +129,32 @@
                 onclick="location.href='./list?currentPage=${currentPage}'">목록
         </button>
     </div>
+
+<%--    </c:if><br><hr>--%>
+</div>
+<div>
+<c:if test="${sessionScope.cmidx==dto.cm_idx || sessionScope.memstate==100}">
+<%--    <c:if test="${sessionScope.memdix==dto.hb_idx}">--%>
+    <button type="button" class="btn btn-sm btn-outline-success" onclick="location.href='./hireupdateform?hb_idx=${dto.hb_idx}&currentPage=${currentPage}'">수정</button>
+    <button type="button" class="btn btn-sm btn-outline-success" onclick="del(${dto.hb_idx})">삭제</button>
+<%--    </c:if>--%>
+</c:if>
+    <button type="button" class="btn btn-sm btn-outline-success" onclick="location.href='./list?currentPage=${currentPage}'">목록</button>
+
+<%--    <c:if test="${bdto.hb_idx}">--%>
+    &nbsp;
+<%--    <i class="bi bi-bookmark bookmark"  style=" width:25px;" id="add-bkmk-btn" ></i>--%>
+    <span id="add-bkmk-btn" class="btn btn-outline" >
+                  북마크👍
+                </span>
+<%--    </c:if>--%>
+<%--    <c:if test="${bdto.list}">&nbsp;--%>
+<%--    <i class="bi bi-bookmark bookmark-fill" id="bookmark-icon2" style="" hb_idx="${dto.hb_idx}"></i>--%>
+<%--    </c:if>--%>
+
+
+</div>
+>>>>>>> main
 </div>
 
 
@@ -63,6 +164,46 @@
             location.href = "./hireboarddelete?hb_idx=" + hb_idx
         }
     }
+
+    <%--    현재 버튼이 눌려있는지 확인해서 상태에 따라 버튼에 색상표시  --%>
+    var isAlreadyAddBkmk = ${isAlreadyAddBkmk};
+
+    function checkAddBkmkBefore() {
+        <!-- 변수값에 따라 각 id가 부여된 버튼에 클래스 추가(이미 눌려있다는 색상 표시) -->
+        if (isAlreadyAddBkmk == true) {
+            $("#add-bkmk-btn").addClass("already-added");
+        } else {
+            return;
+        }
+        $(function() {
+            checkAddBkmkBefore();
+        });
+    };
+
+
+
+    <%--    $(function(){--%>
+    <%--    $(document).on("click",".bookmark",function(e){--%>
+
+    <%--        let b=confirm("해당 글을 북마크하시겠습니까?");--%>
+    <%--        if(b) {--%>
+    <%--            let hb_idx=$(this).attr("hb_idx");--%>
+    <%--            $.ajax({--%>
+    <%--                type:"get",--%>
+    <%--                url:"./bookmarkhireboard",--%>
+    <%--                data:{"m_idx":${sessionScope.memidx}, "hb_idx":hb_idx},--%>
+    <%--                dataType:"text",--%>
+    <%--                success:function(){--%>
+    <%--                    alert("북마크되었습니다");--%>
+
+
+    <%--                }--%>
+    <%--            });--%>
+    <%--        }--%>
+
+    <%--    });--%>
+    <%--});--%>
+
 </script>
 
 

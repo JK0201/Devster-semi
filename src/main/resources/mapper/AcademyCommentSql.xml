@@ -1,0 +1,55 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="devster.semi.mapper.AcademyCommentMapper">
+    <select id="getTotalComment" parameterType="int" resultType="int">
+        select count(*) from academycomment where ab_idx=#{ab_idx}
+    </select>
+    <select id="selectNickNameOfAbc_idx" parameterType="int" resultType="String">
+        SELECT m.m_nickname
+        FROM academycomment a
+                 JOIN member m ON a.m_idx = m.m_idx
+        WHERE a.abc_idx = #{abc_idx}
+    </select>
+    <select id="selectPhotoOfAbc_idx" parameterType="int" resultType="String">
+        SELECT m.m_photo
+        FROM academycomment a
+                 JOIN member m ON a.m_idx = m.m_idx
+        WHERE a.abc_idx = #{abc_idx}
+    </select>
+
+    <select id="getAllCommentList" resultType="AcademyCommentDto" parameterType="int">
+        select * from academycomment where ab_idx=#{ab_idx} and abc_depth=0 order by abc_ref asc , abc_idx desc
+    </select>
+
+    <select id="getAcademyComment" parameterType="int" resultType="AcademyCommentDto">
+        select * from academycomment where abc_idx=#{abc_idx}
+    </select>
+
+    <select id="countReply" parameterType="int" resultType="int">
+        SELECT COUNT(*) FROM academycomment WHERE abc_ref=#{abc_idx} and abc_depth=1
+    </select>
+
+    <insert id="insertAcademyComment" parameterType="AcademyCommentDto">
+        insert into academycomment (m_idx, ab_idx, abc_content, abc_writeday, abc_ref, abc_step, abc_depth) values (#{m_idx}, #{ab_idx},#{abc_content}, now(), #{abc_ref}, #{abc_step},0)
+    </insert>
+    <insert id="insertAcademyReply" parameterType="AcademyCommentDto">
+        insert into academycomment (m_idx, ab_idx, abc_content, abc_writeday, abc_ref, abc_step, abc_depth) values (#{m_idx}, #{ab_idx},#{abc_content}, now(), #{abc_ref}, #{abc_step},1)
+    </insert>
+    <select id="getReplyOfRef" parameterType="int" resultType="AcademyCommentDto">
+        select * from academycomment where abc_ref=#{abc_idx} and abc_depth=1
+    </select>
+    <update id="updateAcademyComment" parameterType="AcademyCommentDto">
+        update acadmeycomment set abc_content=#{abc_content} where abc_idx=#{abc_idx}
+    </update>
+    <delete id="deleteAcademyComment" parameterType="int">
+        delete from academycomment where abc_idx=#{abc_idx}
+    </delete>
+
+    <select id="getMaxNum" resultType="int">
+        select ifnull(max(abc_idx),0) from academycomment
+    </select>
+    <update id="updateStep" parameterType="Map">
+        update academycomment set abc_step=abc_step+1 where abc_ref=#{abc_ref} and abc_step &gt; #{abc_step}
+    </update>
+
+
+</mapper>

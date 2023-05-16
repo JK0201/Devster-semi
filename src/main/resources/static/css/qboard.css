@@ -2,16 +2,16 @@
 
 @import url(common.css);
 
-section.main .fb_wrap{
+section.main .qb_wrap{
     width: 1100px;
     margin: 32px auto;
     /*background-color: palegreen;*/
     /*position: relative;*/
 }
-section.main .fb_wrap .headbox{
+section.main .qb_wrap .headbox{
     margin-top: 30px;
 }
-section.main .fb_wrap .box {
+section.main .qb_wrap .box {
     width: 550px;
     height: 220px;
     border-bottom: 1px solid #eee;
@@ -22,7 +22,7 @@ section.main .fb_wrap .box {
     padding-top: 24px;
     padding-right: 20px;
 }
-section.main .fb_wrap .blurbox {
+section.main .qb_wrap .blurbox {
     filter: blur(2px);
     width: 550px;
     height: 220px;
@@ -35,20 +35,20 @@ section.main .fb_wrap .blurbox {
     padding-right: 20px;
 }
 
-section.main .fb_wrap .box:first-child{
+section.main .qb_wrap .box:first-child{
     border-top: 1px solid #eee;
 }
-section.main .fb_wrap .box:nth-child(2){
+section.main .qb_wrap .box:nth-child(2){
     border-top: 1px solid #eee;
 }
-section.main .fb_wrap .box .fb_writeday{
+section.main .qb_wrap .box .qb_writeday{
     border: 2px solid rgba(148,150,155,0.3);
     padding: 4px 10px;
     border-radius: 100px;
     font-size: 13px;
     color: #aaa;
 }
-section.main .fb_wrap .box .fb_readcount{
+section.main .qb_wrap .box .qb_readcount{
     /*border: 2px solid rgba(148,150,155,0.3);*/
     padding: 4px 10px;
     border-radius: 100px;
@@ -56,7 +56,7 @@ section.main .fb_wrap .box .fb_readcount{
     background-color: #eff1f5;
     color: gray;
 }
-section.main .fb_wrap .box .fb_readcount div.icon_read{
+section.main .qb_wrap .box .qb_readcount div.icon_read{
     display: inline-block;
     background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
     background-size: 590px 907px;
@@ -66,32 +66,32 @@ section.main .fb_wrap .box .fb_readcount div.icon_read{
     height: 23px;
     /* float: left;*/
 }
-section.main .fb_wrap .listbox .box h3.fb_subject{
+section.main .qb_wrap .listbox .box h3.qb_subject{
     font-size: 15px;
     margin-top: 10px;
 
 }
-section.main .fb_wrap .box .nickName{
+section.main .qb_wrap .box .nickName{
     font-size: 12px;
     margin-top: 10px;
 
 }
-section.main .fb_wrap .box .nickName img{
+section.main .qb_wrap .box .nickName img{
     width: 20px;
     height: 20px;
     border-radius: 100px;
 }
-section.main .fb_wrap .box .fb_content{
+section.main .qb_wrap .box .qb_content{
     font-size: 13px;
     margin-top: 10px;
     height: 50px;
 }
-section.main .fb_wrap .box .fb_content #photocontent{
+section.main .qb_wrap .box .qb_content #photocontent{
     width: 60%;
     display: inline-block;
 }
 
-section.main .fb_wrap .box span.fb_photo{
+section.main .qb_wrap .box span.qb_photo{
     width: 80px;
     height: 80px;
     float: right;
@@ -100,7 +100,7 @@ section.main .fb_wrap .box span.fb_photo{
     top: 0;
     right: 0;*/
 }
-section.main .fb_wrap .box span.fb_photo img{
+section.main .qb_wrap .box span.qb_photo img{
     width: 80px;
     height: 80px;
     float: right;
@@ -109,20 +109,20 @@ section.main .fb_wrap .box span.fb_photo img{
 /*-------------blurbox----------------*/
 
 
-section.main .fb_wrap .blurbox:first-child{
+section.main .qb_wrap .blurbox:first-child{
     border-top: 1px solid #eee;
 }
-section.main .fb_wrap .blurbox:nth-child(2){
+section.main .qb_wrap .blurbox:nth-child(2){
     border-top: 1px solid #eee;
 }
-section.main .fb_wrap .blurbox .fb_writeday{
+section.main .qb_wrap .blurbox .qb_writeday{
     border: 2px solid rgba(148,150,155,0.3);
     padding: 4px 10px;
     border-radius: 100px;
     font-size: 13px;
     color: #aaa;
 }
-section.main .fb_wrap .blurbox .fb_readcount{
+section.main .qb_wrap .blurbox .qb_readcount{
     /*border: 2px solid rgba(148,150,155,0.3);*/
     padding: 4px 10px;
     border-radius: 100px;
@@ -130,7 +130,7 @@ section.main .fb_wrap .blurbox .fb_readcount{
     background-color: #eff1f5;
     color: gray;
 }
-section.main .fb_wrap .blurbox .fb_readcount div.icon_read{
+section.main .qb_wrap .blurbox .qb_readcount div.icon_read{
     display: inline-block;
     background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
     background-size: 590px 907px;
@@ -140,31 +140,31 @@ section.main .fb_wrap .blurbox .fb_readcount div.icon_read{
     height: 23px;
     /* float: left;*/
 }
-section.main .fb_wrap .listbox .blurbox h3.fb_subject{
+section.main .qb_wrap .listbox .blurbox h3.qb_subject{
     font-size: 15px;
     margin-top: 10px;
 
 }
-section.main .fb_wrap .blurbox .nickName{
+section.main .qb_wrap .blurbox .nickName{
     font-size: 12px;
     margin-top: 10px;
 
 }
-section.main .fb_wrap .blurbox .nickName img{
+section.main .qb_wrap .blurbox .nickName img{
     width: 20px;
     height: 20px;
     border-radius: 100px;
 }
-section.main .fb_wrap .blurbox .fb_content{
+section.main .qb_wrap .blurbox .qb_content{
     font-size: 13px;
     margin-top: 10px;
     height: 50px;
 }
-section.main .fb_wrap .blurbox .fb_content .photocontent{
+section.main .qb_wrap .blurbox .qb_content .photocontent{
     width: 60%;
     display: inline-block;
 }
-section.main .fb_wrap .blurbox span.fb_photo_blur{
+section.main .qb_wrap .blurbox span.qb_photo_blur{
     width: 80px;
     height: 80px;
     float: right;
@@ -172,7 +172,7 @@ section.main .fb_wrap .blurbox span.fb_photo_blur{
     top: 0;
     right: 0;*/
 }
-section.main .fb_wrap .blurbox span.fb_photo img{
+section.main .qb_wrap .blurbox span.qb_photo img{
     width: 80px;
     height: 80px;
     float: right;
@@ -181,11 +181,11 @@ section.main .fb_wrap .blurbox span.fb_photo img{
     right: 0;
 }
 /*--------------------*/
-section.main .fb_wrap .hr_tag{
+section.main .qb_wrap .hr_tag{
     /*margin-top: 20px;*/
 }
 
-section.main .fb_wrap .hr_tag_1{
+section.main .qb_wrap .hr_tag_1{
     font-size: 12px;
     border: 1px solid rgb(19, 191, 159);
     display: inline-block;
@@ -193,7 +193,7 @@ section.main .fb_wrap .hr_tag_1{
     margin-left: -2px;
     color: rgb(19, 191, 159);
 }
-section.main .fb_wrap .hr_tag_2{
+section.main .qb_wrap .hr_tag_2{
     font-size: 12px;
     border: 1px solid rgb(119, 101, 255);
     display: inline-block;
@@ -226,7 +226,7 @@ section.main .paginate .icon_next{
     display: inline-block;
 }
 
-section.main .fb_write_btn{
+section.main .qb_write_btn{
     position: relative;
     bottom: 112px;
     left: 1203px;

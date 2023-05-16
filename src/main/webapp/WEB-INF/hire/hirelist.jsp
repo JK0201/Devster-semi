@@ -3,13 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../commonvar.jsp" %>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
 
 <script>
     let photos ='';
 </script>
-
-
-
 <style>
     /* 서치바 */
     .searchdiv{
@@ -36,6 +36,7 @@
         font-size: 24px;
     }
 
+
     #myBtn {
         display: none; /* Hidden by default */
         position: fixed; /* Fixed/sticky position */
@@ -44,7 +45,7 @@
         z-index: 99; /* Make sure it does not overlap */
         border: none; /* Remove borders */
         outline: none; /* Remove outline */
-        background-color: #8007ad; /* Set a background color */
+        background-color: #7f07ac; /* Set a background color */
         color: white; /* Text color */
         cursor: pointer; /* Add a mouse pointer on hover */
         padding: 15px; /* Some padding */
@@ -53,7 +54,7 @@
     }
 
     #myBtn:hover {
-        background-color: #5cb85c; /* Add a dark-grey background on hover */
+        background-color: #530871; /* Add a dark-grey background on hover */
     }
 
 
@@ -61,7 +62,6 @@
 
 <div class="hb_wrap clear">
 
-    <!--=============================================================================-->
 
     <!-- 검색창 -->
     <div class="searchdiv">
@@ -134,6 +134,7 @@
 
 <div class="listbox">
 
+
     <c:forEach var="dto" items="${list}" varStatus="i">
         <div class="box" <c:if test="${i.index % 2 == 1}">style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;"</c:if>>
 
@@ -145,33 +146,42 @@
                     <img src="http://${imageUrl}/hire/${dto.hb_photo.split(",")[0]}" id="photo">
                 </a>
             </span>
-
-            <h3 class="hb_subject">
-                <a href="hireboarddetail?hb_idx=${dto.hb_idx}"><b>${dto.hb_subject}</b></a>
-            </h3>
-
-
-            <div class="hr_tag">
-                <div class="hr_tag_1">이직시200만원</div>
-                <div class="hr_tag_2">유연근무</div>
+                <h3 class="hb_subject">
+                    <a href="hireboarddetail?hb_idx=${dto.hb_idx}&currentPage=${currentPage}"><b>${dto.hb_subject}</b></a>
+                </h3>
+                <div class="hr_tag">
+                    <div class="hr_tag_1">이직시200만원</div>
+                    <div class="hr_tag_2">유연근무</div>
+                </div>
             </div>
+        </c:forEach>
+    </div>
+    <div class="box" <c:if test="${i.index % 2 == 1}">style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;"</c:if>>
 
-        </div>
-    </c:forEach>
+
+    </div>
+
+
 </div>
     <div class="box" <c:if test="${i.index % 2 == 1}">style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;"</c:if>>
 
     </div>
 
 
+<<<<<<< HEAD
+=======
+
+<c:if test="${sessionScope.cmdix || sessionScope.memstate==100}">
+<button type="button" class="btn btn-sm btn-outline-success hb_write_btn"
+        onclick="location.href='form'" style="margin-bottom: 10px">글쓰기
+</button>
+</c:if>
+>>>>>>> main
     <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 
     <div id="loading" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999;">
         <img src="${root}/photo/809.gif" alt="Loading..." style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"> <!-- 로딩 이미지의 경로를 설정하세요 -->
     </div>
-
-
-
 
     <script>
         $(document).ready(function () {
@@ -181,7 +191,14 @@
             var noMoreData = false;
 
             $(window).scroll(function () {
-                if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+                var scrollHeight = Math.max(
+                    document.body.scrollHeight, document.documentElement.scrollHeight,
+                    document.body.offsetHeight, document.documentElement.offsetHeight,
+                    document.body.clientHeight, document.documentElement.clientHeight
+                );
+                var scrollPos = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+
+                if (scrollPos + window.innerHeight >= scrollHeight) {
                     if (!isLoading && !noMoreData) {
                         isLoading = true;
                         var nextPage = currentpage + 1;
