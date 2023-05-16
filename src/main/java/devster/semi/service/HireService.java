@@ -98,15 +98,15 @@ public class HireService implements HireServiceInter{
     }
 
     private Integer getBkmkInfoBym_idx(int m_idx, int hb_idx) {
-        Map<String,Integer> map = new HashMap<>();
-        map.put("m_idx",m_idx);
-        map.put("hb_idx",hb_idx);
+        Map<String, Integer> map = new HashMap<>();
+        map.put("m_idx", m_idx);
+        map.put("hb_idx", hb_idx);
         Integer getBkmkPointTypeCodeBym_idx = hireMapper.getBkmkInfoBym_idx(map);
-        if(getBkmkPointTypeCodeBym_idx == null) {
+        if (getBkmkPointTypeCodeBym_idx == null) {
             getBkmkPointTypeCodeBym_idx = 0;
         }
-        return (int)getBkmkPointTypeCodeBym_idx;
-
+        return (int) getBkmkPointTypeCodeBym_idx;
+    }
     // 검색
     @Override
     public List<HireBoardDto> searchlist(String keyword, int start, int perpage) {

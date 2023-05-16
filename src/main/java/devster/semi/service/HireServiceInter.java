@@ -3,10 +3,8 @@ package devster.semi.service;
 import java.util.List;
 
 import devster.semi.dto.HireBoardDto;
-<<<<<<< HEAD
-=======
+
 import devster.semi.dto.QboardDto;
->>>>>>> main
 
 
 public interface HireServiceInter {
