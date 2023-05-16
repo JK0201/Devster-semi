@@ -92,7 +92,7 @@ public class MessageService implements MessageServiceInter{
     @Override
     public int MessageSendInList(MessageDto dto) {
         //메세지 리스트에서 보낸건지 프로필에서 보낸건지 구분하기 위함
-        if(dto.getRoom() == 0){ // room이 0이라면 프로필에서 보낸것
+       /* if(dto.getRoom() == 0){ // room이 0이라면 프로필에서 보낸것
             int exist_chat = messageMapper.getExistChat(dto);
             //프로필에서 보낸 것 중 메세지 내역이 없어서 첫 메세지가 될 경우를 구분하기 위함
             if(exist_chat ==0){ //메세지 내역이 없어서 0이면 message 테이블의 room 최댓값을 구해서 dto에 set한다
@@ -102,7 +102,7 @@ public class MessageService implements MessageServiceInter{
                 int room = Integer.parseInt(messageMapper.getSelectRoom(dto));
                 dto.setRoom(room);
             }
-        }
+        }*/
 
         int flag = messageMapper.MessageSendInList(dto);
 
@@ -125,8 +125,5 @@ public class MessageService implements MessageServiceInter{
     }*/
 
 
-    @Override
-    public List<MessageDto> getMessageByOtherOtherNick(String other_nick) {
-        return messageMapper.getMessageByOtherOtherNick(other_nick);
-    }
+
 }

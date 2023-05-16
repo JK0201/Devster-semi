@@ -13,10 +13,6 @@ public interface MessageServiceInter {
 
     public int MessageSendInList(MessageDto dto);
 
-    public List<MessageDto> getMessageByOtherOtherNick(String other_nick);
-
-
-
 
    /* public String getOtherProfile(MessageDto dto);
 

@@ -7,14 +7,15 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class MessageController {
@@ -76,9 +77,13 @@ public class MessageController {
         dto.setRoom(room);
         dto.setNick((String) session.getAttribute("memnick"));
 
+        System.out.println(dto.toString());
+
 
         //메세지 내용을 가져온다
         ArrayList<MessageDto> clist = messageService.getRoomContentList(dto);
+
+        //System.out.println("clist: " + clist);
 
 
         model.addAttribute("clist", clist);
@@ -98,7 +103,7 @@ public class MessageController {
         dto.setRecv_nick(other_nick);
         dto.setContent(content);
 
-        //System.out.println(dto.toString());
+        //System.out.println(dto.getContent());
 
         int flag = messageService.MessageSendInList(dto);
 
@@ -107,28 +112,6 @@ public class MessageController {
         return flag;
     }
 
-    @ResponseBody
-    @RequestMapping("/message/other_profile")
-    public Map<String, Object> other_profile(@RequestParam("other_nick") String other_nick, HttpSession session) {
-
-        Map<String,Object> map = new HashMap<>();
-        System.out.println(other_nick);
-
-        List<MessageDto> blist = messageService.getMessageByOtherOtherNick(other_nick);
-
-        map.put("blist",blist);
-        map.put("otherNick",other_nick);
-
-        System.out.println(blist);
-        return map;
-    }
-
-    @GetMapping("/message/ajaxlist")
-    public String ajaxlist(String other_nick,Model model) {
-        model.addAttribute("other_nick",other_nick);
-
-        return "message/ajaxlist";
-    }
 }
 
 

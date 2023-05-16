@@ -20,7 +20,7 @@
             <!-- active-chat -->
             <div class="chat_people clear">
                 <div class="chat_img">
-                    <a href="ajaxlist?other_nick=${tmp.other_nick}">
+                    <a href="other_profile.do?other_nick=${tmp.other_nick}">
                         <img src="http://${imageUrl}/member/${tmp.profile}" width="50px">
                     </a>
                 </div>

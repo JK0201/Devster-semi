@@ -27,6 +27,4 @@ public interface MessageMapper {
 
     public String getSelectRoom(MessageDto dto);
 
-    public List<MessageDto> getMessageByOtherOtherNick(String other_nick);
-
 }

@@ -199,7 +199,7 @@
             url:"message_content_list.do",
             method:"GET",
             data:{
-                    room : room,
+                room : room,
             },
             success:function(data){
                 console.log("메세지 내용 가져오기 성공");
@@ -212,7 +212,7 @@
 
             },
             error : function() {
-                    alert('서버 에러');
+                alert('서버 에러');
             }
         })
 
@@ -220,38 +220,39 @@
     };
 
     //메세지를 전송하는 함수
+
     const SendMessage = function(room, other_nick){
 
         let content = $('.write_msg').val();
-        //alert("content: "+ content);
+        alert("content: "+ content);
 
         content = content.trim();
 
         if(content == ""){
-                alert("메세지를 입력하세요!");
+            alert("메세지를 입력하세요!");
         }else{
             $.ajax({
                 url:"message_send_inlist.do",
                 method:"GET",
                 data:{
-                        room : room,
-                        other_nick: other_nick,
-                        content: content
+                    room : room,
+                    other_nick: other_nick,
+                    content: content
                 },
                 success:function(data){
-                        console.log("메세지 전송 성공");
+                    console.log("메세지 전송 성공");
 
-                        //메세지 입력 칸 비우기
-                        $('.write_msg').val("");
+                    //메세지 입력 칸 비우기
+                    $('.write_msg').val("");
 
-                        //메세지 내용 리로드
-                        MessageContentList(room);
+                    //메세지 내용 리로드
+                    MessageContentList(room);
 
-                        //메세지 리스트 리로드
-                        MessageList();
+                    //메세지 리스트 리로드
+                    MessageList();
                 },
                 error : function() {
-                        alert('서버에러');
+                    alert('서버에러');
                 }
             });
         }

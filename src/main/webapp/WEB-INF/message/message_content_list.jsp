@@ -13,7 +13,7 @@
 <c:forEach var="tmp" items="${clist}">
     <c:choose>
         <c:when test="${sessionScope.memnick ne tmp.send_nick}">
-        <!--받은 메세지 -->
+            <!--받은 메세지 -->
             <div class="incoming_msg">
 
                 <div class="incoming_msg_img">
@@ -43,7 +43,7 @@
             </div>
         </c:otherwise>
     </c:choose>
-<%--    <img src="http://${imageUrl}/member/${tmp.m_photo}" width="50px">--%>
+    <%--    <img src="http://${imageUrl}/member/${tmp.m_photo}" width="50px">--%>
 </c:forEach>
 
 

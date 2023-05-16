@@ -3,7 +3,7 @@
 @import url(common.css);
 
 
-/*========================================================================================*/
+/*=====================================채용정보 리스트====================================*/
 
 section.main .hb_wrap{
     width: 1100px;
@@ -120,13 +120,19 @@ section.main .paginate .icon_next{
 }
 
 section.main .hb_write_btn{
-    position: relative;
+    /*position: relative;*/
     bottom: 112px;
     left: 1203px;
 }
 
+/*================================== 채용정보 디테일 페이지 ====================================*/
 
 
+section.main .hb_detail_wrap{
+    width: 1140px;
+    margin: 40px auto;
+    background: palegreen;
+}
 
 
 
