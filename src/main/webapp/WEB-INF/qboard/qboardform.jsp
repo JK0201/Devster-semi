@@ -1,3 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ include file="../commonvar.jsp" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -123,7 +129,7 @@
             <textarea name="qb_content" class="content" placeholder="토픽에 맞지 않는 글로 판단되어 다른 유저로부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 블라인드처리 될 수 있습니다." required></textarea>
         </div>
         <div class="footer">
-            <input class="file_select" type="file" name="upload" multiple><br>
+            <input class="file_select" id="fileInput" type="file" name="upload" multiple><br>
             <i class="bi bi-images" id="clickableImage"></i>
             <span class ="buttons">
         <button type="submit" class="btn_write">등록</button>
@@ -133,5 +139,11 @@
     </form>
 </div>
 </body>
+
+<script>
+    document.getElementById('clickableImage').addEventListener('click', function() {
+        document.getElementById('fileInput').click();
+    });
+</script>
 
 </html>
