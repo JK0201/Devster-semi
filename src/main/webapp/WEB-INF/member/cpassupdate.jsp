@@ -14,7 +14,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <style>
     </style>
 </head>
@@ -27,17 +26,17 @@
         // } else {
         //     localStorage.removeItem("refresh");
         // }
-        // if ($("#m_email").val() == "") {
+        // if ($("#cm_email").val() == "") {
         //     location.replace("signin");
         // }
 
     });
 </script>
 <body>
-${m_email}
-${m_name}
-<input type="hidden" id="m_email" value="${m_email}">
-<input type="hidden" id="m_name" value="${m_name}">
+${cm_email}
+${cm_name}
+<input type="hidden" id="cm_email" value="${cm_email}">
+<input type="hidden" id="cm_name" value="${cm_name}">
 <div>
     개인회원 비밀번호 찾기
     <div>
@@ -46,7 +45,7 @@ ${m_name}
             <tr>
                 <td>
                     <strong>비밀번호</strong>
-                    <input type="password" id="m_pass" required placeholder="8~16자리/영문 대소문자, 숫자, 특수문자 조합">
+                    <input type="password" id="cm_pass" required placeholder="8~16자리/영문 대소문자, 숫자, 특수문자 조합">
                     <span id="passokicon"></span>
                 </td>
             </tr>
@@ -72,7 +71,7 @@ ${m_name}
 
     //pass check
     function updatePasswordStatus() {
-        let pass = $("#m_pass").val();
+        let pass = $("#cm_pass").val();
         let passMatch = $("#passchk").val();
         let valid = validPass(pass);
 
@@ -101,7 +100,7 @@ ${m_name}
         }
     }
 
-    $("#m_pass").keyup(function () {
+    $("#cm_pass").keyup(function () {
         updatePasswordStatus();
     });
 
@@ -125,20 +124,22 @@ ${m_name}
             alert("비밀번호 확인");
             return false;
         } else {
-            let m_pass = $("#m_pass").val();
-            let m_email = $("#m_email").val();
-            let m_name = $("#m_name").val();
+            let cm_pass = $("#cm_pass").val();
+            let cm_email = $("#cm_email").val();
+            let cm_name = $("#cm_name").val();
+            console.log(cm_pass);
 
-            console.log(m_email);
-            console.log(m_name);
-            console.log(m_pass);
-            if (m_email == "" || m_name == "") {
+            console.log(cm_email);
+            console.log(cm_name);
+            console.log(cm_pass);
+
+            if (cm_email == "" || cm_name == "") {
                 location.replace("signin");
             } else {
                 $.ajax({
                     type: "get",
-                    url: "updatepass",
-                    data: {"m_email": m_email, "m_name": m_name, "m_pass": m_pass},
+                    url: "cupdatepass",
+                    data: {"cm_email": cm_email, "cm_name": cm_name, "cm_pass": cm_pass},
                     dataType: "text",
                     success: function () {
                         alert("비밀번호가 변경되었습니다");

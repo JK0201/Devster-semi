@@ -66,14 +66,14 @@ public class MemberController {
 
     @GetMapping("/apisignup")
     public String apiSignUp(HttpSession session, Model m) {
-        String m_email = (String) session.getAttribute("m_email");
-        String m_pass = (String) session.getAttribute("m_pass");
-
-        session.removeAttribute("m_email");
-        session.removeAttribute("m_pass");
-
-        m.addAttribute("m_email", m_email);
-        m.addAttribute("m_pass", m_pass);
+//        String m_email = (String) session.getAttribute("m_email");
+//        String m_pass = (String) session.getAttribute("m_pass");
+//
+//        session.removeAttribute("m_email");
+//        session.removeAttribute("m_pass");
+//
+//        m.addAttribute("m_email", m_email);
+//        m.addAttribute("m_pass", m_pass);
 
         return "/main/member/apisignup";
     }
@@ -128,6 +128,7 @@ public class MemberController {
             session.setAttribute("acaidx", acaidx);
         } else {
             map.put("result", "no");
+            session.setMaxInactiveInterval(5);
             session.setAttribute("m_email", m_email);
             session.setAttribute("m_pass", m_pass);
         }
@@ -566,20 +567,21 @@ public class MemberController {
     @GetMapping("/findaccinfo")
     @ResponseBody
     public void pFindAccInfo(String m_email, String m_name, HttpSession session) {
+        session.setMaxInactiveInterval(5);
         session.setAttribute("m_email", m_email);
         session.setAttribute("m_name", m_name);
     }
 
     @GetMapping("/update")
     public String pUpdate(HttpSession session, Model model) {
-        String m_email = (String) session.getAttribute("m_email");
-        String m_name = (String) session.getAttribute("m_name");
-
-        session.removeAttribute("m_email");
-        session.removeAttribute("m_name");
-
-        model.addAttribute("m_email", m_email);
-        model.addAttribute("m_name", m_name);
+//        String m_email = (String) session.getAttribute("m_email");
+//        String m_name = (String) session.getAttribute("m_name");
+//
+//        session.removeAttribute("m_email");
+//        session.removeAttribute("m_name");
+//
+//        model.addAttribute("m_email", m_email);
+//        model.addAttribute("m_name", m_name);
         return "/main/member/passupdate";
     }
 
@@ -597,12 +599,123 @@ public class MemberController {
     @GetMapping("/updatepass")
     @ResponseBody
     public void updatePass(String m_email, String m_name, String m_pass) {
-        System.out.println(m_pass);
         String salt = SHA256Util.generateSalt();
         String pass = m_pass;
         m_pass = SHA256Util.getEncrypt(pass, salt);
-        System.out.println(m_pass);
 
-        memberService.updatePass(m_email, m_name, m_pass);
+        memberService.updatePass(m_email, m_name, m_pass, salt);
+    }
+
+    @GetMapping("/cpfindcheck")
+    @ResponseBody
+    public Map<String, String> CPFindCheck(String cm_email, String cm_name, String cm_cp) {
+        String[] tokens = cm_cp.split("-");
+        String phoneNoHyphen = String.join("", tokens);
+        tokens = phoneNoHyphen.split("\\s");
+        cm_cp = String.join("", tokens);
+
+        int chk = memberService.CPFindCheck(cm_email, cm_name, cm_cp);
+
+        Map<String, String> map = new HashMap<>();
+        map.put("result", chk == 1 ? "yes" : "no");
+
+        return map;
+    }
+
+    @GetMapping("/cfindaccinfo")
+    @ResponseBody
+    public void CPFindAccInfo(String cm_email, String cm_name, HttpSession session) {
+        session.setMaxInactiveInterval(5);
+        session.setAttribute("cm_email", cm_email);
+        session.setAttribute("cm_name", cm_name);
+    }
+
+    @GetMapping("/cupdate")
+    public String CUpdate(HttpSession session, Model model) {
+//        String cm_email = (String) session.getAttribute("cm_email");
+//        String cm_name = (String) session.getAttribute("cm_name");
+//
+//        session.removeAttribute("cm_email");
+//        session.removeAttribute("cm_name");
+//
+//        model.addAttribute("cm_email", cm_email);
+//        model.addAttribute("cm_name", cm_name);
+        return "/main/member/cpassupdate";
+    }
+
+    @GetMapping("/cupdatepass")
+    @ResponseBody
+    public void CUpdatePass(String cm_email, String cm_name, String cm_pass) {
+        System.out.println(cm_pass);
+        String salt = SHA256Util.generateSalt();
+        String pass = cm_pass;
+        cm_pass = SHA256Util.getEncrypt(pass, salt);
+        System.out.println(cm_pass);
+
+        memberService.CUpdatePass(cm_email, cm_name, cm_pass, salt);
+    }
+
+    @GetMapping("/cefindcheck")
+    @ResponseBody
+    public Map<String, String> CEFindCheck(String cm_email, String cm_name) {
+        int chk = memberService.CEFindCheck(cm_email, cm_name);
+
+        Map<String, String> map = new HashMap<>();
+        map.put("result", chk == 1 ? "yes" : "no");
+
+        return map;
+    }
+
+    @GetMapping("/dndprac")
+    public String dndprac() {
+        return "/main/member/dndprac";
+    }
+
+    @GetMapping("/compreg")
+    public String compreg() {
+        return "/main/member/compreg";
+    }
+
+    @GetMapping("/compregchk")
+    @ResponseBody
+    public Map<String, String> compRegChk(String cm_reg) {
+        String[] tokens = cm_reg.split("-");
+        String regNoHyphen = String.join("", tokens);
+        tokens = regNoHyphen.split("\\s");
+        cm_reg = String.join("", tokens);
+
+        Map<String, String> map = new HashMap<>();
+        int chk = memberService.compRegChk(cm_reg);
+        map.put("result", chk == 1 ? "yes" : "no");
+
+        return map;
+    }
+
+    @PostMapping("/dndtest")
+    @ResponseBody
+    public void dndtest(List<MultipartFile> upload) {
+        String getphoto = memberService.getphoto(99);
+        if (!getphoto.equals("no")) {
+            String[] filename = getphoto.split(",");
+            for (String photo : filename) {
+                storageService.deleteFile(bucketName, "member", photo);
+            }
+        }
+
+        String m_photo = "";
+        StringBuilder m_photoBuiler = new StringBuilder();
+        if (upload != null) {
+            for (MultipartFile file : upload) {
+                String photo = storageService.uploadFile(bucketName, "member", file) + ",";
+                m_photoBuiler.append(photo);
+            }
+            m_photo = m_photoBuiler.toString();
+            m_photo = m_photo.substring(0, m_photo.length() - 1);
+            System.out.println(m_photo);
+        } else {
+            m_photo = "no";
+        }
+
+        memberService.testupdate(m_photo);
     }
 }

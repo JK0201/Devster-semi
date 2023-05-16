@@ -52,7 +52,7 @@
         <tr>
             <td>총 ${totalCount}개의 게시글
                 <c:if test="${sessionScope.memstate == 100}">
-                    <button type="button" onclick="location.href='./noticewriteform'">글쓰기</button>
+                    <button type="button" onclick="location.href='/noticeboard/noticewriteform'">글쓰기</button>
                 </c:if>
             </td>
         </tr>
