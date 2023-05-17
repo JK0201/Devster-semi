@@ -1,3 +1,4 @@
+
 <%--
   Created by IntelliJ IDEA.
   User: JuminManeul
@@ -35,7 +36,7 @@
                >학원별게시판</a></li>
         <li><a id="review" href="${root}/review/list">회사후기</a></li>
         <li><a id="notice" href="${root}/noticeboard/list">공지사항</a></li>
-
+        <li><a href="${root}/message/list">메세지함</a></li>
     </ul>
     <c:choose>
         <c:when test="${sessionScope.logstat == 'yes'}">

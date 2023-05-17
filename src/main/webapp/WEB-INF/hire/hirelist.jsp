@@ -3,14 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../commonvar.jsp" %>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
 
 <script>
     let photos ='';
 </script>
-
-
-
-
 <style>
     /* 서치바 */
     .searchdiv{
@@ -36,6 +35,9 @@
         pointer-events: none; /* 입력란 위에서 클릭이나 기타 동작이 가능하게 합니다. */
         font-size: 24px;
     }
+
+
+
     #myBtn {
         display: none; /* Hidden by default */
         position: fixed; /* Fixed/sticky position */
@@ -44,7 +46,7 @@
         z-index: 99; /* Make sure it does not overlap */
         border: none; /* Remove borders */
         outline: none; /* Remove outline */
-        background-color: #8007ad; /* Set a background color */
+        background-color: #7f07ac; /* Set a background color */
         color: white; /* Text color */
         cursor: pointer; /* Add a mouse pointer on hover */
         padding: 15px; /* Some padding */
@@ -53,10 +55,8 @@
     }
 
     #myBtn:hover {
-        background-color: #5cb85c; /* Add a dark-grey background on hover */
+        background-color: #530871; /* Add a dark-grey background on hover */
     }
-
-
 
 
 
@@ -70,6 +70,13 @@
         <input id="searchinput" name="keyword" type="search" placeholder="관심있는 내용을 검색해보세요!" autocomplete="off" class="searchbar">
         <i class="bi bi-search"></i>
     </div>
+
+    <!-- 글쓰기 버튼 -->
+    <c:if test="${sessionScope.cmidx!=null || sessionScope.memstate==100}">
+        <button type="button" class="btn btn-sm btn-outline-success hb_write_btn"
+                onclick="location.href='form'" style="margin-bottom: 10px">글쓰기
+        </button>
+    </c:if>
 
     <script>
 
@@ -157,11 +164,13 @@
 
 
 
+
 <c:if test="${sessionScope.cmidx!=null || sessionScope.memstate==100}">
 <button type="button" class="btn btn-sm btn-outline-success hb_write_btn"
         onclick="location.href='form'" style="margin-bottom: 10px">글쓰기
 </button>
 </c:if>
+
     <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 
     <div id="loading" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999;">
@@ -176,7 +185,14 @@
             var noMoreData = false;
 
             $(window).scroll(function () {
-                if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+                var scrollHeight = Math.max(
+                    document.body.scrollHeight, document.documentElement.scrollHeight,
+                    document.body.offsetHeight, document.documentElement.offsetHeight,
+                    document.body.clientHeight, document.documentElement.clientHeight
+                );
+                var scrollPos = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+
+                if (scrollPos + window.innerHeight >= scrollHeight) {
                     if (!isLoading && !noMoreData) {
                         isLoading = true;
                         var nextPage = currentpage + 1;

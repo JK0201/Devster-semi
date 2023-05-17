@@ -91,5 +91,14 @@
     </select>
 
 
+    <select id="bestfreeboardPosts" resultType="HireBoardDto">
+        SELECT *
+        FROM hireboard
+        /*WHERE fb_writeday >= DATE_SUB(NOW(), INTERVAL 1 DAY)*/
+        ORDER BY hb_readcount DESC
+        limit 5
+    </select>
+
+
 </mapper>
 

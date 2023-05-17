@@ -52,7 +52,7 @@
             if (!isHover) {
                 slideIndex++;
                 if (slideIndex >= slideCount) slideIndex = 0;
-                $("#slideShow .slide ul").animate({left: -slideIndex * 1100}, 500);
+                $("#slideShow .slide ul").animate({left: -slideIndex * 1140}, 1000);
                 setActiveIndicator(slideIndex);
             }
         }
@@ -76,20 +76,20 @@
         $("#slideShow .pre").on("click", function () {
             slideIndex--;
             if (slideIndex < 0) slideIndex = slideCount - 1;
-            $("#slideShow .slide ul").animate({left: -slideIndex * 1100}, 500);
+            $("#slideShow .slide ul").animate({left: -slideIndex * 1140}, 1000);
             setActiveIndicator(slideIndex);
         });
 
         $("#slideShow .nex").on("click", function () {
             slideIndex++;
             if (slideIndex >= slideCount) slideIndex = 0;
-            $("#slideShow .slide ul").animate({left: -slideIndex * 1100}, 500);
+            $("#slideShow .slide ul").animate({left: -slideIndex * 1140}, 1000);
             setActiveIndicator(slideIndex);
         });
 
         $("#slideShow .slide_btn ul li").on("click", function () {
             slideIndex = $(this).index();
-            $("#slideShow .slide ul").animate({left: -slideIndex * 1100}, 500);
+            $("#slideShow .slide ul").animate({left: -slideIndex * 1140}, 1000);
             setActiveIndicator(slideIndex);
         });
     });
