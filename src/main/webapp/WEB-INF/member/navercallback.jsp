@@ -55,7 +55,7 @@
                     let b = confirm("계정 없음");
                     if (b) {
                         window.close();
-                        window.opener.location.href="apisignup?m_email="+m_email+"&m_pass="+m_pass;
+                        window.opener.location.href="apisignup";
                     } else {
                         window.close();
                     }

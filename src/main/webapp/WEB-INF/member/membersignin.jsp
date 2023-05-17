@@ -86,7 +86,7 @@
         <a href="finder">아이디/비밀번호 찾기</a>
     </div>
 </div>
-</div>
+
 <script>
     $("#normmember").click(function () {
         $(".norminput").show();
@@ -285,19 +285,6 @@
             }
         });
     }
-
-    //out
-    $("#outtest").click(function () {
-        $.ajax({
-            type: "get",
-            url: "outtest",
-            dataType: "text",
-            success: function () {
-                alert("로그아웃");
-                location.href = "";
-            }
-        });
-    });
 </script>
 </body>
 </html>
