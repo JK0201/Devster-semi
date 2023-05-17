@@ -90,7 +90,7 @@ public class MessageService implements MessageServiceInter{
     }*/
 
     @Override
-    public int MessageSendInList(MessageDto dto) {
+    public void MessageSendInList(MessageDto dto) {
         //메세지 리스트에서 보낸건지 프로필에서 보낸건지 구분하기 위함
        /* if(dto.getRoom() == 0){ // room이 0이라면 프로필에서 보낸것
             int exist_chat = messageMapper.getExistChat(dto);
@@ -103,10 +103,7 @@ public class MessageService implements MessageServiceInter{
                 dto.setRoom(room);
             }
         }*/
-
-        int flag = messageMapper.MessageSendInList(dto);
-
-        return flag;
+        messageMapper.MessageSendInList(dto);
     }
 
    /* @Override

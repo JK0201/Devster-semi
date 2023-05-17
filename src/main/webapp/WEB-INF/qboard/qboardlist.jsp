@@ -333,7 +333,7 @@
                     <span class="qb_readcount"><div class="icon_read"></div>
                             ${dto.qb_readcount}</span><br><br>
 
-                    <span class="nickName"><img src="http://${imageUrl}/member/${dto.m_photo}"
+                    <span class="nickName"><img src="${dto.photo}"
                                                 class="memberimg">&nbsp;${dto.nickName}</span>
 
                     <h3 class="qb_subject">
@@ -378,7 +378,7 @@
                     <div class="hr_tag">
                         <div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;${dto.qb_like}&nbsp;&nbsp;<i
                                 class="bi bi-hand-thumbs-down"></i>&nbsp;${dto.qb_dislike}</div>
-                        <div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;${dto.commentCnt}</div>
+                        <div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;${dto.count}</div>
                     </div>
 
 
