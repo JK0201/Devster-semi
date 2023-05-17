@@ -110,10 +110,13 @@
 
         /*회사 정보 css*/
         .rb_listc {
-            border: 1px solid black;
+            border: 0px;
             width: 200px;
             height: 250px;
             float: left;
+            margin-right:2px;
+            /*margin-left: 4px;*/
+            /*text-align: left;*/
 
         }
 
@@ -142,14 +145,140 @@
             background-color: #0D3EA3;
             color: white;
         }
+
+        .star_listc{
+            margin-left: 35px;
+        }
 #quanbu{
     width: 1400px;
     padding-left: 230px;}
+
+        /* 서치바 */
+        .searchdiv{
+            /*position: absolute;*/
+            position: relative;
+        }
+        .searchbar{
+            width: 736px;
+            height: 60px;
+            padding: 0 10px 0 62px;
+            border: 2px solid #222;
+            border-radius: 30px;
+            font-size: 18px;
+            box-sizing: border-box;
+        }
+
+        .bi-search {
+            position: absolute;
+            right: 5px; /* 아이콘과 입력란 사이의 공간을 조절합니다. */
+            top: 31px;
+            left: 27px;
+            transform: translateY(-50%); /* 아이콘을 입력란의 정중앙에 배치합니다. */
+            pointer-events: none; /* 입력란 위에서 클릭이나 기타 동작이 가능하게 합니다. */
+            font-size: 24px;
+        }
+
+        .review{
+            width:775px;
+            height:330px;
+            border-top: 1px solid lightgray;
+            border-radius: 0px;
+            float: left;
+            /*margin-right: 30px;*/
+            /*padding-left: 20px;*/
+            padding-top: 24px;
+            padding-right: 20px;
+        }
+
+        .custom-btn{
+            color: gray ;
+            border-color: gray ;
+
+        }
+
+        .custom-btn:hover{
+            background-color: gray;
+            border-color: gray;
+        }
+
     </style>
     </head>
 
 <body>
+<!-- 검색창 -->
+<div class="searchdiv">
+    <input id="searchinput" name="keyword" type="search" placeholder="관심있는 내용을 검색해보세요!" autocomplete="off" class="searchbar">
+    <i class="bi bi-search"></i>
+
+    <select id="searchOption">
+        <option id="all" value="all">전체검색</option>
+        <option id="searchnickname" value="m_nickname">작성자 검색</option>
+        <option id="searchsubject" value="rb_content">내용 검색</option>
+    </select>
+</div>
+<br><br>
+
+<script>
+
+    $("#searchinput").keydown(function (e){
+
+        // 일단은 엔터 눌러야 검색되는걸로 -> 나중에 뭐 클릭해도 검색되게 바꿔도될듯?
+        if(e.keyCode==13){
+            // 검색내용
+            var keyword = $(this).val();
+            var searchOption = $("#searchOption").val();
+            console.log(keyword);
+            console.log(searchOption);
+
+            // null 값 검색시 -> 아무일도 안일어남
+            if(keyword==''){
+                alert("검색하실 내용을 입력해주세요.")
+                return
+            } else {
+                //alert("검색결과출력.");
+
+                $.ajax({
+                    type: "post",
+                    url: "./reviewboardsearchlist",
+                    data: {"keyword":keyword, "searchOption":searchOption},
+                    dataType: "json",
+                    success: function (res) {
+                        let s = '';
+
+                        $.each(res, function (idx, ele) {
+
+                            s += `번호 : \${ele.rb_idx}<br>`;
+                            s += `작성자 : \${ele.m_nickname}<br>`;
+                            s += `ci_idx : \${ele.ci_idx}<br>`;
+
+                            s += `내용 : \${ele.rb_content}<br>`;
+                            s += `타입 : \${ele.rb_type}<br>`;
+                            s += `검색한내용 : \${ele.keyword}<br>`;
+                            s += `검색 카테고리 : \${ele.searchOption}<br>`;
+                            s += `작성일 : \${ele.rb_writeday}<br>`;
+
+                            s += `좋아요 : \${ele.rb_like}<br>`;
+                            s += `싫어요 : \${ele.rb_dislike}<br>`;
+                            s += `별점 : \${ele.rb_star}<br><hr>`;
+
+
+
+                        })
+                        $("#quanbu").html(s);
+                    },
+                    error: function (xhr, status, error) {
+                        // 요청이 실패했을 때의 처리 로직
+                        console.log("Error:", error);
+                    }
+                });
+            }
+        }
+    });
+
+</script>
+
 <div id="quanbu">
+<<<<<<< HEAD
 <button type="button" class="btn btn-sm btn-outline-danger"
         onclick="location.href='./reviewriterform'" style="margin-bottom: 10px">상품등록
 </button>
@@ -160,11 +289,35 @@
     <option value="2">코딩테스트</option>
     <option value="3">합격</option>
 </select>
+=======
+<%--<button type="button" class="btn btn-sm btn-outline-danger"--%>
+<%--        onclick="location.href='./reviewriterform'" style="margin-bottom: 10px">상품등록--%>
+<%--</button>--%>
 
-<h5 class="alert alert-success">
-    총 ${totalCount}개의 글이 등록되어있습니다</h5><br>
+>>>>>>> main
+
+
+<%--<h5 class="alert alert-success">--%>
+<%--    총 ${totalCount}개의 글이 등록되어있습니다</h5><br>--%>
 
 <div class="rb_listmain clear">
+    <div class="headbox">
+        <h4 style="color: black; font-weight: bold;"><i class="bi bi-journal-code" style="font-size: 25px;"></i>&nbsp;리뷰게시판
+            <button class="btn btn-secondary" type="button"
+                    style="float: right; margin-right: 150px; "
+                    onclick="location.href='./reviewriterform'"><i class="bi bi-pen"></i>&nbsp;글쓰기
+            </button>
+        </h4>
+                <b>총 ${totalCount}개의 게시글</b><br>
+    </div>
+    <select id="rb_typelist" onchange="rb_typelist()">
+        <option value="0">전체보기</option>
+        <option value="1">면접</option>
+        <option value="2">코딩테스트</option>
+        <option value="3">합격</option>
+    </select>
+    <br>
+    <br>
 
     <c:forEach var="dto" items="${list}" varStatus="i">
         <script>
@@ -183,7 +336,7 @@
                 });
             };
         </script>
-        <div class="review" data-type="${dto.rb_type}"><
+        <div class="review" data-type="${dto.rb_type}">
 
             <div class="rb_listc">
                 <p>
@@ -191,8 +344,8 @@
                          onclick="showCompanyInfo('${dto.ci_idx}')"/>
 
                 </p>
-
-                <span> ${dto.ci_star}</span> &nbsp;
+                <div class="star_listc">
+                &nbsp;<span> ${dto.ci_star}</span> &nbsp;
                 <span class="star-ci_star">
                     <c:forEach var="i" begin="1" end="5">
                         <input type="radio" id="rating${i}" name="rating" value="${i}"
@@ -200,6 +353,7 @@
                         <label for="rating${i}" class="star"
                                <c:if test="${i le dto.ci_star}">style="color: orange;"</c:if>>★</label>
                     </c:forEach>
+                </div>
                 </span>
 
 
@@ -225,27 +379,31 @@
                 내용 : <br>
                 <b>
                     <pre>${dto.rb_content}</pre>
-                </b><br>
-            </div>
-            <c:set var="m_idx" value="${sessionScope.memidx}"/>
-            <c:if test="${dto.m_idx eq m_idx}">
-                <button type="button" class="btn btn-sm btn-outline-primary"
-                        onclick="location.href='./updateform?rb_idx=${dto.rb_idx}'" style="margin-bottom: 10px">글 수정
-                </button>
-                <button type="button" class="btn btn-sm btn-outline-primary"
-                        onclick="delreview(${dto.rb_idx})" style="margin-bottom: 10px">글 삭제
-                </button>
-            </c:if>
-                <%--            좋아요 / 싫어요 버튼--%>
-            <span id="add-goodRp-btn${dto.rb_idx}" class="btn btn-outline" >
-                  좋아요👍
-                  <span class="add-goodRp${dto.rb_idx} ml-2">${dto.rb_like}</span>
+                </b>
+<%--                <br>--%>
+                <div class="fncbtn" style="text-align:right;">
+                <c:set var="m_idx" value="${sessionScope.memidx}"/>
+                <c:if test="${dto.m_idx eq m_idx}">
+                    <button type="button" class="btn btn-sm btn-outline-primary custom-btn"
+                            onclick="location.href='./updateform?rb_idx=${dto.rb_idx}'" style="margin-bottom: 10px">글 수정
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-primary custom-btn"
+                            onclick="delreview(${dto.rb_idx})" style="margin-bottom: 10px">글 삭제
+                    </button>
+                </c:if>
+                    <%--            좋아요 / 싫어요 버튼--%>
+                <span id="add-goodRp-btn${dto.rb_idx}" class="btn btn-outline" style="margin-bottom: 10px" >
+                   👍
+                  <span class="add-goodRp${dto.rb_idx} ml-2" style="margin-bottom: 10px">${dto.rb_like}</span>
                 </span>
-            <span id="add-badRp-btn${dto.rb_idx}" class="ml-5 btn btn-outline">
-                  싫어요👎
-                  <span class="add-badRp${dto.rb_idx} ml-2">${dto.rb_dislike}</span>
-            </span>
-            <hr>
+                <span id="add-badRp-btn${dto.rb_idx}" class="ml-5 btn btn-outline" style="margin-bottom: 10px">
+                   👎
+                  <span class="add-badRp${dto.rb_idx} ml-2" style="margin-bottom: 10px">${dto.rb_dislike}</span>
+                </span>
+                </div>
+            </div>
+
+<%--            <hr>--%>
 
         </div>
         <script>

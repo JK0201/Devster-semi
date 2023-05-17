@@ -4,7 +4,6 @@ package devster.semi.controller;
 import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.HireBoardDto;
 
-
 import devster.semi.dto.NoticeBoardDto;
 import devster.semi.mapper.HireMapper;
 import devster.semi.service.HireService;
@@ -15,8 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 import java.util.*;
-
 
 @Controller
 @RequestMapping("/hire")
@@ -35,31 +37,14 @@ public class HireBoardController {
     private String bucketName="devster-bucket";//각자 자기 버켓이름
 
 
-    @GetMapping("/list")
-    public String list(@RequestParam(defaultValue = "1") int currentPage, Model model)
-
+    @GetMapping("/listajax")
+    @ResponseBody
+    public Map<String,Object> list(int currentPage)
     {
-
-//        System.out.println(currentPage);
         int totalCount = hireService.getHireTotalCount();
-        int totalPage; // 총 페이지 수
         int perPage = 10; // 한 페이지당 보여줄 글 갯수
-        int perBlock = 10; // 한 블록당 보여질 페이지의 갯수
         int startNum; // 각 페이지에서 보여질 글의 시작번호
-        int startPage; // 각 블록에서 보여질 시작 페이지 번호
-        int endPage; // 각 블록에서 보여질 끝 페이지 번호
         int no; // 글 출력시 출력할 시작번호
-
-        // 총 페이지 수
-        totalPage = totalCount / perPage + (totalCount % perPage == 0 ? 0 : 1);
-        // 시작 페이지
-        startPage = (currentPage - 1) / perBlock * perBlock + 1;
-        // 끝 페이지
-        endPage = startPage + perBlock - 1;
-
-        // endPage가 totalPage 보다 큰 경우
-        if (endPage > totalPage)
-            endPage = totalPage;
 
         // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
         startNum = (currentPage - 1) * perPage;
@@ -71,18 +56,38 @@ public class HireBoardController {
         // 각 페이지에 필요한 게시글 db에서 가져오기
         List<HireBoardDto> list = hireService.getHirePagingList(startNum, perPage);
 
+        Map<String,Object> map = new HashMap<>();
+        map.put("list",list);
+        map.put("currentPage",currentPage);
+        map.put("totalCount", totalCount);
+        map.put("no", no);
 
-//        List<HireBoardDto> list=hireMapper.getAllPosts();
-        //model 에 저장
+        return map;
+    }
+    @GetMapping("/list")
+    public String list(@RequestParam(defaultValue = "1") int currentPage,Model model)
+
+    {
+        int totalCount = hireService.getHireTotalCount();
+        int perPage = 10; // 한 페이지당 보여줄 글 갯수
+        int startNum= 1; // 각 페이지에서 보여질 글의 시작번호
+        int no; // 글 출력시 출력할 시작번호
+
+        // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
+        startNum = (currentPage - 1) * perPage;
+
+        // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
+        // no = totalCount - (currentPage - 1) * perPage;
+        no = totalCount - startNum;
+
+        // 각 페이지에 필요한 게시글 db에서 가져오기
+        List<HireBoardDto> list = hireService.getHirePagingList(startNum, perPage);
+
+        Map<String,Object> map = new HashMap<>();
+        model.addAttribute("list",list);
         model.addAttribute("currentPage",currentPage);
-        model.addAttribute("list", list);
-//        model.addAttribute("pagelist", pagelist);
         model.addAttribute("totalCount", totalCount);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-        model.addAttribute("totalPage", totalPage);
         model.addAttribute("no", no);
-
 
         return "/main/hire/hirelist";
     }
@@ -99,8 +104,7 @@ public class HireBoardController {
 
 
     @PostMapping("/insertHireBoard")
-
-    public String insert(HireBoardDto dto,List<MultipartFile> upload)
+    public String insert(HireBoardDto dto,List<MultipartFile> upload,HttpSession session)
     {
         String hb_photo="";
         if(upload.get(0).getOriginalFilename().equals("")){
@@ -117,23 +121,28 @@ public class HireBoardController {
         }
 
         hb_photo=hb_photo.substring(0,hb_photo.length()-1);
-
         dto.setHb_photo(hb_photo);
         //db insert
+        dto.setCm_idx((int)session.getAttribute("cmidx"));
         hireMapper.insertHireBoard(dto);
 
         return "redirect:list";
     }
 
     @GetMapping("/hireboarddetail")
-    public String detail(int hb_idx, int currentPage, Model model){
+    public String detail(int hb_idx, Model model, HttpSession session){
+
+        boolean isAlreadyAddBkmk = false;
 
         hireService.updateReadCount(hb_idx);
         HireBoardDto dto = hireService.getData(hb_idx);
 
-        model.addAttribute("dto", dto);
-        model.addAttribute("currentPage",currentPage);
+        //        버튼 상태에 관한 정보를 디테일 페이지로 보내줌.
+        if(session.getAttribute("memidx") != null) {
+             isAlreadyAddBkmk = hireService.isAlreadyAddBkmk((int)session.getAttribute("memidx"),hb_idx);
+        }
 
+        model.addAttribute("dto", dto);
 
         //Controller 디테일 페이지 보내는 부분.
         //사진 여러장 분할 처리.
@@ -144,9 +153,42 @@ public class HireBoardController {
         }
 
         model.addAttribute("list",list);
+        System.out.println(isAlreadyAddBkmk);
+        model.addAttribute("isAlreadyAddBkmk", isAlreadyAddBkmk);
 
 
+        model.addAttribute("cm_name",hireService.getCompName(hb_idx));
         return "/main/hire/hireboarddetail";
+    }
+
+    //북마크 추가 메서드
+    @RequestMapping("/increaseBkmk")
+    @ResponseBody
+    public void increaseBkmk(int m_idx,int hb_idx) {
+//        // article 테이블에서 해당 게시물 등록
+//        hireService.increaseBkmk(hb_idx);
+//        // article 테이블에서 해당 게시물의 최신화된 좋아요 수 불러오기
+//        int bookMark = hireService.getBkmkCount(hb_idx);
+
+        // reactionPoint 테이블에 리액션 정보(게시물 id, 사용자 id)를 기록
+        hireService.addIncreasingBkmkInfo(m_idx, hb_idx);
+
+//        return;
+    }
+
+    //좋아요 감소 메서드
+    @RequestMapping("/decreaseBkmk")
+    @ResponseBody
+    public void decreaseBkmk(int m_idx,int hb_idx) {
+//        // article 테이블에서 해당 게시물의 좋아요 1 감소
+//        qboardService.decreaseGoodRp(qb_idx);
+//        // article 테이블에서 해당 게시물의 최신화된 좋아요 수 불러오기
+//        int goodRp = qboardService.getGoodRpCount(qb_idx);
+
+        // reactionPoint 테이블에 리액션 정보(게시물 id, 사용자 id) 기록을 삭제
+        hireService.deleteBkmkInfo(m_idx,hb_idx);
+
+//        return goodRp;
     }
 
     @GetMapping("/hireboarddelete")
@@ -159,6 +201,8 @@ public class HireBoardController {
 
         return "redirect:list";
     }
+
+
 
 
     @GetMapping("/hireupdateform")
@@ -352,6 +396,13 @@ public class HireBoardController {
 
 
         return "/main/hire/hiresearchlist";
+    }
+
+    @PostMapping("/bestPostsForBanner")
+    @ResponseBody
+    public List<HireBoardDto> bestPosts(){
+        List<HireBoardDto> list = hireService.bestfreeboardPosts();
+        return list;
     }
 
 }

@@ -18,7 +18,10 @@
     </style>
 </head>
 <body>
-ㅊㅋ합ㄴ디ㅏ
+로그인
+마이페이지에서 인증을 하시면 더 많은 기능을 사용할수 있습니다
+로그인버튼 / 메인으로가기
+<button type="button" id="tomain"></button>
 </body>
 </html>
 

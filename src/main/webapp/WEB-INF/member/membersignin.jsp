@@ -24,9 +24,32 @@
 
         #chkyes {
             display: none;
+            display:
         }
     </style>
 </head>
+<script>
+    $(function () {
+        // var refresh=localStorage.getItem("refresh");
+        // if(!refresh) {
+        //     localStorage.setItem("refresh",true);
+        //     location.reload();
+        // } else {
+        //     localStorage.removeItem("refresh");
+        // }
+
+        let chk = localStorage.getItem("chk");
+        let m_email = localStorage.getItem("m_email");
+
+        if (chk == "yes") {
+            $("#m_email").val(m_email);
+            $("#chkno").css("display", "none");
+            $("#chkyes").show();
+            chkbtn = true;
+
+        }
+    })
+</script>
 <body>
 <div style="border:2px solid black; width:300px;">
     로그인 : ${sessionScope.logstat}
@@ -46,6 +69,9 @@
     <button type="button" id="outtest">로그아웃</button>
 </div>
 <div>
+    <a href="dndupdate">실시간 업데이트용 dnd (ajax)</a>
+    <br><br>
+    <a href="dndpaging">페이징용 dnd</a>
     <div>
         <strong id="normmember">일반회원 로그인</strong>
         &nbsp;&nbsp;&nbsp;
@@ -66,7 +92,7 @@
     <label id="chkbtn">
         <i class="bi bi-circle" id="chkno"></i>
         <i class="bi bi-check-circle-fill" id="chkyes"></i>
-        <strong>로그인 상태 유지하기</strong>
+        <strong>아이디 저장하기</strong>
     </label>
     <div class="norminput">
         <button type="button" id="signinbtn" class="btn btn-outline-primary">로그인</button>
@@ -111,6 +137,7 @@
         chkbtn = !chkbtn;
     });
 
+
     //norm
     let chkbtn = false;
     let cnt = 0;
@@ -143,6 +170,13 @@
                             success: function (res) {
                                 if (res.result == "yes") {
                                     alert("ㅎㅇ 출석포인트 +10점");
+                                    if (chkbtn) {
+                                        localStorage.setItem("chk", "yes");
+                                        localStorage.setItem("m_email", m_email);
+                                    } else {
+                                        localStorage.removeItem("chk");
+                                        localStorage.removeItem("m_email");
+                                    }
                                     location.href = "../";
                                 } else {
                                     cnt++;
@@ -157,13 +191,13 @@
                             dataType: "text",
                             success: function () {
                                 alert("이용정지");
-                                $("#signinbtn").prop("disabled",true);
+                                $("#signinbtn").prop("disabled", true);
                             }
                         });
                     }
                 } else {
                     alert("로그인 제한");
-                    $("#signinbtn").prop("disabled",true);
+                    $("#signinbtn").prop("disabled", true);
                 }
             }
         });
@@ -244,7 +278,7 @@
             scope: 'account_email',
             success: function (res) {
                 console.log(res);
-                let m_pass=res.access_token;
+                let m_pass = res.access_token;
                 window.Kakao.API.request({
                     url: '/v2/user/me',
                     success: res => {
@@ -259,12 +293,12 @@
                         $.ajax({
                             type: "get",
                             url: "apichk",
-                            data: {"m_email": m_email,"m_pass":m_pass},
+                            data: {"m_email": m_email, "m_pass": m_pass},
                             dataType: "json",
                             success: function (res) {
                                 if (res.result == "yes") {
                                     alert("ㅎㅇ 출석포인트 +10점");
-                                    location.href="../";
+                                    location.href = "../";
                                 } else {
                                     let b = confirm("계정 없음");
                                     if (b) {
@@ -280,15 +314,6 @@
             }
         });
     }
-
-    //save
-    $("#chkbtn").click(function () {
-        if (chkbtn) {
-            console.log("yes");
-        } else {
-            console.log("no");
-        }
-    });
 
     //out
     $("#outtest").click(function () {

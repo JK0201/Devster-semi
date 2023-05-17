@@ -14,9 +14,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <style>
     </style>
 </head>
+<script>
+    $(function () {
+        // var refresh = localStorage.getItem("refresh");
+        // if (!refresh) {
+        //     localStorage.setItem("refresh", true);
+        //     location.reload();
+        // } else {
+        //     localStorage.removeItem("refresh");
+        // }
+        // if ($("#m_email").val() == "") {
+        //     location.replace("signin");
+        // }
+
+    });
+</script>
 <body>
 ${m_email}
 ${m_name}
@@ -117,7 +133,7 @@ ${m_name}
             console.log(m_name);
             console.log(m_pass);
             if (m_email == "" || m_name == "") {
-                alert("만료");
+                location.replace("signin");
             } else {
                 $.ajax({
                     type: "get",
@@ -130,6 +146,11 @@ ${m_name}
                 });
             }
         }
+    });
+
+    window.addEventListener("beforeunload", function (event) {
+        event.preventDefault();
+        event.returnValue = "";
     });
 </script>
 </body>

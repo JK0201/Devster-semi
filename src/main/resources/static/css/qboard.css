@@ -1,0 +1,245 @@
+@charset "utf-8";
+
+@import url(common.css);
+
+section.main .qb_wrap{
+    width: 1100px;
+    margin: 32px auto;
+    /*background-color: palegreen;*/
+    /*position: relative;*/
+}
+section.main .qb_wrap .headbox{
+    margin-top: 30px;
+}
+section.main .qb_wrap .box {
+    width: 550px;
+    height: 220px;
+    border-bottom: 1px solid #eee;
+    border-radius: 0px;
+    float: left;
+    /*margin-right: 30px;*/
+    /*padding-left: 20px;*/
+    padding-top: 24px;
+    padding-right: 20px;
+}
+section.main .qb_wrap .blurbox {
+    filter: blur(2px);
+    width: 550px;
+    height: 220px;
+    border-bottom: 1px solid #eee;
+    border-radius: 0px;
+    float: left;
+    /*margin-right: 30px;*/
+    /*padding-left: 20px;*/
+    padding-top: 24px;
+    padding-right: 20px;
+}
+
+section.main .qb_wrap .box:first-child{
+    border-top: 1px solid #eee;
+}
+section.main .qb_wrap .box:nth-child(2){
+    border-top: 1px solid #eee;
+}
+section.main .qb_wrap .box .qb_writeday{
+    border: 2px solid rgba(148,150,155,0.3);
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 13px;
+    color: #aaa;
+}
+section.main .qb_wrap .box .qb_readcount{
+    /*border: 2px solid rgba(148,150,155,0.3);*/
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 13px;
+    background-color: #eff1f5;
+    color: gray;
+}
+section.main .qb_wrap .box .qb_readcount div.icon_read{
+    display: inline-block;
+    background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
+    background-size: 590px 907px;
+    background-position: -10px -595px;
+    /*content: '';*/
+    width: 16px;
+    height: 23px;
+    /* float: left;*/
+}
+section.main .qb_wrap .listbox .box h3.qb_subject{
+    font-size: 15px;
+    margin-top: 10px;
+
+}
+section.main .qb_wrap .box .nickName{
+    font-size: 12px;
+    margin-top: 10px;
+
+}
+section.main .qb_wrap .box .nickName img{
+    width: 20px;
+    height: 20px;
+    border-radius: 100px;
+}
+section.main .qb_wrap .box .qb_content{
+    font-size: 13px;
+    margin-top: 10px;
+    height: 50px;
+}
+section.main .qb_wrap .box .qb_content #photocontent{
+    width: 60%;
+    display: inline-block;
+}
+
+section.main .qb_wrap .box span.qb_photo{
+    width: 80px;
+    height: 80px;
+    float: right;
+
+    /*position: relative;
+    top: 0;
+    right: 0;*/
+}
+section.main .qb_wrap .box span.qb_photo img{
+    width: 80px;
+    height: 80px;
+    float: right;
+
+}
+/*-------------blurbox----------------*/
+
+
+section.main .qb_wrap .blurbox:first-child{
+    border-top: 1px solid #eee;
+}
+section.main .qb_wrap .blurbox:nth-child(2){
+    border-top: 1px solid #eee;
+}
+section.main .qb_wrap .blurbox .qb_writeday{
+    border: 2px solid rgba(148,150,155,0.3);
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 13px;
+    color: #aaa;
+}
+section.main .qb_wrap .blurbox .qb_readcount{
+    /*border: 2px solid rgba(148,150,155,0.3);*/
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 13px;
+    background-color: #eff1f5;
+    color: gray;
+}
+section.main .qb_wrap .blurbox .qb_readcount div.icon_read{
+    display: inline-block;
+    background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
+    background-size: 590px 907px;
+    background-position: -10px -595px;
+    /*content: '';*/
+    width: 16px;
+    height: 23px;
+    /* float: left;*/
+}
+section.main .qb_wrap .listbox .blurbox h3.qb_subject{
+    font-size: 15px;
+    margin-top: 10px;
+
+}
+section.main .qb_wrap .blurbox .nickName{
+    font-size: 12px;
+    margin-top: 10px;
+
+}
+section.main .qb_wrap .blurbox .nickName img{
+    width: 20px;
+    height: 20px;
+    border-radius: 100px;
+}
+section.main .qb_wrap .blurbox .qb_content{
+    font-size: 13px;
+    margin-top: 10px;
+    height: 50px;
+}
+section.main .qb_wrap .blurbox .qb_content .photocontent{
+    width: 60%;
+    display: inline-block;
+}
+section.main .qb_wrap .blurbox span.qb_photo_blur{
+    width: 80px;
+    height: 80px;
+    float: right;
+    /*position: relative;
+    top: 0;
+    right: 0;*/
+}
+section.main .qb_wrap .blurbox span.qb_photo img{
+    width: 80px;
+    height: 80px;
+    float: right;
+    position: relative;
+    top: 0;
+    right: 0;
+}
+/*--------------------*/
+section.main .qb_wrap .hr_tag{
+    /*margin-top: 20px;*/
+}
+
+section.main .qb_wrap .hr_tag_1{
+    font-size: 12px;
+    border: 1px solid rgb(19, 191, 159);
+    display: inline-block;
+    padding: 1px 8px 0px 7px;
+    margin-left: -2px;
+    color: rgb(19, 191, 159);
+}
+section.main .qb_wrap .hr_tag_2{
+    font-size: 12px;
+    border: 1px solid rgb(119, 101, 255);
+    display: inline-block;
+    padding: 1px 8px 0px 7px;
+    color: rgb(119, 101, 255);
+}
+section.main .paginate{
+    width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+    height: 100px;
+    /*background-color: palegreen;*/
+}
+section.main .paginate .icon_pre{
+    background: url(../photo/devster_icon.png) no-repeat;
+    background-size: 600px 900px;
+    background-position: -218px -626px;
+    margin-right: 15px;
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+}
+section.main .paginate .icon_next{
+    background: url(../photo/devster_icon.png) no-repeat;
+    background-size: 600px 900px;
+    background-position: -166px -626px;
+    margin-right: 15px;
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+}
+
+section.main .qb_write_btn{
+    position: relative;
+    bottom: 112px;
+    left: 1203px;
+}
+
+/*------------------------------------*/
+
+/*=============================================공지사항=============================================*/
+
+.noticeboard_part ul{
+    padding: 0 !important;
+    margin: 0 !important;
+}
+.noticeboard_part ul li{
+    float: left;
+} 

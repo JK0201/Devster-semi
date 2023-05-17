@@ -28,6 +28,17 @@
         }
     </style>
 </head>
+<script>
+    $(function () {
+        var refresh = localStorage.getItem("refresh");
+        if (!refresh) {
+            localStorage.setItem("refresh", true);
+            location.reload();
+        } else {
+            localStorage.removeItem("refresh");
+        }
+    });
+</script>
 <body>
 <div>
     개인회원 비밀번호 찾기
@@ -590,7 +601,7 @@
                         $.ajax({
                             type: "get",
                             url: "findaccinfo",
-                            data: {"m_name": m_name, "m_tele": m_email},
+                            data: {"m_name": m_name, "m_email": m_email},
                             dataType: "text",
                             success: function () {
                                 location.href = "update";

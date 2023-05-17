@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 @Alias("HireBoardDto")
 public class HireBoardDto {
+    private int cm_idx;
     private int hb_idx;
     private String hb_subject;
     private String hb_content;
@@ -16,4 +17,6 @@ public class HireBoardDto {
     private int hb_readcount;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone = "Asia/Seoul")
     private Timestamp fb_writeday;
+
+
 }
