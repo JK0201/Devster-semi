@@ -30,18 +30,18 @@
     </style>
 </head>
 <script>
-    $(function(){
-        var refresh = localStorage.getItem("refresh");
-        if(!refresh) {
-            localStorage.setItem("refresh",true);
-            location.reload();
-        }else {
-            localStorage.removeItem("refresh");
-        }
-        if ($("#m_email").val() == "") {
-            location.replace("signin");
-        }
-    });
+    // $(function(){
+    //     var refresh = localStorage.getItem("refresh");
+    //     if(!refresh) {
+    //         localStorage.setItem("refresh",true);
+    //         location.reload();
+    //     }else {
+    //         localStorage.removeItem("refresh");
+    //     }
+    //     if ($("#m_email").val() == "") {
+    //         location.replace("signin");
+    //     }
+    // });
 </script>
 <body>
 <input type="hidden" id="m_type" value="1">
@@ -280,11 +280,6 @@
                 }
             });
         }
-    });
-
-    window.addEventListener("beforeunload", function (event) {
-        event.preventDefault();
-        event.returnValue = "";
     });
 </script>
 </body>

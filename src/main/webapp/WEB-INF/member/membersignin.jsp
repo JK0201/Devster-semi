@@ -177,7 +177,7 @@
                                         localStorage.removeItem("chk");
                                         localStorage.removeItem("m_email");
                                     }
-                                    location.href = "../";
+                                    location.replace("/");
                                 } else {
                                     cnt++;
                                     alert(cnt + "회 잘못 입력하셨습니다\n이메일과 비밀번호를 확인해주세요\n5회 잘못입력시 로그인 제한");
@@ -237,7 +237,7 @@
             success: function (res) {
                 if (res.result == "yes") {
                     alert("ㅎㅇ 출석포인트 +10점");
-                    location.href = "../";
+                    location.replace("/");
                 } else {
                     alert("이메일과 비밀번호를 확인해주세요");
                 }
@@ -298,7 +298,7 @@
                             success: function (res) {
                                 if (res.result == "yes") {
                                     alert("ㅎㅇ 출석포인트 +10점");
-                                    location.href = "../";
+                                    location.replace("/");
                                 } else {
                                     let b = confirm("계정 없음");
                                     if (b) {
