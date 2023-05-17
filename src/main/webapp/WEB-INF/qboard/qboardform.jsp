@@ -2,6 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ include file="../commonvar.jsp" %>
 
 <!DOCTYPE html>
 <html>
@@ -14,26 +15,159 @@
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <style>
+        .post .contact form .input-group {
+            display: inline-block;
+            margin-left: 10px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .col-lg-6 {
+            width: 50%;
+        }
+
+        .post .contact {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .post .contact .title {
+            display: inline-block;
+            width: 100%;
+        }
+
+        .post .contact form {
+            display: table;
+            margin: 0 auto;
+        }
+
+        .post .contact form .input-group {
+            display: inline-block;
+            margin-left: 10px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .post .contact form .input-group label {
+            color: #8e8e8e;
+        }
+
+        .post .contact form .input-group input[type="text"] {
+            background: #ebebeb;
+            border: 0;
+            outline: 0;
+            height: 50px;
+            border-radius: 5px;
+            padding: 0 15px;
+            font-size: 16px;
+            width: 60%;
+            margin-top: 10px;
+        }
+        .post .contact form .input-group input[type="file"] {
+            background: #ebebeb;
+            border: 0;
+            outline: 0;
+            height: 50px;
+            border-radius: 5px;
+            padding: 0 15px;
+            font-size: 16px;
+            width: 60%;
+        }
+
+        .post .contact form .input-group input#file-upload-btn{
+            height: 40px;
+        }
+
+        .post .contact form .input-group textarea {
+            background: #ebebeb;
+            border: 0;
+            outline: 0;
+            border-radius: 5px;
+            padding: 15px;
+            font-size: 16px;
+
+            width: 60%;
+            margin-top: 20px;
+        }
+
+        .post .contact form .post {
+            width: 100%;
+            background: #8007ad;
+            color: #fff;
+            font-size: 16px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .post .contact form .full {
+            width: 100%;
+        }
+
+        .post .contact form .half {
+            width: 100%;
+        }
+
+        .post .contact form .half input[type="text"] {
+            width: 90%;
+        }
+
+        .post .contact form .name input[type="text"] {
+            float: left;
+        }
+
+        .post .btn-block{
+            width: 15%;
+            background-color: #7f07ac;
+            margin-bottom: 100px;
+            margin-top: 30px;
+            height: 50px;
+        }
+
     </style>
 </head>
 <body>
 
-<div style="width: 60%; margin-top: 100px; margin-left: 30px; border: 3px solid black">
-    <form action="insert" enctype="multipart/form-data" method="post">
-        <input type="hidden" name="m_idx" value="${sessionScope.memidx}">
-        <div style="width: 300px">
-            <input class="form-control" type="text" name="qb_subject" value="${dto.qb_subject}" placeholder="제목" required>
+
+<!----------------------------------------테스트-------------------------------------->
+<div class="post">
+    <div class="contact col-lg-6">
+        <div class="title" style="margin-top: 30px;">
+            <img src="/photo/logoimage.png" style="width: 100px;">
+            <h2>QnA Board</h2>
         </div>
-        <div style="width: 300px">
-            <textarea name="qb_content" class="form-control" placeholder="내용" required>${dto.qb_content}</textarea>
-        </div>
-        <div style="width: 300px">
-            <input class="form-control" type="file" name="upload" multiple><br>
-        </div>
-        <button type="submit" class="btn btn-outline-info">글 작성</button>
-        <button type="button" class="btn btn-outline-dark" onclick="history.back()">취소</button>
-    </form>
+
+        <form action="insert" enctype="multipart/form-data" method="post">
+            <input type="hidden" name="m_idx" value="${sessionScope.memidx}">
+            <div class="input-group">
+                <%--<label>Question</label>--%>
+                <input class="subject" type="text" name="qb_subject" value="" placeholder="제목을 입력해주세요." required>
+            </div>
+            <div class="input-group message">
+                <label>토픽에 맞지 않는 글로 판단되어 다른 유저로부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 블라인드처리 될 수 있습니다.</label>
+                <textarea name="qb_content" class="content"
+                          placeholder="질문 내용을 입력해주세요." cols="47"
+                          rows="7" required></textarea>
+            </div>
+            <div class="input-group fileupload">
+                <input class="file_select" id="fileInput" type="file" name="upload" style="padding-top: 10px;" multiple>
+                <%--<i class="bi bi-images" id="clickableImage"></i>--%>
+            </div>
+            <div class="col-md-12 form-group">
+                <button type="submit" class="btn_write btn btn-block btn-primary">등록</button>
+                <button type="button" class="btn_cancle btn btn-block btn-primary" onclick="history.back()">취소
+                </button>
+            </div>
+
+        </form>
+    </div>
 </div>
 </body>
+
+<script>
+    document.getElementById('clickableImage').addEventListener('click', function () {
+        document.getElementById('fileInput').click();
+    });
+</script>
 
 </html>

@@ -7,7 +7,7 @@
     </select>
 
     <insert id="insertHireBoard" parameterType="HireBoardDto">
-        insert into hireboard (hb_idx,hb_subject,hb_content,hb_photo,fb_writeday) values (#{hb_idx},#{hb_subject},#{hb_content},#{hb_photo},now())
+        insert into hireboard (cm_idx,hb_idx,hb_subject,hb_content,hb_photo,fb_writeday) values (#{cm_idx},#{hb_idx},#{hb_subject},#{hb_content},#{hb_photo},now())
     </insert>
 
     <select id="getData" parameterType="int" resultType="HireBoardDto">
@@ -37,6 +37,39 @@
         SELECT * FROM hireboard ORDER BY hb_idx DESC LIMIT #{start}, #{perpage}
     </select>
 
+
+<!--    <insert id="bookmarkHireBoard" parameterType="HireBookmarkDto">-->
+<!--        insert into hirebookmark (m_idx,hb_idx)  values (#{m_idx},#{hb_idx})-->
+<!--    </insert>-->
+
+<!--    <select id="getBookmarkData" parameterType="int" resultType="HireBookmarkDto">-->
+<!--        select * from hirebookmark where m_idx=#{m_idx} and hb_idx=#{hb_idx}-->
+<!--    </select>-->
+
+    <!--북마크 관련 메서드-->
+    <insert id="addIncreasingBkmkInfo" parameterType="map">
+        INSERT into hirebookmark(m_idx, hb_idx)
+        values (#{m_idx},#{hb_idx})
+
+    </insert>
+
+    <delete id="deleteBkmkInfo" parameterType="map">
+        DELETE FROM hirebookmark
+        WHERE m_idx = #{m_idx}
+          AND hb_idx = #{hb_idx}
+          AND bookmarkStatus = 1
+    </delete>
+
+    <select id="getBkmkInfoBym_idx" resultType="integer">
+        SELECT bookmarkStatus
+        FROM hirebookmark
+        WHERE m_idx = #{m_idx} AND hb_idx = #{hb_idx};
+    </select>
+
+
+
+
+
     <!-- 검색 : 회사이름검색만 (join 없음) -->
     <select id="searchlist" resultType="HireBoardDto" parameterType="Map">
         SELECT hb.*
@@ -51,4 +84,14 @@
     </select>
 
 
+    <select id="bestfreeboardPosts" resultType="HireBoardDto">
+        SELECT *
+        FROM hireboard
+        /*WHERE fb_writeday >= DATE_SUB(NOW(), INTERVAL 1 DAY)*/
+        ORDER BY hb_readcount DESC
+        limit 5
+    </select>
+
+
 </mapper>
+

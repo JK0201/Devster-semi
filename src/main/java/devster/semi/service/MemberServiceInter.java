@@ -3,7 +3,9 @@ package devster.semi.service;
 import devster.semi.dto.AcademyInfoDto;
 import devster.semi.dto.CompanyMemberDto;
 import devster.semi.dto.MemberDto;
+import devster.semi.dto.MessageDto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -68,4 +70,5 @@ public interface MemberServiceInter {
     public void testupdate(String m_photo);
 
     public String getphoto(int m_idx);
+
 }
