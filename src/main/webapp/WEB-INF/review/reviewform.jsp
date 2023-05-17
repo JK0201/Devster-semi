@@ -254,12 +254,7 @@
                 <input type="radio" id="1-star" name="rb_star" value="1" />
                 <label for="1-star" class="star">&#9733;</label>
             </div>
-
-
-            <div class="input-group fileupload">
-                <input class="file_select" id="fileInput" type="file" name="upload" style="padding-top: 10px;" multiple>
-                <%--<i class="bi bi-images" id="clickableImage"></i>--%>
-            </div>
+            
             <div class="col-md-12 form-group">
                 <button type="submit" id="btnSb" class="btn_write btn btn-block btn-primary">등록</button>
                 <button type="button" class="btn_cancle btn btn-block btn-primary" onclick="history.back()">취소
@@ -269,12 +264,6 @@
         </form>
     </div>
 </div>
-
-<script>
-    document.getElementById('clickableImage').addEventListener('click', function () {
-        document.getElementById('fileInput').click();
-    });
-</script>
 
 <!------------------------------>
 
