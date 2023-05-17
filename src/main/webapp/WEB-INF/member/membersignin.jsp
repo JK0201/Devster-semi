@@ -30,14 +30,6 @@
 </head>
 <script>
     $(function () {
-        // var refresh=localStorage.getItem("refresh");
-        // if(!refresh) {
-        //     localStorage.setItem("refresh",true);
-        //     location.reload();
-        // } else {
-        //     localStorage.removeItem("refresh");
-        // }
-
         let chk = localStorage.getItem("chk");
         let m_email = localStorage.getItem("m_email");
 
@@ -46,32 +38,11 @@
             $("#chkno").css("display", "none");
             $("#chkyes").show();
             chkbtn = true;
-
         }
     })
 </script>
 <body>
-<div style="border:2px solid black; width:300px;">
-    로그인 : ${sessionScope.logstat}
-    <br>
-    m_idx : ${sessionScope.memidx}
-    <br>
-    nickname : ${sessionScope.memnick}
-    <br>
-    state : ${sessionScope.memstate}
-    <br>
-    ai_idx : ${sessionScope.acaidx}
-    <br>
-    cm_idx : ${sessionScope.cmidx}
-    <br>
-    compname: ${sessionScope.cmname}
-    <br>
-    <button type="button" id="outtest">로그아웃</button>
-</div>
 <div>
-    <a href="dndupdate">실시간 업데이트용 dnd (ajax)</a>
-    <br><br>
-    <a href="dndpaging">페이징용 dnd</a>
     <div>
         <strong id="normmember">일반회원 로그인</strong>
         &nbsp;&nbsp;&nbsp;

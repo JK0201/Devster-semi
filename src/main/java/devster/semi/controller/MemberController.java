@@ -432,7 +432,7 @@ public class MemberController {
 
     @GetMapping("/selmember")
     public String selMember() {
-        return "/main/member/memberselect";
+        return "/mem/member/memberselect";
     }
 
     @GetMapping("/agreement")
@@ -718,12 +718,6 @@ public class MemberController {
         //일단 테스트 계정이라 사진이 자동으로 삭제가 들어감, 업로드 안할시 sql 수정해야함
 
         memberService.testupdate(m_photo);
-    }
-
-    //페이징형식 DnD
-    @GetMapping("/dndpaging")
-    public String dndpaging() {
-        return "/main/member/dndpaging";
     }
 
 }
