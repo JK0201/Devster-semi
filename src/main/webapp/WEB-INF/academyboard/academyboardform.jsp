@@ -14,55 +14,166 @@
     <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <style>
-        body, body *{
-            font-family: 'Jua'
+        .post .contact form .input-group {
+            display: inline-block;
+            margin-left: 10px;
+            margin-bottom: 15px;
+            position: relative;
         }
+
+        .col-lg-6 {
+            width: 50%;
+        }
+
+        .post .contact {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .post .contact .title {
+            display: inline-block;
+            width: 100%;
+        }
+
+        .post .contact form {
+            display: table;
+            margin: 0 auto;
+        }
+
+        .post .contact form .input-group {
+            display: inline-block;
+            margin-left: 10px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .post .contact form .input-group label {
+            color: #8e8e8e;
+        }
+
+        .post .contact form .input-group input[type="text"] {
+            background: #ebebeb;
+            border: 0;
+            outline: 0;
+            height: 50px;
+            border-radius: 5px;
+            padding: 0 15px;
+            font-size: 16px;
+            width: 60%;
+            margin-top: 10px;
+        }
+        .post .contact form .input-group input[type="file"] {
+            background: #ebebeb;
+            border: 0;
+            outline: 0;
+            height: 50px;
+            border-radius: 5px;
+            padding: 0 15px;
+            font-size: 16px;
+            width: 60%;
+        }
+
+        .post .contact form .input-group input#file-upload-btn{
+            height: 40px;
+        }
+
+        .post .contact form .input-group textarea {
+            background: #ebebeb;
+            border: 0;
+            outline: 0;
+            border-radius: 5px;
+            padding: 15px;
+            font-size: 16px;
+
+            width: 60%;
+            margin-top: 20px;
+        }
+
+        .post .contact form .post {
+            width: 100%;
+            background: #8007ad;
+            color: #fff;
+            font-size: 16px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .post .contact form .full {
+            width: 100%;
+        }
+
+        .post .contact form .half {
+            width: 100%;
+        }
+
+        .post .contact form .half input[type="text"] {
+            width: 90%;
+        }
+
+        .post .contact form .name input[type="text"] {
+            float: left;
+        }
+
+        .post .btn-block{
+            width: 15%;
+            background-color: #7f07ac;
+            margin-bottom: 100px;
+            margin-top: 30px;
+            height: 50px;
+        }
+
     </style>
 </head>
 <body>
-<div>
 
-    <img id="showimg">
-
-    <form action="academyinsert" method="post" enctype="multipart/form-data">
-
-        <!--hidden-->
-        <input type="hidden" name="ab_idx" value="${ab_idx}">
-        <input type="hidden" name="currentPage" value="${currentPage}">
-        <input type="hidden" name="m_idx" value="${sessionScope.memidx}">
-        <input type="hidden" name="ai_idx" value="${sessionScope.acaidx}">
-
-        <div>
-            제목 : <input type="text" name="ab_subject"><br>
-            사진 : <input type="file" name="upload" id="myfile" multiple><br><br>
-            <textarea name="ab_content"></textarea><br><br>
-            <button type="submit">게시글등록</button>
+<!----------------------------------------테스트-------------------------------------->
+<div class="post">
+    <div class="contact col-lg-6">
+        <div class="title" style="margin-top: 30px;">
+            <img src="/photo/logoimage.png" style="width: 100px;">
+            <h2>Academy Board</h2>
         </div>
 
-    </form>
-</div>
+        <form action="academyinsert" enctype="multipart/form-data" method="post">
+            <!--hidden-->
+            <input type="hidden" name="ab_idx" value="${ab_idx}">
+            <input type="hidden" name="currentPage" value="${currentPage}">
+            <input type="hidden" name="m_idx" value="${sessionScope.memidx}">
+            <input type="hidden" name="ai_idx" value="${sessionScope.acaidx}">
 
-<!-- 미리보기 -->
-<script type="text/javascript">
-    $("#myfile").change(function() {
-        console.log("1:" + $(this)[0].files.length);
-        console.log("2:" + $(this)[0].files[0]);
-        //정규표현식
-        var reg = /(.*?)\/(jpg|jpeg|png|bmp)$/;
-        var f = $(this)[0].files[0];//현재 선택한 파일
-        if (!f.type.match(reg)) {
-            alert("확장자가 이미지파일이 아닙니다");
-            return;
-        }
-        if ($(this)[0].files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $("#showimg").attr("src", e.target.result);
-            }
-            reader.readAsDataURL($(this)[0].files[0]);
-        }
+            <div class="input-group">
+                <%--<label>Question</label>--%>
+                <input class="subject" type="text" name="ab_subject" value="" placeholder="제목을 입력해주세요." required>
+            </div>
+            <div class="input-group message">
+                <label>토픽에 맞지 않는 글로 판단되어 다른 유저로부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 블라인드처리 될 수 있습니다.</label>
+                <textarea name="ab_content" class="content"
+                          placeholder="질문 내용을 입력해주세요." cols="47"
+                          rows="7" required></textarea>
+            </div>
+            <div class="input-group fileupload">
+                <input class="file_select" id="fileInput" type="file" name="upload" style="padding-top: 10px;" multiple>
+                <%--<i class="bi bi-images" id="clickableImage"></i>--%>
+            </div>
+            <div class="col-md-12 form-group">
+                <button type="submit" class="btn_write btn btn-block btn-primary">등록</button>
+                <button type="button" class="btn_cancle btn btn-block btn-primary" onclick="history.back()">취소
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+</body>
+
+<script>
+    document.getElementById('clickableImage').addEventListener('click', function () {
+        document.getElementById('fileInput').click();
     });
 </script>
+
+<!-------------------------------------------->
 
 
 </body>

@@ -21,6 +21,7 @@
             margin-bottom: 15px;
             position: relative;
         }
+
         .col-lg-6 {
             width: 50%;
         }
@@ -60,6 +61,22 @@
             border-radius: 5px;
             padding: 0 15px;
             font-size: 16px;
+            width: 60%;
+            margin-top: 10px;
+        }
+        .post .contact form .input-group input[type="file"] {
+            background: #ebebeb;
+            border: 0;
+            outline: 0;
+            height: 50px;
+            border-radius: 5px;
+            padding: 0 15px;
+            font-size: 16px;
+            width: 60%;
+        }
+
+        .post .contact form .input-group input#file-upload-btn{
+            height: 40px;
         }
 
         .post .contact form .input-group textarea {
@@ -69,7 +86,9 @@
             border-radius: 5px;
             padding: 15px;
             font-size: 16px;
-            margin-right: 210px;
+
+            width: 60%;
+            margin-top: 20px;
         }
 
         .post .contact form .post {
@@ -90,13 +109,20 @@
         }
 
         .post .contact form .half input[type="text"] {
-            width: 48%;
+            width: 90%;
         }
 
         .post .contact form .name input[type="text"] {
             float: left;
         }
 
+        .post .btn-block{
+            width: 15%;
+            background-color: #7f07ac;
+            margin-bottom: 100px;
+            margin-top: 30px;
+            height: 50px;
+        }
 
     </style>
 </head>
@@ -108,22 +134,29 @@
     <div class="contact col-lg-6">
         <div class="title" style="margin-top: 30px;">
             <img src="/photo/logoimage.png" style="width: 100px;">
-            <h2>Post a comment</h2>
+            <h2>QnA Board</h2>
         </div>
 
         <form action="insert" enctype="multipart/form-data" method="post">
             <input type="hidden" name="m_idx" value="${sessionScope.memidx}">
             <div class="input-group">
-                <label>Use Your Real Name</label>
+                <%--<label>Question</label>--%>
                 <input class="subject" type="text" name="qb_subject" value="" placeholder="제목을 입력해주세요." required>
             </div>
             <div class="input-group message">
-                <label>Write a good comment</label>
-                <textarea name="qb_content" class="content" placeholder="토픽에 맞지 않는 글로 판단되어 다른 유저로부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 블라인드처리 될 수 있습니다." cols="47" rows="7" required></textarea>
+                <label>토픽에 맞지 않는 글로 판단되어 다른 유저로부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 블라인드처리 될 수 있습니다.</label>
+                <textarea name="qb_content" class="content"
+                          placeholder="질문 내용을 입력해주세요." cols="47"
+                          rows="7" required></textarea>
+            </div>
+            <div class="input-group fileupload">
+                <input class="file_select" id="fileInput" type="file" name="upload" style="padding-top: 10px;" multiple>
+                <%--<i class="bi bi-images" id="clickableImage"></i>--%>
             </div>
             <div class="col-md-12 form-group">
-                <button type="submit" class="btn_write btn btn-block btn-lg btn-primary">등록</button>
-                <button type="button" class="btn_cancle btn btn-block btn-lg btn-primary" onclick="history.back()">취소</button>
+                <button type="submit" class="btn_write btn btn-block btn-primary">등록</button>
+                <button type="button" class="btn_cancle btn btn-block btn-primary" onclick="history.back()">취소
+                </button>
             </div>
 
         </form>
@@ -132,7 +165,7 @@
 </body>
 
 <script>
-    document.getElementById('clickableImage').addEventListener('click', function() {
+    document.getElementById('clickableImage').addEventListener('click', function () {
         document.getElementById('fileInput').click();
     });
 </script>
