@@ -1,6 +1,7 @@
 package devster.semi.controller;
 
 import devster.semi.dto.FreeBoardDto;
+import devster.semi.dto.HireBoardDto;
 import devster.semi.dto.NoticeBoardDto;
 import devster.semi.dto.QboardDto;
 import devster.semi.service.NoticeBoardService;
@@ -11,6 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.sql.Timestamp;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
@@ -33,24 +37,9 @@ public class QboardController {
     @GetMapping("/list")
     public String list(@RequestParam(defaultValue = "1") int currentPage, Model model) {
         int totalCount = qboardService.getTotalCount();
-        int totalPage; // 총 페이지 수
         int perPage = 20; // 한 페이지당 보여줄 글 갯수
-        int perBlock = 10; // 한 블록당 보여질 페이지의 갯수
         int startNum; // 각 페이지에서 보여질 글의 시작번호
-        int startPage; // 각 블록에서 보여질 시작 페이지 번호
-        int endPage; // 각 블록에서 보여질 끝 페이지 번호
-        int no; // 글 출력시 출력할 시작번호
-
-        // 총 페이지 수
-        totalPage = totalCount / perPage + (totalCount % perPage == 0 ? 0 : 1);
-        // 시작 페이지
-        startPage = (currentPage - 1) / perBlock * perBlock + 1;
-        // 끝 페이지
-        endPage = startPage + perBlock - 1;
-
-        // endPage가 totalPage 보다 큰 경우
-        if (endPage > totalPage)
-            endPage = totalPage;
+        int no;
 
         // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
         startNum = (currentPage - 1) * perPage;
@@ -86,15 +75,13 @@ public class QboardController {
                 map.put("qb_readcount",dto.getQb_readcount());
                 map.put("qb_like",dto.getQb_like());
                 map.put("qb_dislike",dto.getQb_dislike());
+                map.put("qb_photo",dto.getQb_photo());
                 fulllList.add(map);
             }
 
         // 출력시 필요한 변수들 model에 전부 저장
         model.addAttribute("list", fulllList);
         model.addAttribute("totalCount", totalCount);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-        model.addAttribute("totalPage", totalPage);
         model.addAttribute("no", no);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalCount",totalCount);
@@ -109,6 +96,59 @@ public class QboardController {
         model.addAttribute("NoticeBoardTotalCount",NoticeBoardTotalCount);
 
         return "/main/qboard/qboardlist";
+    }
+
+    @GetMapping("/listajax")
+    @ResponseBody
+    public List<Map<String,Object>> listAjax(int currentPage)
+    {
+        int totalCount = qboardService.getTotalCount();
+        int perPage = 20; // 한 페이지당 보여줄 글 갯수
+        int startNum; // 각 페이지에서 보여질 글의 시작번호
+        int no;
+
+        // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
+        startNum = (currentPage - 1) * perPage;
+
+        // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
+        // no = totalCount - (currentPage - 1) * perPage;
+        no = totalCount - startNum;
+
+        // 각 페이지에 필요한 게시글 db에서 가져오기
+        List<QboardDto> list = qboardService.getPagingList(startNum, perPage);
+
+
+        List<Map<String,Object>> fulllList =new ArrayList<>();
+
+        for(QboardDto dto : list) {
+            Map<String,Object> map = new HashMap<>();
+            map.put("qb_idx",dto.getQb_idx());
+            map.put("nickName",qboardService.selectNickNameOfQb_idx(dto.getQb_idx()));
+
+            String photo = qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
+            int countComment = qboardService.countComment(dto.getQb_idx());
+
+            if(photo.equals("no")) {
+                photo = "/photo/profile.jpg";
+            } else {
+                photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
+            }
+            map.put("photo",photo);
+            map.put("count",countComment);
+            map.put("qb_subject",dto.getQb_subject());
+            map.put("qb_content",dto.getQb_content());
+            map.put("qb_writeday", timeForToday(dto.getQb_writeday()));
+            map.put("qb_readcount",dto.getQb_readcount());
+            map.put("qb_like",dto.getQb_like());
+            map.put("qb_dislike",dto.getQb_dislike());
+            map.put("qb_photo",dto.getQb_photo());
+            map.put("currentPage", currentPage);
+            fulllList.add(map);
+        }
+
+        return fulllList;
+
+        // 출력시 필요한 변수들 model에 전부 저장
     }
 
     @GetMapping("/writeform")
@@ -481,6 +521,39 @@ public class QboardController {
 
         return "/main/qboard/qboardsearchlist";
     }
+
+    public String timeForToday(Timestamp value) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime timeValue = value.toLocalDateTime();
+
+        long betweenTime = ChronoUnit.MINUTES.between(timeValue, now);
+        if (betweenTime < 1) {
+            return "방금전";
+        }
+        if (betweenTime < 60) {
+            return betweenTime + "분전";
+        }
+
+        long betweenTimeHour = betweenTime / 60;
+        if (betweenTimeHour < 24) {
+            return betweenTimeHour + "시간전";
+        }
+
+        long betweenTimeDay = betweenTime / 1440; // 60 minutes * 24 hours
+        if (betweenTimeDay < 8) {
+            return betweenTimeDay + "일전";
+        }
+
+        String month = String.format("%02d", timeValue.getMonthValue());
+        String day = String.format("%02d", timeValue.getDayOfMonth());
+        String formattedDate = month + "-" + day;
+
+        return formattedDate;
+    }
+
+
+
+
 
 
 
