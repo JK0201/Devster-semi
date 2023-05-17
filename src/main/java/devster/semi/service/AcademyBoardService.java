@@ -22,6 +22,9 @@ public class AcademyBoardService implements AcademyBoardServiceInter{
     }
 
     @Override
+    public int getCommentCnt(int ab_idx) { return academyBoardMapper.getCommentCnt(ab_idx); }
+
+    @Override
     public List<AcademyBoardDto> getPagingList(int start, int perpage) {
 
         Map<String, Integer> map = new HashMap<>();
@@ -199,6 +202,36 @@ public class AcademyBoardService implements AcademyBoardServiceInter{
 
     @Override
     public String selectAcademyName(int ab_idx) {return academyBoardMapper.selectAcademyName(ab_idx);}
+
+    @Override
+    public int commentCnt(int ab_idx) {
+        return academyBoardMapper.commentCnt(ab_idx);
+    }
+
+
+    //    검색
+    @Override
+    public List<AcademyBoardDto> searchlist(String searchOption, String keyword, int start, int perpage) {
+        Map<String,Object> map = new HashMap<>();
+
+        map.put("searchOption", searchOption);
+        map.put("keyword", keyword);
+        map.put("start", start);
+        map.put("perpage", perpage);
+
+        return academyBoardMapper.searchlist(map);
+    }
+
+    @Override
+    public int countsearch(String searchOption, String keyword) {
+        Map<String,Object> map = new HashMap<>();
+
+        map.put("searchOption", searchOption);
+        map.put("keyword", keyword);
+
+        return academyBoardMapper.countsearch(map);
+    }
+
 }
 
 
