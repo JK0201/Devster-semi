@@ -297,7 +297,7 @@ section.main .hb_detail_wrap .hb_aside{
 
 /* 베스트 게시글 */
 
-.quickmenu {
+section.main .hb_detail_wrap .hb_aside .quickmenu {
      position: relative;
      width: 340px;
      /*top: 50%;*/
@@ -307,7 +307,7 @@ section.main .hb_detail_wrap .hb_aside{
      background: #fff;
 }
 
-.quickmenu ul {
+section.main .hb_detail_wrap .hb_aside .quickmenu ul {
     position: relative;
     float: left;
     width: 100%;
@@ -316,7 +316,7 @@ section.main .hb_detail_wrap .hb_aside{
     border: 1px solid #eee;
 }
 
-.quickmenu ul li {
+section.main .hb_detail_wrap .hb_aside .quickmenu ul li {
     float: left;
     width: 100%;
     border-bottom: 1px solid #eee;
@@ -328,12 +328,12 @@ section.main .hb_detail_wrap .hb_aside{
     /*border-bottom: 1px solid #ddd;*/
 }
 
-.quickmenu ul li:first-child{
+section.main .hb_detail_wrap .hb_aside .quickmenu ul li:first-child{
     border-bottom: 0px;
     padding: 5px 8px 0px;
 }
 
-.quickmenu ul li a {
+section.main .hb_detail_wrap .hb_aside .quickmenu ul li a {
     position: relative;
     float: left;
     width: 100%;
@@ -344,21 +344,21 @@ section.main .hb_detail_wrap .hb_aside{
     font-size: 9.5pt;
 }
 
-.quickmenu ul li a:hover {
+section.main .hb_detail_wrap .hb_aside .quickmenu ul li a:hover {
     color: #000;
 }
 
-.quickmenu ul li:last-child {
+section.main .hb_detail_wrap .hb_aside .quickmenu ul li:last-child {
     border-bottom: 0;
 }
 
-.hb_aside .quickmenu_head h2{
+section.main .hb_detail_wrap .hb_aside .quickmenu_head h2{
     padding: 15px 18px 4px;
     font-size: 16px;
     font-weight: 700;
 }
 
-.quickmenu ul li a>div>div{
+section.main .hb_detail_wrap .hb_aside .quickmenu ul li a>div>div{
     display: inline-block;
     width: 200px;
     white-space: nowrap;
@@ -370,7 +370,7 @@ section.main .hb_detail_wrap .hb_aside{
     margin-left: 3px;
 }
 
-.quickmenu ul li a>div>div:after {
+section.main .hb_detail_wrap .hb_aside .quickmenu ul li a>div>div:after {
     content: '';
     background: url(https://static.teamblind.com/img/www_kr/sp-kr.png) no-repeat;
     background-size: 600px 900px;

@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -119,6 +121,19 @@ public class HomeController {
 		return "/sub";//tiles.xml 에 이 이름으로 정의된 definition 이 적용됨
 
 	}
+
+	//실시간 인기글
+	@PostMapping("/bestPostsForBanner")
+	@ResponseBody
+	public List<FreeBoardDto> bestPosts() {
+		List<FreeBoardDto> list = freeBoardService.bestfreeboardPosts();
+		return list;
+	}
+
+
+
+
+
 	
 	/*@GetMapping("/home2")
 	public String home2()

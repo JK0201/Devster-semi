@@ -31,21 +31,42 @@ section.main .wrap .container .searchdiv{
 section.main .wrap .container .searchbar{
     width: 736px;
     height: 60px;
-    padding: 0 10px 0 62px;
+    padding: 0 10px 0 147px;
     border: 2px solid #222;
     border-radius: 30px;
     font-size: 18px;
     box-sizing: border-box;
 }
 
-section.main .wrap .container .searchbar .bi-search {
+section.main .wrap .container .searchdiv .bi-search {
     position: absolute;
-    right: 5px; /* 아이콘과 입력란 사이의 공간을 조절합니다. */
+   /* right: 5px;*/ /* 아이콘과 입력란 사이의 공간을 조절합니다. */
     top: 31px;
-    left: 27px;
+    right: 27px;
     transform: translateY(-50%); /* 아이콘을 입력란의 정중앙에 배치합니다. */
     pointer-events: none; /* 입력란 위에서 클릭이나 기타 동작이 가능하게 합니다. */
     font-size: 24px;
+    z-index: 1000;
+}
+
+
+section.main .wrap .container .searchdiv #boardSearchOption{
+    position: absolute;
+    /* right: 5px;*/ /* 아이콘과 입력란 사이의 공간을 조절합니다. */
+    top: 31px;
+    left: 27px;
+    transform: translateY(-50%); /* 아이콘을 입력란의 정중앙에 배치합니다. */
+    /*pointer-events: none;*/ /* 입력란 위에서 클릭이나 기타 동작이 가능하게 합니다. */
+    font-size: 12px;
+    width: 110px;
+    z-index: 100;
+    /*border-color: #222;*/
+    height: 30px;
+}
+
+section.main .wrap .container .searchdiv #searchinput{
+    z-index: 1;
+    position: relative;
 }
 
 
@@ -108,7 +129,7 @@ section.main .wrap .container table.noticeboard_table h2 img{
     width: 34px;
     height: 34px;
     margin-bottom: 6px;
-    /*vertical-align: middle;*/
+    vertical-align: middle;
 
 }
 
@@ -214,7 +235,7 @@ section.main .wrap .container table.freeboard_table h2 img{
     width: 32px;
     height: 32px;
     margin-bottom: 6px;
-    /*vertical-align: middle;*/
+    vertical-align: middle;
 
 }
 
@@ -291,7 +312,7 @@ section.main .wrap .container table.qboard_table h2 img{
     width: 32px;
     height: 32px;
     margin-bottom: 6px;
-    /*vertical-align: middle;*/
+    vertical-align: middle;
 
 }
 
@@ -389,7 +410,7 @@ section.main .wrap .container table.hireboard_table h2 img{
     width: 32px;
     height: 32px;
     margin-bottom: 6px;
-    /*vertical-align: middle;*/
+    vertical-align: middle;
 
 }
 
@@ -451,4 +472,100 @@ section.main .wrap .aside .aside_content_1 img{
 
 section.main .wrap .aside .aside_content_2 img{
     width: 340px;
+}
+
+/*==================================================== 실시간 인기글 =====================================================*/
+
+section.main .wrap .aside .aside_content_2 .quickmenu{
+    /*position: absolute;*/
+    /*width: 300px;
+    top: 50%;
+    margin-top: -50px;
+    right: 10px;*/
+
+    width: 340px;
+}
+
+section.main .wrap .aside .aside_content_2 .quickmenu ul {
+    /*position: relative;*/
+    float: left;
+    width: 100%;
+    display: inline-block;
+    *display: inline;
+    /*border: 1px solid #eee;*/
+    background-color: #f8f8f8;
+    padding-bottom: 20px;
+}
+
+section.main .wrap .aside .aside_content_2 .quickmenu ul li {
+    float: left;
+    width: 100%;
+    /*border-bottom: 1px solid #eee;*/
+    /*text-align: center;*/
+    display: inline-block;
+    *display: inline;
+    /*padding: 16px 20px 17px;*/
+    padding-left: 20px;
+    padding-bottom: 5px;
+    font-size: 13px;
+}
+section.main .wrap .aside .aside_content_2 .quickmenu ul li:first-child{
+    border-bottom: 0px;
+    padding: 5px 8px 0px;
+}
+section.main .wrap .aside .aside_content_2 .quickmenu ul li a {
+    position: relative;
+    float: left;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    /*text-align: center;*/
+    color: #999;
+    font-size: 9.5pt;
+}
+
+section.main .wrap .aside .aside_content_2 .quickmenu ul li a:hover {
+    color: #000;
+}
+
+section.main .wrap .aside .aside_content_2 .quickmenu ul li:last-child {
+    border-bottom: 0;
+}
+
+section.main .wrap .aside .aside_content_2 .quickmenu_head h2{
+    padding: 15px 18px 4px;
+    font-size: 16px;
+    font-weight: 700;
+    padding-bottom: 12px;
+}
+
+section.main .wrap .aside .aside_content_2 .quickmenu ul li a>div>div{
+    display: inline-block;
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /*font-weight: 700;*/
+    /*line-height: 1.25em;*/
+    color: #222;
+    margin-left: 3px;
+    font-size: 15px;
+
+}
+
+section.main .wrap .aside .aside_content_2 .quickmenu ul li a>div>div span{
+    margin-right: 10px;
+}
+
+section.main .wrap .aside .aside_content_2 .quickmenu ul li a>div>div:after {
+    content: '';
+    background: url(https://static.teamblind.com/img/www_kr/sp-kr.png) no-repeat;
+    background-size: 600px 900px;
+    background-position: -88px -626px;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    width: 16px;
+    height: 16px;
+    transform: translateY(-50%);
 }
