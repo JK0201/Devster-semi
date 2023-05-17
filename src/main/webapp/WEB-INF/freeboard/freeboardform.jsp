@@ -308,6 +308,10 @@
             left: 48%;
             font-weight: bold;
         }
+
+        #uploadmodal{
+            z-index: 0;
+        }
     </style>
 </head>
 <body>
@@ -336,10 +340,9 @@
                           rows="7" required></textarea>
             </div>
             <div class="input-group fileupload">
-
-                <label for="fileInput" class="custom-button">
+                <label class="custom-button">
                     <button type="button" id="uploadmodal" class="btn btn-outline-secondary">파일 선택</button>
-                    &nbsp;&nbsp;업로드할 사진을 선택해주세요. (10장 이하)
+                    &nbsp;&nbsp;<span id="uploadfilesnum">업로드할 사진을 선택해주세요. (10장 이하)</span>
                 </label>
                 <input accept=".jpg, .jpeg, .png, .gif" class="file_select btn-file d-none" id="fileInput" type="file" name="upload" style="padding-top: 10px;" multiple>
                 <%--<i class="bi bi-images" id="clickableImage"></i>--%>
@@ -402,7 +405,6 @@
 
 <!-------------------------Drag and Drop------------------------>
 <script>
-
     //uploadbtn for paging
     $("#uploadbtn").click(function () {
         Swal.fire({
@@ -427,6 +429,13 @@
 
                 var inputElement = $("#fileInput")[0];
                 inputElement.files = fileList.files;
+
+                if(filesarr.length==0) {
+                    $("#uploadfilesnum").html("업로드할 사진을 선택해주세요. (10장 이하)");
+                }
+                else {
+                    $("#uploadfilesnum").html(filesarr.length+"장의 파일이 선택되었습니다")
+                }
 
                 Swal.fire({
                     title: '저장을 완료했습니다',
