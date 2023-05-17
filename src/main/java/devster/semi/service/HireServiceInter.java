@@ -2,6 +2,7 @@ package devster.semi.service;
 
 import java.util.List;
 
+import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.HireBoardDto;
 
 import devster.semi.dto.QboardDto;
@@ -29,6 +30,9 @@ public interface HireServiceInter {
 
     public List<HireBoardDto> searchlist(String keyword, int start, int perpage);
     public int countsearch(String keyword);
+
+
+    public List<HireBoardDto> bestfreeboardPosts();
 
 
 }
