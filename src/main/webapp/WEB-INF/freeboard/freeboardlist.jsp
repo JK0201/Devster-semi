@@ -430,8 +430,11 @@
                                     class="bi bi-hand-thumbs-down-"></i>&nbsp;${dto.fb_dislike}</div>
                             <div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;${dto.commentCnt}</div>
                         </div>
+
                         </div>
+
                     </div>
+
 
                 </c:if>
                 <!-- blurbox-->

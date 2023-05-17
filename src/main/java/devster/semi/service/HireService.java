@@ -34,6 +34,10 @@ public class HireService implements HireServiceInter{
     }
 
     @Override
+    public String getCompName(int hb_idx) {
+        return hireMapper.getCompName(hb_idx);
+    }
+    @Override
     public HireBoardDto getData(int hb_idx) {
         return hireMapper.getData(hb_idx);
     }

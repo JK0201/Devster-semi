@@ -4,6 +4,7 @@
     <option name="state">
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/academyboard/academyboarddetail.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/academyboard" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/academyboard/academyboardlist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/academyboard" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/freeboard/freeboarddetail.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/freeboard" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/freeboard/freeboardlist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/freeboard" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/hire/hirelist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/hire" />

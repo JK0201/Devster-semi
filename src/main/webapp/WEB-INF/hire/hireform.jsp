@@ -6,7 +6,6 @@
 <html>
 <head>
 
-    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
@@ -51,6 +50,7 @@
         .post .contact form .input-group label {
             color: #8e8e8e;
         }
+
 
         .post .contact form .input-group input[type="text"] {
             background: #ebebeb;
@@ -114,6 +114,7 @@
         .post .contact form .name input[type="text"] {
             float: left;
         }
+
 
         .post .btn-block{
             width: 15%;

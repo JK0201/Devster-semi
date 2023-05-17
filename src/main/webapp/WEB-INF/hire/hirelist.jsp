@@ -37,6 +37,7 @@
     }
 
 
+
     #myBtn {
         display: none; /* Hidden by default */
         position: fixed; /* Fixed/sticky position */
@@ -56,6 +57,7 @@
     #myBtn:hover {
         background-color: #530871; /* Add a dark-grey background on hover */
     }
+
 
 
 </style>
@@ -135,8 +137,6 @@
     <!--=============================================================================-->
 
 <div class="listbox">
-
-
     <c:forEach var="dto" items="${list}" varStatus="i">
         <div class="box" <c:if test="${i.index % 2 == 1}">style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;"</c:if>>
 
@@ -158,18 +158,18 @@
             </div>
         </c:forEach>
     </div>
-    <div class="box" <c:if test="${i.index % 2 == 1}">style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;"</c:if>>
 
 
-    </div>
 
 
-</div>
-    <div class="box" <c:if test="${i.index % 2 == 1}">style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;"</c:if>>
-
-    </div>
 
 
+
+<c:if test="${sessionScope.cmidx!=null || sessionScope.memstate==100}">
+<button type="button" class="btn btn-sm btn-outline-success hb_write_btn"
+        onclick="location.href='form'" style="margin-bottom: 10px">글쓰기
+</button>
+</c:if>
 
     <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 
