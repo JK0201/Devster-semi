@@ -13,6 +13,8 @@ public interface MessageServiceInter {
 
     public void MessageSendInList(MessageDto dto);
 
+    public ArrayList<MessageDto> getMessagesWithOtherUser(MessageDto dto);
+
 
    /* public String getOtherProfile(MessageDto dto);
 

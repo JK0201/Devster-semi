@@ -121,6 +121,22 @@ public class MessageService implements MessageServiceInter{
         return messageMapper.getSelectRoom(dto);
     }*/
 
+    @Override
+    public ArrayList<MessageDto> getMessagesWithOtherUser(MessageDto dto) {
+        String nick = dto.getNick();
+        String other_nick = dto.getOther_nick();
 
+        ArrayList<MessageDto> list = (ArrayList) messageMapper.getMessagesWithOtherUser(dto);
 
+        for(MessageDto msgdto : list){
+            int unread = messageMapper.getUnreadCount(msgdto);
+            String profile = messageMapper.getOtherProfile(msgdto);
+
+            msgdto.setUnread(unread);
+            msgdto.setProfile(profile);
+            msgdto.setOther_nick(other_nick);
+        }
+
+        return list;
+    }
 }
