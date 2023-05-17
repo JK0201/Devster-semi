@@ -15,128 +15,119 @@
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <style>
-
-        .head {
-            margin-top : 10px;
-            text-align : center;
+        .post .contact form .input-group {
+            display: inline-block;
+            margin-left: 10px;
+            margin-bottom: 15px;
+            position: relative;
         }
-        .head_sentence{
-            color : black;
-            font-weight : bold;
-            font-size: 30px;
-        }
-
-        .outerBox {
-            width: 1140px;
-            margin-top: 100px;
-            position : relative;
-            border : 1px solid #cccccc;
-            margin : 0 auto;
-            margin-top : 100px;
-        }
-        .subject_div {
-            border : none;
-            border-bottom : 1px solid lightgray;
-            width : 90%;
-            height : 70px;
-            margin : 10px auto;
-        }
-        .subject {
-            border : none;
-            font-size : 30px;
+        .col-lg-6 {
+            width: 50%;
         }
 
-        input::-webkit-input-placeholder {
-            color: lightgray;
-        }
-        input:-ms-input-placeholder {
-            color: lightgray;
-        }
-
-        .content_div {
-            border : none;
-            width : 90%;
-            height : 800px;
-            margin : 10px auto;
-        }
-        .content {
-            border : none;
-            width : 90%;
-            height : 800px;
-            font-size : 20px;
-            resize : none;
-            outline : none;
+        .post .contact {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
         }
 
-        textarea::-webkit-input-placeholder {
-            color: lightgray;
-        }
-        textarea:-ms-input-placeholder {
-            color: lightgray;
+        .post .contact .title {
+            display: inline-block;
+            width: 100%;
         }
 
-        .file_select {
-            display : none;
+        .post .contact form {
+            display: table;
+            margin: 0 auto;
         }
 
-        .footer {
-            background-color : #f6f7fa;
-            width: 1135px;
-            height : 100px;
+        .post .contact form .input-group {
+            display: inline-block;
+            margin-left: 10px;
+            margin-bottom: 15px;
+            position: relative;
         }
 
-        #clickableImage {
-            cursor:pointer;
-            font-size : 30px;
-            margin-left : 20px;
+        .post .contact form .input-group label {
+            color: #8e8e8e;
         }
 
-        .buttons {
-            position : relative;
-            margin-left: 900px;
+        .post .contact form .input-group input[type="text"] {
+            background: #ebebeb;
+            border: 0;
+            outline: 0;
+            height: 50px;
+            border-radius: 5px;
+            padding: 0 15px;
+            font-size: 16px;
         }
 
-        .btn_write {
-            border : none;
-            font-weight : bold;
-            font-size : 20px;
-            margin-right : 10px;
-            background-color : transparent;
+        .post .contact form .input-group textarea {
+            background: #ebebeb;
+            border: 0;
+            outline: 0;
+            border-radius: 5px;
+            padding: 15px;
+            font-size: 16px;
+            margin-right: 210px;
         }
 
-        .btn_cancle {
-            border : none;
-            font-weight : bold;
-            font-size : 20px;
-            margin-right : 10px;
-            background-color : transparent;
+        .post .contact form .post {
+            width: 100%;
+            background: #8007ad;
+            color: #fff;
+            font-size: 16px;
+            border-radius: 5px;
+            display: inline-block;
         }
+
+        .post .contact form .full {
+            width: 100%;
+        }
+
+        .post .contact form .half {
+            width: 100%;
+        }
+
+        .post .contact form .half input[type="text"] {
+            width: 48%;
+        }
+
+        .post .contact form .name input[type="text"] {
+            float: left;
+        }
+
+
     </style>
 </head>
 <body>
 
-<div class = "outerBox">
-    <div class="head">
-        <p class = "head_sentence">글쓰기<p>
+
+<!----------------------------------------테스트-------------------------------------->
+<div class="post">
+    <div class="contact col-lg-6">
+        <div class="title" style="margin-top: ">
+            <img src="/photo/logoimage.png" style="width: 100px;">
+            <h2>Post a comment</h2>
+        </div>
+
+        <form action="insert" enctype="multipart/form-data" method="post">
+            <input type="hidden" name="m_idx" value="${sessionScope.memidx}">
+            <div class="input-group">
+                <label>Use Your Real Name</label>
+                <input class="subject" type="text" name="qb_subject" value="" placeholder="제목을 입력해주세요." required>
+            </div>
+            <div class="input-group message">
+                <label>Write a good comment</label>
+                <textarea name="qb_content" class="content" placeholder="토픽에 맞지 않는 글로 판단되어 다른 유저로부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 블라인드처리 될 수 있습니다." cols="47" rows="7" required></textarea>
+            </div>
+            <div class="col-md-12 form-group">
+                <button type="submit" class="btn_write btn btn-block btn-lg btn-primary">등록</button>
+                <button type="button" class="btn_cancle btn btn-block btn-lg btn-primary" onclick="history.back()">취소</button>
+            </div>
+
+        </form>
     </div>
-    <hr>
-    <form action="insert" enctype="multipart/form-data" method="post">
-        <input type="hidden" name="m_idx" value="${sessionScope.memidx}">
-        <div class="subject_div">
-            <input class="subject" type="text" name="qb_subject" value="" placeholder="제목을 입력해주세요." required>
-        </div>
-        <div class="content_div">
-            <textarea name="qb_content" class="content" placeholder="토픽에 맞지 않는 글로 판단되어 다른 유저로부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 블라인드처리 될 수 있습니다." required></textarea>
-        </div>
-        <div class="footer">
-            <input class="file_select" id="fileInput" type="file" name="upload" multiple><br>
-            <i class="bi bi-images" id="clickableImage"></i>
-            <span class ="buttons">
-        <button type="submit" class="btn_write">등록</button>
-        <button type="button" class="btn_cancle" onclick="history.back()">취소</button>
-          </span>
-        </div>
-    </form>
 </div>
 </body>
 
