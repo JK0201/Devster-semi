@@ -147,7 +147,6 @@
                 <input type="radio" id="1-stars" name="rb_star" value="1"/>
                 <label for="1-stars" class="star">&#9733;</label>
             </c:if>
-
         </div>
 
         <textarea style="width: 80%; height: 100px" class="form-control rb_content" id="rb_content" name="rb_content">

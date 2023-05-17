@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="devster.semi.mapper.ResumeMapper">
+    <insert id="insertresume" parameterType="resumeDto">
+        INSERT INTO resume (m_idx,r_self, r_pos, r_skill, r_file, r_refile, r_link,r_gradestart,r_gradeend,r_gradecom,r_sta)
+        VALUES (#{m_idx}, #{r_self}, #{r_pos}, #{r_skill}, #{r_file}, #{r_refile}, #{r_link}, #{r_gradestart}, #{r_gradeend}, #{r_gradecom},#{r_sta})
+    </insert>
+    <insert id="insertlic" parameterType="re_licDto">
+        insert into re_lic (m_idx, r_licdate, r_licname)
+        values (#{m_idx},#{r_licdate},#{r_licname})
+    </insert>
+    <insert id="insertcar" parameterType="re_carDto">
+        insert into re_car (m_idx, r_carstartdate ,  r_carenddate ,  r_company , r_department, r_position)
+            values (#{m_idx},#{r_carstartdate},#{r_carenddate},#{r_company},#{r_department},#{r_position})
+    </insert>
+
+    <!--GETDATA-->
+
+    <select id="getDataresume" parameterType="int" resultType="resumeDto">
+        select * from resume where m_idx=#{m_idx}
+    </select>
+    <select id="getDatare_lic" parameterType="int" resultType="re_licDto">
+        select * from re_lic where m_idx=#{m_idx}
+    </select>
+    <select id="getDatare_car" parameterType="int" resultType="re_carDto">
+        select * from re_car where m_idx=#{m_idx}
+    </select>
+    <select id="getFullData" parameterType="int" resultType="java.util.Map">
+        SELECT r.*, l.*, c.*
+        FROM resume r
+                 LEFT JOIN re_lic l ON r.m_idx = l.m_idx
+                 LEFT JOIN re_car c ON r.m_idx = c.m_idx
+        WHERE r.m_idx = #{m_idx}
+    </select>
+
+    <update id="updateresume" parameterType="resumeDto">
+        update resume
+        set r_self = #{r_self},r_pos=#{r_pos},r_skill=#{r_skill},r_gradecom=#{r_gradecom},r_link=#{r_link}
+            ,r_sta=#{r_sta},r_gradestart=#{r_gradestart},r_gradeend=#{r_gradeend},r_file=#{r_file},r_refile=#{r_refile}
+            where m_idx=#{m_idx}
+    </update>
+    <update id="updatelic" parameterType="re_licDto">
+        update re_lic
+        set r_licdate =#{r_licdate}, r_licname=#{r_licname}
+        where relic_idx=#{relic_idx}
+    </update>
+    <update id="updatecar" parameterType="re_carDto">
+        update re_car
+        set r_carenddate=#{r_carenddate},r_carstartdate=#{r_carstartdate},r_company=#{r_company},
+            r_department=#{r_department},r_position=#{r_position}
+        where recar_idx=#{recar_idx}
+    </update>
+
+    <delete id="deletecar" parameterType="int">
+        DELETE FROM re_car where recar_idx=#{recar_idx}
+    </delete>
+
+
+
+</mapper>
