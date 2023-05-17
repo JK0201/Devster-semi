@@ -102,6 +102,11 @@ public class MemberService implements MemberServiceInter {
     }
 
     @Override
+    public void addDummyCMember(CompanyMemberDto dto) {
+        memberMapper.addDummyCMember(dto);
+    }
+
+    @Override
     public int cmEmailPassChk(String cm_email, String cm_pass) {
         Map<String, String> map = new HashMap<>();
         map.put("cm_email", cm_email);

@@ -252,6 +252,7 @@
 </head>
 <body>
 
+
 <h1>프로필 사진에서 쪽지창 열기</h1>
 <%--<c:forEach var="tmp" items="${list}">
 </c:forEach>--%>
@@ -269,43 +270,70 @@
                     <!-- 메세지 내용이 올 자리 -->
 
                     <c:forEach var="tmp" items="${list}">
-                        <div class="chat_list_box${tmp.room} chat_list_box">
-                            <div class="chat_list" room="${tmp.room}" other-nick="${tmp.other_nick}">
-                                <!-- active-chat -->
-                                <c:choose>
-                                    <c:when test="${sessionScope.memnick ne tmp.send_nick}">
-                                        <!--받은 메세지 -->
-                                        <div class="incoming_msg">
+                        <c:if test="${sessionScope.memnick == null && sessionScope.cmname != null}">
+                            <c:choose>
+                                <c:when test="${sessionScope.cmname ne tmp.send_nick}">
+                                    <!--받은 메세지 -->
+                                    <div class="incoming_msg">
 
-                                            <div class="incoming_msg_img">
-                                                <a href="other_profile.do?other_nick=${tmp.send_nick}">
-                                                    <img src="http://${imageUrl}/member/${tmp.profile}" width="50px">
-                                                </a>
-                                            </div>
-
-                                            <div class="received_msg">
-                                                <div class="received_withd_msg">
-                                                    <p>${tmp.content}</p>
-                                                    <span class="time_date">${tmp.send_time}</span>
-                                                </div>
-                                            </div>
-
+                                        <div class="incoming_msg_img">
+                                                <img src="http://${imageUrl}/member/${tmp.profile}" width="50px">
                                         </div>
-                                    </c:when>
 
-                                    <c:otherwise>
-                                        <%--<img src="http://${imageUrl}/member/${tmp.m_photo}" width="50px">--%>
-                                        <!-- 보낸 메세지 -->
-                                        <div class="outgoing_msg">
-                                            <div class="sent_msg">
+                                        <div class="received_msg">
+                                            <div class="received_withd_msg">
+                                                <span>${tmp.send_nick}</span>
                                                 <p>${tmp.content}</p>
                                                 <span class="time_date">${tmp.send_time}</span>
                                             </div>
                                         </div>
-                                    </c:otherwise>
-                                </c:choose>
-                            </div>
-                        </div>
+
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <%--<img src="http://${imageUrl}/member/${tmp.m_photo}" width="50px">--%>
+                                    <!-- 보낸 메세지 -->
+                                    <div class="outgoing_msg">
+                                        <div class="sent_msg">
+                                            <span>${tmp.send_nick}</span>
+                                            <p>${tmp.content}</p>
+                                            <span class="time_date">${tmp.send_time}</span>
+                                        </div>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:if>
+                        <c:if test="${sessionScope.memnick != null && sessionScope.cmname == null}">
+                            <c:choose>
+                                <c:when test="${sessionScope.memnick ne tmp.send_nick}">
+                                    <!--받은 메세지 -->
+                                    <div class="incoming_msg">
+                                        <div class="incoming_msg_img">
+                                                <img src="http://${imageUrl}/member/${tmp.profile}" width="50px">
+                                        </div>
+                                        <div class="received_msg">
+                                            <div class="received_withd_msg">
+                                                <span>${tmp.send_nick}</span>
+                                                <p>${tmp.content}</p>
+                                                <span class="time_date">${tmp.send_time}</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <%--<img src="http://${imageUrl}/member/${tmp.m_photo}" width="50px">--%>
+                                    <!-- 보낸 메세지 -->
+                                    <div class="outgoing_msg">
+                                        <div class="sent_msg">
+                                            <span>${tmp.send_nick}</span>
+                                            <p>${tmp.content}</p>
+                                            <span class="time_date">${tmp.send_time}</span>
+                                        </div>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:if>
 
                     </c:forEach>
 
@@ -379,9 +407,8 @@
     };
 
     $('.msg_send_btn_other').on('click', function() {
-        var chatListElement = $(this).parents().find('.chat_list');
-        var room = chatListElement.attr('room');
-        var other_nick = chatListElement.attr('other-nick');
+        var room = ${room};
+        var other_nick = "${other_nick}";
 
         //alert(room);
 

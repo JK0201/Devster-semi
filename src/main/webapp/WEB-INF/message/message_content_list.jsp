@@ -11,38 +11,65 @@
 <%@ include file="../commonvar.jsp" %>
 
 <c:forEach var="tmp" items="${clist}">
-    <c:choose>
-        <c:when test="${sessionScope.memnick ne tmp.send_nick}">
-            <!--받은 메세지 -->
-            <div class="incoming_msg">
+        <c:if test="${sessionScope.memnick == null && sessionScope.cmname != null}">
+            <c:choose>
+                <c:when test="${sessionScope.cmname ne tmp.send_nick}">
+                    <!--받은 메세지 -->
+                    <div class="incoming_msg">
+                        <div class="incoming_msg_img">
+                                <img src="http://${imageUrl}/member/${tmp.m_photo}" width="50px">
+                        </div>
 
-                <div class="incoming_msg_img">
-                    <a href="other_profile.do?other_nick=${tmp.send_nick}">
-                        <img src="http://${imageUrl}/member/${tmp.m_photo}" width="50px">
-                    </a>
-                </div>
+                        <div class="received_msg">
+                            <div class="received_withd_msg">
+                                <p>${tmp.content}</p>
+                                <span class="time_date">${tmp.send_time}</span>
+                            </div>
+                        </div>
 
-                <div class="received_msg">
-                    <div class="received_withd_msg">
-                        <p>${tmp.content}</p>
-                        <span class="time_date">${tmp.send_time}</span>
                     </div>
-                </div>
+                </c:when>
+                <c:otherwise>
+                    <%--<img src="http://${imageUrl}/member/${tmp.m_photo}" width="50px">--%>
+                    <!-- 보낸 메세지 -->
+                    <div class="outgoing_msg">
+                        <div class="sent_msg">
+                            <p>${tmp.content}</p>
+                            <span class="time_date">${tmp.send_time}</span>
+                        </div>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+        </c:if>
+        <c:if test="${sessionScope.memnick != null && sessionScope.cmname == null}">
+            <c:choose>
+                <c:when test="${sessionScope.memnick ne tmp.send_nick}">
+                    <!--받은 메세지 -->
+                    <div class="incoming_msg">
+                        <div class="incoming_msg_img">
+                                <img src="http://${imageUrl}/member/${tmp.m_photo}" width="50px">
+                        </div>
+                        <div class="received_msg">
+                            <div class="received_withd_msg">
+                                <p>${tmp.content}</p>
+                                <span class="time_date">${tmp.send_time}</span>
+                            </div>
+                        </div>
 
-            </div>
-        </c:when>
-
-        <c:otherwise>
-            <%--<img src="http://${imageUrl}/member/${tmp.m_photo}" width="50px">--%>
-            <!-- 보낸 메세지 -->
-            <div class="outgoing_msg">
-                <div class="sent_msg">
-                    <p>${tmp.content}</p>
-                    <span class="time_date">${tmp.send_time}</span>
-                </div>
-            </div>
-        </c:otherwise>
-    </c:choose>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <%--<img src="http://${imageUrl}/member/${tmp.m_photo}" width="50px">--%>
+                    <!-- 보낸 메세지 -->
+                    <div class="outgoing_msg">
+                        <div class="sent_msg">
+                            <p>${tmp.content}</p>
+                            <span class="time_date">${tmp.send_time}</span>
+                        </div>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+        </c:if>
     <%--    <img src="http://${imageUrl}/member/${tmp.m_photo}" width="50px">--%>
 </c:forEach>
 

@@ -12,6 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.sql.Timestamp;
@@ -162,7 +165,7 @@ public class QboardController {
         String fileName = "";
 
         if(upload.get(0).getOriginalFilename().equals("")) { // 업로드를 안한경우.
-            fileName = "no";
+            fileName = "n";
         } else {
             int i =0;
             for(MultipartFile mfile : upload) {
@@ -519,6 +522,11 @@ public class QboardController {
 
 
         return "/main/qboard/qboardsearchlist";
+    }
+    @GetMapping("/other_profile")
+    public String message(String other_nick){
+        String encodedNick = URLEncoder.encode(other_nick, StandardCharsets.UTF_8);
+        return "redirect:/message/other_profile?other_nick="+encodedNick;
     }
 
     public String timeForToday(Timestamp value) {

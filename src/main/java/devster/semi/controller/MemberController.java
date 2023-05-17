@@ -370,6 +370,8 @@ public class MemberController {
         dto.setCm_filename(cm_photo);
 
         memberService.addNewCMemeber(dto);
+        dto.setCm_idx(memberService.getCmOneData(dto.getCm_email()).getCm_idx());
+        memberService.addDummyCMember(dto);
     }
 
     @PostMapping("/apisignupform")

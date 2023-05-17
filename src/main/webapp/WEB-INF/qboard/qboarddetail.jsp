@@ -135,6 +135,10 @@
                 }
             });
         });
+
+    function message(nickname) {
+        window.open("other_profile?other_nick="+nickname, 'newwindow', 'width=700,height=700');
+    }
     </script>
 
 </head>
@@ -150,7 +154,7 @@
         <br>
         <h2 class="userInfo">
             <img src="${profilePhoto}" style="width:50px; height: 50px; border:3px solid black; border-radius:100px;">
-            작성자 : ${nickname}
+            <p style="cursor:pointer;" onclick=message("${nickname}")>작성자 : ${nickname}</p>
         </h2>
         <br>
         <h2>

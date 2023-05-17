@@ -90,7 +90,7 @@
                                         }
                                         s += `<span class="qb_writeday">\${dto.qb_writeday}</span>`
                                         s += `<span class="qb_readcount"><div class="icon_read"></div>\${dto.qb_readcount}</span><br><br>`;
-                                        s += `<span class="nickName"><img src="\${dto.photo}" class="memberimg">&nbsp;\${dto.nickName}</span>`;
+                                        s += `<span class="nickName" style="cursor: pointer" onclick=message(\${dto.nickName})><img src="\${dto.photo}" class="memberimg">&nbsp;\${dto.nickName}</span>`;
                                         s += `<div class="mainbox">`
                                         s += `<h3 class="qb_subject"><a href="detail?qb_idx=\${dto.qb_idx}"><b>\${dto.qb_subject}</b></a></h3>`;
                                         if (dto.qb_photo == 'n') {
@@ -373,8 +373,7 @@
                         <span class="qb_readcount"><div class="icon_read"></div>
                                 ${dto.qb_readcount}</span><br><br>
 
-                        <span class="nickName"><img src="${dto.photo}"
-                                                    class="memberimg">&nbsp;${dto.nickName}</span>
+                        <span class="nickName"><img src="${dto.photo}" class="memberimg">&nbsp;${dto.nickName}</span>
 
                         <div class="mainbox">
                             <h3 class="qb_subject">
@@ -440,7 +439,7 @@
                         <span class="qb_readcount"><div class="icon_read"></div>
                                 ${dto.qb_readcount}</span><br><br>
 
-                        <span class="nickName"><img src="${dto.photo}"
+                        <span class="nickName" style="cursor:pointer;" onclick=message("${dto.nickName}")><img src="${dto.photo}"
                                                     class="memberimg">&nbsp;${dto.nickName}</span>
                         <div class="mainbox">
                             <h3 class="qb_subject">
@@ -558,6 +557,10 @@
     function topFunction() {
         document.body.scrollTop = 0; // For Safari
         document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+    // 쪽지보내기 메서드.
+    function message(nickname) {
+        window.open("other_profile?other_nick="+nickname, 'newwindow', 'width=700,height=700');
     }
 
 
