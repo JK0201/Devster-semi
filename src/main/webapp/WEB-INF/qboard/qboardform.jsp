@@ -106,7 +106,7 @@
 <!----------------------------------------테스트-------------------------------------->
 <div class="post">
     <div class="contact col-lg-6">
-        <div class="title" style="margin-top: ">
+        <div class="title" style="margin-top: 30px;">
             <img src="/photo/logoimage.png" style="width: 100px;">
             <h2>Post a comment</h2>
         </div>
