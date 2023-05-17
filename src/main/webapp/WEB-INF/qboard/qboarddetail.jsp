@@ -195,7 +195,7 @@
         <br>
 
         <div class="buttons" style="clear: both">
-            <c:if test="${dto.m_idx == sessionScope.memidx || sessionScope.memstate == 100}">
+            <c:if test="${dto.m_idx == sessionScope.memidx}">
                 <button class="btn btn-outline-dark" type="button"
                         onclick="deletePost(${dto.qb_idx})">
                     삭제
@@ -203,6 +203,12 @@
                 <button class="btn btn-outline-dark" type="button"
                         onclick="location.href='updateform?qb_idx=${dto.qb_idx}&currentPage=${currentPage}'">
                     수정
+                </button>
+            </c:if>
+            <c:if test="${sessionScope.memstate == 100}">
+                <button class="btn btn-outline-dark" type="button"
+                        onclick="deletePost(${dto.qb_idx})">
+                    삭제
                 </button>
             </c:if>
 <%--            좋아요 / 싫어요 버튼--%>
@@ -291,7 +297,7 @@
                             s += `<img src="http://${imageUrl}/aboard/\${photos}" style="width:400px;"><br>`;
                         };
                     });
-                    if (item.m_idx == ${sessionScope.memidx} || ${sessionScope.memstate == 100} ) {
+                    if (item.m_idx == ${sessionScope.memidx}) {
                         s += `
     <button class="btn btn-outline-dark" type="button" onclick="deleteComment(\${item.ab_idx})">
         삭제
@@ -299,6 +305,12 @@
     <button class="btn btn-outline-dark" type="button" data-abidx="\${item.ab_idx}" onclick="updateCommentForm(\${item.ab_idx}, \${index})">
         수정
     </button>`;
+                    } else if(${sessionScope.memstate == 100}){
+                        s += `
+    <button class="btn btn-outline-dark" type="button" onclick="deleteComment(\${item.ab_idx})">
+        삭제
+    </button>
+    `;
                     }
                     s += "<hr></div>";
                 });
@@ -415,7 +427,7 @@
     }
 
     function deletePost(qb_idx) {
-        if(confirm("정말 삭제하시겠습니다? ")) {
+        if(confirm("정말 삭제하시겠다?? ")) {
             location.href="delete?qb_idx=" + qb_idx;
         }
     }

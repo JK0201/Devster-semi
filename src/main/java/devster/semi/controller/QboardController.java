@@ -237,7 +237,7 @@ public class QboardController {
     }
 
     @GetMapping("/detail")
-    public String detail(int qb_idx, Model model, int currentPage, HttpSession session) {
+    public String detail(int qb_idx, Model model, HttpSession session) {
         qboardService.updateReadCount(qb_idx);
 
         QboardDto dto = qboardService.getOnePost(qb_idx);
@@ -265,7 +265,6 @@ public class QboardController {
         model.addAttribute("dto",dto);
         model.addAttribute("nickname",nickName);
         model.addAttribute("photo",photo);
-        model.addAttribute("currentPage",currentPage);
         model.addAttribute("isAlreadyAddGoodRp", isAlreadyAddGoodRp);
         model.addAttribute("isAlreadyAddBadRp", isAlreadyAddBadRp);
 
