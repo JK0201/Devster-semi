@@ -84,7 +84,7 @@
     <update id="updateCompanyinfoStar" parameterType="CompanyinfoDto">
         UPDATE companyinfo
         SET ci_star = (
-            SELECT ROUND(AVG(rb_star),1) FROM reviewboard WHERE ci_idx = #{ci_idx}
+            SELECT AVG(rb_star) FROM reviewboard WHERE ci_idx = #{ci_idx}
         )
         WHERE ci_idx = #{ci_idx}
     </update>

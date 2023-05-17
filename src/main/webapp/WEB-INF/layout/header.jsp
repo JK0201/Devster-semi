@@ -29,7 +29,7 @@
         <li><a id="hire" href="${root}/hire/list">채용정보</a></li>
         <li><a id="academy"
 
-               <c:if test="${sessionScope.cmidx}">
+               <c:if test="${sessionScope.cmidx != null}">
                onclick="alert('기업회원은 열람하실 수 없습니다.')"
 
                </c:if>
