@@ -238,9 +238,9 @@
 </style>
 
 <div class="qb_wrap">
-    <!--===========================공지===============================================-->
+    <!--=============================================================================-->
 
-    <div class="noticeboard_part" style="border: 1px solid red; width: 800px">
+    <div class="noticeboard_part" style="border: 1px solid red">
         <h1>공지</h1>
         <ul class="clear">
             <c:if test="${NoticeBoardTotalCount>0}">
@@ -248,7 +248,7 @@
 
 
             <li>
-                <a href="../noticeboard/noticeboarddetail?nb_idx=${dto.nb_idx}"
+                <a href="../noticeboard/noticeboarddetail?nb_idx=${dto.nb_idx}&currentPage=${currentPage}"
                    style="color: #000;">
                         ${dto.nb_subject}
                     <c:if test="${dto.nb_photo!='n'}">
@@ -262,7 +262,6 @@
         </c:if>
         </ul>
     </div>
-
     <!--=============================================================================-->
     <!-- 검색창 -->
     <div class="searchdiv">
