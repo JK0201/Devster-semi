@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Controller
@@ -329,7 +332,7 @@ public class FreeBoardController {
     }
 
     @GetMapping("/freeboarddetail")
-    public String detail(int fb_idx, int currentPage, Model model, HttpSession session) {
+    public String detail(int fb_idx, Model model, HttpSession session) {
 
         freeBoardService.updateReadCount(fb_idx);
         FreeBoardDto dto = freeBoardService.getData(fb_idx);
@@ -347,7 +350,7 @@ public class FreeBoardController {
         model.addAttribute("dto", dto);
         model.addAttribute("nickname", nickName);
         model.addAttribute("m_photo", m_photo);
-        model.addAttribute("currentPage", currentPage);
+//        model.addAttribute("currentPage", currentPage);
         model.addAttribute("isAlreadyAddGoodRp", isAlreadyAddGoodRp);
         model.addAttribute("isAlreadyAddBadRp", isAlreadyAddBadRp);
 
@@ -381,17 +384,16 @@ public class FreeBoardController {
     }
 
     @GetMapping("/freeupdateform")
-    public String updateform(int fb_idx, int currentPage, Model model) {
+    public String updateform(int fb_idx, Model model) {
 
         FreeBoardDto dto = freeBoardService.getData(fb_idx);
         model.addAttribute("dto", dto);
-        model.addAttribute("currentPage", currentPage);
 
         return "/main/freeboard/freeboardupdateform";
     }
 
     @PostMapping("/freeupdate")
-    public String updateFree(FreeBoardDto dto, List<MultipartFile> upload, int currentPage, int fb_idx) {
+    public String updateFree(FreeBoardDto dto, List<MultipartFile> upload, int fb_idx) {
 
         dto.setFb_idx(fb_idx);
         String fb_photo = "";
@@ -419,7 +421,7 @@ public class FreeBoardController {
 
         freeBoardService.updateBoard(dto);
 
-        return "redirect:./freeboarddetail?fb_idx=" + dto.getFb_idx() + "&currentPage=" + currentPage;
+        return "redirect:./freeboarddetail?fb_idx=" + dto.getFb_idx();
     }
 
     //좋아요 증가 메서드
@@ -488,7 +490,7 @@ public class FreeBoardController {
     // 무한스크롤
     @GetMapping("/listajax")
     @ResponseBody
-    public Map<String, Object> list(int currentPage) {
+    public List<Map<String,Object>> list(int currentPage) {
         int totalCount = freeBoardService.getTotalCount();
         int perPage = 10; // 한 페이지당 보여줄 글 갯수
         int startNum; // 각 페이지에서 보여질 글의 시작번호
@@ -523,7 +525,10 @@ public class FreeBoardController {
             map.put("fb_like", dto.getFb_like());
             map.put("fb_dislike", dto.getFb_dislike());
             map.put("fb_readcount", dto.getFb_readcount());
-            map.put("fb_writeday", dto.getFb_writeday());
+            map.put("fb_writeday", timeForToday(dto.getFb_writeday()));
+            map.put("currentPage", currentPage);
+            map.put("totalCount", totalCount);
+            map.put("no", no);
 
 
             // 사진이 들어있으면
@@ -542,13 +547,37 @@ public class FreeBoardController {
             fulllList.add(map);
         }
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("list", fulllList);
-        map.put("currentPage", currentPage);
-        map.put("totalCount", totalCount);
-        map.put("no", no);
+        return fulllList;
+    }
 
-        return map;
+
+    public String timeForToday(Timestamp value) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime timeValue = value.toLocalDateTime();
+
+        long betweenTime = ChronoUnit.MINUTES.between(timeValue, now);
+        if (betweenTime < 1) {
+            return "방금전";
+        }
+        if (betweenTime < 60) {
+            return betweenTime + "분전";
+        }
+
+        long betweenTimeHour = betweenTime / 60;
+        if (betweenTimeHour < 24) {
+            return betweenTimeHour + "시간전";
+        }
+
+        long betweenTimeDay = betweenTime / 1440; // 60 minutes * 24 hours
+        if (betweenTimeDay < 8) {
+            return betweenTimeDay + "일전";
+        }
+
+        String month = String.format("%02d", timeValue.getMonthValue());
+        String day = String.format("%02d", timeValue.getDayOfMonth());
+        String formattedDate = month + "-" + day;
+
+        return formattedDate;
     }
 
 }

@@ -67,6 +67,10 @@
                                 $(".listbox").append(`<h2 class="alert alert-outline-secondary">등록된 게시글이 없습니다..</h2>`);
                                 $("#loading").hide();
                             } else {
+                                if (res.length == 0) {
+                                    noMoreData = true;
+                                    $("#loading").hide();
+                                } else {
                                 setTimeout(function () {
                                     currentpage++;
                                     var s = '';
@@ -87,26 +91,30 @@
                                         s += `<span class="qb_writeday">\${dto.qb_writeday}</span>`
                                         s += `<span class="qb_readcount"><div class="icon_read"></div>\${dto.qb_readcount}</span><br><br>`;
                                         s += `<span class="nickName"><img src="\${dto.photo}" class="memberimg">&nbsp;\${dto.nickName}</span>`;
-                                        s += `<h3 class="qb_subject"><a href="detail?qb_idx=\${dto.qb_idx}&currentPage=\${currentpage}"><b>\${dto.qb_subject}</b></a></h3>`;
+                                        s += `<div class="mainbox">`
+                                        s += `<h3 class="qb_subject"><a href="detail?qb_idx=\${dto.qb_idx}"><b>\${dto.qb_subject}</b></a></h3>`;
                                         if (dto.qb_photo == 'n') {
                                             var content = dto.qb_content.substring(0, 120);
                                             if (dto.qb_content.length >= 120) {
                                                 content += ".....";
                                             }
-                                            s += `<h5 class="qb_content" style="width: 90%"><a href="detail?qb_idx=\${dto.qb_idx}&currentPage=\${currentpage}" style="color: #000;"><span>\${content}</span></a></h5>`;
+                                            s += `<h5 class="qb_content" style="width: 90%"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span>\${content}</span></a></h5>`;
                                         } else {
                                             var content = dto.qb_content.substring(0, 80);
                                             if (dto.qb_content.length >= 80) {
                                                 content += ".....";
                                             }
-                                            s += `<h5 class="qb_content"><a href="detail?qb_idx=\${dto.qb_idx}&currentPage=\${currentpage}" style="color: #000;"><span class="photocontent">\${content}</span><span class="qb_photo"><img src="http://${imageUrl}/qboard/\${dto.qb_photo.split(",")[0]}" id="qb_photo"></span></a></h5>`;
+                                            s += `<h5 class="qb_content" style="width:80%"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span class="photocontent">\${content}</span></a></h5>`;
+                                            s += `<div style="position:relative; right:0; top: -80px;"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span class="qb_photo"><img src="http://${imageUrl}/qboard/\${dto.qb_photo.split(",")[0]}" id="qb_photo"></span></a></div>`;
                                         }
                                         s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.qb_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.qb_dislike}</div><div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;\${dto.count}</div></div>`;
+                                        s += `</div>`;
                                         s += `</div>`;
                                     })
                                     $(".listbox").append(s);
                                     $("#loading").hide();
                                 }, 1000);  // 1초 후에 실행
+                                }
                             }
                         },
                         error: function (xhr, status, error) {
@@ -230,9 +238,9 @@
 </style>
 
 <div class="qb_wrap">
-    <!--===========================공지===============================================-->
+    <!--=============================================================================-->
 
-    <div class="noticeboard_part" style="border: 1px solid red; width: 800px">
+    <div class="noticeboard_part" style="border: 1px solid red">
         <h1>공지</h1>
         <ul class="clear">
             <c:if test="${NoticeBoardTotalCount>0}">
@@ -254,7 +262,6 @@
         </c:if>
         </ul>
     </div>
-
     <!--=============================================================================-->
     <!-- 검색창 -->
     <div class="searchdiv">
@@ -368,14 +375,14 @@
                         <span class="nickName"><img src="${dto.photo}"
                                                     class="memberimg">&nbsp;${dto.nickName}</span>
 
-                        <h3 class="qb_subject">
-                            <a href="detail?qb_idx=${dto.qb_idx}&currentPage=${currentPage}"><b>${dto.qb_subject}</b></a>
-                        </h3>
-
-                        <c:if test="${dto.qb_photo=='n'}">
-                            <h5 class="qb_content" style="width: 90%">
-                                <a href="detail?qb_idx=${dto.qb_idx}&currentPage=${currentPage}"
-                                   style="color: #000;">
+                        <div class="mainbox">
+                            <h3 class="qb_subject">
+                                <a href="detail?qb_idx=${dto.qb_idx}"><b>${dto.qb_subject}</b></a>
+                            </h3>
+                            <c:if test="${dto.qb_photo=='n'}">
+                                <h5 class="qb_content" style="width: 90%">
+                                    <a href="detail?qb_idx=${dto.qb_idx}"
+                                       style="color: #000;">
                                 <span>
                                     <c:set var="length" value="${fn:length(dto.qb_content)}"/>
                                     ${fn:substring(dto.qb_content, 0, 120)}
@@ -384,33 +391,35 @@
                                         .....
                                     </c:if>
                                    </span></a>
-                            </h5>
-                        </c:if>
-                        <c:if test="${dto.qb_photo!='n'}">
-                            <h5 class="qb_content">
-                                <a href="detail?qb_idx=${dto.qb_idx}&currentPage=${currentPage}"
-                                   style="color: #000;">
-                                <span class="photocontent">
-                                    <c:set var="length" value="${fn:length(dto.qb_content)}"/>
-                                    ${fn:substring(dto.qb_content, 0, 80)}
-
-                                    <c:if test="${length>=80}">
-                                        .....
-                                    </c:if>
+                                </h5>
+                            </c:if>
+                            <c:if test="${dto.qb_photo!='n'}">
+                                <h5 class="qb_content" style="width: 80%;">
+                                    <a href="detail?qb_idx=${dto.qb_idx}"
+                                       style="color: #000;">
+                                    <span class="photocontent">
+                                        <c:set var="length" value="${fn:length(dto.qb_content)}"/>
+                                        ${fn:substring(dto.qb_content, 0, 80)}
+                                        <c:if test="${length>=80}">
+                                            .....
+                                        </c:if>
                                    </span>
-                                    <span class="qb_photo">
-                    <img src="http://${imageUrl}/qboard/${dto.qb_photo.split(",")[0]}" id="qb_photo_blur">
-            </span>
-                                </a>
-                            </h5>
-                        </c:if>
-
-                        <div class="hr_tag">
-                            <div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;${dto.qb_like}&nbsp;&nbsp;<i
-                                    class="bi bi-hand-thumbs-down-"></i>&nbsp;${dto.qb_dislike}</div>
-                            <div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;${dto.commentCnt}</div>
+                                    </a>
+                                </h5>
+                                <div style="position:relative; right:0; top: -80px;">
+                                    <a href="detail?qb_idx=${dto.qb_idx}">
+                                        <span class="qb_photo">
+                                            <img src="http://${imageUrl}/qboard/${dto.qb_photo.split(",")[0]}" id="qb_photo">
+                                        </span>
+                                    </a>
+                                </div>
+                            </c:if>
+                            <div class="hr_tag">
+                                <div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;${dto.qb_like}&nbsp;&nbsp;<i
+                                        class="bi bi-hand-thumbs-down"></i>&nbsp;${dto.qb_dislike}</div>
+                                <div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;${dto.count}</div>
+                            </div>
                         </div>
-
                     </div>
 
                 </c:if>
@@ -432,15 +441,14 @@
 
                         <span class="nickName"><img src="${dto.photo}"
                                                     class="memberimg">&nbsp;${dto.nickName}</span>
-
-                        <h3 class="qb_subject">
-                            <a href="detail?qb_idx=${dto.qb_idx}&currentPage=${currentPage}"><b>${dto.qb_subject}</b></a>
-                        </h3>
-
-                        <c:if test="${dto.qb_photo=='n'}">
-                            <h5 class="qb_content" style="width: 90%">
-                                <a href="detail?qb_idx=${dto.qb_idx}&currentPage=${currentPage}"
-                                   style="color: #000;">
+                        <div class="mainbox">
+                            <h3 class="qb_subject">
+                                <a href="detail?qb_idx=${dto.qb_idx}"><b>${dto.qb_subject}</b></a>
+                            </h3>
+                            <c:if test="${dto.qb_photo=='n'}">
+                                <h5 class="qb_content" style="width: 90%">
+                                    <a href="detail?qb_idx=${dto.qb_idx}"
+                                       style="color: #000;">
                                 <span>
                                     <c:set var="length" value="${fn:length(dto.qb_content)}"/>
                                     ${fn:substring(dto.qb_content, 0, 120)}
@@ -449,12 +457,12 @@
                                         .....
                                     </c:if>
                                    </span></a>
-                            </h5>
-                        </c:if>
-                        <c:if test="${dto.qb_photo!='n'}">
-                            <h5 class="qb_content">
-                                <a href="detail?qb_idx=${dto.qb_idx}&currentPage=${currentPage}"
-                                   style="color: #000;">
+                                </h5>
+                            </c:if>
+                            <c:if test="${dto.qb_photo!='n'}">
+                                    <h5 class="qb_content" style="width: 80%;">
+                                        <a href="detail?qb_idx=${dto.qb_idx}"
+                                           style="color: #000;">
                                     <span class="photocontent">
                                         <c:set var="length" value="${fn:length(dto.qb_content)}"/>
                                         ${fn:substring(dto.qb_content, 0, 80)}
@@ -462,18 +470,21 @@
                                             .....
                                         </c:if>
                                    </span>
-                                </a>
-                                <a href="detail?qb_idx=${dto.qb_idx}&currentPage=${currentPage}">
-                                    <span class="qb_photo">
-                                        <img src="http://${imageUrl}/qboard/${dto.qb_photo.split(",")[0]}" id="qb_photo">
-                                    </span>
-                                </a>
-                            </h5>
-                        </c:if>
-                        <div class="hr_tag">
-                            <div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;${dto.qb_like}&nbsp;&nbsp;<i
-                                    class="bi bi-hand-thumbs-down"></i>&nbsp;${dto.qb_dislike}</div>
-                            <div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;${dto.count}</div>
+                                        </a>
+                                    </h5>
+                                <div style="position:relative; right:0; top: -80px;">
+                                    <a href="detail?qb_idx=${dto.qb_idx}">
+                                        <span class="qb_photo">
+                                            <img src="http://${imageUrl}/qboard/${dto.qb_photo.split(",")[0]}" id="qb_photo">
+                                        </span>
+                                    </a>
+                                </div>
+                            </c:if>
+                            <div class="hr_tag">
+                                <div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;${dto.qb_like}&nbsp;&nbsp;<i
+                                        class="bi bi-hand-thumbs-down"></i>&nbsp;${dto.qb_dislike}</div>
+                                <div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;${dto.count}</div>
+                            </div>
                         </div>
                     </div>
                 </c:if>

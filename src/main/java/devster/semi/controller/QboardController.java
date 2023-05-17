@@ -196,17 +196,16 @@ public class QboardController {
 
     @GetMapping("/updateform")
 
-    public String updateForm(int qb_idx, Model model,int currentPage) {
+    public String updateForm(int qb_idx, Model model) {
         QboardDto dto = qboardService.getOnePost(qb_idx);
 
         model.addAttribute("dto", dto);
-        model.addAttribute("currentPage",currentPage);
 
         return "/main/qboard/qboardupdateform";
     }
 
     @PostMapping("/update")
-    public String update(int qb_idx, QboardDto dto, List<MultipartFile> upload,int currentPage) {
+    public String update(int qb_idx, QboardDto dto, List<MultipartFile> upload) {
         dto.setQb_idx(qb_idx);
 
         String oriPhoto = qboardService.getOnePost(qb_idx).getQb_photo();
@@ -233,11 +232,11 @@ public class QboardController {
         dto.setQb_photo(fileName);
 
         qboardService.updatePost(dto);
-        return "redirect:detail?qb_idx="+qb_idx+"&currentPage="+currentPage;
+        return "redirect:detail?qb_idx="+qb_idx;
     }
 
     @GetMapping("/detail")
-    public String detail(int qb_idx, Model model, int currentPage, HttpSession session) {
+    public String detail(int qb_idx, Model model, HttpSession session) {
         qboardService.updateReadCount(qb_idx);
 
         QboardDto dto = qboardService.getOnePost(qb_idx);
@@ -265,7 +264,6 @@ public class QboardController {
         model.addAttribute("dto",dto);
         model.addAttribute("nickname",nickName);
         model.addAttribute("photo",photo);
-        model.addAttribute("currentPage",currentPage);
         model.addAttribute("isAlreadyAddGoodRp", isAlreadyAddGoodRp);
         model.addAttribute("isAlreadyAddBadRp", isAlreadyAddBadRp);
 

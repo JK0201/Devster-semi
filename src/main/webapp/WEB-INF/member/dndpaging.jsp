@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<%@ include file="../commonvar.jsp" %>
 
 <!DOCTYPE html>
 <html>
@@ -10,136 +10,16 @@
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap"
+          rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        .post .contact form .input-group {
-            display: inline-block;
-            margin-left: 10px;
-            margin-bottom: 15px;
-            position: relative;
+        * {
+            margin: 0px;
+            padding: 0px;
         }
-
-        .col-lg-6 {
-            width: 50%;
-        }
-
-        .post .contact {
-            display: inline-block;
-            width: 100%;
-            text-align: center;
-        }
-
-        .post .contact .title {
-            display: inline-block;
-            width: 100%;
-        }
-
-        .post .contact form {
-            display: table;
-            margin: 0 auto;
-        }
-
-        .post .contact form .input-group {
-            display: inline-block;
-            margin-left: 10px;
-            margin-bottom: 15px;
-            position: relative;
-        }
-
-        .post .contact form .input-group label {
-            color: #8e8e8e;
-        }
-
-        .post .contact form .input-group input[type="text"] {
-            background: #ebebeb;
-            border: 0;
-            outline: 0;
-            height: 50px;
-            border-radius: 5px;
-            padding: 0 15px;
-            font-size: 16px;
-            width: 60%;
-            margin-top: 10px;
-        }
-        .post .contact form .input-group input[type="file"] {
-            background: #ebebeb;
-            border: 0;
-            outline: 0;
-            height: 50px;
-            border-radius: 5px;
-            padding: 0 15px;
-            font-size: 16px;
-            width: 60%;
-            opacity: 0;
-            position: absolute;
-            pointer-events: none;
-        }
-
-        .custom-button {
-            /* 원하는 버튼 스타일을 설정 */
-            /* 예시: */
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #ebebeb;
-            color: #fff;
-            cursor: pointer;
-            width: 60%;
-        }
-
-        .post .contact form .input-group input#file-upload-btn{
-            height: 40px;
-        }
-
-        .post .contact form .input-group textarea {
-            background: #ebebeb;
-            border: 0;
-            outline: 0;
-            border-radius: 5px;
-            padding: 15px;
-            font-size: 16px;
-
-            width: 60%;
-            margin-top: 20px;
-        }
-
-        .post .contact form .post {
-            width: 100%;
-            background: #8007ad;
-            color: #fff;
-            font-size: 16px;
-            border-radius: 5px;
-            display: inline-block;
-        }
-
-        .post .contact form .full {
-            width: 100%;
-        }
-
-        .post .contact form .half {
-            width: 100%;
-        }
-
-        .post .contact form .half input[type="text"] {
-            width: 90%;
-        }
-
-        .post .contact form .name input[type="text"] {
-            float: left;
-        }
-
-        .post .btn-block{
-            width: 15%;
-            background-color: #7f07ac;
-            margin-bottom: 100px;
-            margin-top: 30px;
-            height: 50px;
-        }
-
-
-        /*모달 CSS*/
 
         #dropbox {
             width: 800px;
@@ -308,58 +188,19 @@
             left: 48%;
             font-weight: bold;
         }
-
-        #uploadmodal{
-            z-index: 0;
-        }
     </style>
 </head>
 <body>
-<!----------------------------------------테스트-------------------------------------->
-<div class="post">
-    <div class="contact col-lg-6">
-        <div class="title" style="margin-top: 30px;">
-            <img src="/photo/logoimage.png" style="width: 100px;">
-            <h2>Free Board</h2>
+<div>
+    <form action="freeinsert" method="post" enctype="multipart/form-data">
+        <div>
+            사진 : <input type="file" name="upload" id="myfile" multiple accept=".jpg, .jpeg, .png, .gif"><br><br>
+            <button type="submit">게시글등록</button>
         </div>
-
-        <form action="freeinsert" enctype="multipart/form-data" method="post">
-            <!--hidden-->
-            <input type="hidden" name="fb_idx" value="${fb_idx}">
-            <input type="hidden" name="currentPage" value="${currentPage}">
-            <input type="hidden" name="m_idx" value="${sessionScope.memidx}">
-
-            <div class="input-group">
-                <%--<label>Question</label>--%>
-                <input class="subject" type="text" name="fb_subject" value="" placeholder="제목을 입력해주세요." required>
-            </div>
-            <div class="input-group message">
-                <label>토픽에 맞지 않는 글로 판단되어 다른 유저로부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 블라인드처리 될 수 있습니다.</label>
-                <textarea name="fb_content" class="content"
-                          placeholder="질문 내용을 입력해주세요." cols="47"
-                          rows="7" required></textarea>
-            </div>
-            <div class="input-group fileupload">
-                <label class="custom-button">
-                    <button type="button" id="uploadmodal" class="btn btn-outline-secondary">파일 선택</button>
-                    &nbsp;&nbsp;<span id="uploadfilesnum">업로드할 사진을 선택해주세요. (10장 이하)</span>
-                </label>
-                <input accept=".jpg, .jpeg, .png, .gif" class="file_select btn-file d-none" id="fileInput" type="file" name="upload" style="padding-top: 10px;" multiple>
-                <%--<i class="bi bi-images" id="clickableImage"></i>--%>
-            </div>
-            <div class="col-md-12 form-group">
-                <button type="submit" class="btn_write btn btn-block btn-primary">등록</button>
-                <button type="button" class="btn_cancle btn btn-block btn-primary" onclick="history.back()">취소
-                </button>
-            </div>
-
-        </form>
-    </div>
+    </form>
 </div>
 
-<!-----------------------------Modal------------------------------->
-
-
+<button type="button" id="uploadmodal">UPLOAD</button>
 <div id="myUploadModal" class="modal">
     <div class="modal-content">
         <div style="width:35px; margin:0 auto; width: 100%; text-align: center; padding-bottom: 10px;">
@@ -397,13 +238,6 @@
     </div>
 </div>
 
-
-
-
-
-
-
-<!-------------------------Drag and Drop------------------------>
 <script>
     //uploadbtn for paging
     $("#uploadbtn").click(function () {
@@ -427,15 +261,8 @@
                     fileList.items.add(filesarr[i]);
                 }
 
-                var inputElement = $("#fileInput")[0];
+                var inputElement = $("#myfile")[0];
                 inputElement.files = fileList.files;
-
-                if(filesarr.length==0) {
-                    $("#uploadfilesnum").html("업로드할 사진을 선택해주세요. (10장 이하)");
-                }
-                else {
-                    $("#uploadfilesnum").html(filesarr.length+"장의 파일이 선택되었습니다")
-                }
 
                 Swal.fire({
                     title: '저장을 완료했습니다',
@@ -472,7 +299,7 @@
                     fileList.items.add(filesarr[i]);
                 }
 
-                var inputElement = $("#fileInput")[0];
+                var inputElement = $("#myfile")[0];
                 inputElement.files = fileList.files;
                 $("#myUploadModal").fadeOut();
             } else {
@@ -493,10 +320,10 @@
     var filesarr = [];
 
     $(".btnupload").click(function () {
-        $("#fileInput").click();
+        $("#myfile").click();
     });
 
-    $(document).on("change", "#fileInput", function (e) {
+    $(document).on("change", "#myfile", function (e) {
         var cnt = e.target.files.length;
         var data = e.target.files;
 
@@ -717,29 +544,7 @@
         $("#mbsize").html(mbsize);
     }
 
-
 </script>
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -1,7 +1,7 @@
 package devster.semi.controller;
 
 import devster.semi.dto.AboardDto;
-import devster.semi.dto .QboardDto;
+import devster.semi.dto.QboardDto;
 import devster.semi.service.AboardService;
 import devster.semi.service.QboardService;
 import naver.cloud.NcpObjectStorageService;
