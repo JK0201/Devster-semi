@@ -348,7 +348,7 @@
                 <%--<i class="bi bi-images" id="clickableImage"></i>--%>
             </div>
             <div class="col-md-12 form-group">
-                <button type="submit" class="btn_write btn btn-block btn-primary">등록</button>
+                <button type="submit" class="btn_write btn btn-block btn-primary">수정</button>
                 <button type="button" class="btn_cancle btn btn-block btn-primary" onclick="history.back()">취소
                 </button>
             </div>
