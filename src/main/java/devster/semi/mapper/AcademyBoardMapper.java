@@ -10,6 +10,7 @@ import java.util.Map;
 @Mapper
 public interface AcademyBoardMapper {
     public int getTotalCount();
+    public int getCommentCnt(int ab_idx);
     public List<AcademyBoardDto> getPagingList(Map<String,Integer> map);
     public AcademyBoardDto getData(int ab_idx);
     public void updateReadCount(int ab_idx);
@@ -44,4 +45,11 @@ public interface AcademyBoardMapper {
     public Integer getRpInfoBym_idx(Map<String,Integer> map);
 
     public String selectAcademyName(int ab_idx);
+    public int commentCnt(int ab_idx);
+
+    // 검색
+    public List<AcademyBoardDto> searchlist(Map<String, Object> map);
+    public int countsearch(Map<String, Object> map);
+
+
 }

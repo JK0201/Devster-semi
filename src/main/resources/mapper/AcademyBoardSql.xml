@@ -3,6 +3,9 @@
     <select id="getTotalCount" resultType="int">
         select count(*) from academyboard
     </select>
+    <select id="getCommentCnt" parameterType="int" resultType="int">
+        select count(*) from academycomment where ab_idx=#{ab_idx}
+    </select>
     <select id="getPagingList" parameterType="Map" resultType="AcademyBoardDto">
         select * from academyboard order by ab_idx desc limit #{start}, #{perpage}
     </select>
@@ -141,5 +144,33 @@
                  JOIN member m ON ab.m_idx = m.m_idx
         WHERE ab.ab_idx = #{ab_idx};
     </select>
+
+    <!-- 검색 -->
+    <select id="searchlist" resultType="AcademyBoardDto" parameterType="Map">
+        SELECT ab.*
+        FROM academyboard ab
+        JOIN member m ON ab.m_idx = m.m_idx
+        <include refid="search"></include>
+        order by ab_idx desc limit #{start}, #{perpage}
+    </select>
+    <select id="countsearch" resultType="int" parameterType="Map">
+        select count(*) from acacdemyboard ab JOIN member m ON ab.m_idx = m.m_idx
+        <include refid="search"></include>
+    </select>
+
+    <!-- 검색 반복 쿼리문 -->
+    <sql id="search">
+        <choose>
+            <!-- 전체검색(페이징) -->
+            <when test="searchOption=='all'">
+                WHERE ab.ab_subject LIKE CONCAT('%', #{keyword}, '%')
+                OR m.m_nickname LIKE CONCAT('%', #{keyword}, '%')
+            </when>
+            <!-- 전체검색 아닐경우 -->
+            <otherwise>
+                where ${searchOption} LIKE CONCAT('%', #{keyword}, '%')
+            </otherwise>
+        </choose>
+    </sql>
 
 </mapper>

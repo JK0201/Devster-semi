@@ -8,6 +8,8 @@ import java.util.List;
 public interface AcademyBoardServiceInter {
 
     public int getTotalCount();
+
+    public int getCommentCnt(int ab_idx);
     public List<AcademyBoardDto> getPagingList(int start, int perpage);
     public AcademyBoardDto getData(int ab_idx);
 
@@ -39,5 +41,9 @@ public interface AcademyBoardServiceInter {
     public boolean isAlreadyAddGoodRp(int ab_idx, int m_idx);
     public boolean isAlreadyAddBadRp(int ab_idx, int m_idx);
     public String selectAcademyName(int ab_idx);
+    public int commentCnt(int ab_idx);
+    // 검색
+    public List<AcademyBoardDto> searchlist(String searchOption, String keyword, int start, int perpage);
+    public int countsearch(String searchOption, String keyword);
 
 }

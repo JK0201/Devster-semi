@@ -110,10 +110,13 @@
 
         /*회사 정보 css*/
         .rb_listc {
-            border: 1px solid black;
+            border: 0px;
             width: 200px;
             height: 250px;
             float: left;
+            margin-right:2px;
+            /*margin-left: 4px;*/
+            /*text-align: left;*/
 
         }
 
@@ -141,6 +144,10 @@
         .already-added {
             background-color: #0D3EA3;
             color: white;
+        }
+
+        .star_listc{
+            margin-left: 35px;
         }
 #quanbu{
     width: 1400px;
@@ -171,6 +178,29 @@
             font-size: 24px;
         }
 
+        .review{
+            width:775px;
+            height:330px;
+            border-top: 1px solid lightgray;
+            border-radius: 0px;
+            float: left;
+            /*margin-right: 30px;*/
+            /*padding-left: 20px;*/
+            padding-top: 24px;
+            padding-right: 20px;
+        }
+
+        .custom-btn{
+            color: gray ;
+            border-color: gray ;
+
+        }
+
+        .custom-btn:hover{
+            background-color: gray;
+            border-color: gray;
+        }
+
     </style>
     </head>
 
@@ -186,6 +216,7 @@
         <option id="searchsubject" value="rb_content">내용 검색</option>
     </select>
 </div>
+<br><br>
 
 <script>
 
@@ -247,21 +278,33 @@
 </script>
 
 <div id="quanbu">
-<button type="button" class="btn btn-sm btn-outline-danger"
-        onclick="location.href='./reviewriterform'" style="margin-bottom: 10px">상품등록
-</button>
+<%--<button type="button" class="btn btn-sm btn-outline-danger"--%>
+<%--        onclick="location.href='./reviewriterform'" style="margin-bottom: 10px">상품등록--%>
+<%--</button>--%>
 
-<select id="rb_typelist" onchange="rb_typelist()">
-    <option value="0">전체보기</option>
-    <option value="1">면접</option>
-    <option value="2">코딩테스트</option>
-    <option value="3">합격</option>
-</select>
 
-<h5 class="alert alert-success">
-    총 ${totalCount}개의 글이 등록되어있습니다</h5><br>
+
+<%--<h5 class="alert alert-success">--%>
+<%--    총 ${totalCount}개의 글이 등록되어있습니다</h5><br>--%>
 
 <div class="rb_listmain clear">
+    <div class="headbox">
+        <h4 style="color: black; font-weight: bold;"><i class="bi bi-journal-code" style="font-size: 25px;"></i>&nbsp;리뷰게시판
+            <button class="btn btn-secondary" type="button"
+                    style="float: right; margin-right: 150px; "
+                    onclick="location.href='./reviewriterform'"><i class="bi bi-pen"></i>&nbsp;글쓰기
+            </button>
+        </h4>
+                <b>총 ${totalCount}개의 게시글</b><br>
+    </div>
+    <select id="rb_typelist" onchange="rb_typelist()">
+        <option value="0">전체보기</option>
+        <option value="1">면접</option>
+        <option value="2">코딩테스트</option>
+        <option value="3">합격</option>
+    </select>
+    <br>
+    <br>
 
     <c:forEach var="dto" items="${list}" varStatus="i">
         <script>
@@ -280,7 +323,7 @@
                 });
             };
         </script>
-        <div class="review" data-type="${dto.rb_type}"><
+        <div class="review" data-type="${dto.rb_type}">
 
             <div class="rb_listc">
                 <p>
@@ -288,8 +331,8 @@
                          onclick="showCompanyInfo('${dto.ci_idx}')"/>
 
                 </p>
-
-                <span> ${dto.ci_star}</span> &nbsp;
+                <div class="star_listc">
+                &nbsp;<span> ${dto.ci_star}</span> &nbsp;
                 <span class="star-ci_star">
                     <c:forEach var="i" begin="1" end="5">
                         <input type="radio" id="rating${i}" name="rating" value="${i}"
@@ -297,6 +340,7 @@
                         <label for="rating${i}" class="star"
                                <c:if test="${i le dto.ci_star}">style="color: orange;"</c:if>>★</label>
                     </c:forEach>
+                </div>
                 </span>
 
 
@@ -322,27 +366,31 @@
                 내용 : <br>
                 <b>
                     <pre>${dto.rb_content}</pre>
-                </b><br>
-            </div>
-            <c:set var="m_idx" value="${sessionScope.memidx}"/>
-            <c:if test="${dto.m_idx eq m_idx}">
-                <button type="button" class="btn btn-sm btn-outline-primary"
-                        onclick="location.href='./updateform?rb_idx=${dto.rb_idx}'" style="margin-bottom: 10px">글 수정
-                </button>
-                <button type="button" class="btn btn-sm btn-outline-primary"
-                        onclick="delreview(${dto.rb_idx})" style="margin-bottom: 10px">글 삭제
-                </button>
-            </c:if>
-                <%--            좋아요 / 싫어요 버튼--%>
-            <span id="add-goodRp-btn${dto.rb_idx}" class="btn btn-outline" >
-                  좋아요👍
-                  <span class="add-goodRp${dto.rb_idx} ml-2">${dto.rb_like}</span>
+                </b>
+<%--                <br>--%>
+                <div class="fncbtn" style="text-align:right;">
+                <c:set var="m_idx" value="${sessionScope.memidx}"/>
+                <c:if test="${dto.m_idx eq m_idx}">
+                    <button type="button" class="btn btn-sm btn-outline-primary custom-btn"
+                            onclick="location.href='./updateform?rb_idx=${dto.rb_idx}'" style="margin-bottom: 10px">글 수정
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-primary custom-btn"
+                            onclick="delreview(${dto.rb_idx})" style="margin-bottom: 10px">글 삭제
+                    </button>
+                </c:if>
+                    <%--            좋아요 / 싫어요 버튼--%>
+                <span id="add-goodRp-btn${dto.rb_idx}" class="btn btn-outline" style="margin-bottom: 10px" >
+                   👍
+                  <span class="add-goodRp${dto.rb_idx} ml-2" style="margin-bottom: 10px">${dto.rb_like}</span>
                 </span>
-            <span id="add-badRp-btn${dto.rb_idx}" class="ml-5 btn btn-outline">
-                  싫어요👎
-                  <span class="add-badRp${dto.rb_idx} ml-2">${dto.rb_dislike}</span>
-            </span>
-            <hr>
+                <span id="add-badRp-btn${dto.rb_idx}" class="ml-5 btn btn-outline" style="margin-bottom: 10px">
+                   👎
+                  <span class="add-badRp${dto.rb_idx} ml-2" style="margin-bottom: 10px">${dto.rb_dislike}</span>
+                </span>
+                </div>
+            </div>
+
+<%--            <hr>--%>
 
         </div>
         <script>

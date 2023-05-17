@@ -666,9 +666,9 @@ public class MemberController {
         return map;
     }
 
-    @GetMapping("/dndprac")
-    public String dndprac() {
-        return "/main/member/dndprac";
+    @GetMapping("/dndupdate")
+    public String dndupdate() {
+        return "/main/member/dndupdate";
     }
 
     @GetMapping("/compreg")
@@ -691,7 +691,7 @@ public class MemberController {
         return map;
     }
 
-    @PostMapping("/dndtest")
+    @PostMapping("/dndupdatetest")
     @ResponseBody
     public void dndtest(List<MultipartFile> upload) {
         String getphoto = memberService.getphoto(99);
@@ -715,7 +715,15 @@ public class MemberController {
         } else {
             m_photo = "no";
         }
+        //일단 테스트 계정이라 사진이 자동으로 삭제가 들어감, 업로드 안할시 sql 수정해야함
 
         memberService.testupdate(m_photo);
     }
+
+    //페이징형식 DnD
+    @GetMapping("/dndpaging")
+    public String dndpaging() {
+        return "/main/member/dndpaging";
+    }
+
 }

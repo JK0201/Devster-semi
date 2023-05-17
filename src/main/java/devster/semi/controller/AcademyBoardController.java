@@ -67,6 +67,7 @@ public class AcademyBoardController {
         List<Map<String, Object>> fulllList = new ArrayList<>();
 
         for (AcademyBoardDto dto : list) {
+
             Map<String, Object> map = new HashMap<>();
             map.put("ab_idx", String.valueOf(dto.getAb_idx()));
             map.put("nickName", academyBoardService.selectNickName2OfMidx(dto.getAb_idx()));
@@ -78,6 +79,7 @@ public class AcademyBoardController {
             } else {
                 map.put("m_photo", "/photo/profile.jpg");
             }
+            map.put("commentCnt",academyBoardService.getCommentCnt(dto.getAb_idx()));
             map.put("ab_subject", dto.getAb_subject());
             map.put("ab_content", dto.getAb_content());
             map.put("ab_like", dto.getAb_like());
@@ -118,7 +120,7 @@ public class AcademyBoardController {
             model.addAttribute("currentPage", currentPage);
 
 
-            model.addAttribute("totalCount", totalCount);
+
 
             //===========================공지사항===============================//
 
@@ -131,9 +133,197 @@ public class AcademyBoardController {
 //            String ai_name = academyBoardService.selectAcademyName(ab_idx);
 //            model.addAttribute("ai_name",ai_name);
 
+
+
             return "/main/academyboard/academyboardlist";
         }
 
+    // 검색
+    @PostMapping("/academyboardsearchlist")
+    @ResponseBody
+    public List<Map<String, Object>> searchlist(@RequestParam(defaultValue = "1") int currentPage,
+                                                @RequestParam(defaultValue = "") String keyword,
+                                                @RequestParam(defaultValue = "all") String searchOption,
+                                                Model model) {
+
+
+        int searchCount = academyBoardService.countsearch(searchOption, keyword);
+        int totalPage; // 총 페이지 수
+        int perPage = 20; // 한 페이지당 보여줄 글 갯수
+        int perBlock = 10; // 한 블록당 보여질 페이지의 갯수
+        int startNum; // 각 페이지에서 보여질 글의 시작번호
+        int startPage; // 각 블록에서 보여질 시작 페이지 번호
+        int endPage; // 각 블록에서 보여질 끝 페이지 번호
+        int no; // 글 출력시 출력할 시작번호
+
+        // 총 페이지 수
+        totalPage = searchCount / perPage + (searchCount % perPage == 0 ? 0 : 1);
+        // 시작 페이지
+        startPage = (currentPage - 1) / perBlock * perBlock + 1;
+        // 끝 페이지
+        endPage = startPage + perBlock - 1;
+
+        // endPage가 totalPage 보다 큰 경우
+        if (endPage > totalPage)
+            endPage = totalPage;
+
+        // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
+        startNum = (currentPage - 1) * perPage;
+
+        // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
+        // no = totalCount - (currentPage - 1) * perPage;
+        no = searchCount - startNum;
+
+        // 각 페이지에 필요한 게시글 db에서 가져오기
+        List<AcademyBoardDto> list = academyBoardService.searchlist(searchOption, keyword, startNum, perPage);
+
+        List<Map<String, Object>> fulllList = new ArrayList<>();
+
+        for (AcademyBoardDto dto : list) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("ab_idx", String.valueOf(dto.getAb_idx()));
+            map.put("m_nickname", academyBoardService.selectNickNameOfMidx(dto.getAb_idx()));
+            map.put("commentCnt", academyBoardService.commentCnt(dto.getAb_idx()));
+
+            String m_photo = academyBoardService.selectPhotoOfMidx(dto.getAb_idx());
+            if (m_photo != "no") {
+                map.put("m_photo", m_photo);
+            } else {
+                map.put("m_photo", "/photo/profile.jpg");
+            }
+            map.put("ab_subject", dto.getAb_subject());
+            map.put("ab_content", dto.getAb_content());
+            map.put("ab_like", dto.getAb_like());
+            map.put("ab_dislike", dto.getAb_dislike());
+            map.put("ab_readcount", dto.getAb_readcount());
+            map.put("ab_writeday", dto.getAb_writeday());
+
+            map.put("searchOption", searchOption);
+            map.put("keyword", keyword);
+
+            // 출력시 필요한 변수들 model에 전부 저장
+            model.addAttribute("searchCount", searchCount);
+            model.addAttribute("startPage", startPage);
+            model.addAttribute("endPage", endPage);
+            model.addAttribute("totalPage", totalPage);
+            model.addAttribute("no", no);
+            model.addAttribute("currentPage", currentPage);
+
+
+            // 사진이 들어있으면
+            if (dto.getAb_photo() != "n") {
+                // 사진이 두장이상이면
+                if (dto.getAb_photo().contains(",")) {
+                    int index = dto.getAb_photo().indexOf(",");
+                    String result = dto.getAb_photo().substring(0, index);
+                    map.put("ab_photo", result);
+                } else { //사진이 한장이면
+                    map.put("ab_photo", dto.getAb_photo());
+                }
+            }
+
+
+            fulllList.add(map);
+        }
+
+        return fulllList;
+    }
+
+    // 메인페이지 검색
+//    @GetMapping("/searchlist")
+//    public String searchlist(@RequestParam(defaultValue = "1") int currentPage, Model model, @RequestParam(defaultValue = "") String keyword) {
+//
+//
+//        int searchCount = academyBoardService.countsearch("all", keyword);
+//        int totalPage; // 총 페이지 수
+//        int perPage = 20; // 한 페이지당 보여줄 글 갯수
+//        int perBlock = 10; // 한 블록당 보여질 페이지의 갯수
+//        int startNum; // 각 페이지에서 보여질 글의 시작번호
+//        int startPage; // 각 블록에서 보여질 시작 페이지 번호
+//        int endPage; // 각 블록에서 보여질 끝 페이지 번호
+//        int no; // 글 출력시 출력할 시작번호
+//
+//        // 총 페이지 수
+//        totalPage = searchCount / perPage + (searchCount % perPage == 0 ? 0 : 1);
+//        // 시작 페이지
+//        startPage = (currentPage - 1) / perBlock * perBlock + 1;
+//        // 끝 페이지
+//        endPage = startPage + perBlock - 1;
+//
+//        // endPage가 totalPage 보다 큰 경우
+//        if (endPage > totalPage)
+//            endPage = totalPage;
+//
+//        // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
+//        startNum = (currentPage - 1) * perPage;
+//
+//        // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
+//        // no = totalCount - (currentPage - 1) * perPage;
+//        no = searchCount - startNum;
+//
+//        // 각 페이지에 필요한 게시글 db에서 가져오기
+//        List<AcademyBoardDto> list = academyBoardService.searchlist("all", keyword, startNum, perPage);
+//
+//        List<Map<String, Object>> fulllList = new ArrayList<>();
+//
+//        for (AcademyBoardDto dto : list) {
+//            Map<String, Object> map = new HashMap<>();
+//            map.put("ab_idx", String.valueOf(dto.getAb_idx()));
+//            map.put("nickName", academyBoardService.selectNickNameOfMidx(dto.getAb_idx()));
+//            map.put("commentCnt", academyBoardService.commentCnt(dto.getAb_idx()));
+//
+//            String m_photo = academyBoardService.selectPhotoOfMidx(dto.getAb_idx());
+//            if (m_photo != "no") {
+//                map.put("m_photo", m_photo);
+//            } else {
+//                map.put("m_photo", "/photo/profile.jpg");
+//            }
+//            map.put("ab_subject", dto.getAb_subject());
+//            map.put("ab_content", dto.getAb_content());
+//            map.put("ab_like", dto.getAb_like());
+//            map.put("ab_dislike", dto.getAb_dislike());
+//            map.put("ab_readcount", dto.getAb_readcount());
+//            map.put("ab_writeday", dto.getAb_writeday());
+//
+//
+//            // 사진이 들어있으면
+//            if (dto.getAb_photo() != "no") {
+//                // 사진이 두장이상이면
+//                if (dto.getAb_photo().contains(",")) {
+//                    int index = dto.getAb_photo().indexOf(",");
+//                    String result = dto.getAb_photo().substring(0, index);
+//                    map.put("ab_photo", result);
+//                } else { //사진이 한장이면
+//                    map.put("ab_photo", dto.getAb_photo());
+//                }
+//            }
+//
+//            fulllList.add(map);
+//        }
+//
+//        model.addAttribute("list", fulllList);
+//
+//        // 출력시 필요한 변수들 model에 전부 저장
+//        model.addAttribute("searchCount", searchCount);
+//        model.addAttribute("startPage", startPage);
+//        model.addAttribute("endPage", endPage);
+//        model.addAttribute("totalPage", totalPage);
+//        model.addAttribute("no", no);
+//        model.addAttribute("currentPage", currentPage);
+//        model.addAttribute("keyword", keyword);
+//
+//
+//        //===========================공지사항===============================//
+//
+//        int NoticeBoardTotalCount = noticeBoardService.getTotalCount();
+//        List<NoticeBoardDto> nblist = noticeBoardService.getTopThree();
+//
+//        model.addAttribute("nblist", nblist);
+//        model.addAttribute("NoticeBoardTotalCount", NoticeBoardTotalCount);
+//
+//
+//        return "/main/academyboard/academyboardsearchlist";
+//    }
 
 
     @GetMapping("/academywriteform")
@@ -323,5 +513,72 @@ public class AcademyBoardController {
 
         return badRp;
     }
+
+    // 무한스크롤
+    @GetMapping("/listajax")
+    @ResponseBody
+    public Map<String, Object> list(int currentPage) {
+        int totalCount = academyBoardService.getTotalCount();
+        int perPage = 10; // 한 페이지당 보여줄 글 갯수
+        int startNum; // 각 페이지에서 보여질 글의 시작번호
+        int no; // 글 출력시 출력할 시작번호
+
+        // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
+        startNum = (currentPage - 1) * perPage;
+
+        // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
+        // no = totalCount - (currentPage - 1) * perPage;
+        no = totalCount - startNum;
+
+        // 각 페이지에 필요한 게시글 db에서 가져오기
+        List<AcademyBoardDto> list = academyBoardService.getPagingList(startNum, perPage);
+
+        List<Map<String, Object>> fulllList = new ArrayList<>();
+
+        for (AcademyBoardDto dto : list) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("ab_idx", String.valueOf(dto.getAb_idx()));
+            map.put("nickName", academyBoardService.selectNickNameOfMidx(dto.getAb_idx()));
+            map.put("commentCnt", academyBoardService.commentCnt(dto.getAb_idx()));
+
+            String m_photo = academyBoardService.selectPhotoOfMidx(dto.getAb_idx());
+            if (m_photo != "no") {
+                map.put("m_photo", m_photo);
+            } else {
+                map.put("m_photo", "/photo/profile.jpg");
+            }
+            map.put("ab_subject", dto.getAb_subject());
+            map.put("ab_content", dto.getAb_content());
+            map.put("ab_like", dto.getAb_like());
+            map.put("ab_dislike", dto.getAb_dislike());
+            map.put("ab_readcount", dto.getAb_readcount());
+            map.put("ab_writeday", dto.getAb_writeday());
+
+
+            // 사진이 들어있으면
+            if (dto.getAb_photo() != "no") {
+                // 사진이 두장이상이면
+                if (dto.getAb_photo().contains(",")) {
+                    int index = dto.getAb_photo().indexOf(",");
+                    String result = dto.getAb_photo().substring(0, index);
+                    map.put("ab_photo", result);
+                } else { //사진이 한장이면
+                    map.put("ab_photo", dto.getAb_photo());
+                }
+            }
+
+
+            fulllList.add(map);
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("list", fulllList);
+        map.put("currentPage", currentPage);
+        map.put("totalCount", totalCount);
+        map.put("no", no);
+
+        return map;
+    }
+
 
     }
