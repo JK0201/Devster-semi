@@ -20,7 +20,8 @@
             <!-- active-chat -->
             <div class="chat_people clear">
                 <div class="chat_img">
-                    <a href="other_profile.do?other_nick=${tmp.other_nick}">
+                    <%--<a href="other_profile?other_nick=${tmp.other_nick}">--%>
+                        <a href="#" onclick="window.open('other_profile?other_nick=${tmp.other_nick}', 'newwindow', 'width=700,height=700'); return false;">
                         <img src="http://${imageUrl}/member/${tmp.profile}" width="50px">
                     </a>
                 </div>

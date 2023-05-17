@@ -5,20 +5,20 @@
 #slideShow{
     position:relative; /*부모기준설정*/
     overflow:hidden;  /*넘치는 자식 보이지않게*/
-    width:1100px;
-    height:160px;
-    margin:0 auto;
+    width:1140px;
+    height:170px;
+    margin:20px auto;
 }
 #slideShow .slide ul{
     position:absolute;
-    width:3300px; /*이미지의 총가로길이(940*4)*/
+    width:3420px; /*이미지의 총가로길이(940*4)*/
     padding: 0
 }
 #slideShow .slide ul li{float:left;}
 
 #slideShow img{
-    width: 1100px;
-    height: 160px;
+    width: 1140px;
+    height: 170px;
 }
 
 /*좌우버튼*/
@@ -44,7 +44,7 @@
 #slideShow .side_btn .nex{
     position:absolute;
     top:65px;
-    left:1060px;
+    left: 1096px;
     width:32px;
     height:32px;
     border-radius: 100%;

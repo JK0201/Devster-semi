@@ -27,4 +27,6 @@ public interface MessageMapper {
 
     public String getSelectRoom(MessageDto dto);
 
+    public ArrayList<MessageDto> getMessagesWithOtherUser(MessageDto dto);
+
 }

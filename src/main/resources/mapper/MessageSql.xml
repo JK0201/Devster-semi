@@ -88,6 +88,14 @@
     </select>
 
 
+    <select id="getMessagesWithOtherUser" parameterType="MessageDto" resultType="MessageDto">
+        select mes_idx, room, send_nick, recv_nick, date_format(send_time, '%Y-%m-%d %H:%i') send_time, read_time, content, read_chk
+        from message
+        where (send_nick=#{nick} and recv_nick=#{other_nick}) or (send_nick=#{other_nick} and recv_nick=#{nick})
+        order by mes_idx asc
+    </select>
+
+
 </mapper>
 
 

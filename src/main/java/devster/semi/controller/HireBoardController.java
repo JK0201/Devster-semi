@@ -1,6 +1,7 @@
 package devster.semi.controller;
 
 
+import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.HireBoardDto;
 
 import devster.semi.dto.NoticeBoardDto;
@@ -391,6 +392,13 @@ public class HireBoardController {
 
 
         return "/main/hire/hiresearchlist";
+    }
+
+    @PostMapping("/bestPostsForBanner")
+    @ResponseBody
+    public List<HireBoardDto> bestPosts(){
+        List<HireBoardDto> list = hireService.bestfreeboardPosts();
+        return list;
     }
 
 }

@@ -3,6 +3,7 @@ package devster.semi.mapper;
 import java.util.List;
 import java.util.Map;
 
+import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.HireBoardDto;
 
 
@@ -40,6 +41,9 @@ public interface HireMapper {
     // 검색
     public List<HireBoardDto> searchlist(Map<String, Object> map);
     public int countsearch(String keyword); // keyword만 파라미터로
+
+
+    public List<HireBoardDto> bestfreeboardPosts();
 
 
 
