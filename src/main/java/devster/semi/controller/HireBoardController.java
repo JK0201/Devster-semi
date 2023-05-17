@@ -103,7 +103,7 @@ public class HireBoardController {
 
 
     @PostMapping("/insertHireBoard")
-    public String insert(HireBoardDto dto,List<MultipartFile> upload)
+    public String insert(HireBoardDto dto,List<MultipartFile> upload,HttpSession session)
     {
         String hb_photo="";
         if(upload.get(0).getOriginalFilename().equals("")){
@@ -122,6 +122,7 @@ public class HireBoardController {
         hb_photo=hb_photo.substring(0,hb_photo.length()-1);
         dto.setHb_photo(hb_photo);
         //db insert
+        dto.setCm_idx((int)session.getAttribute("cmidx"));
         hireMapper.insertHireBoard(dto);
 
         return "redirect:list";
@@ -130,12 +131,15 @@ public class HireBoardController {
     @GetMapping("/hireboarddetail")
     public String detail(int hb_idx, Model model, HttpSession session){
 
+        boolean isAlreadyAddBkmk = false;
 
         hireService.updateReadCount(hb_idx);
         HireBoardDto dto = hireService.getData(hb_idx);
 
         //        버튼 상태에 관한 정보를 디테일 페이지로 보내줌.
-        boolean isAlreadyAddBkmk = hireService.isAlreadyAddBkmk((int)session.getAttribute("memidx"),hb_idx);
+        if(session.getAttribute("memidx") != null) {
+             isAlreadyAddBkmk = hireService.isAlreadyAddBkmk((int)session.getAttribute("memidx"),hb_idx);
+        }
 
         model.addAttribute("dto", dto);
 
@@ -152,7 +156,7 @@ public class HireBoardController {
         model.addAttribute("isAlreadyAddBkmk", isAlreadyAddBkmk);
 
 
-
+        model.addAttribute("cm_name",hireService.getCompName(hb_idx));
         return "/main/hire/hireboarddetail";
     }
 

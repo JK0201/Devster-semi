@@ -17,6 +17,7 @@ public interface HireMapper {
 
     public List<HireBoardDto> getAllPosts();
     public void insertHireBoard(HireBoardDto dto);
+    public String getCompName(int hb_idx);
     public HireBoardDto getData(int hb_idx);
     public void updateReadCount(int hb_idx);
     public void deleteHireBoard(int hb_idx);

@@ -106,7 +106,7 @@
 
     제목 : ${dto.hb_subject}<br>
     내용 : ${dto.hb_content}<br>
-    작성자 (hb_idx) : ${dto.hb_idx}<br>
+    작성자 : ${cm_name}<br>
     조회수: ${dto.hb_readcount}<br>
     작성일 :  <fmt:formatDate value="${dto.fb_writeday}" pattern="yyyy.MM.dd"/><br>
 
@@ -131,9 +131,11 @@
 <%--    <c:if test="${bdto.hb_idx}">--%>
     &nbsp;
 <%--    <i class="bi bi-bookmark bookmark"  style=" width:25px;" id="add-bkmk-btn" ></i>--%>
-    <span id="add-bkmk-btn" class="btn btn-outline" >
+    <c:if test="${sessionScope.memstate!=null}">
+    <span id="add-bkmk-btn" class="btn btn-outline">
                   북마크👍
                 </span>
+    </c:if>
 <%--    </c:if>--%>
 <%--    <c:if test="${bdto.list}">&nbsp;--%>
 <%--    <i class="bi bi-bookmark bookmark-fill" id="bookmark-icon2" style="" hb_idx="${dto.hb_idx}"></i>--%>

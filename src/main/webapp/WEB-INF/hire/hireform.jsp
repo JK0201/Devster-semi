@@ -5,11 +5,9 @@
 
 <html>
 <head>
-<<<<<<< HEAD
-    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-=======
+
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
->>>>>>> main
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
@@ -38,10 +36,6 @@
 
 <div style="width: 450px;" class="tablediv">
     <form action="insertHireBoard" method="post" enctype="multipart/form-data">
-
-        <!--hidden-->
-        <input type="hidden" name="hb_idx" value="${hb_idx}">
-        <input type="hidden" name="currentPage" value="${currentPage}">
 
         <table  class="table table-bordered" >
 

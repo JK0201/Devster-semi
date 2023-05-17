@@ -321,7 +321,6 @@
 
                                         <img src="http://${imageUrl}/freeboard/${dto.fb_photo}" style="width: 70%; border: 1px solid lightgray; margin-right: 5px;">
 
-
                                 </span>
                     </td>
                     </tr>
