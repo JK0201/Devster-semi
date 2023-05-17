@@ -30,10 +30,10 @@
                     <!--메세지 검색-->
                     <div class="srch_bar">
                         <div class="stylish-input-group">
-                            <input type="text" class="search-bar" placeholder="검색">
+                           <%-- <input type="text" class="search-bar" placeholder="검색">
                             <span class="input-group-addon">
                                 <button type="button"><i class="bi bi-search"></i></button>
-                            </span>
+                            </span>--%>
                         </div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                 //메세지 리스트 중 하나를 클릭했을 때
                 $('.chat_list').on('click', function(){
                     //alert('room : ' + $(this).attr('room'));
-                    alert('other_nick : ' + $(this).attr('other-nick'));
+                    //alert('other_nick : ' + $(this).attr('other-nick'));
 
                     let room = $(this).attr('room');
                     let other_nick = $(this).attr('other-nick');
@@ -140,7 +140,7 @@
 
                 //메세지 리스트 중 하나를 클릭했을 때
                 $('.chat_list').on('click', function(){
-                    alert('room : ' + $(this).attr('room'));
+                    //alert('room : ' + $(this).attr('room'));
                     //alert('other_nick : ' + $(this).attr('other-nick'));
 
                     let room = $(this).attr('room');
@@ -224,7 +224,7 @@
     const SendMessage = function(room, other_nick){
 
         let content = $('.write_msg').val();
-        alert("content: "+ content);
+        //alert("content: "+ content);
 
         content = content.trim();
 

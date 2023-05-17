@@ -106,6 +106,21 @@ public class MessageController {
         messageService.MessageSendInList(dto);
     }
 
+    @RequestMapping("/message/other_profile")
+    public String getMessagesWithOtherUser(@RequestParam String other_nick, HttpSession session, Model model) {
+        String nick = (String) session.getAttribute("memnick");
+
+        MessageDto dto = new MessageDto();
+        dto.setNick(nick);
+        dto.setOther_nick(other_nick);
+
+        ArrayList<MessageDto> list = messageService.getMessagesWithOtherUser(dto);
+
+        model.addAttribute("list", list);
+
+        return "message/message_ajax_list_other";
+    }
+
 }
 
 

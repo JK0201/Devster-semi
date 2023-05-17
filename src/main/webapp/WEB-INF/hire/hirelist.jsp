@@ -70,7 +70,7 @@
     </div>
 
     <!-- 글쓰기 버튼 -->
-    <c:if test="${sessionScope.cmdix || sessionScope.memstate==100}">
+    <c:if test="${sessionScope.cmidx!=null || sessionScope.memstate==100}">
         <button type="button" class="btn btn-sm btn-outline-success hb_write_btn"
                 onclick="location.href='form'" style="margin-bottom: 10px">글쓰기
         </button>
