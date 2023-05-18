@@ -25,11 +25,12 @@ public class AcademyBoardService implements AcademyBoardServiceInter{
     public int getCommentCnt(int ab_idx) { return academyBoardMapper.getCommentCnt(ab_idx); }
 
     @Override
-    public List<AcademyBoardDto> getPagingList(int start, int perpage) {
+    public List<AcademyBoardDto> getPagingList(int start, int perpage, int ai_idx) {
 
         Map<String, Integer> map = new HashMap<>();
         map.put("start", start);
         map.put("perpage", perpage);
+        map.put("ai_idx",ai_idx);
 
         return academyBoardMapper.getPagingList(map);
     }

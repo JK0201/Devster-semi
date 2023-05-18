@@ -10,7 +10,7 @@ public interface AcademyBoardServiceInter {
     public int getTotalCount();
 
     public int getCommentCnt(int ab_idx);
-    public List<AcademyBoardDto> getPagingList(int start, int perpage);
+    public List<AcademyBoardDto> getPagingList(int start, int perpage,int ai_idx);
     public AcademyBoardDto getData(int ab_idx);
 
 

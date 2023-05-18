@@ -7,7 +7,7 @@
         select count(*) from academycomment where ab_idx=#{ab_idx}
     </select>
     <select id="getPagingList" parameterType="Map" resultType="AcademyBoardDto">
-        select * from academyboard order by ab_idx desc limit #{start}, #{perpage}
+        select * from academyboard where ai_idx=#{ai_idx} order by ab_idx desc limit #{start}, #{perpage}
     </select>
     <select id="getData" parameterType="int" resultType="AcademyBoardDto">
         select * from academyboard where ab_idx=#{ab_idx}

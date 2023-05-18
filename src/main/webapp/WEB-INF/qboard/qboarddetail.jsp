@@ -292,7 +292,7 @@
                     }
 
                     s += `
-        \${item.nickname}</h4>
+        <p style="cursor:pointer;" onclick=message("\${item.nickname}")>\${item.nickname}</p></h4>
     <h6>\${item.ab_writeday}</h6>
     <h2>\${item.ab_content}</h2>`;
 

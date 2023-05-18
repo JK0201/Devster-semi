@@ -4,6 +4,7 @@ import devster.semi.dto.AcademyBoardDto;
 import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.NoticeBoardDto;
 import devster.semi.service.AcademyBoardService;
+import devster.semi.service.MemberService;
 import devster.semi.service.NoticeBoardService;
 import naver.cloud.NcpObjectStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Controller
@@ -22,37 +28,25 @@ public class AcademyBoardController {
     @Autowired
     private AcademyBoardService academyBoardService;
 
+    @Autowired
+    private NoticeBoardService noticeBoardService;
+
+    @Autowired
+    private MemberService memberService;
 
     @Autowired
     private NcpObjectStorageService storageService;
 
     private String bucketName = "devster-bucket";
 
-    @Autowired
-    private NoticeBoardService noticeBoardService;
 
     @GetMapping("/list")
-    public String list(@RequestParam(defaultValue = "1") int currentPage, Model model) {
+    public String list(@RequestParam(defaultValue = "1") int currentPage, Model model,HttpSession session) {
 
         int totalCount = academyBoardService.getTotalCount();
-        int totalPage; // 총 페이지 수
         int perPage = 20; // 한 페이지당 보여줄 글 갯수
-        int perBlock = 10; // 한 블록당 보여질 페이지의 갯수
         int startNum; // 각 페이지에서 보여질 글의 시작번호
-        int startPage; // 각 블록에서 보여질 시작 페이지 번호
-        int endPage; // 각 블록에서 보여질 끝 페이지 번호
         int no; // 글 출력시 출력할 시작번호
-
-        // 총 페이지 수
-        totalPage = totalCount / perPage + (totalCount % perPage == 0 ? 0 : 1);
-        // 시작 페이지
-        startPage = (currentPage - 1) / perBlock * perBlock + 1;
-        // 끝 페이지
-        endPage = startPage + perBlock - 1;
-
-        // endPage가 totalPage 보다 큰 경우
-        if (endPage > totalPage)
-            endPage = totalPage;
 
         // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
         startNum = (currentPage - 1) * perPage;
@@ -61,24 +55,26 @@ public class AcademyBoardController {
         // no = totalCount - (currentPage - 1) * perPage;
         no = totalCount - startNum;
 
+        int ai_idx = memberService.getOneDataByM_idx((int)session.getAttribute("memidx")).getAi_idx();
+
         // 각 페이지에 필요한 게시글 db에서 가져오기
-        List<AcademyBoardDto> list = academyBoardService.getPagingList(startNum, perPage);
+        List<AcademyBoardDto> list = academyBoardService.getPagingList(startNum, perPage,ai_idx);
 
         List<Map<String, Object>> fulllList = new ArrayList<>();
 
         for (AcademyBoardDto dto : list) {
 
             Map<String, Object> map = new HashMap<>();
-            map.put("ab_idx", String.valueOf(dto.getAb_idx()));
             map.put("nickName", academyBoardService.selectNickName2OfMidx(dto.getAb_idx()));
-//            map.put("commentCnt", academyBoardService.commentCnt(dto.getAb_idx()));
+            map.put("commentCnt", academyBoardService.getCommentCnt(dto.getAb_idx()));
 
             String m_photo = academyBoardService.selectPhoto2OfMidx(dto.getAb_idx());
-            if (m_photo != "no") {
-                map.put("m_photo", m_photo);
+            if(m_photo.equals("no")) {
+                m_photo = "/photo/profile.jpg";
             } else {
-                map.put("m_photo", "/photo/profile.jpg");
+                m_photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+m_photo;
             }
+            map.put("m_photo",m_photo);
             map.put("commentCnt",academyBoardService.getCommentCnt(dto.getAb_idx()));
             map.put("ab_subject", dto.getAb_subject());
             map.put("ab_content", dto.getAb_content());
@@ -86,41 +82,15 @@ public class AcademyBoardController {
             map.put("ab_dislike", dto.getAb_dislike());
             map.put("ab_readcount", dto.getAb_readcount());
             map.put("ab_writeday", dto.getAb_writeday());
-            map.put("ai_idx",dto.getAi_idx());
-
-//            String ai_name = academyBoardService.selectAcademyName(dto.getAb_idx());
-//            System.out.println(ai_name);
-//            map.put("ai_name", academyBoardService.selectAcademyName(dto.getAb_idx()));
-
-
-            // 사진이 들어있으면
-            if (dto.getAb_photo() != "no") {
-                // 사진이 두장이상이면
-                if (dto.getAb_photo().contains(",")) {
-                    int index = dto.getAb_photo().indexOf(",");
-                    String result = dto.getAb_photo().substring(0, index);
-                    map.put("ab_photo", result);
-                } else { //사진이 한장이면
-                    map.put("ab_photo", dto.getAb_photo());
-                }
-            }
-
-
+            map.put("ab_photo",dto.getAb_photo());
+            map.put("ab_idx",dto.getAb_idx());
             fulllList.add(map);
         }
-
             model.addAttribute("list", fulllList);
-
-            // 출력시 필요한 변수들 model에 전부 저장
             model.addAttribute("totalCount", totalCount);
-            model.addAttribute("startPage", startPage);
-            model.addAttribute("endPage", endPage);
-            model.addAttribute("totalPage", totalPage);
             model.addAttribute("no", no);
             model.addAttribute("currentPage", currentPage);
-
-
-
+            model.addAttribute("ai_idx",ai_idx);
 
             //===========================공지사항===============================//
 
@@ -229,102 +199,6 @@ public class AcademyBoardController {
         return fulllList;
     }
 
-    // 메인페이지 검색
-//    @GetMapping("/searchlist")
-//    public String searchlist(@RequestParam(defaultValue = "1") int currentPage, Model model, @RequestParam(defaultValue = "") String keyword) {
-//
-//
-//        int searchCount = academyBoardService.countsearch("all", keyword);
-//        int totalPage; // 총 페이지 수
-//        int perPage = 20; // 한 페이지당 보여줄 글 갯수
-//        int perBlock = 10; // 한 블록당 보여질 페이지의 갯수
-//        int startNum; // 각 페이지에서 보여질 글의 시작번호
-//        int startPage; // 각 블록에서 보여질 시작 페이지 번호
-//        int endPage; // 각 블록에서 보여질 끝 페이지 번호
-//        int no; // 글 출력시 출력할 시작번호
-//
-//        // 총 페이지 수
-//        totalPage = searchCount / perPage + (searchCount % perPage == 0 ? 0 : 1);
-//        // 시작 페이지
-//        startPage = (currentPage - 1) / perBlock * perBlock + 1;
-//        // 끝 페이지
-//        endPage = startPage + perBlock - 1;
-//
-//        // endPage가 totalPage 보다 큰 경우
-//        if (endPage > totalPage)
-//            endPage = totalPage;
-//
-//        // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
-//        startNum = (currentPage - 1) * perPage;
-//
-//        // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
-//        // no = totalCount - (currentPage - 1) * perPage;
-//        no = searchCount - startNum;
-//
-//        // 각 페이지에 필요한 게시글 db에서 가져오기
-//        List<AcademyBoardDto> list = academyBoardService.searchlist("all", keyword, startNum, perPage);
-//
-//        List<Map<String, Object>> fulllList = new ArrayList<>();
-//
-//        for (AcademyBoardDto dto : list) {
-//            Map<String, Object> map = new HashMap<>();
-//            map.put("ab_idx", String.valueOf(dto.getAb_idx()));
-//            map.put("nickName", academyBoardService.selectNickNameOfMidx(dto.getAb_idx()));
-//            map.put("commentCnt", academyBoardService.commentCnt(dto.getAb_idx()));
-//
-//            String m_photo = academyBoardService.selectPhotoOfMidx(dto.getAb_idx());
-//            if (m_photo != "no") {
-//                map.put("m_photo", m_photo);
-//            } else {
-//                map.put("m_photo", "/photo/profile.jpg");
-//            }
-//            map.put("ab_subject", dto.getAb_subject());
-//            map.put("ab_content", dto.getAb_content());
-//            map.put("ab_like", dto.getAb_like());
-//            map.put("ab_dislike", dto.getAb_dislike());
-//            map.put("ab_readcount", dto.getAb_readcount());
-//            map.put("ab_writeday", dto.getAb_writeday());
-//
-//
-//            // 사진이 들어있으면
-//            if (dto.getAb_photo() != "no") {
-//                // 사진이 두장이상이면
-//                if (dto.getAb_photo().contains(",")) {
-//                    int index = dto.getAb_photo().indexOf(",");
-//                    String result = dto.getAb_photo().substring(0, index);
-//                    map.put("ab_photo", result);
-//                } else { //사진이 한장이면
-//                    map.put("ab_photo", dto.getAb_photo());
-//                }
-//            }
-//
-//            fulllList.add(map);
-//        }
-//
-//        model.addAttribute("list", fulllList);
-//
-//        // 출력시 필요한 변수들 model에 전부 저장
-//        model.addAttribute("searchCount", searchCount);
-//        model.addAttribute("startPage", startPage);
-//        model.addAttribute("endPage", endPage);
-//        model.addAttribute("totalPage", totalPage);
-//        model.addAttribute("no", no);
-//        model.addAttribute("currentPage", currentPage);
-//        model.addAttribute("keyword", keyword);
-//
-//
-//        //===========================공지사항===============================//
-//
-//        int NoticeBoardTotalCount = noticeBoardService.getTotalCount();
-//        List<NoticeBoardDto> nblist = noticeBoardService.getTopThree();
-//
-//        model.addAttribute("nblist", nblist);
-//        model.addAttribute("NoticeBoardTotalCount", NoticeBoardTotalCount);
-//
-//
-//        return "/main/academyboard/academyboardsearchlist";
-//    }
-
 
     @GetMapping("/academywriteform")
     public String form(@RequestParam(defaultValue = "1") int currentPage,
@@ -365,7 +239,7 @@ public class AcademyBoardController {
 
 
     @GetMapping("/academyboarddetail")
-    public String detail(int ab_idx, int currentPage, Model model, HttpSession session){
+    public String detail(int ab_idx, Model model, HttpSession session){
 
         academyBoardService.updateReadCount(ab_idx);
         AcademyBoardDto dto = academyBoardService.getData(ab_idx);
@@ -383,7 +257,6 @@ public class AcademyBoardController {
         model.addAttribute("dto", dto);
         model.addAttribute("nickname",nickName);
         model.addAttribute("m_photo",m_photo);
-        model.addAttribute("currentPage",currentPage);
         model.addAttribute("isAlreadyAddGoodRp", isAlreadyAddGoodRp);
         model.addAttribute("isAlreadyAddBadRp", isAlreadyAddBadRp);
 
@@ -417,18 +290,17 @@ public class AcademyBoardController {
     }
 
     @GetMapping("/academyupdateform")
-    public String academyupdateform(int ab_idx, int currentPage, Model model){
+    public String academyupdateform(int ab_idx, Model model){
 
         AcademyBoardDto dto = academyBoardService.getData(ab_idx);
         model.addAttribute("dto",dto);
-        model.addAttribute("currentPage",currentPage);
 
 
         return "/main/academyboard/academyboardupdateform";
     }
 
     @PostMapping("/academyupdate")
-    public String updateAcademy(AcademyBoardDto dto, List<MultipartFile> upload, int currentPage, int ab_idx){
+    public String updateAcademy(AcademyBoardDto dto, List<MultipartFile> upload, int ab_idx){
 
         dto.setAb_idx(ab_idx);
         String ab_photo="";
@@ -456,7 +328,7 @@ public class AcademyBoardController {
 
         academyBoardService.updateAcademyBoard(dto);
 
-        return "redirect:./academyboarddetail?ab_idx="+dto.getAb_idx()+"&currentPage="+currentPage;
+        return "redirect:./academyboarddetail?ab_idx="+dto.getAb_idx();
     }
 
 
@@ -517,9 +389,9 @@ public class AcademyBoardController {
     // 무한스크롤
     @GetMapping("/listajax")
     @ResponseBody
-    public Map<String, Object> list(int currentPage) {
+    public List<Map<String, Object>> list(@RequestParam(defaultValue = "1")int currentPage, int ai_idx) {
         int totalCount = academyBoardService.getTotalCount();
-        int perPage = 10; // 한 페이지당 보여줄 글 갯수
+        int perPage = 20; // 한 페이지당 보여줄 글 갯수
         int startNum; // 각 페이지에서 보여질 글의 시작번호
         int no; // 글 출력시 출력할 시작번호
 
@@ -531,7 +403,7 @@ public class AcademyBoardController {
         no = totalCount - startNum;
 
         // 각 페이지에 필요한 게시글 db에서 가져오기
-        List<AcademyBoardDto> list = academyBoardService.getPagingList(startNum, perPage);
+        List<AcademyBoardDto> list = academyBoardService.getPagingList(startNum, perPage, ai_idx);
 
         List<Map<String, Object>> fulllList = new ArrayList<>();
 
@@ -539,46 +411,64 @@ public class AcademyBoardController {
             Map<String, Object> map = new HashMap<>();
             map.put("ab_idx", String.valueOf(dto.getAb_idx()));
             map.put("nickName", academyBoardService.selectNickNameOfMidx(dto.getAb_idx()));
-            map.put("commentCnt", academyBoardService.commentCnt(dto.getAb_idx()));
+            map.put("commentCnt", academyBoardService.getCommentCnt(dto.getAb_idx()));
 
-            String m_photo = academyBoardService.selectPhotoOfMidx(dto.getAb_idx());
-            if (m_photo != "no") {
-                map.put("m_photo", m_photo);
+            String m_photo = academyBoardService.selectPhoto2OfMidx(dto.getAb_idx());
+
+            if(m_photo.equals("no")) {
+                m_photo = "/photo/profile.jpg";
             } else {
-                map.put("m_photo", "/photo/profile.jpg");
+                m_photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+m_photo;
             }
+            map.put("m_photo",m_photo);
             map.put("ab_subject", dto.getAb_subject());
             map.put("ab_content", dto.getAb_content());
             map.put("ab_like", dto.getAb_like());
             map.put("ab_dislike", dto.getAb_dislike());
             map.put("ab_readcount", dto.getAb_readcount());
-            map.put("ab_writeday", dto.getAb_writeday());
-
-
-            // 사진이 들어있으면
-            if (dto.getAb_photo() != "no") {
-                // 사진이 두장이상이면
-                if (dto.getAb_photo().contains(",")) {
-                    int index = dto.getAb_photo().indexOf(",");
-                    String result = dto.getAb_photo().substring(0, index);
-                    map.put("ab_photo", result);
-                } else { //사진이 한장이면
-                    map.put("ab_photo", dto.getAb_photo());
-                }
-            }
-
+            map.put("ab_writeday",timeForToday(dto.getAb_writeday()));
+            map.put("ab_photo",dto.getAb_photo());
 
             fulllList.add(map);
         }
+        return fulllList;
+    }
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("list", fulllList);
-        map.put("currentPage", currentPage);
-        map.put("totalCount", totalCount);
-        map.put("no", no);
+    @GetMapping("/other_profile")
+    public String message(String other_nick){
+        String encodedNick = URLEncoder.encode(other_nick, StandardCharsets.UTF_8);
+        return "redirect:/message/other_profile?other_nick="+encodedNick;
+    }
 
-        return map;
+    public String timeForToday(Timestamp value) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime timeValue = value.toLocalDateTime();
+
+        long betweenTime = ChronoUnit.MINUTES.between(timeValue, now);
+        if (betweenTime < 1) {
+            return "방금전";
+        }
+        if (betweenTime < 60) {
+            return betweenTime + "분전";
+        }
+
+        long betweenTimeHour = betweenTime / 60;
+        if (betweenTimeHour < 24) {
+            return betweenTimeHour + "시간전";
+        }
+
+        long betweenTimeDay = betweenTime / 1440; // 60 minutes * 24 hours
+        if (betweenTimeDay < 8) {
+            return betweenTimeDay + "일전";
+        }
+
+        String month = String.format("%02d", timeValue.getMonthValue());
+        String day = String.format("%02d", timeValue.getDayOfMonth());
+        String formattedDate = month + "-" + day;
+
+        return formattedDate;
     }
 
 
-    }
+
+}

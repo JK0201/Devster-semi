@@ -2,15 +2,28 @@
 
 @import url(common.css);
 
-
 section.main .ab_wrap{
     width: 1100px;
     margin: 32px auto;
     /*background-color: palegreen;*/
     /*position: relative;*/
 }
-
+section.main .ab_wrap .headbox{
+    margin-top: 30px;
+}
 section.main .ab_wrap .box {
+    width: 550px;
+    height: 220px;
+    border-bottom: 1px solid #eee;
+    border-radius: 0px;
+    float: left;
+    /*margin-right: 30px;*/
+    /*padding-left: 20px;*/
+    padding-top: 24px;
+    padding-right: 20px;
+}
+section.main .ab_wrap .blurbox {
+    filter: blur(2px);
     width: 550px;
     height: 220px;
     border-bottom: 1px solid #eee;
@@ -43,7 +56,6 @@ section.main .ab_wrap .box .ab_readcount{
     background-color: #eff1f5;
     color: gray;
 }
-
 section.main .ab_wrap .box .ab_readcount div.icon_read{
     display: inline-block;
     background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
@@ -54,14 +66,105 @@ section.main .ab_wrap .box .ab_readcount div.icon_read{
     height: 23px;
     /* float: left;*/
 }
-
-section.main .ab_wrap .box .ab_subject{
-    font-size: 18px;
+section.main .ab_wrap .listbox .box h3.ab_subject{
+    font-size: 15px;
     margin-top: 10px;
-    height: 112px;
+
+}
+section.main .ab_wrap .box .nickName{
+    font-size: 12px;
+    margin-top: 10px;
+
+}
+section.main .ab_wrap .box .nickName img{
+    width: 20px;
+    height: 20px;
+    border-radius: 100px;
+}
+section.main .ab_wrap .box .ab_content{
+    font-size: 13px;
+    margin-top: 10px;
+    height: 50px;
+}
+section.main .ab_wrap .box .ab_content #photocontent{
+    width: 60%;
+    display: inline-block;
 }
 
 section.main .ab_wrap .box span.ab_photo{
+    width: 80px;
+    height: 80px;
+    float: right;
+
+    /*position: relative;
+    top: 0;
+    right: 0;*/
+}
+section.main .ab_wrap .box span.ab_photo img{
+    width: 80px;
+    height: 80px;
+    float: right;
+
+}
+/*-------------blurbox----------------*/
+
+
+section.main .ab_wrap .blurbox:first-child{
+    border-top: 1px solid #eee;
+}
+section.main .ab_wrap .blurbox:nth-child(2){
+    border-top: 1px solid #eee;
+}
+section.main .ab_wrap .blurbox .ab_writeday{
+    border: 2px solid rgba(148,150,155,0.3);
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 13px;
+    color: #aaa;
+}
+section.main .ab_wrap .blurbox .ab_readcount{
+    /*border: 2px solid rgba(148,150,155,0.3);*/
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 13px;
+    background-color: #eff1f5;
+    color: gray;
+}
+section.main .ab_wrap .blurbox .ab_readcount div.icon_read{
+    display: inline-block;
+    background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
+    background-size: 590px 907px;
+    background-position: -10px -595px;
+    /*content: '';*/
+    width: 16px;
+    height: 23px;
+    /* float: left;*/
+}
+section.main .ab_wrap .listbox .blurbox h3.ab_subject{
+    font-size: 15px;
+    margin-top: 10px;
+
+}
+section.main .ab_wrap .blurbox .nickName{
+    font-size: 12px;
+    margin-top: 10px;
+
+}
+section.main .ab_wrap .blurbox .nickName img{
+    width: 20px;
+    height: 20px;
+    border-radius: 100px;
+}
+section.main .ab_wrap .blurbox .ab_content{
+    font-size: 13px;
+    margin-top: 10px;
+    height: 50px;
+}
+section.main .ab_wrap .blurbox .ab_content .photocontent{
+    width: 60%;
+    display: inline-block;
+}
+section.main .ab_wrap .blurbox span.ab_photo_blur{
     width: 80px;
     height: 80px;
     float: right;
@@ -69,17 +172,20 @@ section.main .ab_wrap .box span.ab_photo{
     top: 0;
     right: 0;*/
 }
-
-section.main .ab_wrap .box span.ab_photo img{
+section.main .ab_wrap .blurbox span.ab_photo img{
     width: 80px;
     height: 80px;
+    float: right;
+    position: relative;
+    top: 0;
+    right: 0;
 }
-
-section.main .ab_wrap .ar_tag{
+/*--------------------*/
+section.main .ab_wrap .hr_tag{
     /*margin-top: 20px;*/
 }
 
-section.main .ab_wrap .ar_tag_1{
+section.main .ab_wrap .hr_tag_1{
     font-size: 12px;
     border: 1px solid rgb(19, 191, 159);
     display: inline-block;
@@ -87,57 +193,53 @@ section.main .ab_wrap .ar_tag_1{
     margin-left: -2px;
     color: rgb(19, 191, 159);
 }
-section.main .ab_wrap .ar_tag_2{
+section.main .ab_wrap .hr_tag_2{
     font-size: 12px;
     border: 1px solid rgb(119, 101, 255);
     display: inline-block;
     padding: 1px 8px 0px 7px;
     color: rgb(119, 101, 255);
 }
+section.main .paginate{
+    width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+    height: 100px;
+    /*background-color: palegreen;*/
+}
+section.main .paginate .icon_pre{
+    background: url(../photo/devster_icon.png) no-repeat;
+    background-size: 600px 900px;
+    background-position: -218px -626px;
+    margin-right: 15px;
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+}
+section.main .paginate .icon_next{
+    background: url(../photo/devster_icon.png) no-repeat;
+    background-size: 600px 900px;
+    background-position: -166px -626px;
+    margin-right: 15px;
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+}
 
-
-/* 서치바 */
-
-section.main .searchdiv{
-    /*position: absolute;*/
+section.main .ab_write_btn{
     position: relative;
-}
-section.main .searchbar{
-    width: 736px;
-    height: 60px;
-    padding: 0 10px 0 62px;
-    border: 2px solid #222;
-    border-radius: 30px;
-    font-size: 18px;
-    box-sizing: border-box;
+    bottom: 112px;
+    left: 1203px;
 }
 
-.bi-search {
-    position: absolute;
-    right: 5px; /* 아이콘과 입력란 사이의 공간을 조절합니다. */
-    top: 31px;
-    left: 27px;
-    transform: translateY(-50%); /* 아이콘을 입력란의 정중앙에 배치합니다. */
-    pointer-events: none; /* 입력란 위에서 클릭이나 기타 동작이 가능하게 합니다. */
-    font-size: 24px;
-}
+/*------------------------------------*/
 
-#myBtn {
-    display: none; /* Hidden by default */
-    position: fixed; /* Fixed/sticky position */
-    bottom: 20px; /* Place the button at the bottom of the page */
-    right: 30px; /* Place the button 30px from the right */
-    z-index: 99; /* Make sure it does not overlap */
-    border: none; /* Remove borders */
-    outline: none; /* Remove outline */
-    background-color: #8007ad; /* Set a background color */
-    color: white; /* Text color */
-    cursor: pointer; /* Add a mouse pointer on hover */
-    padding: 15px; /* Some padding */
-    border-radius: 10px; /* Rounded corners */
-    font-size: 18px; /* Increase font size */
-}
+/*=============================================공지사항=============================================*/
 
-#myBtn:hover {
-    background-color: #5cb85c; /* Add a dark-grey background on hover */
+.noticeboard_part ul{
+    padding: 0 !important;
+    margin: 0 !important;
 }
+.noticeboard_part ul li{
+    float: left;
+} 

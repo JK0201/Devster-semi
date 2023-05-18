@@ -87,7 +87,6 @@ public class QboardController {
         model.addAttribute("totalCount", totalCount);
         model.addAttribute("no", no);
         model.addAttribute("currentPage", currentPage);
-        model.addAttribute("totalCount",totalCount);
 
 
         //===========================공지사항===============================//
