@@ -38,7 +38,7 @@ public class ReviewBoardController {
     private String bucketName = "devster-bucket";//각자 자기 버켓이름
 
     @GetMapping("/list")
-    public String list(@RequestParam(defaultValue = "1") int currentPage, Model model) {
+    public String list(@RequestParam(defaultValue = "1") int currentPage, Model model,HttpSession session) {
 
 
         int totalCount = reviewService.getTotalcount();
@@ -77,8 +77,8 @@ public class ReviewBoardController {
         for (ReviewDto dto : list) {
             Map<String, Object> map = new HashMap<>();
             // 버튼 상태에 대한 정보를 디테일 페이지로 보내줌.
-            boolean isAlreadyAddGoodRp = reviewService.isAlreadyAddGoodRp(dto.getRb_idx(),dto.getM_idx());
-            boolean isAlreadyAddBadRp = reviewService.isAlreadyAddBadRp(dto.getRb_idx(), dto.getM_idx());
+            boolean isAlreadyAddGoodRp = reviewService.isAlreadyAddGoodRp(dto.getRb_idx(),(int)session.getAttribute("memidx"));
+            boolean isAlreadyAddBadRp = reviewService.isAlreadyAddBadRp(dto.getRb_idx(), (int)session.getAttribute("memidx"));
 
             map.put("rb_idx", String.valueOf(dto.getRb_idx()));
             map.put("m_idx", String.valueOf(dto.getM_idx()));
@@ -415,7 +415,6 @@ public class ReviewBoardController {
 
         return "/main/review/reviewsearchlist";
     }
-
 
     @GetMapping("/other_profile")
     public String message(String other_nick){
