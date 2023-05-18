@@ -102,6 +102,9 @@
         values (#{cm_email}, #{cm_pass}, #{cm_compname}, #{cm_post}, #{cm_addr}, #{cm_tele}, #{cm_name},#{cm_filename}, #{cm_cp},
                 #{salt})
     </insert>
+    <insert id="addDummyCMember" parameterType="CompanyMemberDto">
+        INSERT INTO member (m_email, m_pass, m_nickname) values (CONCAT('dummy_email', #{cm_idx}), 'dummy_pass', #{cm_compname})
+    </insert>
     <select id="getOneDataByM_idx" parameterType="int" resultType="MemberDto">
         select * from member where m_idx=#{m_idx}
     </select>
