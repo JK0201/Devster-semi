@@ -114,7 +114,7 @@
             width: 200px;
             height: 250px;
             float: left;
-            margin-right:2px;
+            margin-right:20px;
             /*margin-left: 4px;*/
             /*text-align: left;*/
 
@@ -674,6 +674,10 @@
             checkAddRpBefore();
         });
     };
+
+    function message(nickname) {
+        window.open("other_profile?other_nick="+nickname, 'newwindow', 'width=700,height=700');
+    }
 </script>
 
 </body>

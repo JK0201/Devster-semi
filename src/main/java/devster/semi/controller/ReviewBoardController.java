@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -147,7 +149,9 @@ public class ReviewBoardController {
 
     @PostMapping("/insert")
     @ResponseBody
-    public boolean insertreview(@RequestParam int rb_type, String rb_content, int rb_star, int m_idx, Integer ci_idx) {
+    public boolean insertreview(@RequestParam int rb_type, String rb_content, int rb_star, int m_idx, Integer
+            ci_idx) {
+
         ReviewDto dto = new ReviewDto();
         dto.setRb_type(rb_type);
         dto.setRb_content(rb_content);
@@ -161,7 +165,7 @@ public class ReviewBoardController {
         CompanyinfoDto companyinfoDto = new CompanyinfoDto();
         companyinfoDto.setCi_idx(ci_idx);
         reviewService.updateCompanyinfoStar(companyinfoDto);
-        return  true;
+        return true;
 
     }
 
@@ -413,4 +417,9 @@ public class ReviewBoardController {
     }
 
 
+    @GetMapping("/other_profile")
+    public String message(String other_nick){
+        String encodedNick = URLEncoder.encode(other_nick, StandardCharsets.UTF_8);
+        return "redirect:/message/other_profile?other_nick="+encodedNick;
+    }
 }

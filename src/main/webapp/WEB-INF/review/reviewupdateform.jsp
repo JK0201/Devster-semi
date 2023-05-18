@@ -222,7 +222,7 @@
 
 
         $.ajax({
-            url : "update",
+            url : "/update",
             dataType: "json",
             data: { "rb_type": rb_type,
                 "rb_star": rb_star,
