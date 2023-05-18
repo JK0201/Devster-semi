@@ -1,6 +1,7 @@
 package devster.semi.controller;
 
 import devster.semi.dto.MessageDto;
+import devster.semi.service.MemberService;
 import devster.semi.service.MessageService;
 import naver.cloud.NcpObjectStorageService;
 import org.apache.ibatis.session.SqlSession;
@@ -14,14 +15,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.xml.transform.sax.SAXResult;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MessageController {
 
     @Autowired
     private MessageService messageService;
+
+    @Autowired
+    private MemberService memberService;
 
     @Autowired
     private NcpObjectStorageService storageService;
@@ -33,8 +39,13 @@ public class MessageController {
     public String messagelist(HttpServletRequest request, HttpSession session, Model model){
 
         //System.out.println("현재 사용자 닉네임 : " + session.getAttribute("memnick"));
+        String nick = "";
 
-        String nick =(String) session.getAttribute("memnick");
+        if(session.getAttribute("memnick") !=null) {
+            nick =(String)session.getAttribute("memnick");
+        } else {
+            nick = (String)session.getAttribute("cmname");
+        }
 
         MessageDto dto = new MessageDto();
         dto.setNick(nick);
@@ -42,7 +53,6 @@ public class MessageController {
         ArrayList<MessageDto> list = messageService.getMessageList(dto);
 
         model.addAttribute("list",list);
-
 
         return "/sub/message/message_list";
     }
@@ -53,7 +63,13 @@ public class MessageController {
 
         //System.out.println("현재 사용자 닉네임 : " + session.getAttribute("memnick"));
 
-        String nick =(String) session.getAttribute("memnick");
+        String nick = "";
+
+        if(session.getAttribute("memnick") !=null) {
+            nick =(String)session.getAttribute("memnick");
+        } else {
+            nick = (String)session.getAttribute("cmname");
+        }
 
         MessageDto dto = new MessageDto();
         dto.setNick(nick);
@@ -75,7 +91,15 @@ public class MessageController {
         MessageDto dto = new MessageDto();
 
         dto.setRoom(room);
-        dto.setNick((String) session.getAttribute("memnick"));
+        String nick = "";
+
+        if(session.getAttribute("memnick") !=null) {
+            nick =(String)session.getAttribute("memnick");
+        } else {
+            nick = (String)session.getAttribute("cmname");
+        }
+
+        dto.setNick(nick);
 
         System.out.println(dto.toString());
 
@@ -99,7 +123,15 @@ public class MessageController {
 
         MessageDto dto = new MessageDto();
         dto.setRoom(room);
-        dto.setSend_nick((String) session.getAttribute("memnick"));
+        String nick = "";
+
+        if(session.getAttribute("memnick") !=null) {
+            nick =(String)session.getAttribute("memnick");
+        } else {
+            nick = (String)session.getAttribute("cmname");
+        }
+
+        dto.setSend_nick(nick);
         dto.setRecv_nick(other_nick);
         dto.setContent(content);
 
@@ -108,15 +140,25 @@ public class MessageController {
 
     @RequestMapping("/message/other_profile")
     public String getMessagesWithOtherUser(@RequestParam String other_nick, HttpSession session, Model model) {
-        String nick = (String) session.getAttribute("memnick");
+        String nick = "";
+
+        if(session.getAttribute("memnick") !=null) {
+            nick =(String)session.getAttribute("memnick");
+        } else {
+            nick = (String)session.getAttribute("cmname");
+        }
+
+
 
         MessageDto dto = new MessageDto();
         dto.setNick(nick);
         dto.setOther_nick(other_nick);
 
-        ArrayList<MessageDto> list = messageService.getMessagesWithOtherUser(dto);
+        Map<String,Object> map = messageService.getMessagesWithOtherUser(dto);
 
-        model.addAttribute("list", list);
+        model.addAttribute("list", map.get("list"));
+        model.addAttribute("room",map.get("room"));
+        model.addAttribute("other_nick",other_nick);
 
         return "message/message_ajax_list_other";
     }
