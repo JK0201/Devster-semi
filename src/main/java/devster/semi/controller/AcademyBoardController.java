@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Controller
@@ -517,7 +520,7 @@ public class AcademyBoardController {
     // 무한스크롤
     @GetMapping("/listajax")
     @ResponseBody
-    public Map<String, Object> list(int currentPage) {
+    public List<Map<String,Object>> list(int currentPage) {
         int totalCount = academyBoardService.getTotalCount();
         int perPage = 10; // 한 페이지당 보여줄 글 갯수
         int startNum; // 각 페이지에서 보여질 글의 시작번호
@@ -552,7 +555,10 @@ public class AcademyBoardController {
             map.put("ab_like", dto.getAb_like());
             map.put("ab_dislike", dto.getAb_dislike());
             map.put("ab_readcount", dto.getAb_readcount());
-            map.put("ab_writeday", dto.getAb_writeday());
+            map.put("ab_writeday", timeForToday(dto.getAb_writeday()));
+            map.put("currentPage", currentPage);
+            map.put("totalCount", totalCount);
+            map.put("no", no);
 
 
             // 사진이 들어있으면
@@ -571,13 +577,37 @@ public class AcademyBoardController {
             fulllList.add(map);
         }
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("list", fulllList);
-        map.put("currentPage", currentPage);
-        map.put("totalCount", totalCount);
-        map.put("no", no);
 
-        return map;
+        return fulllList;
+    }
+
+    public String timeForToday(Timestamp value) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime timeValue = value.toLocalDateTime();
+
+        long betweenTime = ChronoUnit.MINUTES.between(timeValue, now);
+        if (betweenTime < 1) {
+            return "방금전";
+        }
+        if (betweenTime < 60) {
+            return betweenTime + "분전";
+        }
+
+        long betweenTimeHour = betweenTime / 60;
+        if (betweenTimeHour < 24) {
+            return betweenTimeHour + "시간전";
+        }
+
+        long betweenTimeDay = betweenTime / 1440; // 60 minutes * 24 hours
+        if (betweenTimeDay < 8) {
+            return betweenTimeDay + "일전";
+        }
+
+        String month = String.format("%02d", timeValue.getMonthValue());
+        String day = String.format("%02d", timeValue.getDayOfMonth());
+        String formattedDate = month + "-" + day;
+
+        return formattedDate;
     }
 
 

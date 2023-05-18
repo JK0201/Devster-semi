@@ -65,6 +65,27 @@
             border-radius: 100px;
         }
 
+        /*top btn*/
+        #myBtn {
+            display: none; /* Hidden by default */
+            position: fixed; /* Fixed/sticky position */
+            bottom: 20px; /* Place the button at the bottom of the page */
+            right: 30px; /* Place the button 30px from the right */
+            z-index: 99; /* Make sure it does not overlap */
+            border: none; /* Remove borders */
+            outline: none; /* Remove outline */
+            background-color: #7f07ac; /* Set a background color */
+            color: white; /* Text color */
+            cursor: pointer; /* Add a mouse pointer on hover */
+            padding: 15px; /* Some padding */
+            border-radius: 10px; /* Rounded corners */
+            font-size: 18px; /* Increase font size */
+        }
+
+        #myBtn:hover {
+            background-color: #530871; /* Add a dark-grey background on hover */
+        }
+
     </style>
 
     <script>
@@ -99,18 +120,19 @@
 
         // 퀵메뉴
         $(document).ready(function () {
-            var currentPosition = parseInt($(".quickmenu").css("top"));
-            $(window).scroll(function () {
-                var position = $(window).scrollTop();
-                $(".quickmenu").stop().animate({"top": position + currentPosition + "px"}, 1000);
-            });
 
-            // 스크롤
             var currentpage = 1;
             var isLoading = false;
             var noMoreData = false;
 
+            var currentPosition = parseInt($(".quickmenu").css("top"));
             $(window).scroll(function () {
+                var position = $(window).scrollTop();
+                $(".quickmenu").stop().animate({"top": position + currentPosition + "px"}, 1000);
+
+
+                // 무한스크롤
+                // 무한스크롤
                 if ($(window).scrollTop() == $(document).height() - $(window).height()) {
                     if (!isLoading && !noMoreData) {
                         isLoading = true;
@@ -119,7 +141,7 @@
                         $.ajax({
                             type: "GET",
                             url: "./listajax",
-                            data: {currentPage: nextPage},
+                            data: { currentPage: nextPage },
                             beforeSend: function () {
                                 $("#loading").show();
                             },
@@ -127,34 +149,72 @@
                                 isLoading = false;
                             },
                             success: function (res) {
-                                if (res.list.length == 0) {
-                                    noMoreData = true;
+                                if (res.totalCount == 0) {
+                                    $(".listbox").append(`<h2 class="alert alert-outline-secondary">등록된 게시글이 없습니다..</h2>`);
                                     $("#loading").hide();
                                 } else {
-                                    setTimeout(function () {
-                                        currentpage++;
-                                        var s = '';
-                                        $.each(res.list, function (idx, ele) {
-                                            var writedayElement = document.getElementById("writeday-${ele.ab_idx}");
-                                            var formattedWriteday = timeForToday("${ele.ab_writeday}");
-                                            writedayElement.textContent = formattedWriteday;
-
-
-
-                                        }) //foreach
-                                        $(".listbox").append(s);
+                                    if (res.length == 0) {
+                                        noMoreData = true;
                                         $("#loading").hide();
-                                    }, 1000);  // 1초 후에 실행
-
+                                    } else {
+                                        setTimeout(function () {
+                                            currentpage++;
+                                            var s = '';
+                                            $.each(res, function (idx,dto) {
+                                                if (dto.fb_dislike > 19) {
+                                                    if(idx % 2 == 1) {
+                                                        s += `<div class="blurbox" style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">`;
+                                                    } else {
+                                                        s += `<div class="blurbox">`;
+                                                    }
+                                                } else {
+                                                    if(idx % 2 == 1) {
+                                                        s += `<div class="box" style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">`;
+                                                    } else {
+                                                        s += `<div class="box">`;
+                                                    }
+                                                }
+                                                s += `<span class="fb_writeday">\${dto.fb_writeday}</span>`
+                                                s += `<span class="fb_readcount"><div class="icon_read"></div>\${dto.fb_readcount}</span><br><br>`;
+                                                s += `<span class="nickName"><img src="\${dto.photo}" class="memberimg">&nbsp;\${dto.nickName}</span>`;
+                                                s += `<div class="mainbox">`
+                                                s += `<h3 class="fb_subject"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}"><b>\${dto.fb_subject}</b></a></h3>`;
+                                                if (dto.fb_photo == 'n') {
+                                                    var content = dto.fb_content.substring(0, 120);
+                                                    if (dto.fb_content.length >= 120) {
+                                                        content += ".....";
+                                                    }
+                                                    s += `<h5 class="fb_content" style="width: 90%"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span>\${content}</span></a></h5>`;
+                                                } else {
+                                                    var content = dto.fb_content.substring(0, 80);
+                                                    if (dto.fb_content.length >= 80) {
+                                                        content += ".....";
+                                                    }
+                                                    s += `<h5 class="fb_content" style="width:80%"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span class="photocontent">\${content}</span></a></h5>`;
+                                                    s += `<div style="position:relative; right:0; top: -80px;"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span class="fb_photo"><img src="http://${imageUrl}/freeboard/\${dto.fb_photo.split(",")[0]}" id="fb_photo"></span></a></div>`;
+                                                }
+                                                s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.fb_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.fb_dislike}</div><div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;\${dto.commentCnt}</div></div>`;
+                                                s += `</div>`;
+                                                s += `</div>`;
+                                            })
+                                            $(".listbox").append(s);
+                                            $("#loading").hide();
+                                        }, 1000);  // 1초 후에 실행
+                                    }
                                 }
                             },
                             error: function (xhr, status, error) {
                                 console.log("Error:", error);
                                 $("#loading").hide();
                             }
-                        });
+
+                        })
                     }
                 }
+
+                //------------------
+
+
             });
 
         });

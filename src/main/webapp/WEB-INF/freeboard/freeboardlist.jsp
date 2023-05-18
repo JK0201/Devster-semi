@@ -9,8 +9,8 @@
 <div class="fb_wrap">
     <!--=============================================================================-->
 
-    <div class="noticeboard_part" style="border: 1px solid red">
-        <h1>공지</h1>
+    <div class="noticeboard_part">
+        <h2><b><img src="/photo/icon_notice.png" style="width: 40px;"> Devster 공지사항</b></h2><br>
         <ul class="clear">
             <c:if test="${NoticeBoardTotalCount>0}">
             <c:forEach var="dto" items="${nblist}">
@@ -19,7 +19,7 @@
             <li>
                 <a href="../noticeboard/noticeboarddetail?nb_idx=${dto.nb_idx}&currentPage=${currentPage}"
                    style="color: #000;">
-                        ${dto.nb_subject}
+                    • ${dto.nb_subject}
                     <c:if test="${dto.nb_photo!='n'}">
                         &nbsp; <i class="bi bi-images"></i>
                     </c:if>
@@ -34,6 +34,22 @@
     <!--=============================================================================-->
 
     <style>
+        /*notice*/
+        .noticeboard_part {
+            border: 5px solid #8007ad;
+            margin-bottom: 40px;
+            padding-left: 10px;
+            padding-bottom: 20px;
+            padding-top: 20px;
+        }
+
+        .noticeboard_part li {
+            margin-left: 30px;
+            margin-bottom: 3px;
+            font-size: 16px;
+        }
+
+
         /* quickmenu */
         div, ul, li {
             -webkit-box-sizing: border-box;
@@ -100,7 +116,7 @@
         }
 
         .searchbar {
-            width: 736px;
+            width: 1104px;
             height: 60px;
             padding: 0 10px 0 62px;
             border: 2px solid #222;
@@ -142,6 +158,11 @@
     </style>
 
     <script>
+        // 프로필 클릭
+        function message(nickname) {
+            window.open("other_profile?other_nick="+nickname, 'newwindow', 'width=700,height=700');
+        }
+
         // 몇시간전글인지
         function timeForToday(value) {
             const valueConv = value.slice(0, -2);
@@ -192,7 +213,7 @@
                         $.ajax({
                             type: "GET",
                             url: "./listajax",
-                            data: { currentPage: nextPage },
+                            data: {currentPage: nextPage},
                             beforeSend: function () {
                                 $("#loading").show();
                             },
@@ -211,15 +232,15 @@
                                         setTimeout(function () {
                                             currentpage++;
                                             var s = '';
-                                            $.each(res, function (idx,dto) {
+                                            $.each(res, function (idx, dto) {
                                                 if (dto.fb_dislike > 19) {
-                                                    if(idx % 2 == 1) {
+                                                    if (idx % 2 == 1) {
                                                         s += `<div class="blurbox" style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">`;
                                                     } else {
                                                         s += `<div class="blurbox">`;
                                                     }
                                                 } else {
-                                                    if(idx % 2 == 1) {
+                                                    if (idx % 2 == 1) {
                                                         s += `<div class="box" style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">`;
                                                     } else {
                                                         s += `<div class="box">`;
@@ -227,7 +248,7 @@
                                                 }
                                                 s += `<span class="fb_writeday">\${dto.fb_writeday}</span>`
                                                 s += `<span class="fb_readcount"><div class="icon_read"></div>\${dto.fb_readcount}</span><br><br>`;
-                                                s += `<span class="nickName"><img src="\${dto.photo}" class="memberimg">&nbsp;\${dto.nickName}</span>`;
+                                                s += `<span class="nickName"><img src="\${dto.photo}" class="memberimg">&nbsp;<p style="cursor:pointer;" onclick=message(\${dto.nickName}")>\${dto.nickName}</p></span>`;
                                                 s += `<div class="mainbox">`
                                                 s += `<h3 class="fb_subject"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}"><b>\${dto.fb_subject}</b></a></h3>`;
                                                 if (dto.fb_photo == 'n') {
@@ -295,6 +316,10 @@
                 // 검색내용
                 var keyword = $(this).val();
                 var searchOption = $("#searchOption").val();
+
+                var currentpage = 1;
+                var isLoading = false;
+                var noMoreData = false;
                 console.log(keyword);
                 console.log(searchOption);
 
@@ -305,38 +330,83 @@
                 } else {
                     //alert("검색결과출력.");
 
-                    $.ajax({
-                        type: "post",
-                        url: "./freeboardsearchlist",
-                        data: {"keyword": keyword, "searchOption": searchOption},
-                        dataType: "json",
-                        success: function (res) {
-                            let s = '';
+                    if (!isLoading && !noMoreData) {
+                        isLoading = true;
+                        var nextPage = currentpage + 1;
+                        $.ajax({
+                            type: "post",
+                            url: "./freeboardsearchlist",
+                            data: {"keyword": keyword, "searchOption": searchOption, "currentpage": nextPage},
+                            dataType: "json",
+                            beforeSend: function () {
+                                $("#loading").show();
+                            },
+                            complete: function () {
+                                isLoading = false;
+                            },
+                            success: function (res) {
+                                if (res.searchCount == 0) {
+                                    $(".listbox").append(`<h2 class="alert alert-outline-secondary">등록된 게시글이 없습니다..</h2>`);
+                                    $("#loading").hide();
+                                } else {
+                                    if (res.length == 0) {
+                                        alert("검색 결과가 없습니다.");
+                                        noMoreData = true;
+                                        $("#loading").hide();
+                                    } else {
+                                        setTimeout(function () {
+                                            currentpage++;
+                                            var s = '';
+                                            $.each(res, function (idx, dto) {
+                                                if (dto.fb_dislike > 19) {
+                                                    if (idx % 2 == 1) {
+                                                        s += `<div class="blurbox" style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">`;
+                                                    } else {
+                                                        s += `<div class="blurbox">`;
+                                                    }
+                                                } else {
+                                                    if (idx % 2 == 1) {
+                                                        s += `<div class="box" style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">`;
+                                                    } else {
+                                                        s += `<div class="box">`;
+                                                    }
+                                                }
+                                                s += `<span class="fb_writeday">\${dto.fb_writeday}</span>`
+                                                s += `<span class="fb_readcount"><div class="icon_read"></div>\${dto.fb_readcount}</span><br><br>`;
+                                                s += `<span class="m_nickname"><img src="\${dto.photo}" class="memberimg">&nbsp;<p style="cursor:pointer;" onclick=message("\${dto.nickname}")>\${dto.nickname}</p></span>`;
+                                                s += `<div class="mainbox">`
+                                                s += `<h3 class="fb_subject"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}"><b>\${dto.fb_subject}</b></a></h3>`;
+                                                if (dto.fb_photo == 'n') {
+                                                    var content = dto.fb_content.substring(0, 120);
+                                                    if (dto.fb_content.length >= 120) {
+                                                        content += ".....";
+                                                    }
+                                                    s += `<h5 class="fb_content" style="width: 90%"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span>\${content}</span></a></h5>`;
+                                                } else {
+                                                    var content = dto.fb_content.substring(0, 80);
+                                                    if (dto.fb_content.length >= 80) {
+                                                        content += ".....";
+                                                    }
+                                                    s += `<h5 class="fb_content" style="width:80%"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span class="photocontent">\${content}</span></a></h5>`;
+                                                    s += `<div style="position:relative; right:0; top: -80px;"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span class="fb_photo"><img src="http://${imageUrl}/freeboard/\${dto.fb_photo.split(",")[0]}" id="fb_photo"></span></a></div>`;
+                                                }
+                                                s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.fb_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.fb_dislike}</div><div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;\${dto.commentCnt}</div></div>`;
+                                                s += `</div>`;
+                                                s += `</div>`;
+                                            })
+                                            $(".listbox").html(s);
+                                            $("#loading").hide();
+                                        }, 1000);  // 1초 후에 실행
+                                    }
+                                }
+                            },
 
-                            $.each(res, function (idx, ele) {
-
-                                s += `번호 : \${ele.fb_idx}<br>`;
-                                s += `제목 : \${ele.fb_subject}<br>`;
-                                s += `작성자 : \${ele.m_nickname}<br>`;
-
-                                s += `내용 : \${ele.fb_content}<br>`;
-                                s += `검색한내용 : \${ele.keyword}<br>`;
-                                s += `검색 카테고리 : \${ele.searchOption}<br>`;
-                                s += `작성일 : \${ele.fb_writeday}<br>`;
-                                s += `댓글수 : \${ele.commentCnt}<br>`;
-                                s += `조회 : \${ele.fb_readcount}<br>`;
-                                s += `좋아요 : \${ele.fb_like}<br>`;
-                                s += `싫어요 : \${ele.fb_dislike}<br>`;
-                                s += `사진 : <hr>`;
-
-                            })
-                            $(".roop").html(s);
-                        },
-                        error: function (xhr, status, error) {
-                            // 요청이 실패했을 때의 처리 로직
-                            console.log("Error:", error);
-                        }
-                    });
+                            error: function (xhr, status, error) {
+                                // 요청이 실패했을 때의 처리 로직
+                                console.log("Error:", error);
+                            }
+                        });
+                    }
                 }
             }
         });
@@ -380,17 +450,17 @@
                                 ${dto.fb_readcount}</span><br><br>
 
                         <span class="nickName"><img src="http://${imageUrl}/member/${dto.m_photo}"
-                                                    class="memberimg">&nbsp;${dto.nickName}</span>
+                                                    class="memberimg">&nbsp;<p style="cursor:pointer;" onclick=message("${dto.nickname}")>&nbsp;${dto.nickname}</p></span>
 
                         <div class="mainbox">
                             <h3 class="fb_subject">
                                 <a href="freeboarddetail?fb_idx=${dto.fb_idx}"><b>${dto.fb_subject}</b></a>
                             </h3>
 
-                        <c:if test="${dto.fb_photo=='n'}">
-                            <h5 class="fb_content" style="width: 90%">
-                                <a href="freeboarddetail?fb_idx=${dto.fb_idx}"
-                                   style="color: #000;">
+                            <c:if test="${dto.fb_photo=='n'}">
+                                <h5 class="fb_content" style="width: 90%">
+                                    <a href="freeboarddetail?fb_idx=${dto.fb_idx}"
+                                       style="color: #000;">
                                 <span>
                                     <c:set var="length" value="${fn:length(dto.fb_content)}"/>
                                     ${fn:substring(dto.fb_content, 0, 120)}
@@ -399,12 +469,12 @@
                                         .....
                                     </c:if>
                                    </span></a>
-                            </h5>
-                        </c:if>
-                        <c:if test="${dto.fb_photo!='n'}">
-                            <h5 class="fb_content" style="width: 80%;">
-                                <a href="freeboarddetail?fb_idx=${dto.fb_idx}"
-                                   style="color: #000;">
+                                </h5>
+                            </c:if>
+                            <c:if test="${dto.fb_photo!='n'}">
+                                <h5 class="fb_content" style="width: 80%;">
+                                    <a href="freeboarddetail?fb_idx=${dto.fb_idx}"
+                                       style="color: #000;">
                                 <span class="photocontent">
                                     <c:set var="length" value="${fn:length(dto.fb_content)}"/>
                                     ${fn:substring(dto.fb_content, 0, 80)}
@@ -413,23 +483,23 @@
                                         .....
                                     </c:if>
                                    </span>
-                                </a>
-                            </h5>
+                                    </a>
+                                </h5>
                                 <div style="position:relative; right:0; top: -80px;">
                                     <a href="freeboarddetail?fb_idx=${dto.fb_idx}">
                                     <span class="fb_photo">
                     <img src="http://${imageUrl}/freeboard/${dto.fb_photo.split(",")[0]}" id="fb_photo">
                         </span>
-                                </a>
+                                    </a>
                                 </div>
 
-                        </c:if>
+                            </c:if>
 
-                        <div class="hr_tag">
-                            <div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;${dto.fb_like}&nbsp;&nbsp;<i
-                                    class="bi bi-hand-thumbs-down-"></i>&nbsp;${dto.fb_dislike}</div>
-                            <div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;${dto.commentCnt}</div>
-                        </div>
+                            <div class="hr_tag">
+                                <div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;${dto.fb_like}&nbsp;&nbsp;<i
+                                        class="bi bi-hand-thumbs-down-"></i>&nbsp;${dto.fb_dislike}</div>
+                                <div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;${dto.commentCnt}</div>
+                            </div>
 
                         </div>
 
@@ -440,31 +510,31 @@
                 <!-- blurbox-->
                 <!-- box-->
                 <c:if test="${dto.fb_dislike < 20}">
-                <div class="box"
-                     <c:if test="${i.index % 2 == 1}">style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;"</c:if>>
+                    <div class="box"
+                         <c:if test="${i.index % 2 == 1}">style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;"</c:if>>
 
-                    <span class="fb_writeday" id="writeday-${dto.fb_idx}"></span>
-                    <script>
-                        var writedayElement = document.getElementById("writeday-${dto.fb_idx}");
-                        var formattedWriteday = timeForToday("${dto.fb_writeday}");
-                        writedayElement.textContent = formattedWriteday;
-                    </script>
+                        <span class="fb_writeday" id="writeday-${dto.fb_idx}"></span>
+                        <script>
+                            var writedayElement = document.getElementById("writeday-${dto.fb_idx}");
+                            var formattedWriteday = timeForToday("${dto.fb_writeday}");
+                            writedayElement.textContent = formattedWriteday;
+                        </script>
 
-                    <span class="fb_readcount"><div class="icon_read"></div>
-                            ${dto.fb_readcount}</span><br><br>
+                        <span class="fb_readcount"><div class="icon_read"></div>
+                                ${dto.fb_readcount}</span><br><br>
 
-                    <span class="nickName"><img src="http://${imageUrl}/member/${dto.m_photo}"
-                                                class="memberimg">&nbsp;${dto.nickName}</span>
+                        <span class="nickName"><img src="http://${imageUrl}/member/${dto.m_photo}"
+                                                    class="memberimg">&nbsp;<p style="cursor:pointer;" onclick=message("${dto.nickname}")>${dto.nickname}</p></span>
 
-                    <div class="mainbox">
-                    <h3 class="fb_subject">
-                        <a href="freeboarddetail?fb_idx=${dto.fb_idx}"><b>${dto.fb_subject}</b></a>
-                    </h3>
+                        <div class="mainbox">
+                            <h3 class="fb_subject">
+                                <a href="freeboarddetail?fb_idx=${dto.fb_idx}"><b>${dto.fb_subject}</b></a>
+                            </h3>
 
-                    <c:if test="${dto.fb_photo=='n'}">
-                        <h5 class="fb_content" style="width: 90%">
-                            <a href="freeboarddetail?fb_idx=${dto.fb_idx}"
-                               style="color: #000;">
+                            <c:if test="${dto.fb_photo=='n'}">
+                                <h5 class="fb_content" style="width: 90%">
+                                    <a href="freeboarddetail?fb_idx=${dto.fb_idx}"
+                                       style="color: #000;">
                                 <span>
                                     <c:set var="length" value="${fn:length(dto.fb_content)}"/>
                                     ${fn:substring(dto.fb_content, 0, 120)}
@@ -473,12 +543,12 @@
                                         .....
                                     </c:if>
                                    </span></a>
-                        </h5>
-                    </c:if>
-                    <c:if test="${dto.fb_photo!='n'}">
-                        <h5 class="fb_content">
-                            <a href="freeboarddetail?fb_idx=${dto.fb_idx}"
-                               style="color: #000;">
+                                </h5>
+                            </c:if>
+                            <c:if test="${dto.fb_photo!='n'}">
+                                <h5 class="fb_content">
+                                    <a href="freeboarddetail?fb_idx=${dto.fb_idx}"
+                                       style="color: #000;">
                                 <span class="photocontent">
                                     <c:set var="length" value="${fn:length(dto.fb_content)}"/>
                                     ${fn:substring(dto.fb_content, 0, 80)}
@@ -487,33 +557,32 @@
                                         .....
                                     </c:if>
                                    </span>
-                            </a>
-                        </h5>
-                        <div style="position:relative; right:0; top: -80px;">
-                            <a href="freeboarddetail?fb_idx=${dto.fb_idx}">
+                                    </a>
+                                </h5>
+                                <div style="position:relative; right:0; top: -80px;">
+                                    <a href="freeboarddetail?fb_idx=${dto.fb_idx}">
                                 <span class="fb_photo">
                     <img src="http://${imageUrl}/freeboard/${dto.fb_photo.split(",")[0]}" id="fb_photo">
             </span>
-                            </a>
+                                    </a>
+                                </div>
+
+                            </c:if>
+
+                            <div class="hr_tag">
+                                <div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;${dto.fb_like}&nbsp;&nbsp;<i
+                                        class="bi bi-hand-thumbs-down"></i>&nbsp;${dto.fb_dislike}</div>
+                                <div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;${dto.commentCnt}</div>
+                            </div>
                         </div>
-
-                    </c:if>
-
-                    <div class="hr_tag">
-                        <div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;${dto.fb_like}&nbsp;&nbsp;<i
-                                class="bi bi-hand-thumbs-down"></i>&nbsp;${dto.fb_dislike}</div>
-                        <div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;${dto.commentCnt}</div>
                     </div>
-                    </div>
-                </div>
-            </c:if>
+                </c:if>
 
                 <!-- box-->
             </c:forEach>
         </c:if>
     </div>
     <!-- listbox -->
-
 
 
     <div id="loading"
@@ -530,18 +599,17 @@
         </ul>
     </div>
 </div>
-    <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
-<------------------------------------------------------------------------------------>
-    <script>
-        $.ajax({
-            type: "post",
-            url: "./bestPostsForBanner",
-            dataType: "json",
-            success: function (response) {
-                let s = "";
-                $.each(response, function (index, item) {
-                    s +=
-                        `
+<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+<script>
+    $.ajax({
+        type: "post",
+        url: "./bestPostsForBanner",
+        dataType: "json",
+        success: function (response) {
+            let s = "";
+            $.each(response, function (index, item) {
+                s +=
+                    `
     <li>
     <a href="../freeboard/freeboarddetail?fb_idx=\${item.fb_idx}&currentPage=1">
     <div class="name">
@@ -550,40 +618,40 @@
     </a>
     </li>
     `
-                });
-                s +=
-                    `
+            });
+            s +=
+                `
     <button type="button" onclick="window.scrollTo({top:0});">
     <i class="bi bi-arrow-up-square-fill"></i>
     </button>
     `;
-                $(".quickmenu ul").append(s);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log("Error: " + textStatus + " - " + errorThrown);
-            }
-        });
-
-
-        // When the user scrolls down 20px from the top of the document, show the button
-        window.onscroll = function () {
-            scrollFunction()
-        };
-
-        function scrollFunction() {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                document.getElementById("myBtn").style.display = "block";
-            } else {
-                document.getElementById("myBtn").style.display = "none";
-            }
+            $(".quickmenu ul").append(s);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Error: " + textStatus + " - " + errorThrown);
         }
+    });
 
 
-        // When the user clicks on the button, scroll to the top of the document
-        function topFunction() {
-            document.body.scrollTop = 0; // For Safari
-            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function () {
+        scrollFunction()
+    };
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("myBtn").style.display = "block";
+        } else {
+            document.getElementById("myBtn").style.display = "none";
         }
+    }
 
-    </script>
+
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+
+</script>
 

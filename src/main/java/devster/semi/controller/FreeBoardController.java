@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -75,7 +77,7 @@ public class FreeBoardController {
 
 
             // 사진이 들어있으면
-            if (dto.getFb_photo() != "no") {
+            if (dto.getFb_photo() != "n") {
                 // 사진이 두장이상이면
                 if (dto.getFb_photo().contains(",")) {
                     int index = dto.getFb_photo().indexOf(",");
@@ -167,7 +169,7 @@ public class FreeBoardController {
             map.put("fb_like", dto.getFb_like());
             map.put("fb_dislike", dto.getFb_dislike());
             map.put("fb_readcount", dto.getFb_readcount());
-            map.put("fb_writeday", dto.getFb_writeday());
+            map.put("fb_writeday", timeForToday(dto.getFb_writeday()));
 
             map.put("searchOption", searchOption);
             map.put("keyword", keyword);
@@ -578,6 +580,12 @@ public class FreeBoardController {
         String formattedDate = month + "-" + day;
 
         return formattedDate;
+    }
+
+    @GetMapping("/other_profile")
+    public String message(String other_nick){
+        String encodedNick = URLEncoder.encode(other_nick, StandardCharsets.UTF_8);
+        return "redirect:/message/other_profile?other_nick="+encodedNick;
     }
 
 }
