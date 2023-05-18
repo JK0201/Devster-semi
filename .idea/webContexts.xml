@@ -4,6 +4,7 @@
     <option name="state">
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/academyboard/academyboarddetail.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/academyboard" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/academyboard/academyboardlist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/academyboard" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/freeboard/freeboarddetail.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/freeboard" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/freeboard/freeboardlist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/freeboard" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/hire/hirelist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/hire" />
@@ -14,6 +15,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/message/message_content_list.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/message" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/message/message_list.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/message" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/qboard/qboarddetail.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/qboard" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/qboard/qboardform.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/qboard" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/qboard/qboardlist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/qboard" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/resume/resumewrite.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/resume" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/review/reviewlist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/review" />

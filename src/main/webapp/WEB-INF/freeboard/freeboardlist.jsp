@@ -119,6 +119,26 @@
             font-size: 24px;
         }
 
+        #myBtn {
+            display: none; /* Hidden by default */
+            position: fixed; /* Fixed/sticky position */
+            bottom: 20px; /* Place the button at the bottom of the page */
+            right: 30px; /* Place the button 30px from the right */
+            z-index: 99; /* Make sure it does not overlap */
+            border: none; /* Remove borders */
+            outline: none; /* Remove outline */
+            background-color: #7f07ac; /* Set a background color */
+            color: white; /* Text color */
+            cursor: pointer; /* Add a mouse pointer on hover */
+            padding: 15px; /* Some padding */
+            border-radius: 10px; /* Rounded corners */
+            font-size: 18px; /* Increase font size */
+        }
+
+        #myBtn:hover {
+            background-color: #530871; /* Add a dark-grey background on hover */
+        }
+
     </style>
 
     <script>
@@ -163,7 +183,6 @@
                 var position = $(window).scrollTop();
                 $(".quickmenu").stop().animate({"top": position + currentPosition + "px"}, 1000);
 
-
                 // 무한스크롤
                 if ($(window).scrollTop() == $(document).height() - $(window).height()) {
                     if (!isLoading && !noMoreData) {
@@ -173,7 +192,7 @@
                         $.ajax({
                             type: "GET",
                             url: "./listajax",
-                            data: {currentPage: nextPage},
+                            data: { currentPage: nextPage },
                             beforeSend: function () {
                                 $("#loading").show();
                             },
@@ -181,34 +200,70 @@
                                 isLoading = false;
                             },
                             success: function (res) {
-                                if (res.list.length == 0) {
-                                    noMoreData = true;
+                                if (res.totalCount == 0) {
+                                    $(".listbox").append(`<h2 class="alert alert-outline-secondary">등록된 게시글이 없습니다..</h2>`);
                                     $("#loading").hide();
                                 } else {
-                                    setTimeout(function () {
-                                        currentpage++;
-                                        var s = '';
-                                        $.each(res.list, function (idx, ele) {
-                                            var writedayElement = document.getElementById("writeday-${ele.fb_idx}");
-                                            var formattedWriteday = timeForToday("${ele.fb_writeday}");
-                                            writedayElement.textContent = formattedWriteday;
-
-
-
-                                        }) //foreach
-                                        $(".listbox").append(s);
+                                    if (res.length == 0) {
+                                        noMoreData = true;
                                         $("#loading").hide();
-                                    }, 1000);  // 1초 후에 실행
-
+                                    } else {
+                                        setTimeout(function () {
+                                            currentpage++;
+                                            var s = '';
+                                            $.each(res, function (idx,dto) {
+                                                if (dto.fb_dislike > 19) {
+                                                    if(idx % 2 == 1) {
+                                                        s += `<div class="blurbox" style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">`;
+                                                    } else {
+                                                        s += `<div class="blurbox">`;
+                                                    }
+                                                } else {
+                                                    if(idx % 2 == 1) {
+                                                        s += `<div class="box" style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">`;
+                                                    } else {
+                                                        s += `<div class="box">`;
+                                                    }
+                                                }
+                                                s += `<span class="fb_writeday">\${dto.fb_writeday}</span>`
+                                                s += `<span class="fb_readcount"><div class="icon_read"></div>\${dto.fb_readcount}</span><br><br>`;
+                                                s += `<span class="nickName"><img src="\${dto.photo}" class="memberimg">&nbsp;\${dto.nickName}</span>`;
+                                                s += `<div class="mainbox">`
+                                                s += `<h3 class="fb_subject"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}"><b>\${dto.fb_subject}</b></a></h3>`;
+                                                if (dto.fb_photo == 'n') {
+                                                    var content = dto.fb_content.substring(0, 120);
+                                                    if (dto.fb_content.length >= 120) {
+                                                        content += ".....";
+                                                    }
+                                                    s += `<h5 class="fb_content" style="width: 90%"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span>\${content}</span></a></h5>`;
+                                                } else {
+                                                    var content = dto.fb_content.substring(0, 80);
+                                                    if (dto.fb_content.length >= 80) {
+                                                        content += ".....";
+                                                    }
+                                                    s += `<h5 class="fb_content" style="width:80%"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span class="photocontent">\${content}</span></a></h5>`;
+                                                    s += `<div style="position:relative; right:0; top: -80px;"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span class="fb_photo"><img src="http://${imageUrl}/freeboard/\${dto.fb_photo.split(",")[0]}" id="fb_photo"></span></a></div>`;
+                                                }
+                                                s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.fb_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.fb_dislike}</div><div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;\${dto.commentCnt}</div></div>`;
+                                                s += `</div>`;
+                                                s += `</div>`;
+                                            })
+                                            $(".listbox").append(s);
+                                            $("#loading").hide();
+                                        }, 1000);  // 1초 후에 실행
+                                    }
                                 }
                             },
                             error: function (xhr, status, error) {
                                 console.log("Error:", error);
                                 $("#loading").hide();
                             }
-                        });
+
+                        })
                     }
                 }
+
+
             });
 
 
@@ -327,13 +382,14 @@
                         <span class="nickName"><img src="http://${imageUrl}/member/${dto.m_photo}"
                                                     class="memberimg">&nbsp;${dto.nickName}</span>
 
-                        <h3 class="fb_subject">
-                            <a href="freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}"><b>${dto.fb_subject}</b></a>
-                        </h3>
+                        <div class="mainbox">
+                            <h3 class="fb_subject">
+                                <a href="freeboarddetail?fb_idx=${dto.fb_idx}"><b>${dto.fb_subject}</b></a>
+                            </h3>
 
                         <c:if test="${dto.fb_photo=='n'}">
                             <h5 class="fb_content" style="width: 90%">
-                                <a href="freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}"
+                                <a href="freeboarddetail?fb_idx=${dto.fb_idx}"
                                    style="color: #000;">
                                 <span>
                                     <c:set var="length" value="${fn:length(dto.fb_content)}"/>
@@ -346,8 +402,8 @@
                             </h5>
                         </c:if>
                         <c:if test="${dto.fb_photo!='n'}">
-                            <h5 class="fb_content">
-                                <a href="freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}"
+                            <h5 class="fb_content" style="width: 80%;">
+                                <a href="freeboarddetail?fb_idx=${dto.fb_idx}"
                                    style="color: #000;">
                                 <span class="photocontent">
                                     <c:set var="length" value="${fn:length(dto.fb_content)}"/>
@@ -357,11 +413,16 @@
                                         .....
                                     </c:if>
                                    </span>
-                                    <span class="fb_photo">
-                    <img src="http://${imageUrl}/freeboard/${dto.fb_photo.split(",")[0]}" id="fb_photo_blur">
-            </span>
                                 </a>
                             </h5>
+                                <div style="position:relative; right:0; top: -80px;">
+                                    <a href="freeboarddetail?fb_idx=${dto.fb_idx}">
+                                    <span class="fb_photo">
+                    <img src="http://${imageUrl}/freeboard/${dto.fb_photo.split(",")[0]}" id="fb_photo">
+                        </span>
+                                </a>
+                                </div>
+
                         </c:if>
 
                         <div class="hr_tag">
@@ -370,11 +431,15 @@
                             <div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;${dto.commentCnt}</div>
                         </div>
 
+                        </div>
+
                     </div>
+
 
                 </c:if>
                 <!-- blurbox-->
                 <!-- box-->
+                <c:if test="${dto.fb_dislike < 20}">
                 <div class="box"
                      <c:if test="${i.index % 2 == 1}">style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;"</c:if>>
 
@@ -391,13 +456,14 @@
                     <span class="nickName"><img src="http://${imageUrl}/member/${dto.m_photo}"
                                                 class="memberimg">&nbsp;${dto.nickName}</span>
 
+                    <div class="mainbox">
                     <h3 class="fb_subject">
-                        <a href="freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}"><b>${dto.fb_subject}</b></a>
+                        <a href="freeboarddetail?fb_idx=${dto.fb_idx}"><b>${dto.fb_subject}</b></a>
                     </h3>
 
                     <c:if test="${dto.fb_photo=='n'}">
                         <h5 class="fb_content" style="width: 90%">
-                            <a href="freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}"
+                            <a href="freeboarddetail?fb_idx=${dto.fb_idx}"
                                style="color: #000;">
                                 <span>
                                     <c:set var="length" value="${fn:length(dto.fb_content)}"/>
@@ -411,7 +477,7 @@
                     </c:if>
                     <c:if test="${dto.fb_photo!='n'}">
                         <h5 class="fb_content">
-                            <a href="freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}"
+                            <a href="freeboarddetail?fb_idx=${dto.fb_idx}"
                                style="color: #000;">
                                 <span class="photocontent">
                                     <c:set var="length" value="${fn:length(dto.fb_content)}"/>
@@ -422,12 +488,15 @@
                                     </c:if>
                                    </span>
                             </a>
-                            <a href="freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}">
+                        </h5>
+                        <div style="position:relative; right:0; top: -80px;">
+                            <a href="freeboarddetail?fb_idx=${dto.fb_idx}">
                                 <span class="fb_photo">
                     <img src="http://${imageUrl}/freeboard/${dto.fb_photo.split(",")[0]}" id="fb_photo">
             </span>
                             </a>
-                        </h5>
+                        </div>
+
                     </c:if>
 
                     <div class="hr_tag">
@@ -435,9 +504,9 @@
                                 class="bi bi-hand-thumbs-down"></i>&nbsp;${dto.fb_dislike}</div>
                         <div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;${dto.commentCnt}</div>
                     </div>
-
-
+                    </div>
                 </div>
+            </c:if>
 
                 <!-- box-->
             </c:forEach>
@@ -445,11 +514,11 @@
     </div>
     <!-- listbox -->
 
-    <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+
 
     <div id="loading"
          style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999;">
-        <img src="${root}/photo/809.gif" alt="Loading..."
+        <img src="${root}/photo/loading.gif" alt="Loading..."
              style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
         <!-- 로딩 이미지의 경로를 설정하세요 -->
     </div>
@@ -460,7 +529,9 @@
             <li class="quickmenu_head"><p style="font-size: 30px">베스트 게시글</p></li>
         </ul>
     </div>
-
+</div>
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+<------------------------------------------------------------------------------------>
     <script>
         $.ajax({
             type: "post",
@@ -515,4 +586,4 @@
         }
 
     </script>
-</div>
+

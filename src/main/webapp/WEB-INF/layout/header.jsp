@@ -27,7 +27,15 @@
         <li><a id="free" href="${root}/freeboard/list">일반게시판</a></li>
         <li><a id="qna" href="${root}/qboard/list">질문게시판</a></li>
         <li><a id="hire" href="${root}/hire/list">채용정보</a></li>
-        <li><a id="academy" href="${root}/academyboard/list">학원별게시판</a></li>
+        <li><a id="academy"
+
+               <c:if test="${sessionScope.cmidx != null}">
+               onclick="alert('기업회원은 열람하실 수 없습니다.')"
+
+               </c:if>
+               href="${root}/academyboard/list"
+
+               >학원별게시판</a></li>
         <li><a id="review" href="${root}/review/list">회사후기</a></li>
         <li><a id="notice" href="${root}/noticeboard/list">공지사항</a></li>
         <li><a href="${root}/message/list">메세지함</a></li>

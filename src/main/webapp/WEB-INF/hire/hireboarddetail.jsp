@@ -80,8 +80,10 @@
         });
 
 
+
     });
 </script>
+
 
 <div class="hb_detail_wrap clear">
 
@@ -95,10 +97,13 @@
             </div>
             <h2>${dto.hb_subject}</h2>
             <%--<div>${dto.hb_idx}</div>--%>
+<%--            <div>${cm_name}</div>--%>
             <div class="wrap_info clear">
                 <div class="icon_time"></div><div style="display: inline-block; color: #94969b;"><fmt:formatDate value="${dto.fb_writeday}" pattern="MM/dd"/></div>
                 <span><div class="icon_read"></div>${dto.hb_readcount}</span>
+                <c:if test="${sessionScope.memstate!=null}">
                 <span id="add-bkmk-btn" class="btn btn-outline">북마크</span>
+                </c:if>
             </div>
 
         </div>
@@ -123,32 +128,19 @@
 
             <div class="util_btns">
                 <%--    <c:if test="${sessionScope.memdix==dto.hb_idx}">--%>
+                <c:if test="${sessionScope.cmidx==dto.cm_idx || sessionScope.memstate==100}">
                 <button type="button" class="btn btn-sm btn-outline-success"
                         onclick="location.href='./hireupdateform?hb_idx=${dto.hb_idx}&currentPage=${currentPage}'">수정
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-success" onclick="del(${dto.hb_idx})">삭제</button>
-                <%--    </c:if>--%>
+                </c:if>
+                        <%--    </c:if>--%>
                 <button type="button" class="btn btn-sm btn-outline-success"
                         onclick="location.href='./list?currentPage=${currentPage}'">목록
                 </button>
             </div>
 
 
-
-            <div class="util_btns">
-                <c:if test="${sessionScope.cmidx==dto.cm_idx || sessionScope.memstate==100}">
-                    <%--    <c:if test="${sessionScope.memdix==dto.hb_idx}">--%>
-                    <button type="button" class="btn btn-sm btn-outline-success"
-                            onclick="location.href='./hireupdateform?hb_idx=${dto.hb_idx}&currentPage=${currentPage}'">수정
-                    </button>
-                    <button type="button" class="btn btn-sm btn-outline-success" onclick="del(${dto.hb_idx})">삭제</button>
-                    <%--    </c:if>--%>
-
-                    <button type="button" class="btn btn-sm btn-outline-success"
-                            onclick="location.href='./list?currentPage=${currentPage}'">목록
-                    </button>
-                </c:if>
-            </div>
 
         </div>
 

@@ -69,7 +69,9 @@
     <button type="button" id="outtest">로그아웃</button>
 </div>
 <div>
-    <a href="dndprac">ㅇㅇ</a>
+    <a href="dndupdate">실시간 업데이트용 dnd (ajax)</a>
+    <br><br>
+    <a href="dndpaging">페이징용 dnd</a>
     <div>
         <strong id="normmember">일반회원 로그인</strong>
         &nbsp;&nbsp;&nbsp;
