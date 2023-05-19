@@ -6,6 +6,7 @@ import devster.semi.mapper.AcademyBoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,8 +31,11 @@ public class AcademyBoardService implements AcademyBoardServiceInter{
         Map<String, Integer> map = new HashMap<>();
         map.put("start", start);
         map.put("perpage", perpage);
+        if(ai_idx == -1) {
+            List<AcademyBoardDto> list = new ArrayList<>();
+            return list;
+        }
         map.put("ai_idx",ai_idx);
-
         return academyBoardMapper.getPagingList(map);
     }
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -44,7 +45,7 @@ public class HomeController {
 	private String bucketName="devster-bucket";
 
 	@GetMapping({"/","/home"})
-	public String fblist(@RequestParam(defaultValue = "1") int currentPage, Model model)
+	public String fblist(@RequestParam(defaultValue = "1") int currentPage, Model model, HttpSession session)
 	{
 		//===========================일반게시판===============================//
 
@@ -120,7 +121,7 @@ public class HomeController {
 		//===========================학원별 게시판===============================//
 
 		int academyboardTotalCount = academyBoardService.getTotalCount();
-		List<AcademyBoardDto> ablist = academyBoardService.getPagingList(startNum, perPage);
+		List<AcademyBoardDto> ablist = academyBoardService.getPagingList(startNum, perPage, (Integer)session.getAttribute("acaidx")==null?-1:(int)session.getAttribute("acaidx"));
 
 		// 출력시 필요한 변수들 model에 전부 저장
 		model.addAttribute("ablist", ablist);
