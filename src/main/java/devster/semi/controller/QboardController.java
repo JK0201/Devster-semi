@@ -245,6 +245,8 @@ public class QboardController {
         String nickName = qboardService.selectNickNameOfQb_idx(dto.getQb_idx());
         String photo = qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
 
+        int commentCnt = qboardService.countComment(dto.getQb_idx());
+
 //        버튼 상태에 관한 정보를 디테일 페이지로 보내줌.
         boolean isAlreadyAddGoodRp = qboardService.isAlreadyAddGoodRp(qb_idx,(int)session.getAttribute("memidx"));
         boolean isAlreadyAddBadRp = qboardService.isAlreadyAddBadRp(qb_idx,(int)session.getAttribute("memidx"));
@@ -268,6 +270,9 @@ public class QboardController {
         model.addAttribute("photo",photo);
         model.addAttribute("isAlreadyAddGoodRp", isAlreadyAddGoodRp);
         model.addAttribute("isAlreadyAddBadRp", isAlreadyAddBadRp);
+
+        model.addAttribute("commentCnt", commentCnt);
+        model.addAttribute("qb_writeday", timeForToday(dto.getQb_writeday()));
 
 
         return "/main/qboard/qboarddetail";

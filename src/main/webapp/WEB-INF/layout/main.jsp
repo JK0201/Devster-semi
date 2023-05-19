@@ -5,10 +5,9 @@
 <div class="wrap clear">
     <div class="container">
         <div class="searchdiv">
-            <input id="searchinput" name="keyword" type="search" placeholder="관심있는 내용을 검색해보세요!" autocomplete="off" value=""
-                   class="searchbar">
-            <i class="bi bi-search"></i>
-            <select id="boardSearchOption">
+            <input id="searchinput" name="keyword" type="search" placeholder="관심있는 내용을 검색해보세요!" autocomplete="off" value="" class="searchbar">
+            <%--<i class="bi bi-search"></i>--%>
+            <select id="boardSearchOption" class="form-select">
                 <option id="freesearch" value="freeboard">일반게시판</option>
                 <option id="qnasearch" value="qboard">질문게시판</option>
                 <option id="hiresearch" value="hireboard">채용정보</option>
@@ -193,6 +192,16 @@
                                 </a>
                             </td>
 
+                            <td class="qb_readcount clear">
+                                <div class="icon_read"><img></div>
+                                <span>${dto.qb_readcount}</span>
+                            </td>
+
+                            <td class="qb_like">
+                                <div class="icon_like"><img></div>
+                                <span>${dto.qb_like}</span>
+                            </td>
+
 
                         </tr>
                     </c:forEach>
@@ -243,6 +252,51 @@
                 </tbody>
             </table>
 
+            <!-- ========================= 학원별 게시판 ===========================-->
+
+            <table class="academyboard_table">
+                <caption align="top" class="clear">
+
+                    <h2>
+                        <img src="/photo/icon_job.png">학원별 게시판
+                        <span><a href="academyboard/list" class="btn-more">더보기<i class="bi bi-chevron-right"></i></a></span>
+                    </h2>
+
+                </caption>
+
+
+                <tbody>
+                <c:if test="${totalCount==0}">
+                    <h2>등록된 게시글이 없습니다..</h2>
+                </c:if>
+
+                <c:if test="${totalCount>0}">
+                    <c:forEach var="dto" items="${ablist}">
+                        <tr>
+                            <td class="ab_subject clear">
+                                <a href="academyboard/academyboarddetail?ab_idx=${dto.ab_idx}&currentPage=${currentPage}"
+                                   style="color: #000;">
+                                        ${dto.ab_subject}</a>
+                                <c:if test="${dto.ab_photo!=''}">
+                                    &nbsp; <%--<i class="bi bi-images"></i>--%>
+                                    <div class="icon_img"><img></div>
+                                </c:if>
+
+                            </td>
+
+                            <td class="ab_readcount clear">
+                                <div class="icon_read"><img></div>
+                                <span>${dto.ab_readcount}</span>
+                            </td>
+                        </tr>
+
+                    </c:forEach>
+                </c:if>
+                </tbody>
+            </table>
+
+
+
         </div>
     </div>
     <!--=========================================aside=====================================-->
@@ -251,7 +305,12 @@
             <img src="photo/aside_banner_1.png">
         </div>
         <div class="aside_content_2">
-            <img src="photo/aside_banner_2.png">
+            <%--quickmenu--%>
+            <div class="quickmenu">
+                <ul>
+                    <li class="quickmenu_head"><h2>실시간 인기글</h2></li>
+                </ul>
+            </div>
         </div>
 
     </div>
@@ -313,7 +372,62 @@
 
     }
 
+    //실시간 인기 글 ajax
+    $.ajax({
+        type: "post",
+        url: "./bestPostsForBanner",
+        dataType: "json",
+        success: function (response) {
+            let s = "";
+            $.each(response, function (index, item) {
+                s +=
+                    `
+                    <li>
+                        <a href="../freeboard/freeboarddetail?fb_idx=\${item.fb_idx}&currentPage=1">
+                            <div class="name">
+                                <div class="num"><span style="color: #94969b">\${index+1}</span> \${item.fb_subject}</div>
+                            </div>
+                        </a>
+                    </li>
+                    `
+            });
+           /* s +=
+                `
+                <button type="button" onclick="window.scrollTo({top:0});">
+                    <i class="bi bi-arrow-up-square-fill"></i>
+                </button>
+                `;*/
+
+                $(".quickmenu ul").append(s);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Error: " + textStatus + " - " + errorThrown);
+        }
+    });
+
+
+   /* // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function () {
+        scrollFunction()
+    };
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("myBtn").style.display = "block";
+        } else {
+            document.getElementById("myBtn").style.display = "none";
+        }
+    }
+
+
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }*/
+
 
 </script>
+
 
 

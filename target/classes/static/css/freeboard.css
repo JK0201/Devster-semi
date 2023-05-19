@@ -2,6 +2,16 @@
 
 @import url(common.css);
 
+/*=============================================공지사항=============================================*/
+
+.noticeboard_part ul{
+    padding: 0 !important;
+    margin: 0 !important;
+}
+.noticeboard_part ul li{
+    float: left;
+}
+
 section.main .fb_wrap{
     width: 1100px;
     margin: 32px auto;
@@ -232,14 +242,411 @@ section.main .fb_write_btn{
     left: 1203px;
 }
 
-/*------------------------------------*/
+/*================================== 일반게시판 디테일 페이지 ====================================*/
 
-/*=============================================공지사항=============================================*/
 
-.noticeboard_part ul{
-    padding: 0 !important;
-    margin: 0 !important;
+section.main .fb_detail_wrap{
+    width: 1140px;
+    /*background: palevioletred;*/
+    margin: 0 auto;
 }
-.noticeboard_part ul li{
+section.main .fb_detail_wrap .fb_detail_content{
+    width: 736px;
+    /*background: palegreen;*/
+    padding-top: 40px;
     float: left;
-} 
+}
+
+section.main .fb_detail_wrap .fb_detail_content .wrap_info{
+    margin-top: 10px;
+    /*height: 30px;*/
+}
+
+section.main .fb_detail_wrap .fb_detail_content .wrap_info .time_date_div{
+    height: 30px;
+}
+
+section.main .fb_detail_wrap .fb_detail_content .show_tag{
+    margin-top: 24px;
+}
+section.main .fb_detail_wrap .fb_detail_content .show_tag .tag_dday{
+    border: 2px solid rgba(148,150,155,0.3);
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 13px;
+    color: #aaa;
+}
+section.main .fb_detail_wrap .fb_detail_content .show_tag .tag_career{
+    /*border: 2px solid rgba(148,150,155,0.3);*/
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 13px;
+    background-color: #eff1f5;
+    color: gray;
+}
+
+section.main .fb_detail_wrap .fb_detail_content .article_view_head{
+    border-bottom: 1px solid #eee;
+    padding-bottom: 29px;
+}
+
+
+section.main .fb_detail_wrap .fb_detail_content .article_view_head .freeboard_link:before {
+    background: url(https://static.teamblind.com/img/www_kr/sp-kr.png) no-repeat;
+    background-size: 600px 900px;
+    background-position: -10px -626px;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin: -2px 4px 0;
+    vertical-align: middle;
+    content: '';
+}
+
+
+section.main .fb_detail_wrap .fb_detail_content .article_view_head a{
+    margin-left: 2px;
+}
+
+section.main .fb_detail_wrap .fb_detail_content .article_view_head h2{
+    font-size: 24px;
+    margin-top: 18px;
+    font-weight: bold;
+}
+
+section.main .fb_detail_wrap .fb_detail_content .article_view_head a{
+    color: #222;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+section.main .fb_detail_wrap .fb_detail_content .article_view_head .wrap_info span{
+    /*float: left;*/
+    color: #94969b;
+    /*margin-left: 14px;*/
+}
+
+/*아이콘*/
+.icon_time{
+    display: inline-block;
+    background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
+    background-size: 600px 900px;
+    background-position: -88px -598px;
+    width: 16px;
+    height: 23px;
+    vertical-align: middle;
+    /*margin-right: 3px;*/
+}
+
+section.main .fb_detail_wrap .fb_detail_content .article_view_head .wrap_info span .icon_read{
+    display: inline-block;
+    background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
+    background-size: 590px 907px;
+    background-position: -10px -595px;
+    /*content: '';*/
+    width: 16px;
+    height: 23px;
+    /* float: left;*/
+    margin-left: 10px;
+}
+
+/*북마크*/
+section.main .fb_detail_wrap .fb_detail_content .article_view_head #add-bkmk-btn{
+    float: right;
+    /*text-align: center;*/
+    padding: 0;
+}
+
+section.main .fb_detail_wrap .fb_detail_content .article_view_content{
+    padding-top: 32px;
+    /*border: 1px solid black;*/
+}
+section.main .fb_detail_wrap .fb_detail_content .article_view_content .fb_detail_img{
+    margin-top: 46px;
+}
+section.main .fb_detail_wrap .fb_detail_content .article_view_content .fb_detail_img img{
+    width: 732px;
+}
+
+section.main .fb_detail_wrap .fb_detail_content .article_view_content .hr_tag_1{
+    font-size: 12px;
+    border: 1px solid rgb(19, 191, 159);
+    display: inline-block;
+    padding: 1px 8px 0px 7px;
+    margin-left: -2px;
+    color: rgb(19, 191, 159);
+}
+section.main .fb_detail_wrap .fb_detail_content .article_view_content .hr_tag_2{
+    font-size: 12px;
+    border: 1px solid rgb(119, 101, 255);
+    display: inline-block;
+    padding: 1px 8px 0px 7px;
+    color: rgb(119, 101, 255);
+}
+
+section.main .fb_detail_wrap .fb_detail_content .article_view_content .hr_detail_img{
+    margin-top: 32px;
+}
+
+section.main .fb_detail_wrap .fb_detail_content .article_view_content .content_txt{
+    line-height: 1.75em;
+    font-size: 16px;
+}
+
+/*좋아요 아이콘*/
+section.main .fb_detail_wrap .fb_detail_content .article_view_content .footbox .icon_thumbup{
+    /*display: inline-block;*/
+    background: url(../photo/devster_icon_2.png) no-repeat;
+    background-size: 590px 907px;
+    background-position: -130px -486px;
+    /*content: '';*/
+    width: 16px;
+    height: 23px;
+    /* float: left;*/
+    margin-right: 6px;
+    float: left;
+}
+/*싫어요 아이콘*/
+section.main .fb_detail_wrap .fb_detail_content .article_view_content .footbox .icon_thumbdown{
+    /*display: inline-block;*/
+    background: url(../photo/devster_icon_2.png) no-repeat;
+    background-size: 590px 907px;
+    background-position: -424px -486px;
+    /*content: '';*/
+    width: 16px;
+    height: 23px;
+    /* float: left;*/
+    margin-right: 6px;
+    float: left;
+}
+
+section.main .fb_detail_wrap .fb_detail_content .article_view_content .footbox .ml-2{
+    /*margin-bottom: 5px;*/
+    float: left;
+    font-size: 16px;
+}
+
+section.main .fb_detail_wrap .fb_detail_content .article_view_content .util_btns{
+    /*margin-top: 40px;*/
+    float: right;
+}
+
+section.main .fb_detail_wrap .fb_detail_content .article_view_content .util_btns button{
+    background: #4c7bc9;
+    color: #fff;
+    text-align: center;
+    margin-right: 6px;
+    /*width: 100px;*/
+}
+
+section.main .fb_detail_wrap .fb_detail_content .article_view_content .footbox #add-goodRp-btn{
+    margin-right: 10px;
+}
+
+/*.already-added {
+    background-color: grey;
+    color: white;
+}*/
+
+section.main .fb_detail_wrap .fb_detail_content .article_view_content .footbox{
+    /*margin-top: 20px;*/
+    float: left;
+}
+
+/*========================================== 디테일 페이지 aside ===========================================*/
+
+section.main .fb_detail_wrap .fb_aside{
+    width: 340px;
+    margin-left: 64px;
+    /*background-color: palegreen;*/
+    float: left;
+    padding-top: 40px;
+}
+
+/* 베스트 게시글 */
+
+section.main .fb_detail_wrap .fb_aside .quickmenu {
+    position: relative;
+    width: 340px;
+    /*top: 50%;*/
+    transition: transform 0.5s ease-out;
+    margin-top: -20px;
+    /*right: 142px;*/
+    background: #fff;
+}
+
+section.main .fb_detail_wrap .fb_aside .quickmenu ul {
+    position: relative;
+    float: left;
+    width: 100%;
+    display: inline-block;
+    *display: inline;
+    border: 1px solid #eee;
+}
+
+section.main .fb_detail_wrap .fb_aside .quickmenu ul li {
+    float: left;
+    width: 100%;
+    /*border-bottom: 1px solid #eee;*/
+    /*text-align: center;*/
+    display: inline-block;
+    *display: inline;
+    /*padding: 16px 20px 17px;*/
+    padding: 9px 20px 10px;
+    font-size: 13px;
+    /*border-bottom: 1px solid #ddd;*/
+}
+
+section.main .fb_detail_wrap .fb_aside .quickmenu ul li:last-child{
+    border-top: 1px solid #eee;
+}
+
+section.main .fb_detail_wrap .fb_aside .quickmenu ul li:first-child{
+    border-bottom: 0px;
+    padding: 5px 8px 0px;
+}
+
+section.main .fb_detail_wrap .fb_aside .quickmenu ul li a {
+    position: relative;
+    float: left;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    /*text-align: center;*/
+    color: #999;
+    font-size: 16px;
+}
+
+section.main .fb_detail_wrap .fb_aside .quickmenu ul li a:hover {
+    color: #000;
+}
+
+section.main .fb_detail_wrap .fb_aside .quickmenu ul li:last-child {
+    border-bottom: 0;
+}
+
+section.main .fb_detail_wrap .fb_aside .quickmenu_head h2{
+    padding: 15px 18px 4px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+section.main .fb_detail_wrap .fb_aside .quickmenu ul li a>div>div{
+    display: inline-block;
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /*font-weight: 700;*/
+    /*line-height: 1.25em;*/
+    color: #222;
+    margin-left: 3px;
+}
+
+section.main .fb_detail_wrap .fb_aside .quickmenu ul li a>div>div:after {
+    content: '';
+    background: url(https://static.teamblind.com/img/www_kr/sp-kr.png) no-repeat;
+    background-size: 600px 900px;
+    background-position: -88px -626px;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    transform: translateY(-50%);
+}
+
+section.main .fb_detail_wrap .fb_aside .quickmenu .view_all_li{
+    text-align: center;
+}
+
+section.main .fb_detail_wrap .fb_aside .quickmenu .view_all{
+    text-align: center;
+    font-size: 18px;
+}
+
+section.main .fb_detail_wrap .fb_aside .quickmenu .view_all:after {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 24px;
+    background: url(https://static.teamblind.com/img/www_kr/sp-kr.png) no-repeat;
+    background-size: 600px 900px;
+    background-position: -9px -620px;
+    vertical-align: top;
+    margin-top: 3px;
+    margin-left: 2px;
+}
+
+/*댓글*/
+section.main .fb_detail_wrap .fb_detail_content .commentwrite input#commentContent{
+    height: 63px;
+    padding-left: 20px;
+    /*border: 0;*/
+    font-size: 16px;
+    width: 637px;
+    float: left;
+}
+
+section.main .fb_detail_wrap .fb_detail_content .commentwrite button#writepost{
+    float: right;
+    height: 60px;
+    margin-top: 2px;
+    padding: 0 20px;
+}
+
+#commentBox .answerBox .fb_writeday{
+    /*margin-right: 14px;*/
+    color: #94969b;
+    font-size: 12px;
+}
+
+/*댓글 아이콘*/
+.icon_reply{
+    display: inline-block;
+    background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
+    background-size: 600px 900px;
+    background-position: -36px -597px;
+    width: 16px;
+    height: 23px;
+    vertical-align: middle;
+    margin-right: 3px;
+}
+#commentBox .answerBox .fb_replyCnt{
+    /*margin-right: 14px;*/
+    color: #94969b;
+    font-size: 12px;
+}
+
+
+#commentBox .answerBox{
+    padding: 12px 20px 19px;
+    border-bottom: 1px solid #eee;
+
+}
+
+#commentBox .answerBox:first-child{
+    border-top: 1px solid #eee;
+}
+#commentBox .answerBox .fb_nickname{
+    margin-top: 9px;
+    color: #94969b;
+    font-size: 12px;
+}
+
+#commentBox .answerBox .fb_content{
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+/*댓글 아이콘*/
+/*
+.icon_comment{
+    display: inline-block;
+    background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
+    background-size: 600px 900px;
+    background-position: -36px -598px;
+    width: 16px;
+    height: 23px;
+    vertical-align: middle;
+}*/

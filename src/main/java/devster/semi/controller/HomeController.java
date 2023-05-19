@@ -1,20 +1,16 @@
 package devster.semi.controller;
 
-import devster.semi.dto.FreeBoardDto;
-import devster.semi.dto.HireBoardDto;
-import devster.semi.dto.NoticeBoardDto;
-import devster.semi.dto.QboardDto;
+import devster.semi.dto.*;
 import devster.semi.mapper.HireMapper;
-import devster.semi.service.FreeBoardService;
-import devster.semi.service.HireService;
-import devster.semi.service.NoticeBoardService;
-import devster.semi.service.QboardService;
+import devster.semi.service.*;
 import naver.cloud.NcpObjectStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -34,7 +30,13 @@ public class HomeController {
 	private HireService hireService;
 
 	@Autowired
+	private AcademyBoardService academyBoardService;
+
+	@Autowired
 	private NoticeBoardService noticeBoardService;
+
+	@Autowired
+	private ReviewService reviewService;
 
 	@Autowired
 	private NcpObjectStorageService storageService;
@@ -115,10 +117,41 @@ public class HomeController {
 		model.addAttribute("nblist", nblist);
 		model.addAttribute("NoticeBoardTotalCount",NoticeBoardTotalCount);
 
+		//===========================학원별 게시판===============================//
+
+		int academyboardTotalCount = academyBoardService.getTotalCount();
+		List<AcademyBoardDto> ablist = academyBoardService.getPagingList(startNum, perPage);
+
+		// 출력시 필요한 변수들 model에 전부 저장
+		model.addAttribute("ablist", ablist);
+		model.addAttribute("academyboardTotalCount", academyboardTotalCount);
+
+		//===========================회사 후기 게시판===============================//
+
+		int reviewboardTotalCount = reviewService.getTotalcount();
+		List<ReviewDto> rblist = reviewService.getPagingList(startNum, perPage);
+
+		// 출력시 필요한 변수들 model에 전부 저장
+		model.addAttribute("rblist", rblist);
+		model.addAttribute("reviewboardTotalCount", reviewboardTotalCount);
+
 
 		return "/sub";//tiles.xml 에 이 이름으로 정의된 definition 이 적용됨
 
 	}
+
+	//실시간 인기글
+	@PostMapping("/bestPostsForBanner")
+	@ResponseBody
+	public List<FreeBoardDto> bestPosts() {
+		List<FreeBoardDto> list = freeBoardService.bestfreeboardPosts();
+		return list;
+	}
+
+
+
+
+
 	
 	/*@GetMapping("/home2")
 	public String home2()
