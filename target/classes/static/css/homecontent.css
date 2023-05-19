@@ -4,7 +4,7 @@
 
 section.main .wrap{
     width: 1140px;
-    height: 80px;
+    /*height: 80px;*/
     /* background-color: red;
      opacity: 0.5;*/
     margin: 36px auto;
@@ -14,7 +14,7 @@ section.main .wrap{
 
 section.main .wrap .container{
     width: 736px;
-    height: 1200px;
+    /*height: 1200px;*/
     /* background-color: palegreen;*/
     margin: 0;
     padding: 0;
@@ -31,21 +31,42 @@ section.main .wrap .container .searchdiv{
 section.main .wrap .container .searchbar{
     width: 736px;
     height: 60px;
-    padding: 0 10px 0 62px;
+    padding: 0 10px 0 147px;
     border: 2px solid #222;
     border-radius: 30px;
     font-size: 18px;
     box-sizing: border-box;
 }
 
-section.main .wrap .container .searchbar .bi-search {
+section.main .wrap .container .searchdiv .bi-search {
     position: absolute;
-    right: 5px; /* 아이콘과 입력란 사이의 공간을 조절합니다. */
+   /* right: 5px;*/ /* 아이콘과 입력란 사이의 공간을 조절합니다. */
     top: 31px;
-    left: 27px;
+    right: 27px;
     transform: translateY(-50%); /* 아이콘을 입력란의 정중앙에 배치합니다. */
     pointer-events: none; /* 입력란 위에서 클릭이나 기타 동작이 가능하게 합니다. */
     font-size: 24px;
+    z-index: 1000;
+}
+
+
+section.main .wrap .container .searchdiv #boardSearchOption{
+    position: absolute;
+    /* right: 5px;*/ /* 아이콘과 입력란 사이의 공간을 조절합니다. */
+    top: 31px;
+    left: 27px;
+    transform: translateY(-50%); /* 아이콘을 입력란의 정중앙에 배치합니다. */
+    /*pointer-events: none;*/ /* 입력란 위에서 클릭이나 기타 동작이 가능하게 합니다. */
+    font-size: 12px;
+    width: 110px;
+    z-index: 100;
+    /*border-color: #222;*/
+    height: 30px;
+}
+
+section.main .wrap .container .searchdiv #searchinput{
+    z-index: 1;
+    position: relative;
 }
 
 
@@ -108,7 +129,7 @@ section.main .wrap .container table.noticeboard_table h2 img{
     width: 34px;
     height: 34px;
     margin-bottom: 6px;
-    /*vertical-align: middle;*/
+    vertical-align: middle;
 
 }
 
@@ -139,7 +160,7 @@ section.main .wrap .container table.noticeboard_table .nb_subject a{
 section.main .wrap .container table.noticeboard_table .nb_readcount{
     font-size: 12px;
     color: #94969B;
-    width: 10%;
+    width: 12%;
 
 }
 /*section.main .wrap .container table.noticeboard_table .nb_like{
@@ -214,7 +235,7 @@ section.main .wrap .container table.freeboard_table h2 img{
     width: 32px;
     height: 32px;
     margin-bottom: 6px;
-    /*vertical-align: middle;*/
+    vertical-align: middle;
 
 }
 
@@ -236,7 +257,7 @@ section.main .wrap .container table.freeboard_table tr{
 
 section.main .wrap .container table.freeboard_table .fb_subject{
     font-size: 15px;
-    width: 85%;
+    width: 80%;
 
 }
 section.main .wrap .container table.freeboard_table .fb_subject a{
@@ -251,7 +272,7 @@ section.main .wrap .container table.freeboard_table .fb_readcount{
 section.main .wrap .container table.freeboard_table .fb_like{
     font-size: 12px;
     color: #94969B;
-    width: 5%;
+    width: 6%;
 }
 section.main .wrap .container table.freeboard_table i{margin-right: 3px;}
 
@@ -271,11 +292,39 @@ section.main .wrap .container table.qboard_table td.qb_subject a .icon_img{
     height: 24px;
     float: right;
 }
+/*조회수 아이콘*/
+section.main .wrap .container table.qboard_table td.qb_readcount .icon_read{
+    background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
+    background-size: 590px 907px;
+    background-position: -10px -603px;
+    content: '';
+    width: 23px;
+    height: 21px;
+    float: left;
+}
 
+section.main .wrap .container table.qboard_table td.qb_readcount span{
+    float: left;
+}
+
+/*좋아요 아이콘*/
+section.main .wrap .container table.qboard_table td.qb_like .icon_like{
+    background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
+    background-size: 590px 907px;
+    background-position: -62px -603px;
+    content: '';
+    width: 23px;
+    height: 21px;
+    float: left;
+}
+
+section.main .wrap .container table.qboard_table td.qb_like span{
+    float: left;
+}
 
 section.main .wrap .container table.qboard_table{
-    width: 348px;
-    float: left;
+    width: 736px;
+
 }
 section.main .wrap .container table.qboard_table h2{
     font-size: 18px;
@@ -287,11 +336,12 @@ section.main .wrap .container table.qboard_table h2{
     position: relative;
     /*float: left;*/
 }
+/* 일반게시판 아이콘*/
 section.main .wrap .container table.qboard_table h2 img{
     width: 32px;
     height: 32px;
     margin-bottom: 6px;
-    /*vertical-align: middle;*/
+    vertical-align: middle;
 
 }
 
@@ -304,7 +354,7 @@ section.main .wrap .container table.qboard_table h2 span{
     font-weight: normal;
 }
 
-/*section.main table.qboard_table span{
+/*section.main table.freeboard_table span{
     float: left;
 }*/
 section.main .wrap .container table.qboard_table tr{
@@ -313,7 +363,7 @@ section.main .wrap .container table.qboard_table tr{
 
 section.main .wrap .container table.qboard_table .qb_subject{
     font-size: 15px;
-    width: 85%;
+    width: 80%;
 
 }
 section.main .wrap .container table.qboard_table .qb_subject a{
@@ -328,7 +378,7 @@ section.main .wrap .container table.qboard_table .qb_readcount{
 section.main .wrap .container table.qboard_table .qb_like{
     font-size: 12px;
     color: #94969B;
-    width: 5%;
+    width: 6%;
 }
 section.main .wrap .container table.qboard_table i{margin-right: 3px;}
 
@@ -373,7 +423,7 @@ section.main .wrap .container table.hireboard_table td.hb_readcount span{
 section.main .wrap .container table.hireboard_table{
     width: 348px;
     float: left;
-    margin-left: 40px;
+
 }
 section.main .wrap .container table.hireboard_table h2{
     font-size: 18px;
@@ -389,7 +439,7 @@ section.main .wrap .container table.hireboard_table h2 img{
     width: 32px;
     height: 32px;
     margin-bottom: 6px;
-    /*vertical-align: middle;*/
+    vertical-align: middle;
 
 }
 
@@ -422,7 +472,7 @@ section.main .wrap .container table.hireboard_table .hb_subject a{
 section.main .wrap .container table.hireboard_table .hb_readcount{
     font-size: 12px;
     color: #94969B;
-    width: 10%;
+    width: 12%;
 
 }
 /*section.main table.hireboard_table .qb_like{
@@ -431,6 +481,107 @@ section.main .wrap .container table.hireboard_table .hb_readcount{
     width: 5%;
 }*/
 section.main .wrap .container table.hireboard_table i{margin-right: 3px;}
+
+
+/* ============================== 학원별 게시판 ================================= */
+
+/*사진 옆 아이콘*/
+section.main .wrap .container table.academyboard_table td.ab_subject a{
+    float: left;
+    max-width: 250px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+
+section.main .wrap .container table.academyboard_table td.ab_subject div.icon_img{
+    background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
+    background-size: 590px 907px;
+    background-position: -163px -600px;
+    content: '';
+    width: 18px;
+    height: 24px;
+    display: inline-block;
+}
+
+/*조회수 아이콘*/
+section.main .wrap .container table.academyboard_table td.ab_readcount .icon_read{
+    background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
+    background-size: 590px 907px;
+    background-position: -10px -603px;
+    content: '';
+    width: 23px;
+    height: 21px;
+    float: left;
+}
+
+section.main .wrap .container table.academyboard_table td.ab_readcount span{
+    float: left;
+}
+
+section.main .wrap .container table.academyboard_table{
+    width: 348px;
+    float: left;
+    margin-left: 40px;
+}
+section.main .wrap .container table.academyboard_table h2{
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    border-bottom: 2px solid #eee;
+    height: 47px;
+    line-height: 47px;
+    position: relative;
+    /*float: left;*/
+}
+section.main .wrap .container table.academyboard_table h2 img{
+    width: 32px;
+    height: 32px;
+    margin-bottom: 6px;
+    vertical-align: middle;
+
+}
+
+section.main .wrap .container table.academyboard_table h2 span{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    color: #222;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+/*section.main table.hireboard_table span{
+    float: left;
+}*/
+section.main .wrap .container table.academyboard_table tr{
+    height: 30px;
+
+}
+
+section.main .wrap .container table.academyboard_table .ab_subject{
+    font-size: 15px;
+    width: 85%;
+
+}
+section.main .wrap .container table.academyboard_table .ab_subject a{
+    margin-left: 4px;
+    float: left;
+}
+section.main .wrap .container table.academyboard_table .ab_readcount{
+    font-size: 12px;
+    color: #94969B;
+    width: 12%;
+
+}
+/*section.main table.hireboard_table .qb_like{
+    font-size: 12px;
+    color: #94969B;
+    width: 5%;
+}*/
+section.main .wrap .container table.academyboard_table i{margin-right: 3px;}
 
 /*==================================================== aside =====================================================*/
 
@@ -451,4 +602,100 @@ section.main .wrap .aside .aside_content_1 img{
 
 section.main .wrap .aside .aside_content_2 img{
     width: 340px;
+}
+
+/*==================================================== 실시간 인기글 =====================================================*/
+
+section.main .wrap .aside .aside_content_2 .quickmenu{
+    /*position: absolute;*/
+    /*width: 300px;
+    top: 50%;
+    margin-top: -50px;
+    right: 10px;*/
+
+    width: 340px;
+}
+
+section.main .wrap .aside .aside_content_2 .quickmenu ul {
+    /*position: relative;*/
+    float: left;
+    width: 100%;
+    display: inline-block;
+    *display: inline;
+    /*border: 1px solid #eee;*/
+    background-color: #f8f8f8;
+    padding-bottom: 20px;
+}
+
+section.main .wrap .aside .aside_content_2 .quickmenu ul li {
+    float: left;
+    width: 100%;
+    /*border-bottom: 1px solid #eee;*/
+    /*text-align: center;*/
+    display: inline-block;
+    *display: inline;
+    /*padding: 16px 20px 17px;*/
+    padding-left: 20px;
+    padding-bottom: 5px;
+    font-size: 13px;
+}
+section.main .wrap .aside .aside_content_2 .quickmenu ul li:first-child{
+    border-bottom: 0px;
+    padding: 5px 8px 0px;
+}
+section.main .wrap .aside .aside_content_2 .quickmenu ul li a {
+    position: relative;
+    float: left;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    /*text-align: center;*/
+    color: #999;
+    font-size: 9.5pt;
+}
+
+section.main .wrap .aside .aside_content_2 .quickmenu ul li a:hover {
+    color: #000;
+}
+
+section.main .wrap .aside .aside_content_2 .quickmenu ul li:last-child {
+    border-bottom: 0;
+}
+
+section.main .wrap .aside .aside_content_2 .quickmenu_head h2{
+    padding: 15px 18px 4px;
+    font-size: 16px;
+    font-weight: 700;
+    padding-bottom: 12px;
+}
+
+section.main .wrap .aside .aside_content_2 .quickmenu ul li a>div>div{
+    display: inline-block;
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /*font-weight: 700;*/
+    /*line-height: 1.25em;*/
+    color: #222;
+    margin-left: 3px;
+    font-size: 15px;
+
+}
+
+section.main .wrap .aside .aside_content_2 .quickmenu ul li a>div>div span{
+    margin-right: 10px;
+}
+
+section.main .wrap .aside .aside_content_2 .quickmenu ul li a>div>div:after {
+    content: '';
+    background: url(https://static.teamblind.com/img/www_kr/sp-kr.png) no-repeat;
+    background-size: 600px 900px;
+    background-position: -88px -626px;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    width: 16px;
+    height: 16px;
+    transform: translateY(-50%);
 }

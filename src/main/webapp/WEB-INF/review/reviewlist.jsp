@@ -114,14 +114,16 @@
             width: 200px;
             height: 250px;
             float: left;
-            margin-right:2px;
+            margin-right:20px;
             /*margin-left: 4px;*/
             /*text-align: left;*/
 
         }
 
+
         .imgSelect {
             cursor: pointer;
+            width: 150px;
         }
 
         .popupLayer {
@@ -133,6 +135,7 @@
             height: 150px;
             padding: 10px;
 
+
         }
 
         .popupLayer div {
@@ -142,12 +145,13 @@
         }
 
         .already-added {
-            background-color: #0D3EA3;
+            background-color: lightgrey;
             color: white;
+
         }
 
         .star_listc{
-            margin-left: 35px;
+            margin-left: 15px;
         }
 #quanbu{
     width: 1400px;
@@ -180,7 +184,7 @@
 
         .review{
             width:775px;
-            height:330px;
+            height:auto;
             border-top: 1px solid lightgray;
             border-radius: 0px;
             float: left;
@@ -199,6 +203,19 @@
         .custom-btn:hover{
             background-color: gray;
             border-color: gray;
+        }
+
+        .yetadded{
+            border-color: darkgrey;
+            color: darkgrey;
+            height: 32px;
+            padding-bottom: 5px;
+            width: 54px;
+            font-size: 12px;
+        }
+
+        .paging{
+            margin-left:220px;
         }
 
     </style>
@@ -278,14 +295,6 @@
 </script>
 
 <div id="quanbu">
-<%--<button type="button" class="btn btn-sm btn-outline-danger"--%>
-<%--        onclick="location.href='./reviewriterform'" style="margin-bottom: 10px">상품등록--%>
-<%--</button>--%>
-
-
-
-<%--<h5 class="alert alert-success">--%>
-<%--    총 ${totalCount}개의 글이 등록되어있습니다</h5><br>--%>
 
 <div class="rb_listmain clear">
     <div class="headbox">
@@ -301,7 +310,7 @@
         <option value="0">전체보기</option>
         <option value="1">면접</option>
         <option value="2">코딩테스트</option>
-        <option value="3">합격</option>
+        <option value="3">합격후기</option>
     </select>
     <br>
     <br>
@@ -329,45 +338,58 @@
                 <p>
                     <img class="imgSelect" src="${dto.ci_photo}" data-ci-idx="${dto.ci_idx}"
                          onclick="showCompanyInfo('${dto.ci_idx}')"/>
-
                 </p>
                 <div class="star_listc">
-                &nbsp;<span> ${dto.ci_star}</span> &nbsp;
-                <span class="star-ci_star">
-                    <c:forEach var="i" begin="1" end="5">
-                        <input type="radio" id="rating${i}" name="rating" value="${i}"
-                               <c:if test="${i eq dto.ci_star}">checked="checked"</c:if> />
-                        <label for="rating${i}" class="star"
-                               <c:if test="${i le dto.ci_star}">style="color: orange;"</c:if>>★</label>
-                    </c:forEach>
+                    &nbsp;<span> 별점 : ${dto.rb_star} / 5</span>
+                    <div class="star-rb_star">
+                        <c:forEach var="i" begin="1" end="5">
+                            <input type="radio" id="rating${i}" name="rating" value="${i}"
+                                   <c:if test="${i eq dto.rb_star}">checked="checked"</c:if> />
+                            <label for="rating${i}" class="star"
+                                   <c:if test="${i le dto.rb_star}">style="color: orange;"</c:if>>★</label>
+                        </c:forEach>
+                    </div>
+<%--                &nbsp;<span> ${dto.ci_star}</span> &nbsp;--%>
+<%--                <span class="star-ci_star">--%>
+<%--                    <c:forEach var="i" begin="1" end="5">--%>
+<%--                        <input type="radio" id="rating${i}" name="rating" value="${i}"--%>
+<%--                               <c:if test="${i eq dto.ci_star}">checked="checked"</c:if> />--%>
+<%--                        <label for="rating${i}" class="star"--%>
+<%--                               <c:if test="${i le dto.ci_star}">style="color: orange;"</c:if>>★</label>--%>
+<%--                    </c:forEach>--%>
+
+<%--                </span>--%>
                 </div>
-                </span>
 
 
             </div>
 
-            <div class="rb_listm">
+            <div class="rb_listm" >
 
-                게시글 번호 : ${i.count}<br>
-                    ${dto.rb_idx}
+<%--                게시글 번호 : ${i.count}<br>--%>
+<%--                    ${dto.rb_idx}--%>
 
-                    <%--별점: ${dto.rb_star}--%>
-                <div class="star-rb_star">
-                    <c:forEach var="i" begin="1" end="5">
-                        <input type="radio" id="rating${i}" name="rating" value="${i}"
-                               <c:if test="${i eq dto.rb_star}">checked="checked"</c:if> />
-                        <label for="rating${i}" class="star"
-                               <c:if test="${i le dto.rb_star}">style="color: orange;"</c:if>>★</label>
-                    </c:forEach>
-                </div>
-                작성자 : ${dto.nickName}<br>
-                작성일 :${dto.rb_writeday}<br>
-                타입 :${dto.rb_type == 1 ? "면접" : dto.rb_type == 2 ? "코딩테스트": dto.rb_type == 3 ? "합격" : ""}<br>
-                내용 : <br>
-                <b>
-                    <pre>${dto.rb_content}</pre>
-                </b>
-<%--                <br>--%>
+<%--                    별점: ${dto.rb_star}--%>
+<%--                <div class="star-rb_star">--%>
+<%--                    <c:forEach var="i" begin="1" end="5">--%>
+<%--                        <input type="radio" id="rating${i}" name="rating" value="${i}"--%>
+<%--                               <c:if test="${i eq dto.rb_star}">checked="checked"</c:if> />--%>
+<%--                        <label for="rating${i}" class="star"--%>
+<%--                               <c:if test="${i le dto.rb_star}">style="color: orange;"</c:if>>★</label>--%>
+<%--                    </c:forEach>--%>
+<%--                </div>--%>
+                <br>
+                <h5>리뷰 종류 : ${dto.rb_type == 1 ? "면접" : dto.rb_type == 2 ? "코딩테스트": dto.rb_type == 3 ? "합격후기" : ""}</h5>
+                <p style="cursor:pointer;color:darkgrey" onclick=message("${dto.nickName}")>작성자 : ${dto.nickName}  &nbsp;&nbsp;  작성시간 : ${dto.rb_writeday}</p>
+<%--                //${} <- 이부분만 해당 페이지의 value로 수정해서 사용--%>
+<%--                작성자 : ${dto.nickName}<br>--%>
+<%--                작성일 :${dto.rb_writeday}<br>--%>
+
+                <h5>내용 : <br>
+
+                </h5>
+                    <p><pre>${dto.rb_content}</pre></p>
+
                 <div class="fncbtn" style="text-align:right;">
                 <c:set var="m_idx" value="${sessionScope.memidx}"/>
                 <c:if test="${dto.m_idx eq m_idx}">
@@ -379,15 +401,16 @@
                     </button>
                 </c:if>
                     <%--            좋아요 / 싫어요 버튼--%>
-                <span id="add-goodRp-btn${dto.rb_idx}" class="btn btn-outline" style="margin-bottom: 10px" >
+                <span id="add-goodRp-btn${dto.rb_idx}" class="btn btn-outline yetadded" style="margin-bottom: 10px" >
                    👍
-                  <span class="add-goodRp${dto.rb_idx} ml-2" style="margin-bottom: 10px">${dto.rb_like}</span>
+                  <span class="add-goodRp${dto.rb_idx} ml-2 " style="margin-bottom: 10px">${dto.rb_like}</span>
                 </span>
-                <span id="add-badRp-btn${dto.rb_idx}" class="ml-5 btn btn-outline" style="margin-bottom: 10px">
+                <span id="add-badRp-btn${dto.rb_idx}" class="ml-5 btn btn-outline yetadded" style="margin-bottom: 10px">
                    👎
                   <span class="add-badRp${dto.rb_idx} ml-2" style="margin-bottom: 10px">${dto.rb_dislike}</span>
                 </span>
                 </div>
+                <br>
             </div>
 
 <%--            <hr>--%>
@@ -504,6 +527,48 @@
                     }
                 });
             });
+            //레이어에 출력 함수
+
+            function showCompanyInfo(ci_idx) {
+                $.ajax({
+                    url: "getCompanyInfo",
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {"ci_idx": ci_idx},
+                    success: function (res) {
+                        let s = "";
+                        const formatter = new Intl.NumberFormat('ko-KR', {
+                            style: 'currency',
+                            currency: 'KRW',
+                        });
+                        $.each(res, function (idx, ele) {
+
+                            const ciSalFormatted = formatter.format(ele.ci_sal);
+                            let stars = '';
+                            for(let i = 1; i <= 5; i++){
+                                stars += `<input type="radio" id="rating${i}" name="rating" value="${i}" \${(i === ele.ci_star) ? 'checked="checked"' : ''} />
+                    <label for="rating${i}" class="star" \${(i <= ele.ci_star) ? 'style="color: orange;"' : 'style="color: #ccc;"'}>★</label>`;
+                            }
+                            s += `
+          <pre>
+            회사이름: \${ele.ci_name}
+            사원수: \${ele.ci_ppl} 명
+            매출액: \${ele.ci_sale}
+            평균연봉: \${ciSalFormatted}
+            Devster 평균별점:
+            <span class="star-ci_star_list" style="float: left">
+              \${stars}
+            </span>
+          </pre>
+        `;
+
+
+
+                        });
+                        $("div.alist").html(s);
+                    }
+                });
+            };
         </script>
     </c:forEach>
 </div>
@@ -511,7 +576,7 @@
 <!-- 폼 레이어  -->
 <div class="popupLayer">
     <div onClick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</div>
-    <div class="alist" style="float: left; margin-right: 200px" ;>
+    <div class="alist" style="float: left; margin-right: 150px ;margin-left:30px;">
 
     </div>
 
@@ -562,45 +627,45 @@
         });
     });
 
-    //레이어에 출력 함수
+    <%--//레이어에 출력 함수--%>
 
-    function showCompanyInfo(ci_idx) {
-        $.ajax({
-            url: "getCompanyInfo",
-            type: "GET",
-            dataType: "JSON",
-            data: {"ci_idx": ci_idx},
-            success: function (res) {
-                let s = "";
-                const formatter = new Intl.NumberFormat('ko-KR', {
-                    style: 'currency',
-                    currency: 'KRW',
-                });
-                $.each(res, function (idx, ele) {
+    <%--function showCompanyInfo(ci_idx) {--%>
+    <%--    $.ajax({--%>
+    <%--        url: "getCompanyInfo",--%>
+    <%--        type: "GET",--%>
+    <%--        dataType: "JSON",--%>
+    <%--        data: {"ci_idx": ci_idx},--%>
+    <%--        success: function (res) {--%>
+    <%--            let s = "";--%>
+    <%--            const formatter = new Intl.NumberFormat('ko-KR', {--%>
+    <%--                style: 'currency',--%>
+    <%--                currency: 'KRW',--%>
+    <%--            });--%>
+    <%--            $.each(res, function (idx, ele) {--%>
 
-                    const ciSalFormatted = formatter.format(ele.ci_sal);
-                    let stars = '';
-                    for(let i = 1; i <= 5; i++){
-                        stars += `<input type="radio" id="rating${i}" name="rating" value="${i}" \${(i === ele.ci_star) ? 'checked="checked"' : ''} />
-                    <label for="rating${i}" class="star" \${(i <= ele.ci_star) ? 'style="color: orange;"' : 'style="color: #ccc;"'}>★</label>`;
-                    }
-                    s += `
-          <pre>
-            회사이름: \${ele.ci_name}
-            사원수: \${ele.ci_ppl} 명
-            매출액: \${ele.ci_sale}
-            연봉: \${ciSalFormatted}
-            별점:
-            <span class="star-ci_star_list" style="float: left">
-              \${stars}
-            </span>
-          </pre>
-        `;
-                });
-                $("div.alist").html(s);
-            }
-        });
-    };
+    <%--                const ciSalFormatted = formatter.format(ele.ci_sal);--%>
+    <%--                let stars = '';--%>
+    <%--                for(let i = 1; i <= 5; i++){--%>
+    <%--                    stars += `<input type="radio" id="rating${i}" name="rating" value="${i}" \${(i === ele.ci_star) ? 'checked="checked"' : ''} />--%>
+    <%--                <label for="rating${i}" class="star" \${(i <= ele.ci_star) ? 'style="color: orange;"' : 'style="color: #ccc;"'}>★</label>`;--%>
+    <%--                }--%>
+    <%--                s += `--%>
+    <%--      <pre>--%>
+    <%--        회사이름: \${ele.ci_name}--%>
+    <%--        사원수: \${ele.ci_ppl} 명--%>
+    <%--        매출액: \${ele.ci_sale}--%>
+    <%--        연봉: \${ciSalFormatted}--%>
+    <%--        별점:--%>
+    <%--        <span class="star-ci_star_list" style="float: left">--%>
+    <%--          \${stars}--%>
+    <%--        </span>--%>
+    <%--      </pre>--%>
+    <%--    `;--%>
+    <%--            });--%>
+    <%--            $("div.alist").html(s);--%>
+    <%--        }--%>
+    <%--    });--%>
+    <%--};--%>
 
     //리뷰 select 결과만 출력
 
@@ -630,7 +695,7 @@
 
 
 <%--페이징 처리--%>
-<div style="width: 700px; text-align: center; font-size: 20px">
+<div style="width: 700px; text-align: center; font-size: 20px" class="paging">
     <!-- 이전 -->
     <c:if test="${startPage > 1}">
         <a style="color: black; text-decoration: none; cursor: pointer;" href="list?currentPage=${startPage-1}">이전</a>
@@ -642,7 +707,7 @@
     <!-- 페이지 번호 출력 -->
     <c:forEach var="pp" begin="${startPage}" end="${endPage}">
         <c:if test="${currentPage == pp }">
-            <a style="color: green; text-decoration: none; cursor: pointer;" href="list?currentPage=${pp}">${pp}</a>
+            <a style="color: purple; font-size: 25px; text-decoration: none; cursor: pointer;" href="list?currentPage=${pp}">${pp}</a>
         </c:if>
         <c:if test="${currentPage != pp }">
             <a style="color: black; text-decoration: none; cursor: pointer;" href="list?currentPage=${pp}">${pp}</a>
@@ -657,7 +722,7 @@
         <a style="color: black; text-decoration: none; cursor: pointer; visibility: hidden;"
            href="list?currentPage=${endPage+1}">다음</a>
     </c:if>
-</div>
+</div><br><br><br>
 
 <script>
     <%--    현재 버튼이 눌려있는지 확인해서 상태에 따라 버튼에 색상표시  --%>
@@ -674,6 +739,10 @@
             checkAddRpBefore();
         });
     };
+
+    function message(nickname) {
+        window.open("other_profile?other_nick="+nickname,'newwindow', 'width=700,height=700');
+    }
 </script>
 
 </body>

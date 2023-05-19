@@ -232,6 +232,7 @@
             var noMoreData = false;
 
             $(window).scroll(function () {
+
                 // 무한스크롤
                 if (Math.floor($(window).scrollTop()) == $(document).height() - $(window).height()) {
 

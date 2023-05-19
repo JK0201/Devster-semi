@@ -563,7 +563,7 @@
     //박스 밖으로 Drag가 나갈때
     uploadbox.addEventListener("dragleave", function (e) {
         e.preventDefault();
-        $(this).css("border-color", "ㅇ");
+        $(this).css("border-color", "#bdbebd");
         $("#dndtext").css("backgroundColor", "#8007AD");
     });
 

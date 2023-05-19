@@ -240,11 +240,11 @@
 
 <div class="btnbox">
     <c:if test="${dto.m_idx == sessionScope.memidx}">
-        <button type="button" onclick="location.href='./academyupdateform?ab_idx=${dto.ab_idx}&currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil-square"></i>&nbsp;수정</button>
+        <button type="button" onclick="location.href='./academyupdateform?ab_idx=${dto.ab_idx}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil-square"></i>&nbsp;수정</button>
         <button type="button" onclick="del(${dto.ab_idx})" class="btn btn-sm btn-outline-secondary"><i class="bi bi-trash"></i>&nbsp;삭제</button>
     </c:if>
 
-    <button type="button" onclick="location.href='./list?currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-card-list"></i>&nbsp;목록</button>
+    <button type="button" onclick="location.href='./list?'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-card-list"></i>&nbsp;목록</button>
 </div>
 
 <hr>
