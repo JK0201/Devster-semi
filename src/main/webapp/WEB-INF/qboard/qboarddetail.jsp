@@ -228,12 +228,15 @@
             </div>
         </div>
 
-        <div class="answerInsertBox" style="">
+        <div class="commentwrite clear" style="margin-bottom: 30px; margin-top: 20px;">
             <form name="aboardInsert">
-                <h3>Answer</h3>
-                <textarea id="aboardContent" class="form-control" name="ab_content"></textarea>
-                <input id="aboardPhoto" class="form-control" type="file" multiple name="upload"><br>
-                <button type="button" id="submit" class="btn btn-outline-dark" style="position: relative; right: -91%">작성</button>
+                <%--<h3>Answer</h3--%>
+                <p style="font-size: 16px; font-weight: bold;color: #222;">댓글 ${commentCnt}</p>
+                <input type="text" id="aboardContent" class="form-control" name="ab_content" placeholder="댓글을 남겨주세요">
+
+                <label for="aboardPhoto" class="upload-label" style="padding: 10px;cursor: pointer;"><i class="bi bi-camera" style="font-size: 20px;"></i></label>
+                <input id="aboardPhoto" class="custom-file-upload" type="file" multiple name="upload" style="display: none;">
+                <button type="button" id="submit" class="btn btn-outline-dark" style="">작성</button>
             </form>
 
         </div>
