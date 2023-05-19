@@ -335,8 +335,20 @@
             </div>
             <div class="input-group message">
                 <label>토픽에 맞지 않는 글로 판단되어 다른 유저로부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 블라인드처리 될 수 있습니다.</label>
-                <textarea name="fb_content" class="content" cols="47"
+                <textarea id="text-input" name="fb_content" class="content" cols="47"
                           rows="7" required>${dto.fb_content}</textarea>
+
+                <script>
+                    // 텍스트를 가져옵니다.
+                    let text = $('#text-input').val();
+
+                    // 줄바꿈 문자(\n)를 <br>로 바꿉니다.
+                    let formattedText = text.replace(/\n/g, '<br>');
+
+                    // 출력합니다.
+                    $('#text-input').html(formattedText);
+                </script>
+
             </div>
             <div class="input-group fileupload">
                 <label class="custom-button">
@@ -562,7 +574,7 @@
     //박스 밖으로 Drag가 나갈때
     uploadbox.addEventListener("dragleave", function (e) {
         e.preventDefault();
-        $(this).css("border-color", "ㅇ");
+        $(this).css("border-color", "#bdbebd");
         $("#dndtext").css("backgroundColor", "#8007AD");
     });
 

@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"
             charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
     </style>
 </head>
@@ -34,9 +35,8 @@
         // console.log(naver_id_login.getProfileData("nickname"));
         // console.log(naver_id_login.getProfileData("name"));
         let m_email = naver_id_login.getProfileData("email");
-        let m_pass=naver_id_login.oauthParams.access_token;
+        let m_pass = naver_id_login.oauthParams.access_token;
 
-        console.log(m_pass);
         // let m_nickname = naver_id_login.getProfileData("nickname");
         // let m_photo = naver_id_login.getProfileData("profile_image");
         // let m_name = naver_id_login.getProfileData("name");
@@ -45,20 +45,34 @@
             type: "get",
             url: "apichk",
             dataType: "json",
-            data: {"m_email": m_email},
+            data: {"m_email": m_email, "m_pass": m_pass},
             success: function (res) {
                 if (res.result == "yes") {
-                    alert("ㅎㅇ 출석포인트 +10점");
                     window.close();
-                    window.opener.location.href="../";
+                    window.opener.location.replace("/");
                 } else {
-                    let b = confirm("계정 없음");
-                    if (b) {
-                        window.close();
-                        window.opener.location.href="apisignup?m_email="+m_email+"&m_pass="+m_pass;
-                    } else {
-                        window.close();
-                    }
+                    Swal.fire({
+                        icon: 'question',
+                        title: 'Devster 계정이 없습니다',
+                        text: '지금 바로 가입 하시겠습니까?',
+
+                        showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+                        confirmButtonColor: '#8007AD', // confrim 버튼 색깔 지정
+                        cancelButtonColor: '#bdbebd', // cancel 버튼 색깔 지정
+                        confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+                        cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+
+                        reverseButtons: true // 버튼 순서 거꾸로
+                    }).then(result => {
+                        if (result.isConfirmed) {
+                            window.close();
+                            window.opener.location.href = "apisignup";
+                        } else {
+                            window.close();
+                            return false;
+
+                        }
+                    });
                 }
             }
         });
@@ -66,4 +80,3 @@
 </script>
 </body>
 </html>
-

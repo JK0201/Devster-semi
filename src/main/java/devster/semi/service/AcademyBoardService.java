@@ -6,6 +6,7 @@ import devster.semi.mapper.AcademyBoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,20 +18,30 @@ public class AcademyBoardService implements AcademyBoardServiceInter{
     private AcademyBoardMapper academyBoardMapper;
 
     @Override
-    public int getTotalCount() {
-        return academyBoardMapper.getTotalCount();
+    public int getTotalCount(int ai_idx) {
+
+        if(ai_idx == -1) {
+            List<AcademyBoardDto> list = new ArrayList<>();
+            return 0;
+        }
+
+        return academyBoardMapper.getTotalCount(ai_idx);
     }
 
     @Override
     public int getCommentCnt(int ab_idx) { return academyBoardMapper.getCommentCnt(ab_idx); }
 
     @Override
-    public List<AcademyBoardDto> getPagingList(int start, int perpage) {
+    public List<AcademyBoardDto> getPagingList(int start, int perpage, int ai_idx) {
 
         Map<String, Integer> map = new HashMap<>();
         map.put("start", start);
         map.put("perpage", perpage);
-
+        if(ai_idx == -1) {
+            List<AcademyBoardDto> list = new ArrayList<>();
+            return list;
+        }
+        map.put("ai_idx",ai_idx);
         return academyBoardMapper.getPagingList(map);
     }
 

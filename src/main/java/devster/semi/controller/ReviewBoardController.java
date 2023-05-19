@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,7 +38,7 @@ public class ReviewBoardController {
     private String bucketName = "devster-bucket";//각자 자기 버켓이름
 
     @GetMapping("/list")
-    public String list(@RequestParam(defaultValue = "1") int currentPage, Model model) {
+    public String list(@RequestParam(defaultValue = "1") int currentPage, Model model,HttpSession session) {
 
 
         int totalCount = reviewService.getTotalcount();
@@ -75,8 +77,8 @@ public class ReviewBoardController {
         for (ReviewDto dto : list) {
             Map<String, Object> map = new HashMap<>();
             // 버튼 상태에 대한 정보를 디테일 페이지로 보내줌.
-            boolean isAlreadyAddGoodRp = reviewService.isAlreadyAddGoodRp(dto.getRb_idx(),dto.getM_idx());
-            boolean isAlreadyAddBadRp = reviewService.isAlreadyAddBadRp(dto.getRb_idx(), dto.getM_idx());
+            boolean isAlreadyAddGoodRp = reviewService.isAlreadyAddGoodRp(dto.getRb_idx(),(int)session.getAttribute("memidx"));
+            boolean isAlreadyAddBadRp = reviewService.isAlreadyAddBadRp(dto.getRb_idx(), (int)session.getAttribute("memidx"));
 
             map.put("rb_idx", String.valueOf(dto.getRb_idx()));
             map.put("m_idx", String.valueOf(dto.getM_idx()));
@@ -147,7 +149,10 @@ public class ReviewBoardController {
 
     @PostMapping("/insert")
     @ResponseBody
-    public boolean insertreview(@RequestParam int rb_type, String rb_content, int rb_star, int m_idx, Integer ci_idx) {
+
+    public boolean insertreview(@RequestParam int rb_type, String rb_content, int rb_star, int m_idx, Integer
+            ci_idx) {
+
         ReviewDto dto = new ReviewDto();
         dto.setRb_type(rb_type);
         dto.setRb_content(rb_content);
@@ -156,12 +161,11 @@ public class ReviewBoardController {
         dto.setCi_idx(ci_idx);
 
         reviewService.insertreview(dto); // ReviewDto 객체 insert 하기
-
         // updateCompanyinfoStar 메서드 호출
         CompanyinfoDto companyinfoDto = new CompanyinfoDto();
         companyinfoDto.setCi_idx(ci_idx);
         reviewService.updateCompanyinfoStar(companyinfoDto);
-        return  true;
+        return true;
 
     }
 
@@ -412,5 +416,9 @@ public class ReviewBoardController {
         return "/main/review/reviewsearchlist";
     }
 
-
+    @GetMapping("/other_profile")
+    public String message(String other_nick){
+        String encodedNick = URLEncoder.encode(other_nick, StandardCharsets.UTF_8);
+        return "redirect:/message/other_profile?other_nick="+encodedNick;
+    }
 }

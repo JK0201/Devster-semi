@@ -5,6 +5,7 @@ import devster.semi.service.*;
 import devster.semi.utilities.SHA256Util;
 import naver.cloud.NcpObjectStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 @Controller
@@ -24,6 +27,9 @@ public class MyPageController {
 
     @Autowired
     MyPageService myPageService;
+
+    @Autowired
+    Resumeservice resumeservice;
 
     @Autowired
     NoticeBoardService noticeBoardService;
@@ -365,4 +371,314 @@ public class MyPageController {
         messageService.MessageSendInList(dto);
         myPageService.rejectUpgradeCmstate(cm_idx);
     }
-}
+
+
+
+    @PostMapping("/search")
+    @ResponseBody
+    public String search(@RequestParam("q") String query) {
+        // 결과 문자열을 생성합니다.
+        String searchResult = query;
+        // 결과 문자열을 반환합니다.
+        return searchResult;
+    }
+
+    @GetMapping("/writer")
+    public String writer(@RequestParam(defaultValue = "0") int r_idx, Model model) {
+        model.addAttribute("r_idx", r_idx);
+        return "/mypage/mypage/resumewrite";
+
+
+    }
+
+    @PostMapping("/resumeinsert")
+    public String insert(MultipartFile upload_r, MultipartFile upload_re,
+                         int m_idx, String r_self, String r_pos, String r_link,
+                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate r_gradestart,
+                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate r_gradeend, String r_gradecom,
+                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate[] r_licdate, String r_sta, String[] r_licname,
+                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate[] r_carstartdate,
+                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate[] r_carenddate, String[] r_company,
+                         String[] r_department, String[] r_position, String r_skill,Integer r_status) {
+        ResumeDto dto = new ResumeDto();
+        //자격증 파일
+        String r_file = storageService.uploadFile(bucketName, "resume", upload_r);
+        dto.setR_file(r_file);
+
+        // 이력서 파일
+        String r_refile = storageService.uploadFile(bucketName, "re_resume", upload_re);
+        dto.setR_refile(r_refile);
+
+        /*    dto.setR_idx();*/
+        dto.setM_idx(m_idx);
+        dto.setR_self(r_self);
+        dto.setR_pos(r_pos);
+        dto.setR_link(r_link);
+        dto.setR_sta(r_sta);
+        dto.setR_gradestart(Timestamp.valueOf(r_gradestart.atStartOfDay()));
+        dto.setR_gradeend(Timestamp.valueOf(r_gradeend.atStartOfDay()));
+        dto.setR_gradecom(r_gradecom);
+        dto.setR_skill(r_skill.substring(0,r_skill.length()-1));
+        if (r_status == null) {
+            r_status = 0; // 기본값 설정
+        }
+        dto.setR_status(r_status);
+
+        resumeservice.insertresume(dto);
+
+
+        for (int i = 0; i < r_company.length; i++) {
+            Re_carDto cdto = new Re_carDto();
+            cdto.setM_idx(m_idx);
+            cdto.setR_company(r_company[i]);
+            cdto.setR_position(r_position[i]);
+            cdto.setR_department(r_department[i]);
+            cdto.setR_carstartdate(Timestamp.valueOf(r_carstartdate[i].atStartOfDay()));
+            cdto.setR_carenddate(Timestamp.valueOf(r_carenddate[i].atStartOfDay()));
+            resumeservice.insertcar(cdto);
+        }
+
+        for (int k = 0; k < r_licname.length; k++) {
+            Re_licDto ldto = new Re_licDto();
+            ldto.setR_licdate(Timestamp.valueOf(r_licdate[k].atStartOfDay()));
+            ldto.setR_licname(r_licname[k]);
+            ldto.setM_idx(m_idx);
+            resumeservice.insertlic(ldto);
+        }
+        /*    System.out.println(dto.toString());*/
+
+        return "redirect:/mypage/detail?m_idx=" + m_idx;
+
+
+
+    }
+
+    @GetMapping("/detail")
+    public String resumelist(Model model, @RequestParam("m_idx") int m_idx) {
+        ResumeDto dto = resumeservice.getDataresume(m_idx); // m_idx를 이용하여 ResumeDto 조회
+
+        List<Re_licDto> llist = resumeservice.getDatare_lic(m_idx);
+        List<Re_carDto> clist = resumeservice.getDatare_car(m_idx);
+
+
+        model.addAttribute("dto", dto); // ResumeDto를 모델에 추가
+        model.addAttribute("clist", clist);
+        model.addAttribute("llist", llist);
+        return "/mypage/mypage/resumedetail";
+
+    }
+
+    @GetMapping("/redetail")
+    public String re_detail(Model model, @RequestParam("m_idx") int m_idx) {
+        ResumeDto dto = resumeservice.getDataresume(m_idx); // m_idx를 이용하여 ResumeDto 조회
+
+        List<Re_licDto> llist = resumeservice.getDatare_lic(m_idx);
+        List<Re_carDto> clist = resumeservice.getDatare_car(m_idx);
+
+
+        model.addAttribute("dto", dto); // ResumeDto를 모델에 추가
+        model.addAttribute("clist", clist);
+        model.addAttribute("llist", llist);
+        return "/mypage/mypage/re_detail";
+
+    }
+
+    @GetMapping("/updateform")
+    public String updateform(@RequestParam("m_idx")int m_idx,Model model){
+
+        ResumeDto dto=resumeservice.getDataresume(m_idx);
+        List<Re_licDto> llist = resumeservice.getDatare_lic(m_idx);
+        List<Re_carDto> clist = resumeservice.getDatare_car(m_idx);
+
+        model.addAttribute("dto", dto);
+        model.addAttribute("llist",llist);
+        model.addAttribute("clist",clist);
+
+
+        return "/mypage/mypage/resumeupdate";
+    }
+    @PostMapping("/resumeupdate")
+    public String update(MultipartFile upload_r, MultipartFile upload_re,
+                         int m_idx, String r_self, String r_pos, String r_link,
+                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate r_gradestart,
+                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate r_gradeend, String r_gradecom,
+                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate[] r_licdate, String r_sta, String[] r_licname,
+                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate[] r_carstartdate,
+                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate[] r_carenddate, String[] r_company,
+                         String[] r_department, String[] r_position, String r_skill,int recar_idx[],int relic_idx[],Integer r_status) {
+
+
+
+            ResumeDto dto = new ResumeDto();
+            //자격증 파일
+            String r_file = storageService.uploadFile(bucketName, "resume", upload_r);
+            dto.setR_file(r_file);
+
+            // 이력서 파일
+            String r_refile = storageService.uploadFile(bucketName, "re_resume", upload_re);
+            dto.setR_refile(r_refile);
+
+            dto.setR_idx(dto.getR_idx());
+            dto.setM_idx(m_idx);
+            dto.setR_self(r_self);
+            dto.setR_pos(r_pos);
+            dto.setR_link(r_link);
+            dto.setR_sta(r_sta);
+            dto.setR_gradestart(Timestamp.valueOf(r_gradestart.atStartOfDay()));
+            dto.setR_gradeend(Timestamp.valueOf(r_gradeend.atStartOfDay()));
+            dto.setR_gradecom(r_gradecom);
+            dto.setR_skill(r_skill.substring(0, r_skill.length() - 1));
+        if (r_status == null) {
+            r_status = 0; // 기본값 설정
+        }
+            dto.setR_status(r_status);
+
+            resumeservice.updateresume(dto);
+
+
+            for (int i = 0; i < r_company.length; i++) {
+                Re_carDto cdto = new Re_carDto();
+                cdto.setM_idx(m_idx);
+                cdto.setR_company(r_company[i]);
+                cdto.setR_position(r_position[i]);
+                cdto.setR_department(r_department[i]);
+                cdto.setR_carstartdate(Timestamp.valueOf(r_carstartdate[i].atStartOfDay()));
+                cdto.setR_carenddate(Timestamp.valueOf(r_carenddate[i].atStartOfDay()));
+
+                if (i < recar_idx.length) {
+                    // recar_idx 배열의 인덱스가 범위 내에 있는 경우에만 실행
+                    cdto.setRecar_idx(recar_idx[i]);
+                    resumeservice.updatecar(cdto);
+                    /* System.out.println("recar" + cdto.getRecar_idx());*/
+                } else {
+                    // recar_idx 배열의 인덱스가 범위를 벗어난 경우에 대한 처리
+                    resumeservice.insertcar(cdto);
+                }
+            }
+
+
+            for (int k = 0; k < r_licname.length; k++) {
+                Re_licDto ldto = new Re_licDto();
+                ldto.setR_licdate(Timestamp.valueOf(r_licdate[k].atStartOfDay()));
+                ldto.setR_licname(r_licname[k]);
+                ldto.setM_idx(m_idx);
+
+                if (k < relic_idx.length) {
+                    // recar_idx 배열의 인덱스가 범위 내에 있는 경우에만 실행
+                    ldto.setRelic_idx(relic_idx[k]);
+                    resumeservice.updatelic(ldto);
+                    /*  System.out.println("relic" + ldto.getRelic_idx());*/
+                } else {
+                    // recar_idx 배열의 인덱스가 범위를 벗어난 경우에 대한 처리
+                    resumeservice.insertlic(ldto);
+                }
+
+            }
+
+            return "redirect:/mypage/detail?m_idx=" + m_idx;
+
+
+        }
+    @GetMapping("/relist")
+    public String list1(@RequestParam(defaultValue = "1") int currentPage, Model model) {
+        int totalCount = resumeservice.getTotalCount();
+        int perPage = 20; // 한 페이지당 보여줄 글 갯수
+        int startNum; // 각 페이지에서 보여질 글의 시작번호
+        int no;
+
+        // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
+        startNum = (currentPage - 1) * perPage;
+
+        // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
+        // no = totalCount - (currentPage - 1) * perPage;
+        no = totalCount - startNum;
+
+        // 각 페이지에 필요한 게시글 db에서 가져오기
+        List<ResumeDto> list = resumeservice.getPagingList(startNum, perPage);
+
+
+        List<Map<String,Object>> fulllList =new ArrayList<>();
+
+        for(ResumeDto dto : list) {
+            Map<String,Object> map = new HashMap<>();
+            map.put("m_idx",dto.getM_idx());
+            map.put("nickName",resumeservice.selectNickNameOfm_idx(dto.getM_idx()));
+
+            String photo = resumeservice.selectPhotoOfm_idx(dto.getM_idx());
+
+            if(photo.equals("no")) {
+                photo = "/photo/profile.jpg";
+            } else {
+                photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+resumeservice.selectPhotoOfm_idx(dto.getM_idx());
+            }
+            map.put("photo",photo);
+            map.put("r_idx",dto.getR_idx());
+            map.put("m_idx",dto.getM_idx());
+            map.put("r_self",dto.getR_self());
+            map.put("r_pos",dto.getR_pos());
+            map.put("r_ldate",dto.getR_ldate());
+            map.put("currentPage", currentPage);
+            map.put("r_status",dto.getR_status());
+            fulllList.add(map);
+        }
+
+        // 출력시 필요한 변수들 model에 전부 저장
+        model.addAttribute("list1", fulllList);
+        model.addAttribute("totalCount", totalCount);
+        model.addAttribute("no", no);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalCount",totalCount);
+
+
+
+        return "/main/mypage/relist";
+    }
+
+   /* @GetMapping("/relistajax")
+    @ResponseBody
+    public List<Map<String,Object>> relistAjax(int currentPage)
+    {
+        int totalCount = resumeservice.getTotalCount();
+        int perPage = 20; // 한 페이지당 보여줄 글 갯수
+        int startNum; // 각 페이지에서 보여질 글의 시작번호
+        int no;
+
+        // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
+        startNum = (currentPage - 1) * perPage;
+
+        // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
+        // no = totalCount - (currentPage - 1) * perPage;
+        no = totalCount - startNum;
+
+        // 각 페이지에 필요한 게시글 db에서 가져오기
+        List<ResumeDto> list = resumeservice.getPagingList(startNum, perPage);
+
+
+        List<Map<String,Object>> fulllList =new ArrayList<>();
+
+        for(ResumeDto dto : list) {
+            Map<String,Object> map = new HashMap<>();
+            map.put("m_idx",dto.getM_idx());
+            map.put("nickName",resumeservice.selectNickNameOfm_idx(dto.getM_idx()));
+
+            String photo = resumeservice.selectPhotoOfm_idx(dto.getM_idx());
+
+            if(photo.equals("no")) {
+                photo = "/photo/profile.jpg";
+            } else {
+                photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+resumeservice.selectPhotoOfm_idx(dto.getM_idx());
+            }
+            map.put("photo",photo);
+            map.put("r_self",dto.getR_self());
+            map.put("r_pos",dto.getR_pos());
+            map.put("r_ldate",dto.getR_ldate());
+            map.put("currentPage", currentPage);
+            map.put("r_status",dto.getR_status());
+            fulllList.add(map);
+        }
+
+        return fulllList;
+
+    }*/
+
+    }

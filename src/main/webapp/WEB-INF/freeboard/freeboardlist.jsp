@@ -204,6 +204,7 @@
                 var position = $(window).scrollTop();
                 $(".quickmenu").stop().animate({"top": position + currentPosition + "px"}, 1000);
 
+                console.log($(window).scrollTop() == $(document).height() - $(window).height());
                 // 무한스크롤
                 if ($(window).scrollTop() == $(document).height() - $(window).height()) {
                     if (!isLoading && !noMoreData) {
