@@ -16,6 +16,13 @@
     <script>
 <%--        버튼 상태 관련 이벤트  --%>
         $(document).ready(function() {
+
+            var currentPosition = parseInt($(".quickmenu").css("top"));
+            $(window).scroll(function () {
+                var position = $(window).scrollTop();
+                /*$(".quickmenu").stop().animate({"top": position + currentPosition + "px"}, 700);*/
+                $(".quickmenu").css("transform", "translateY(" + position + "px)");
+            });
             <!-- jsp 실행 이전의 리액션 여부 체크 및 버튼 색상 표현 -->
                 checkAddRpBefore();
                 answer();
@@ -134,7 +141,7 @@
             <a href="/">홈</a>
             <a href="./list?currentPage=${currentPage}" class="qboard_link">질문게시판</a>
             <h2>${dto.qb_subject}</h2>
-            <b style="font-size: 15px; color: black;" margin-bottom: 10px;>
+            <b style="font-size: 15px; cursor:pointer; color: black;" margin-bottom: 10px; onclick=message("${nickname}")>
                 <img src="${profilePhoto}" class="memberimg" width="50px">&nbsp;
                 ${nickname}
             </b>
@@ -362,6 +369,8 @@
             contentType: false, // 필수: FormData를 사용할 때는 contentType을 false로 설정해야 함
             success: function (response) {
                 alert("답글이 작성되었습니다.");
+                $("#qb_commentCnt").text("댓글 " + response);
+                $("#commentCnt").html("<div class='icon_comment'></div>" +response);
                 answer();
 
             },
@@ -379,6 +388,8 @@
                 data: {"ab_idx":ab_idx},
                 success: function (response) {
                     alert("답글이 삭제되었습니다.");
+                    $("#qb_commentCnt").text("댓글 " + response);
+                    $("#commentCnt").html("<div class='icon_comment'></div>" +response);
                     answer();
                 },
                 error: function (xhr, status, error) {
@@ -458,5 +469,38 @@
         $("#aboardContent").val("");
         $('#aboardPhoto').val('');
     })
+
+$.ajax({
+    type: "post",
+    url: "./bestPostsForBanner",
+    dataType: "json",
+    success: function (response) {
+        let s = "";
+        $.each(response, function (index, item) {
+            s +=
+                `
+                    <li>
+                    <a href="../qboard/detail?qb_idx=\${item.qb_idx}&currentPage=1">
+                    <div class="name">
+                    <div class="num"><div style="width: 3px;height: 3px; border-radius: 50%; background-color: red; display: inline-block"></div><span style="vertical-align: middle; margin-left: 10px;">\${item.qb_subject}</span></div>
+                    </div>
+                    </a>
+                    </li>
+                    `
+        });
+        s +=
+            `
+                <li class="view_all_li">
+                    <a href="/qboard/list">
+                        <span class="view_all">전체보기</span>
+                    </a>
+                </li>
+                `;
+        $(".quickmenu ul").append(s);
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+        console.log("Error: " + textStatus + " - " + errorThrown);
+    }
+});
 </script>
 

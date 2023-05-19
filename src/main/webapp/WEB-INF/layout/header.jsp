@@ -14,6 +14,12 @@
 
 <c:set var="root" value="<%=request.getContextPath()%>" />
 
+<script>
+    $(document).ready(function (){
+        getCount();
+    });
+</script>
+
 <div class="black_bar"></div>
 <div class="wrap clear">
     <div class="logo">
@@ -45,11 +51,6 @@
                 <li><button type="button" class="btn btnsignup" onclick="location.href='/mypage/'">마이페이지</button></li>
                 <li><button type="button" class="btn btnsignin" onclick="location.href='/member/outtest'">로그아웃</button></li>
                 <li class="message_box">
-                    <div class="message_count_alarm"></div>
-                    <div class="message_count_text">0</div>
-                    <a href="${root}/message/list">
-                        <i class="bi bi-envelope"></i>
-                    </a>
                 </li>
 
             </ul>
@@ -76,6 +77,34 @@
             }
         });
     });
+
+        //메세지 갯수 확인 ---------------------------------------------
+
+    function getCount(){
+        $.ajax({
+            type : "post",
+            url : "/messagecount",
+            dataType : "json",
+            success :function (res){
+                let s = "";
+                if(res == 0 ) {
+                    s+=`<div class="message_count_alarm"></div>
+                    <div class="message_count_text">0</div>
+                    <a href="${root}/message/list">
+                        <i class="bi bi-envelope"></i>
+                    </a>`;
+                } else {
+                    s+= `<div class="message_count_alarm" style = "background-color : red;"></div>
+                    <div class="message_count_text">\${res}</div>
+                    <a href="${root}/message/list">
+                        <i class="bi bi-envelope"></i>
+                    </a>`;
+                }
+                $(".message_box").html(s);
+            }
+
+        });
+    }
 
         // 회원권한관리------------------------------------------------
         // 비로그인 상태 (sessionScope.logstat != yes)
