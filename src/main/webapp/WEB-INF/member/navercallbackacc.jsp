@@ -22,7 +22,7 @@
 </head>
 <body>
 <script type="text/javascript">
-    var naver_id_login = new naver_id_login("Qr3pEkAiiIBJ_L9HaGiY", "http://localhost:9000/member/navercallback");
+    var naver_id_login = new naver_id_login("Qr3pEkAiiIBJ_L9HaGiY", "http://localhost:9000/member/navercallbackacc");
     // 접근 토큰 값 출력
     // console.log(naver_id_login.oauthParams.access_token);
     // 네이버 사용자 프로필 조회
@@ -43,18 +43,15 @@
 
         $.ajax({
             type: "get",
-            url: "apichk",
+            url: "accapichk",
             dataType: "json",
             data: {"m_email": m_email, "m_pass": m_pass},
             success: function (res) {
                 if (res.result == "yes") {
-                    window.close();
-                    window.opener.location.replace("/");
-                } else {
                     Swal.fire({
                         icon: 'question',
-                        title: 'Devster 계정이 없습니다',
-                        text: '지금 바로 가입 하시겠습니까?',
+                        title: '이미 계정이 존재합니다',
+                        text: '지금 바로 로그인 하시겠습니까?',
 
                         showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
                         confirmButtonColor: '#8007AD', // confrim 버튼 색깔 지정
@@ -66,11 +63,21 @@
                     }).then(result => {
                         if (result.isConfirmed) {
                             window.close();
-                            window.opener.location.href = "apisignup";
+                            window.opener.location.href = "signin";
                         } else {
                             window.close();
                             return false;
-
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        type: "get",
+                        url: "apiaccinfo",
+                        data: {"m_email": m_email, "m_pass": m_pass},
+                        dataType: "text",
+                        success: function () {
+                            window.close();
+                            window.opener.location.href = "apisignup";
                         }
                     });
                 }
@@ -80,3 +87,4 @@
 </script>
 </body>
 </html>
+

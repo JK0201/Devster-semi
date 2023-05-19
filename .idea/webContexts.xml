@@ -12,7 +12,12 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member/accountfinder.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member/compsignup.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member/dndprac.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member" />
+<<<<<<< HEAD
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member/grats.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member/membersignin.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member" />
+=======
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/message/message_content_list.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/message" />
+>>>>>>> df86ecd5a0a52f247837228f4c8ab7f541d4c53f
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/message/message_list.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/message" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/mypage/relist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/mypage" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/mypage/resumewrite.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/mypage" />

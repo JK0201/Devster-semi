@@ -38,17 +38,6 @@
         }
     </style>
 </head>
-<script>
-    $(function(){
-        var refresh = localStorage.getItem("refresh");
-        if(!refresh) {
-            localStorage.setItem("refresh",true);
-            location.reload();
-        }else {
-            localStorage.removeItem("refresh");
-        }
-    });
-</script>
 <body>
 <input type="hidden" id="m_type" value="0">
 <div style="width : 500px;">
