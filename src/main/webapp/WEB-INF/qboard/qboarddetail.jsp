@@ -128,8 +128,6 @@
     }
     </script>
 
-<<<<<<< HEAD
-
 <div class="qb_detail_wrap clear">
     <div class="qb_detail_content">
         <div class="article_view_head">
