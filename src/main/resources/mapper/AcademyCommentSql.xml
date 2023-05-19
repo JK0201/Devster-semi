@@ -38,10 +38,10 @@
         select * from academycomment where abc_ref=#{abc_idx} and abc_depth=1
     </select>
     <update id="updateAcademyComment" parameterType="AcademyCommentDto">
-        update acadmeycomment set abc_content=#{abc_content} where abc_idx=#{abc_idx}
+        update academycomment set abc_content=#{abc_content} where abc_idx=#{abc_idx}
     </update>
     <delete id="deleteAcademyComment" parameterType="int">
-        delete from academycomment where abc_idx=#{abc_idx}
+        delete from academycomment where abc_idx=#{abc_idx} or abc_ref=#{abc_idx}
     </delete>
 
     <select id="getMaxNum" resultType="int">

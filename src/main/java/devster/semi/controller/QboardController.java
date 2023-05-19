@@ -385,7 +385,7 @@ public class QboardController {
         for(QboardDto dto : list) {
             Map<String,Object> map = new HashMap<>();
             map.put("qb_idx",String.valueOf(dto.getQb_idx()));
-            map.put("m_nickname",qboardService.selectNickNameOfQb_idx(dto.getQb_idx()));
+            map.put("nickName",qboardService.selectNickNameOfQb_idx(dto.getQb_idx()));
             map.put("commentCnt", qboardService.countComment(dto.getQb_idx()));
 
             String m_photo = qboardService.selectPhotoOfQb_idx(dto.getQb_idx());

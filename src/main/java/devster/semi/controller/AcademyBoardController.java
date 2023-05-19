@@ -4,6 +4,7 @@ import devster.semi.dto.AcademyBoardDto;
 import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.NoticeBoardDto;
 import devster.semi.service.AcademyBoardService;
+import devster.semi.service.FreeBoardService;
 import devster.semi.service.MemberService;
 import devster.semi.service.NoticeBoardService;
 import naver.cloud.NcpObjectStorageService;
@@ -15,8 +16,10 @@ import org.springframework.web.context.request.SessionScope;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -34,6 +37,9 @@ public class AcademyBoardController {
 
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private FreeBoardService freeBoardService;
 
     @Autowired
     private NcpObjectStorageService storageService;
@@ -252,7 +258,9 @@ public class AcademyBoardController {
         boolean isAlreadyAddBadRp = academyBoardService.isAlreadyAddBadRp(ab_idx,(int)session.getAttribute("memidx"));
 
         if(m_photo.equals("no")) {
-            m_photo = "photo/profile.jpg"; // 버켓에 넣어야 뜰듯....
+            m_photo = "/photo/profile.jpg";
+        } else {
+            m_photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+m_photo;
         }
 
         model.addAttribute("dto", dto);
@@ -390,6 +398,7 @@ public class AcademyBoardController {
     // 무한스크롤
     @GetMapping("/listajax")
     @ResponseBody
+
     public List<Map<String, Object>> list(@RequestParam(defaultValue = "1")int currentPage, int ai_idx) {
         int totalCount = academyBoardService.getTotalCount(ai_idx);
         int perPage = 20; // 한 페이지당 보여줄 글 갯수
@@ -430,15 +439,24 @@ public class AcademyBoardController {
             map.put("ab_writeday",timeForToday(dto.getAb_writeday()));
             map.put("ab_photo",dto.getAb_photo());
 
+
             fulllList.add(map);
         }
         return fulllList;
     }
 
+
     @GetMapping("/other_profile")
     public String message(String other_nick){
         String encodedNick = URLEncoder.encode(other_nick, StandardCharsets.UTF_8);
         return "redirect:/message/other_profile?other_nick="+encodedNick;
+    }
+
+    @PostMapping("/bestPostsForBanner")
+    @ResponseBody
+    public List<FreeBoardDto> bestPosts() {
+        List<FreeBoardDto> list = freeBoardService.bestfreeboardPosts();
+        return list;
     }
 
     public String timeForToday(Timestamp value) {

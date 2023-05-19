@@ -232,18 +232,6 @@ section.main .qb_write_btn{
     left: 1203px;
 }
 
-/*------------------------------------*/
-
-/*=============================================공지사항=============================================*/
-
-.noticeboard_part ul{
-    padding: 0 !important;
-    margin: 0 !important;
-}
-.noticeboard_part ul li{
-    float: left;
-}
-
 
 /*================================== 질문게시판 디테일 페이지 ====================================*/
 
@@ -479,6 +467,7 @@ section.main .qb_detail_wrap .qb_detail_content .article_view_content .footbox{
     vertical-align: middle;
     margin-left: 10px;
 }
+
 section.main .qb_detail_wrap .qb_detail_content .commentwrite .aboardInsert{
     position: relative;
 }
@@ -661,3 +650,4 @@ section.main .qb_detail_wrap .qb_aside .quickmenu .view_all:after {
     margin-top: 3px;
     margin-left: 2px;
 }
+
