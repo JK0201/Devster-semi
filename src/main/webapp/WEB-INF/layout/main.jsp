@@ -192,6 +192,16 @@
                                 </a>
                             </td>
 
+                            <td class="qb_readcount clear">
+                                <div class="icon_read"><img></div>
+                                <span>${dto.qb_readcount}</span>
+                            </td>
+
+                            <td class="qb_like">
+                                <div class="icon_like"><img></div>
+                                <span>${dto.qb_like}</span>
+                            </td>
+
 
                         </tr>
                     </c:forEach>
@@ -241,6 +251,51 @@
                 </c:if>
                 </tbody>
             </table>
+
+            <!-- ========================= 학원별 게시판 ===========================-->
+
+            <table class="academyboard_table">
+                <caption align="top" class="clear">
+
+                    <h2>
+                        <img src="/photo/icon_job.png">학원별 게시판
+                        <span><a href="academyboard/list" class="btn-more">더보기<i class="bi bi-chevron-right"></i></a></span>
+                    </h2>
+
+                </caption>
+
+
+                <tbody>
+                <c:if test="${totalCount==0}">
+                    <h2>등록된 게시글이 없습니다..</h2>
+                </c:if>
+
+                <c:if test="${totalCount>0}">
+                    <c:forEach var="dto" items="${ablist}">
+                        <tr>
+                            <td class="ab_subject clear">
+                                <a href="academyboard/academyboarddetail?ab_idx=${dto.ab_idx}&currentPage=${currentPage}"
+                                   style="color: #000;">
+                                        ${dto.ab_subject}</a>
+                                <c:if test="${dto.ab_photo!=''}">
+                                    &nbsp; <%--<i class="bi bi-images"></i>--%>
+                                    <div class="icon_img"><img></div>
+                                </c:if>
+
+                            </td>
+
+                            <td class="ab_readcount clear">
+                                <div class="icon_read"><img></div>
+                                <span>${dto.ab_readcount}</span>
+                            </td>
+                        </tr>
+
+                    </c:forEach>
+                </c:if>
+                </tbody>
+            </table>
+
+
 
         </div>
     </div>

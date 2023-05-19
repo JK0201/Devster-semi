@@ -285,7 +285,7 @@ section.main .hb_detail_wrap .hb_detail_content .article_view_content .util_btns
 
 
 
-/*========================================== aside ===========================================*/
+/*========================================== 디테일 페이지 aside ===========================================*/
 
 section.main .hb_detail_wrap .hb_aside{
     width: 340px;
@@ -383,16 +383,16 @@ section.main .hb_detail_wrap .hb_aside .quickmenu ul li a>div>div:after {
     transform: translateY(-50%);
 }
 
-.view_all_li{
+section.main .hb_detail_wrap .hb_aside .quickmenu .view_all_li{
     text-align: center;
 }
 
-.view_all{
+section.main .hb_detail_wrap .hb_aside .quickmenu .view_all{
     text-align: center;
     font-size: 18px;
 }
 
-.view_all:after {
+section.main .hb_detail_wrap .hb_aside .quickmenu .view_all:after {
     content: '';
     display: inline-block;
     width: 16px;

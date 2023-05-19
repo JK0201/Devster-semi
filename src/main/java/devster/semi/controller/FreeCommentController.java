@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.sound.midi.Soundbank;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @RestController
@@ -42,9 +45,6 @@ public class FreeCommentController {
         for(FreeCommentDto dto : list){
             Map<String, Object> map = new HashMap<>();
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd HH:mm");
-            String formattedDate = sdf.format(dto.getFbc_writeday());
-
             map.put("m_photo", freeCommentService.selectPhotoOfFbc_idx(dto.getFbc_idx()));
             map.put("nickname", freeCommentService.selectNickNameOfFbc_idx(dto.getFbc_idx()));
             map.put("replyCnt", freeCommentService.countReply(dto.getFbc_idx()));
@@ -57,7 +57,7 @@ public class FreeCommentController {
             map.put("fbc_ref",dto.getFbc_ref());
             map.put("fbc_depth",dto.getFbc_depth());
 //            map.put("fbc_like",dto.getFbc_like());
-            map.put("fbc_writeday",formattedDate);
+            map.put("fbc_writeday",timeForToday(dto.getFbc_writeday()));
             map.put("totalCount",totalCount);
 
             fullList.add(map);
@@ -104,9 +104,6 @@ public class FreeCommentController {
         for(FreeCommentDto dto : list){
             Map<String, Object> map = new HashMap<>();
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd HH:mm");
-            String formattedDate = sdf.format(dto.getFbc_writeday());
-
             map.put("m_photo", freeCommentService.selectPhotoOfFbc_idx(dto.getFbc_idx()));
             map.put("nickname", freeCommentService.selectNickNameOfFbc_idx(dto.getFbc_idx()));
 
@@ -118,7 +115,7 @@ public class FreeCommentController {
             map.put("fbc_ref",dto.getFbc_ref());
             map.put("fbc_depth",dto.getFbc_depth());
             //map.put("fbc_like",dto.getFbc_like());
-            map.put("fbc_writeday",formattedDate);
+            map.put("fbc_writeday",timeForToday(dto.getFbc_writeday()));
 
             fullList.add(map);
         }
@@ -138,6 +135,35 @@ public class FreeCommentController {
         dto.setFb_idx(fb_idx);
         System.out.println(dto);
         freeCommentService.insertFreeReply(dto);
+    }
+
+    public String timeForToday(Timestamp value) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime timeValue = value.toLocalDateTime();
+
+        long betweenTime = ChronoUnit.MINUTES.between(timeValue, now);
+        if (betweenTime < 1) {
+            return "방금전";
+        }
+        if (betweenTime < 60) {
+            return betweenTime + "분전";
+        }
+
+        long betweenTimeHour = betweenTime / 60;
+        if (betweenTimeHour < 24) {
+            return betweenTimeHour + "시간전";
+        }
+
+        long betweenTimeDay = betweenTime / 1440; // 60 minutes * 24 hours
+        if (betweenTimeDay < 8) {
+            return betweenTimeDay + "일전";
+        }
+
+        String month = String.format("%02d", timeValue.getMonthValue());
+        String day = String.format("%02d", timeValue.getDayOfMonth());
+        String formattedDate = month + "-" + day;
+
+        return formattedDate;
     }
 }
 
