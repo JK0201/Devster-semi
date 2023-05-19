@@ -478,6 +478,7 @@
 
                     var totalCount = res[0].totalCount;
                     document.getElementById("commentCnt").innerHTML = totalCount;
+
                     $("#commentBox").html(s);
                     // } else {
                     //     let html = "<div class='mb-2'>";

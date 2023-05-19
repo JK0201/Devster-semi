@@ -140,7 +140,7 @@
 
                                         s += `<span class="ab_writeday">\${dto.ab_writeday}</span>`
 
-                                        s += `<span class="ab_readcount"><div class="icon_read"></div>\${dto.ab_readcount}</span><br><br>`;
+                                        s += `<span class="ab_readcount" style="margin-left: 5px"><div class="icon_read"></div>\${dto.ab_readcount}</span><br><br>`;
                                         s += `<span class="nickName" style="cursor:pointer;" onclick=message("\${dto.nickName}")><img src="\${dto.m_photo}" class="memberimg">&nbsp;\${dto.nickName}</span>`;
 
                                         s += '<div class="mainbox">';
@@ -318,7 +318,6 @@
                 var formattedWriteday = timeForToday("${dto.ab_writeday}");
                 writedayElement.textContent = formattedWriteday;
             </script>
-
             <span class="ab_readcount"><div class="icon_read"></div>
                     ${dto.ab_readcount}</span><br><br>
             <span class="nickName" style="cursor: pointer" onclick=message("${dto.nickName}")><img src="${dto.m_photo}"
