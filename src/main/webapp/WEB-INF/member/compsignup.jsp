@@ -555,12 +555,7 @@
             formData.append("cm_tele", $("#cm_tele").val());
             formData.append("cm_name", $("#cm_name").val());
             formData.append("cm_cp", $("#cm_cp").val());
-
-<<<<<<< HEAD
-            formData.append("cm_filename", $("#upload").val());
-=======
             formData.append("upload",$("#upload")[0].files[0]);
->>>>>>> main
 
             $.ajax({
                 type: "post",

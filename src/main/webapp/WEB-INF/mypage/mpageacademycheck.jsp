@@ -81,7 +81,7 @@
             success : function (res){
                 alert("반려 완료.");
                 // admin 계정의 이름으로 해당 유저에게 승인이 반려되었다는 쪽지를 발송하는 ajax 처리 필요.
-
+                alert("반려 메세지 발송완료.")
                 normalConfirmList()
             }
         })

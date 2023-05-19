@@ -122,8 +122,13 @@
                 }
             });
         });
+
+    function message(nickname) {
+        window.open("other_profile?other_nick="+nickname, 'newwindow', 'width=700,height=700');
+    }
     </script>
 
+<<<<<<< HEAD
 
 <div class="qb_detail_wrap clear">
     <div class="qb_detail_content">

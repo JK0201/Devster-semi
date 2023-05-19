@@ -4,6 +4,7 @@ import devster.semi.dto.MessageDto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public interface MessageServiceInter {
 
@@ -13,7 +14,7 @@ public interface MessageServiceInter {
 
     public void MessageSendInList(MessageDto dto);
 
-    public ArrayList<MessageDto> getMessagesWithOtherUser(MessageDto dto);
+    public Map<String,Object> getMessagesWithOtherUser(MessageDto dto);
 
 
    /* public String getOtherProfile(MessageDto dto);
