@@ -3,69 +3,49 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="../commonvar.jsp" %>
+
 <style>
-    div, ul, li {
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        padding: 0;
-        margin: 0
+    .headbox .boardname_aca {
+        color: black;
+        font-weight: bold;
+        display: inline-block;
+        width: 900px;
     }
 
-    a {
-        text-decoration: none;
-    }
 
     /* 서치바 */
-    .searchdiv {
+    .searchdiv_aca{
         /*position: absolute;*/
+        position: relative;
+        display: inline-block;
+        float: right;
+
+    }
+    .searchdiv_aca #searchOption{
+        position: absolute;
+        /* right: 5px;*/ /* 아이콘과 입력란 사이의 공간을 조절합니다. */
+        top: 24px;
+        left: 24px;
+        right: 10px;
+        transform: translateY(-50%); /* 아이콘을 입력란의 정중앙에 배치합니다. */
+        /*pointer-events: none;*/ /* 입력란 위에서 클릭이나 기타 동작이 가능하게 합니다. */
+        font-size: 12px;
+        width: 110px;
+        z-index: 100;
+        /*border-color: #222;*/
+        height: 30px;
+    }
+
+    .searchdiv_aca #searchinput{
+        z-index: 1;
         position: relative;
     }
 
-    .searchbar {
-        width: 736px;
-        height: 60px;
-        padding: 0 10px 0 62px;
-        border: 2px solid #222;
-        border-radius: 30px;
-        font-size: 18px;
-        box-sizing: border-box;
-    }
-
-    .bi-search {
-        position: absolute;
-        right: 5px; /* 아이콘과 입력란 사이의 공간을 조절합니다. */
-        top: 31px;
-        left: 27px;
-        transform: translateY(-50%); /* 아이콘을 입력란의 정중앙에 배치합니다. */
-        pointer-events: none; /* 입력란 위에서 클릭이나 기타 동작이 가능하게 합니다. */
-        font-size: 24px;
-    }
-
-    #myBtn {
-        display: none; /* Hidden by default */
-        position: fixed; /* Fixed/sticky position */
-        bottom: 20px; /* Place the button at the bottom of the page */
-        right: 30px; /* Place the button 30px from the right */
-        z-index: 99; /* Make sure it does not overlap */
-        border: none; /* Remove borders */
-        outline: none; /* Remove outline */
-        background-color: #7f07ac; /* Set a background color */
-        color: white; /* Text color */
-        cursor: pointer; /* Add a mouse pointer on hover */
-        padding: 15px; /* Some padding */
-        border-radius: 10px; /* Rounded corners */
-        font-size: 18px; /* Increase font size */
-    }
-
-    #myBtn:hover {
-        background-color: #530871; /* Add a dark-grey background on hover */
-    }
-
 </style>
-
-
 <script>
+    // 검색 여부 전역변수
+    var isSearch = false;
+
     //몇시간전글인지
     function timeForToday(value) {
         const valueConv = value.slice(0, -2);
@@ -95,7 +75,6 @@
         return `\${formattedDate}`;
     }
 
-    // 퀵메뉴
     $(document).ready(function () {
         var currentpage = 1;
         var isLoading = false;
@@ -104,7 +83,7 @@
         $(window).scroll(function () {
             // 무한스크롤
             if ((Math.floor($(window).scrollTop()) == $(document).height() - $(window).height())) {
-                if (!isLoading && !noMoreData) {
+                if (!isLoading && !noMoreData && !isSearch) {
                     isLoading = true;
                     var nextPage = currentpage + 1;
 
@@ -189,43 +168,50 @@
 <!--=============================================================================-->
 
 <div class="ab_wrap">
+    <!--===============================Headbox==============================================-->
+
+    <div class="headbox">
+        <h4 class="boardname_aca">
+            <div class="yellowbar">&nbsp;</div>&nbsp;&nbsp;${sessionScope.memacademy}게시판
+        </h4>
+
+        <!-- 검색창 -->
+        <div class="searchdiv_aca">
+            <select id="searchOption" class="form-select">
+                <option id="all" value="all">전체검색</option>
+                <option id="searchnickname" value="m_nickname">작성자 검색</option>
+                <option id="searchsubject" value="fb_subject">제목 검색</option>
+            </select>
+            <input id="searchinput" name="keyword" type="search" placeholder="관심있는 내용을 검색해보세요!" autocomplete="off"
+                   class="searchbar">
+        </div>
+    </div>
+
     <!--=============================================================================-->
 
-    <div class="noticeboard_part" style="border: 1px solid red">
-        <h1>공지</h1>
-        <ul class="clear">
+    <!--=============================================================================-->
+
+    <div class="noticeboard_part">
+        <ul class="clear noticelist">
             <c:if test="${NoticeBoardTotalCount>0}">
-            <c:forEach var="dto" items="${nblist}">
+                <c:forEach var="dto" items="${nblist}">
 
 
-            <li>
-                <a href="../noticeboard/noticeboarddetail?nb_idx=${dto.nb_idx}&currentPage=${currentPage}"
-                   style="color: #000;">
-                        ${dto.nb_subject}
-                    <c:if test="${dto.nb_photo!='n'}">
-                        &nbsp; <i class="bi bi-images"></i>
-                    </c:if>
-                </a>
-            </li>
-
-        </ul>
-        </c:forEach>
-        </c:if>
+                    <li>
+                        <b class="noticetitle">Devster 공지사항</b>
+                        <a href="../noticeboard/noticeboarddetail?nb_idx=${dto.nb_idx}&currentPage=${currentPage}">
+                                ${dto.nb_subject}
+                            <c:if test="${dto.nb_photo!='n'}">
+                                &nbsp; <i class="bi bi-images"></i>
+                            </c:if>
+                        </a>
+                    </li>
+                </c:forEach>
+            </c:if>
         </ul>
     </div>
+
     <!--=============================================================================-->
-    <!-- 검색창 -->
-    <div class="searchdiv">
-        <input id="searchinput" name="keyword" type="search" placeholder="관심있는 내용을 검색해보세요!" autocomplete="off"
-               class="searchbar">
-        <i class="bi bi-search"></i>
-
-        <select id="searchOption">
-            <option id="all" value="all">전체검색</option>
-            <option id="searchnickname" value="m_nickname">작성자 검색</option>
-            <option id="searchsubject" value="ab_subject">제목 검색</option>
-        </select>
-    </div>
 
     <script>
 
@@ -233,70 +219,201 @@
 
             // 일단은 엔터 눌러야 검색되는걸로 -> 나중에 뭐 클릭해도 검색되게 바꿔도될듯?
             if (e.keyCode == 13) {
+                isSearch = true;
                 // 검색내용
                 var keyword = $(this).val();
                 var searchOption = $("#searchOption").val();
-                console.log(keyword);
-                console.log(searchOption);
+
+                var currentpage = 1;
+                var isLoading = false;
+                var noMoreData = false;
 
                 // null 값 검색시 -> 아무일도 안일어남
                 if (keyword == '') {
                     alert("검색하실 내용을 입력해주세요.")
-
+                    return
                 } else {
                     //alert("검색결과출력.");
-
+                    // 기본출력
                     $.ajax({
                         type: "post",
                         url: "./academyboardsearchlist",
-                        data: {"keyword": keyword, "searchOption": searchOption},
+                        data: {"keyword": keyword, "searchOption": searchOption, "currentpage":currentpage},
                         dataType: "json",
+                        beforeSend: function () {
+                            $("#loading").show();
+                        },
+                        complete: function () {
+                            isLoading = false;
+                        },
                         success: function (res) {
-                            let s = '';
 
-                            $.each(res, function (idx, ele) {
+                            if (res.length == 0) {
+                                alert("검색 결과가 없습니다.");
+                                noMoreData = true;
+                                $("#loading").hide();
+                            } else {
+                                setTimeout(function () {
+                                    currentpage++;
+                                    var s = '';
+                                    $.each(res, function (idx, dto) {
+                                        if (dto.ab_dislike > 19) {
+                                            s += '<div class="blurbox"';
+                                        } else {
+                                            s += '<div class="box"';
+                                        }
 
-                                s += `번호 : \${ele.ab_idx}<br>`;
-                                s += `제목 : \${ele.ab_subject}<br>`;
-                                s += `작성자 : \${ele.m_nickname}<br>`;
+                                        if (idx % 2 == 1) {
+                                            s += ' style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">';
+                                        } else {
+                                            s += '>';
+                                        }
 
-                                s += `내용 : \${ele.ab_content}<br>`;
-                                s += `검색한내용 : \${ele.keyword}<br>`;
-                                s += `검색 카테고리 : \${ele.searchOption}<br>`;
-                                s += `작성일 : \${ele.ab_writeday}<br>`;
-                                s += `댓글수 : \${ele.commentCnt}<br>`;
-                                s += `조회 : \${ele.ab_readcount}<br>`;
-                                s += `좋아요 : \${ele.ab_like}<br>`;
-                                s += `싫어요 : \${ele.ab_dislike}<br>`;
-                                s += `사진 : <hr>`;
+                                        s += `<span class="ab_writeday">\${dto.ab_writeday}</span>`
 
-                            })
-                            $(".roop").html(s);
+                                        s += `<span class="ab_readcount" style="margin-left: 5px"><div class="icon_read"></div>\${dto.ab_readcount}</span><br><br>`;
+                                        s += `<span class="nickName" style="cursor:pointer;" onclick=message("\${dto.nickName}")><img src="\${dto.m_photo}" class="memberimg">&nbsp;\${dto.nickName}</span>`;
+
+                                        s += '<div class="mainbox">';
+
+                                        s += `<h3 class="ab_subject"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}"><b>\${dto.ab_subject}</b></a></h3>`;
+
+                                        if (dto.ab_photo == 'n') {
+                                            s += `<h5 class="ab_content" style="width: 90%"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}" style="color: #000;"><span>\${dto.ab_content.substring(0, 120)}</span></a>`;
+                                            if (dto.ab_content.length >= 120) {
+                                                s += '.....';
+                                            }
+                                            s += '</h5>';
+                                        }
+
+                                        if (dto.ab_photo != 'n') {
+                                            s += `<h5 class="ab_content" style="width: 80%;"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}" style="color: #000;"><span class="photocontent">\${dto.ab_content.substring(0, 80)}</span></a>`;
+                                            if (dto.ab_content.length >= 80) {
+                                                s += '.....';
+                                            }
+                                            s += '</h5>';
+
+                                            s += `<div style="position:relative; right:0; top: -80px;"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}"><span class="ab_photo"><img src="http://${imageUrl}/academyboard/\${dto.ab_photo.split(",")[0]}" id="ab_photo"></span></a></div>`;
+                                        }
+
+                                        s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.ab_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.ab_dislike}</div>`;
+                                        s += `<div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;\${dto.commentCnt}</div></div></div></div>`;
+                                    })
+                                    s += ``;
+
+                                    $(".listbox").html(s);
+                                    $("#loading").hide();
+
+                                }, 1000);  // 1초 후에 실행
+                            }
                         },
                         error: function (xhr, status, error) {
                             // 요청이 실패했을 때의 처리 로직
                             console.log("Error:", error);
                         }
                     });
+
+                    // 추가리스트 출력 (스크롤)
+                    $(window).scroll(function () {
+
+                        if (Math.floor($(window).scrollTop()) == $(document).height() - $(window).height()) {
+
+                            if (!isLoading && !noMoreData) {
+                                isLoading = true;
+                                let nextPage = currentpage;
+                                $.ajax({
+                                    type: "post",
+                                    url: "./academyboardsearchlist",
+                                    data: {"keyword": keyword, "searchOption": searchOption, "currentpage": nextPage},
+                                    dataType: "json",
+                                    beforeSend: function () {
+                                        $("#loading").show();
+                                    },
+                                    complete: function () {
+                                        isLoading = false;
+                                    },
+                                    success: function (res) {
+                                        console.log(currentpage);
+                                        console.log(noMoreData);
+                                        console.log(res.length);
+                                        if (res.searchCount == 0) {
+                                            noMoreData = true;
+                                            $("#loading").hide();
+                                        } else {
+                                            if (res.length == 0) {
+                                                noMoreData = true;
+                                                $("#loading").hide();
+                                            } else {
+                                                setTimeout(function () {
+                                                    currentpage++;
+                                                    var s = '';
+
+                                                    $.each(res, function (idx, dto) {
+                                                        if (dto.ab_dislike > 19) {
+                                                            s += '<div class="blurbox"';
+                                                        } else {
+                                                            s += '<div class="box"';
+                                                        }
+
+                                                        if (idx % 2 == 1) {
+                                                            s += ' style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">';
+                                                        } else {
+                                                            s += '>';
+                                                        }
+
+                                                        s += `<span class="ab_writeday">\${dto.ab_writeday}</span>`
+
+                                                        s += `<span class="ab_readcount" style="margin-left: 5px"><div class="icon_read"></div>\${dto.ab_readcount}</span><br><br>`;
+                                                        s += `<span class="nickName" style="cursor:pointer;" onclick=message("\${dto.nickName}")><img src="\${dto.m_photo}" class="memberimg">&nbsp;\${dto.nickName}</span>`;
+
+                                                        s += '<div class="mainbox">';
+
+                                                        s += `<h3 class="ab_subject"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}"><b>\${dto.ab_subject}</b></a></h3>`;
+
+                                                        if (dto.ab_photo == 'n') {
+                                                            s += `<h5 class="ab_content" style="width: 90%"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}" style="color: #000;"><span>\${dto.ab_content.substring(0, 120)}</span></a>`;
+                                                            if (dto.ab_content.length >= 120) {
+                                                                s += '.....';
+                                                            }
+                                                            s += '</h5>';
+                                                        }
+
+                                                        if (dto.ab_photo != 'n') {
+                                                            s += `<h5 class="ab_content" style="width: 80%;"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}" style="color: #000;"><span class="photocontent">\${dto.ab_content.substring(0, 80)}</span></a>`;
+                                                            if (dto.ab_content.length >= 80) {
+                                                                s += '.....';
+                                                            }
+                                                            s += '</h5>';
+
+                                                            s += `<div style="position:relative; right:0; top: -80px;"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}"><span class="ab_photo"><img src="http://${imageUrl}/academyboard/\${dto.ab_photo.split(",")[0]}" id="ab_photo"></span></a></div>`;
+                                                        }
+
+                                                        s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.ab_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.ab_dislike}</div>`;
+                                                        s += `<div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;\${dto.commentCnt}</div></div></div></div>`;
+                                                    })
+                                                    s += ``;
+
+                                                    $(".listbox").append(s);
+                                                    $("#loading").hide();
+
+                                                }, 1000);  // 1초 후에 실행
+                                            }
+                                        }
+                                    },
+
+                                    error: function (xhr, status, error) {
+                                        // 요청이 실패했을 때의 처리 로직
+                                        console.log("Error:", error);
+                                    }
+                                });
+                            }
+                        }
+                    })
                 }
             }
         });
 
     </script>
-    <!--=============================================================================-->
-
-    <!--================HEADBOX================================-->
-
-    <div class="headbox">
-<%--        하단의 게시판 글자 앞 원래는 아이콘 이었지만, 사이즈차이로 밀리는 문제로 질문게시판과 동일한 이미지로 변경.--%>
-        <h4 style="color: black; font-weight: bold;"><img src="/photo/icon_question.png" style="width: 40px;">${sessionScope.memacademy}게시판
-            <button class="btn btn-secondary" type="button"
-                    style="float: right; margin-right: 150px; margin-top: 30px;"
-                    onclick="location.href='./academywriteform'"><i class="bi bi-pen"></i>&nbsp;글쓰기
-            </button>
-        </h4>
-        <b>총 ${totalCount}개의 게시글</b><br>
-    </div>
 
     <!--=============================================================================-->
 
@@ -445,6 +562,8 @@
 </div>
 
 <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+<br>
+<button id="myWriteBtn" type="button" onclick="location.href='./academywriteform'">글쓰기</button>
 <script>
             // When the user scrolls down 20px from the top of the document, show the button
             window.onscroll = function () {

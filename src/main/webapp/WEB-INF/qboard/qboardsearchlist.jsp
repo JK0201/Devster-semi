@@ -6,14 +6,7 @@
 <%@ include file="../commonvar.jsp" %>
 
 <script>
-    $(document).ready(function(){
-        var currentPosition = parseInt($(".quickmenu").css("top"));
-        $(window).scroll(function() {
-            var position = $(window).scrollTop();
-            $(".quickmenu").stop().animate({"top":position+currentPosition+"px"},1000);
-        });
-    });
-
+    // 몇시간전글인지
     function timeForToday(value) {
         const valueConv = value.slice(0, -2);
         const today = new Date();
@@ -31,7 +24,7 @@
         }
 
         const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
-        if (betweenTimeDay < 8) {
+        if (betweenTimeDay < 7) {
             return `\${betweenTimeDay}일전`;
         }
 
@@ -41,316 +34,309 @@
 
         return `\${formattedDate}`;
     }
-</script>
-
-<style>
-    div, ul, li {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding:0;margin:0}
-    a {text-decoration:none;}
-
-    .quickmenu {position:absolute;width:300px;top:50%;margin-top:-50px;right:10px;background:#fff;}
-    .quickmenu ul {position:relative;float:left;width:100%;display:inline-block;*display:inline;border:1px solid #ddd;}
-    .quickmenu ul li {float:left;width:100%;border-bottom:1px solid #ddd;text-align:center;display:inline-block;*display:inline;}
-    .quickmenu ul li a {position:relative;float:left;width:100%;height:30px;line-height:30px;text-align:center;color:#999;font-size:9.5pt;}
-    .quickmenu ul li a:hover {color:#000;}
-    .quickmenu ul li:last-child {border-bottom:0;}
-
-    /* 서치바 */
-    .searchdiv{
-        /*position: absolute;*/
-        position: relative;
-    }
-    .searchbar{
-        width: 736px;
-        height: 60px;
-        padding: 0 10px 0 62px;
-        border: 2px solid #222;
-        border-radius: 30px;
-        font-size: 18px;
-        box-sizing: border-box;
-    }
-
-    .bi-search {
-        position: absolute;
-        right: 5px; /* 아이콘과 입력란 사이의 공간을 조절합니다. */
-        top: 31px;
-        left: 27px;
-        transform: translateY(-50%); /* 아이콘을 입력란의 정중앙에 배치합니다. */
-        pointer-events: none; /* 입력란 위에서 클릭이나 기타 동작이 가능하게 합니다. */
-        font-size: 24px;
-    }
-</style>
-
-<h2 style="margin-top: 60px; font-family:'배달의민족 을지로체 TTF'">QnA Board</h2>
-<h5 class="alert alert-danger" style="width: 800px">총 ${searchCount}개의 글이 있습니다.</h5>
-
-<!--=============================================================================-->
-
-<div class="noticeboard_part" style="border: 1px solid red; width: 800px">
-    <h1>공지</h1>
-    <div>
-       <b>'${keyword}' 검색결과 :
-           총 ${searchCount}개의 게시글</b>
-    </div>
-    <ul class="clear">
-        <c:if test="${NoticeBoardTotalCount>0}">
-        <c:forEach var="dto" items="${nblist}">
 
 
-        <li>
-            <a href="../noticeboard/noticeboarddetail?nb_idx=${dto.nb_idx}&currentPage=${currentPage}"
-               style="color: #000;">
-                    ${dto.nb_subject}
-                <c:if test="${dto.nb_photo!='n'}">
-                    &nbsp; <i class="bi bi-images"></i>
-                </c:if>
-            </a>
-        </li>
+    $(document).ready(function () {
 
-    </ul>
-    </c:forEach>
-    </c:if>
-    </ul>
-</div>
+        var currentpage = 1;
+        var isLoading = false;
+        var noMoreData = false;
+        var keyword = "${keyword}";
+        console.log(keyword);
 
-<!--=============================================================================-->
+        $(window).scroll(function () {
+            console.log(Math.floor($(window).scrollTop()) == $(document).height() - $(window).height());
 
-<!-- 검색창 -->
-<div class="searchdiv">
-    <input id="searchinput" name="keyword" type="search" placeholder="관심있는 내용을 검색해보세요!" autocomplete="off" class="searchbar">
-    <i class="bi bi-search"></i>
+            // 무한스크롤
+            if (Math.floor($(window).scrollTop()) == $(document).height() - $(window).height()) {
 
-    <select id="searchOption">
-        <option id="all" value="all">전체검색</option>
-        <option id="searchnickname" value="m_nickname">작성자 검색</option>
-        <option id="searchsubject" value="qb_subject">제목 검색</option>
-    </select>
-</div>
+                if (!isLoading && !noMoreData) {
+                    isLoading = true;
+                    var nextPage = currentpage + 1;
 
-<script>
+                    $.ajax({
+                        type: "GET",
+                        url: "./searchlistajax",
+                        data: {"keyword": keyword, "searchOption": "all", "currentpage": nextPage},
+                        beforeSend: function () {
+                            $("#loading").show();
+                        },
+                        complete: function () {
+                            isLoading = false;
+                        },
+                        success: function (res) {
 
-    $("#searchinput").keydown(function (e){
+                            if (res.searchCount == 0) {
+                                $(".listbox").append(`<h2 class="alert alert-outline-secondary">등록된 게시글이 없습니다..</h2>`);
+                                $("#loading").hide();
+                            } else {
+                                if (res.length == 0) {
+                                    noMoreData = true;
+                                    $("#loading").hide();
+                                } else {
+                                    setTimeout(function () {
+                                        currentpage++;
+                                        var s = '';
+                                    $.each(res, function (idx,dto) {
+                                            if (dto.qb_dislike > 19) {
+                                                if(idx % 2 == 1) {
+                                                    s += `<div class="blurbox" style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">`;
+                                                } else {
+                                                    s += `<div class="blurbox">`;
+                                                }
+                                            } else {
+                                                if(idx % 2 == 1) {
+                                                    s += `<div class="box" style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">`;
+                                                } else {
+                                                    s += `<div class="box">`;
+                                                }
+                                            }
+                                            s += `<span class="qb_writeday">\${dto.qb_writeday}</span>`
+                                            s += `<span class="qb_readcount"><div class="icon_read"></div>\${dto.qb_readcount}</span><br><br>`;
+                                            s += `<span class="nickName" style="cursor: pointer" onclick=message(\${dto.nickName})><img src="\${dto.photo}" class="memberimg">&nbsp;\${dto.nickName}</span>`;
+                                            s += `<div class="mainbox">`
+                                            s += `<h3 class="qb_subject"><a href="detail?qb_idx=\${dto.qb_idx}"><b>\${dto.qb_subject}</b></a></h3>`;
+                                            if (dto.qb_photo == 'n') {
+                                                var content = dto.qb_content.substring(0, 120);
+                                                if (dto.qb_content.length >= 120) {
+                                                    content += ".....";
+                                                }
+                                                s += `<h5 class="qb_content" style="width: 90%"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span>\${content}</span></a></h5>`;
+                                            } else {
+                                                var content = dto.qb_content.substring(0, 80);
+                                                if (dto.qb_content.length >= 80) {
+                                                    content += ".....";
+                                                }
+                                                s += `<h5 class="qb_content" style="width:80%"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span class="photocontent">\${content}</span></a></h5>`;
+                                                s += `<div style="position:relative; right:0; top: -80px;"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span class="qb_photo"><img src="http://${imageUrl}/qboard/\${dto.qb_photo.split(",")[0]}" id="qb_photo"></span></a></div>`;
+                                            }
+                                            s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.qb_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.qb_dislike}</div><div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;\${dto.count}</div></div>`;
+                                            s += `</div>`;
+                                            s += `</div>`;
+                                        })
+                                        $(".listbox").append(s);
+                                        $("#loading").hide();
+                                    }, 1000);  // 1초 후에 실행
+                                }
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.log("Error:", error);
+                            $("#loading").hide();
+                        }
 
-        // 일단은 엔터 눌러야 검색되는걸로 -> 나중에 뭐 클릭해도 검색되게 바꿔도될듯?
-        if(e.keyCode==13){
-            // 검색내용
-            var keyword = $(this).val();
-            var searchOption = $("#searchOption").val();
-            console.log(keyword);
-            console.log(searchOption);
-
-            // null 값 검색시 -> 아무일도 안일어남
-            if(keyword==''){
-                alert("검색하실 내용을 입력해주세요.")
-                return
-            } else {
-                //alert("검색결과출력.");
-
-                $.ajax({
-                    type: "post",
-                    url: "./qboardsearchlist",
-                    data: {"keyword":keyword, "searchOption":searchOption},
-                    dataType: "json",
-                    success: function (res) {
-                        let s = '';
-
-                        $.each(res, function (idx, ele) {
-
-                            s += `번호 : \${ele.qb_idx}<br>`;
-                            s += `제목 : \${ele.qb_subject}<br>`;
-                            s += `작성자 : \${ele.m_nickname}<br>`;
-
-                            s += `내용 : \${ele.qb_content}<br>`;
-                            s += `검색한내용 : \${ele.keyword}<br>`;
-                            s += `검색 카테고리 : \${ele.searchOption}<br>`;
-                            s += `작성일 : \${ele.qb_writeday}<br>`;
-                            s += `댓글수 : \${ele.commentCnt}<br>`;
-                            s += `조회 : \${ele.qb_readcount}<br>`;
-                            s += `좋아요 : \${ele.qb_like}<br>`;
-                            s += `싫어요 : \${ele.qb_dislike}<br>`;
-                            s += `사진 : <hr>`;
-
-                        })
-                        $(".table").html(s);
-                    },
-                    error: function (xhr, status, error) {
-                        // 요청이 실패했을 때의 처리 로직
-                        console.log("Error:", error);
-                    }
-                });
+                    })
+                }
             }
-        }
+
+
+        });
+
+
     });
+
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function () {
+        scrollFunction()
+    };
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("myBtn").style.display = "block";
+        } else {
+            document.getElementById("myBtn").style.display = "none";
+        }
+    }
+
+
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+
+    // 프로필 클릭
+    function message(nickname) {
+        window.open("other_profile?other_nick=" + nickname, 'newwindow', 'width=700,height=700');
+    }
+
+
 
 </script>
 
+<div class="qb_wrap">
+    <!--===============================Headbox==============================================-->
 
-<!--=============================================================================-->
+    <div class="headbox" style="display: unset">
+        <h4 class="boardname">
+            <div class="yellowbar">&nbsp;</div>&nbsp;&nbsp;질문게시판
+        </h4><br><br>
 
-<table class="table table-bordered" style="width: 800px">
-    <tr style="background-color: #ddd">
-        <th style="width: 40px">번호</th>
-        <th style="width: 250px">제목</th>
-        <th style="width: 100px">작성자</th>
-        <th style="width: 60px">조회수</th>
-        <th style="width: 60px">추천</th>
-        <th style="width: 60px">비추천</th>
-        <th style="width: 120px">작성일</th>
-    </tr>
-    <c:if test="${searchCount == 0}">
-        <tr height="50">
-            <td colspan="5" align="center" valign="middle">
-                <b style="font-size: 1.3em">등록된 게시글이 없습니다.</b>
-            </td>
-        </tr>
-    </c:if>
-    <c:if test="${searchCount>0}">
-        <c:forEach var="dto" items="${list}">
-            <c:if test="${dto.qb_dislike > 19}">
-                <tbody class="backdrop">
-            <tr style="filter: blur(2px);">
-                <td align="center">
-                        ${no}
-                    <c:set var="no" value="${no-1}"/>
-                </td>
-                <!-- 제목 -->
-                <td>
-                    <a href="detail?qb_idx=${dto.qb_idx}&currentPage=${currentPage}" style="color: black; text-decoration: none; cursor: pointer;">
-                        <!-- 사진이 있을경우 아이콘 출력 -->
-<%--                        <c:if test="${dto.qb_photo!=''}">--%>
-<%--                            <i class="bi bi-images"></i>--%>
-<%--                        </c:if>--%>
-                            <%--   제목이 길경우 150px 만 나오고 말 줄임표...--%>
-                        <span style="text-overflow:ellipsis;overflow: hidden;white-space: nowrap;display: inline-block;max-width: 300px;">${dto.qb_subject}
-                        </span>
-                    </a>
-                </td>
-                <td>
-                    <img src="${dto.photo}" style="width:25px; height: 25px; border:3px solid black; border-radius:100px;"><br>
-                        ${dto.nickName}
-                </td>
-                <td>
-                        ${dto.qb_readcount}
-                </td>
-                <td>
-                        ${dto.qb_like}
-                </td>
-                <td>
-                        ${dto.qb_dislike}
-                </td>
-                <td>
-                    <span id="writeday-${dto.qb_idx}"></span>
-                </td>
-            </tr>
-                </tbody>
-            </c:if>
-            <c:if test="${dto.qb_dislike < 20}">
-                    <tr>
-                        <td align="center">
-                                ${no}
-                            <c:set var="no" value="${no-1}"/>
-                        </td>
-                        <!-- 제목 -->
-                        <td>
-                            <a href="detail?qb_idx=${dto.qb_idx}&currentPage=${currentPage}" style="color: black; text-decoration: none; cursor: pointer;">
-                                <span style="text-overflow:ellipsis;overflow: hidden;white-space: nowrap;display: inline-block;max-width: 300px;">${dto.qb_subject} <span style="color: red; font-size: 14px">[${dto.count}]</span>
-                                </span>
-                            </a>
-                        </td>
-                        <td>
-                            <img src="${dto.photo}" style="width:25px; height: 25px; border:3px solid black; border-radius:100px;"><br>
-                                ${dto.nickName}
-                        </td>
-                        <td>
-                                ${dto.qb_readcount}
-                        </td>
-                        <td>
-                                ${dto.qb_like}
-                        </td>
-                        <td>
-                                ${dto.qb_dislike}
-                        </td>
-                        <td class="writeday">
-                            <span id="writeday-${dto.qb_idx}"></span>
-                        </td>
-                    </tr>
-            </c:if>
-            <script>
-                var writedayElement = document.getElementById("writeday-${dto.qb_idx}");
-                var formattedWriteday = timeForToday("${dto.qb_writeday}");
-                writedayElement.textContent = formattedWriteday;
-            </script>
-        </c:forEach>
-    </c:if>
-</table>
-
-<div style="width: 700px; text-align: center; font-size: 20px">
-    <!-- 이전 -->
-        <c:if test="${startPage > 1}">
-            <a style="color: black; text-decoration: none; cursor: pointer;" href="list?currentPage=${startPage-1}">이전</a>
-        </c:if>
-        <c:if test="${startPage <= 1}">
-            <a style="color: black; text-decoration: none; cursor: pointer; visibility: hidden;" href="list?currentPage=${startPage-1}">이전</a>
-        </c:if>
-        <!-- 페이지 번호 출력 -->
-        <c:forEach var="pp" begin="${startPage}" end="${endPage}">
-            <c:if test="${currentPage == pp }">
-                <a style="color: green; text-decoration: none; cursor: pointer;" href="list?currentPage=${pp}">${pp}</a>
-            </c:if>
-            <c:if test="${currentPage != pp }">
-                <a style="color: black; text-decoration: none; cursor: pointer;" href="list?currentPage=${pp}">${pp}</a>
-            </c:if>
-            &nbsp;
-        </c:forEach>
-        <!-- 다음 -->
-        <c:if test="${endPage < totalPage}">
-            <a style="color: black; text-decoration: none; cursor: pointer;" href="list?currentPage=${endPage+1}">다음</a>
-        </c:if>
-        <c:if test="${endPage >= totalPage}">
-            <a style="color: black; text-decoration: none; cursor: pointer; visibility: hidden;" href="list?currentPage=${endPage+1}">다음</a>
-        </c:if>
+        <!-- 검색결과 -->
+        <div class="searchres">
+            <h5>&nbsp;<b>${keyword}</b>&nbsp;검색결과 : 전체 (${searchCount})</h5>
+        </div>
     </div>
 
-<button class="btn btn-outline-dark" type="button" onclick="location.href='./writeform'">
-    작성
-</button>
+    <!--=============================================================================-->
+    <!--=============================================================================-->
+    <!-- listbox -->
+    <div class="listbox">
+        <c:if test="${searchCount==0}">
+            <h2 class="alert alert-outline-secondary">등록된 게시글이 없습니다..</h2>
+        </c:if>
 
-<div class="quickmenu">
-    <ul>
-        <li class="quickmenu_head"><p style="font-size: 30px">베스트 게시글</p></li>
-    </ul>
+        <c:if test="${searchCount>0}">
+            <c:forEach var="dto" items="${list}" varStatus="i">
+                <!-- blurbox-->
+                <c:if test="${dto.qb_dislike > 19}">
+                    <div class="blurbox"
+                         <c:if test="${i.index % 2 == 1}">style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;"</c:if>>
+
+                        <span class="qb_writeday" id="writeday-${dto.qb_idx}"></span>
+                        <script>
+                            var writedayElement = document.getElementById("writeday-${dto.qb_idx}");
+                            var formattedWriteday = timeForToday("${dto.qb_writeday}");
+                            writedayElement.textContent = formattedWriteday;
+                        </script>
+
+                        <span class="qb_readcount"><div class="icon_read"></div>
+                                ${dto.qb_readcount}</span><br><br>
+
+                        <span class="nickName"><img src="${dto.photo}" class="memberimg">&nbsp;${dto.nickName}</span>
+
+                        <div class="mainbox">
+                            <h3 class="qb_subject">
+                                <a href="detail?qb_idx=${dto.qb_idx}"><b>${dto.qb_subject}</b></a>
+                            </h3>
+                            <c:if test="${dto.qb_photo=='n'}">
+                                <h5 class="qb_content" style="width: 90%">
+                                    <a href="detail?qb_idx=${dto.qb_idx}"
+                                       style="color: #000;">
+                                <span>
+                                    <c:set var="length" value="${fn:length(dto.qb_content)}"/>
+                                    ${fn:substring(dto.qb_content, 0, 120)}
+
+                                    <c:if test="${length>=120}">
+                                        .....
+                                    </c:if>
+                                   </span></a>
+                                </h5>
+                            </c:if>
+                            <c:if test="${dto.qb_photo!='n'}">
+                                <h5 class="qb_content" style="width: 80%;">
+                                    <a href="detail?qb_idx=${dto.qb_idx}"
+                                       style="color: #000;">
+                                    <span class="photocontent">
+                                        <c:set var="length" value="${fn:length(dto.qb_content)}"/>
+                                        ${fn:substring(dto.qb_content, 0, 80)}
+                                        <c:if test="${length>=80}">
+                                            .....
+                                        </c:if>
+                                   </span>
+                                    </a>
+                                </h5>
+                                <div style="position:relative; right:0; top: -80px;">
+                                    <a href="detail?qb_idx=${dto.qb_idx}">
+                                        <span class="qb_photo">
+                                            <img src="http://${imageUrl}/qboard/${dto.qb_photo.split(",")[0]}" id="qb_photo">
+                                        </span>
+                                    </a>
+                                </div>
+                            </c:if>
+                            <div class="hr_tag">
+                                <div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;${dto.qb_like}&nbsp;&nbsp;<i
+                                        class="bi bi-hand-thumbs-down"></i>&nbsp;${dto.qb_dislike}</div>
+                                <div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;${dto.count}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </c:if>
+                <!-- box-->
+                <c:if test="${dto.qb_dislike < 20}">
+                    <div class="box"
+                         <c:if test="${i.index % 2 == 1}">style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;"</c:if>>
+
+                        <span class="qb_writeday" id="writeday-${dto.qb_idx}"></span>
+                        <script>
+                            var writedayElement = document.getElementById("writeday-${dto.qb_idx}");
+                            var formattedWriteday = timeForToday("${dto.qb_writeday}");
+                            writedayElement.textContent = formattedWriteday;
+                        </script>
+
+                        <span class="qb_readcount"><div class="icon_read"></div>
+                                ${dto.qb_readcount}</span><br><br>
+
+                        <span class="nickName" style="cursor:pointer;" onclick=message("${dto.nickName}")><img src="${dto.photo}"
+                                                                                                               class="memberimg">&nbsp;${dto.nickName}</span>
+                        <div class="mainbox">
+                            <h3 class="qb_subject">
+                                <a href="detail?qb_idx=${dto.qb_idx}"><b>${dto.qb_subject}</b></a>
+                            </h3>
+                            <c:if test="${dto.qb_photo=='n'}">
+                                <h5 class="qb_content" style="width: 90%">
+                                    <a href="detail?qb_idx=${dto.qb_idx}"
+                                       style="color: #000;">
+                                <span>
+                                    <c:set var="length" value="${fn:length(dto.qb_content)}"/>
+                                    ${fn:substring(dto.qb_content, 0, 120)}
+
+                                    <c:if test="${length>=120}">
+                                        .....
+                                    </c:if>
+                                   </span></a>
+                                </h5>
+                            </c:if>
+                            <c:if test="${dto.qb_photo!='n'}">
+                                <h5 class="qb_content" style="width: 80%;">
+                                    <a href="detail?qb_idx=${dto.qb_idx}"
+                                       style="color: #000;">
+                                    <span class="photocontent">
+                                        <c:set var="length" value="${fn:length(dto.qb_content)}"/>
+                                        ${fn:substring(dto.qb_content, 0, 80)}
+                                        <c:if test="${length>=80}">
+                                            .....
+                                        </c:if>
+                                   </span>
+                                    </a>
+                                </h5>
+                                <div style="position:relative; right:0; top: -80px;">
+                                    <a href="detail?qb_idx=${dto.qb_idx}">
+                                        <span class="qb_photo">
+                                            <img src="http://${imageUrl}/qboard/${dto.qb_photo.split(",")[0]}" id="qb_photo">
+                                        </span>
+                                    </a>
+                                </div>
+                            </c:if>
+                            <div class="hr_tag">
+                                <div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;${dto.qb_like}&nbsp;&nbsp;<i
+                                        class="bi bi-hand-thumbs-down"></i>&nbsp;${dto.qb_dislike}</div>
+                                <div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;${dto.count}</div>
+                            </div>
+                        </div>
+                    </div>
+                </c:if>
+                <!-- box-->
+            </c:forEach>
+        </c:if>
+    </div>
+    <!-- listbox -->
+
+
+    <div id="loading"
+         style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999;">
+        <img src="${root}/photo/loading.gif" alt="Loading..."
+             style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <!-- 로딩 이미지의 경로를 설정하세요 -->
+    </div>
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+    <br>
+    <button id="myWriteBtn" type="button" onclick="location.href='./writeform'">글쓰기</button>
+
+
 </div>
 
-<script>
-    $.ajax({
-        type: "post",
-        url: "./bestPostsForBanner",
-        dataType: "json",
-        success: function(response) {
-            let s = "";
-            $.each(response, function(index, item) {
-                s +=
-                    `
-                        <li>
-                            <a href="../freeboard/freeboarddetail?fb_idx=\${item.fb_idx}&currentPage=1">
-                                <div class="name">
-                                    <div class="num">\${index+1} \${item.fb_subject}</div>
-                                </div>
-                            </a>
-                        </li>
-                    `
-            });
-                s+=
-                    `
-                        <button type="button" onclick="window.scrollTo({top:0});">
-                         <i class="bi bi-arrow-up-square-fill"></i>
-                        </button>
-                    `;
-            $(".quickmenu ul").append(s);
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log("Error: " + textStatus + " - " + errorThrown);
-        }
-    });
 
-</script>
+
 

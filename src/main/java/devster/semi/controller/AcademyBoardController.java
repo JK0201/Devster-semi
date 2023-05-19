@@ -118,7 +118,7 @@ public class AcademyBoardController {
     // 검색
     @PostMapping("/academyboardsearchlist")
     @ResponseBody
-    public List<Map<String, Object>> searchlist(@RequestParam(defaultValue = "1") int currentPage,
+    public List<Map<String, Object>> searchlist(@RequestParam(defaultValue = "1") int currentpage,
                                                 @RequestParam(defaultValue = "") String keyword,
                                                 @RequestParam(defaultValue = "all") String searchOption,
                                                 Model model) {
@@ -136,7 +136,7 @@ public class AcademyBoardController {
         // 총 페이지 수
         totalPage = searchCount / perPage + (searchCount % perPage == 0 ? 0 : 1);
         // 시작 페이지
-        startPage = (currentPage - 1) / perBlock * perBlock + 1;
+        startPage = (currentpage - 1) / perBlock * perBlock + 1;
         // 끝 페이지
         endPage = startPage + perBlock - 1;
 
@@ -145,7 +145,7 @@ public class AcademyBoardController {
             endPage = totalPage;
 
         // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
-        startNum = (currentPage - 1) * perPage;
+        startNum = (currentpage - 1) * perPage;
 
         // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
         // no = totalCount - (currentPage - 1) * perPage;
@@ -159,21 +159,23 @@ public class AcademyBoardController {
         for (AcademyBoardDto dto : list) {
             Map<String, Object> map = new HashMap<>();
             map.put("ab_idx", String.valueOf(dto.getAb_idx()));
-            map.put("m_nickname", academyBoardService.selectNickNameOfMidx(dto.getAb_idx()));
-            map.put("commentCnt", academyBoardService.commentCnt(dto.getAb_idx()));
+            map.put("nickName", academyBoardService.selectNickNameOfMidx(dto.getAb_idx()));
+            map.put("commentCnt", academyBoardService.getCommentCnt(dto.getAb_idx()));
 
             String m_photo = academyBoardService.selectPhotoOfMidx(dto.getAb_idx());
-            if (m_photo != "no") {
-                map.put("m_photo", m_photo);
+
+            if(m_photo.equals("no")) {
+                m_photo = "/photo/profile.jpg";
             } else {
-                map.put("m_photo", "/photo/profile.jpg");
+                m_photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+academyBoardService.selectPhotoOfMidx(dto.getAb_idx());
             }
+            map.put("m_photo",m_photo);
             map.put("ab_subject", dto.getAb_subject());
             map.put("ab_content", dto.getAb_content());
             map.put("ab_like", dto.getAb_like());
             map.put("ab_dislike", dto.getAb_dislike());
             map.put("ab_readcount", dto.getAb_readcount());
-            map.put("ab_writeday", dto.getAb_writeday());
+            map.put("ab_writeday", timeForToday(dto.getAb_writeday()));
 
             map.put("searchOption", searchOption);
             map.put("keyword", keyword);
@@ -184,7 +186,7 @@ public class AcademyBoardController {
             model.addAttribute("endPage", endPage);
             model.addAttribute("totalPage", totalPage);
             model.addAttribute("no", no);
-            model.addAttribute("currentPage", currentPage);
+            model.addAttribute("currentPage", currentpage);
 
 
             // 사진이 들어있으면
