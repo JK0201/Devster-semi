@@ -36,10 +36,10 @@ section.main .fb_wrap .blurbox {
 }
 
 section.main .fb_wrap .box:first-child{
-    border-top: 1px solid #eee;
+
 }
 section.main .fb_wrap .box:nth-child(2){
-    border-top: 1px solid #eee;
+
 }
 section.main .fb_wrap .box .fb_writeday{
     border: 2px solid rgba(148,150,155,0.3);
@@ -236,10 +236,4 @@ section.main .fb_write_btn{
 
 /*=============================================공지사항=============================================*/
 
-.noticeboard_part ul{
-    padding: 0 !important;
-    margin: 0 !important;
-}
-.noticeboard_part ul li{
-    float: left;
-} 
+

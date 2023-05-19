@@ -6,7 +6,6 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-
 <script>
     let photos ='';
 </script>
@@ -25,7 +24,6 @@
         font-size: 18px;
         box-sizing: border-box;
     }
-
     .bi-search {
         position: absolute;
         right: 5px; /* 아이콘과 입력란 사이의 공간을 조절합니다. */
@@ -35,9 +33,6 @@
         pointer-events: none; /* 입력란 위에서 클릭이나 기타 동작이 가능하게 합니다. */
         font-size: 24px;
     }
-
-
-
     #myBtn {
         display: none; /* Hidden by default */
         position: fixed; /* Fixed/sticky position */
@@ -53,50 +48,37 @@
         border-radius: 10px; /* Rounded corners */
         font-size: 18px; /* Increase font size */
     }
-
     #myBtn:hover {
         background-color: #530871; /* Add a dark-grey background on hover */
     }
-
-
-
 </style>
-
 <div class="hb_wrap clear">
-
-
     <!-- 검색창 -->
     <div class="searchdiv">
         <input id="searchinput" name="keyword" type="search" placeholder="관심있는 내용을 검색해보세요!" autocomplete="off" class="searchbar">
         <i class="bi bi-search"></i>
     </div>
-
     <!-- 글쓰기 버튼 -->
     <c:if test="${sessionScope.cmidx!=null || sessionScope.memstate==100}">
         <button type="button" class="btn btn-sm btn-outline-success hb_write_btn"
                 onclick="location.href='form'" style="margin-bottom: 10px">글쓰기
         </button>
     </c:if>
-
     <script>
-
         $("#searchinput").keydown(function (e){
-
             // 일단은 엔터 눌러야 검색되는걸로 -> 나중에 뭐 클릭해도 검색되게 바꿔도될듯?
             if(e.keyCode==13){
                 // 검색내용
                 var keyword = $(this).val();
-               //var searchOption = $("#searchOption").val();
+                //var searchOption = $("#searchOption").val();
                 console.log(keyword);
                 //console.log(searchOption);
-
                 // null 값 검색시 -> 아무일도 안일어남
                 if(keyword==''){
                     alert("검색하실 내용을 입력해주세요.")
                     return
                 } else {
                     //alert("검색결과출력.");
-
                     $.ajax({
                         type: "post",
                         url: "./hboardsearchlist",
@@ -104,21 +86,15 @@
                         dataType: "json",
                         success: function (res) {
                             let s = '';
-
                             $.each(res, function (idx, ele) {
-
                                 s += `번호 : \${ele.hb_idx}<br>`;
                                 s += `제목 : \${ele.hb_subject}<br>`;
                                 s += `cm_idx : \${ele.cm_idx}<br>`;
-
                                 s += `내용 : \${ele.hb_content}<br>`;
                                 s += `검색한내용 : \${ele.keyword}<br>`;
                                 s += `조회수 : \${ele.hb_readcount}<br>`;
-
                                 s += `작성일 : \${ele.hb_writeday}<br>`;
-
                                 s += `사진 : <hr>`;
-
                             })
                             $(".hb_wrap").html(s);
                         },
@@ -130,20 +106,14 @@
                 }
             }
         });
-
     </script>
-
-
     <!--=============================================================================-->
-
-<div class="listbox">
-    <c:forEach var="dto" items="${list}" varStatus="i">
-        <div class="box" <c:if test="${i.index % 2 == 1}">style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;"</c:if>>
-
-            <span class="hb_writeday"><fmt:formatDate value="${dto.fb_writeday}" pattern="MM/dd"/></span>
-            <span class="hb_readcount"><div class="icon_read"></div> ${dto.hb_readcount}</span>
-
-            <span class="hb_photo">
+    <div class="listbox">
+        <c:forEach var="dto" items="${list}" varStatus="i">
+            <div class="box" <c:if test="${i.index % 2 == 1}">style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;"</c:if>>
+                <span class="hb_writeday"><fmt:formatDate value="${dto.fb_writeday}" pattern="MM/dd"/></span>
+                <span class="hb_readcount"><div class="icon_read"></div> ${dto.hb_readcount}</span>
+                <span class="hb_photo">
                 <a href="hireboarddetail?hb_idx=${dto.hb_idx}">
                     <img src="http://${imageUrl}/hire/${dto.hb_photo.split(",")[0]}" id="photo">
                 </a>
@@ -158,32 +128,20 @@
             </div>
         </c:forEach>
     </div>
-
-
-
-
-
-
-
-<c:if test="${sessionScope.cmidx!=null || sessionScope.memstate==100}">
-<button type="button" class="btn btn-sm btn-outline-success hb_write_btn"
-        onclick="location.href='form'" style="margin-bottom: 10px">글쓰기
-</button>
-</c:if>
-
+    <c:if test="${sessionScope.cmidx!=null || sessionScope.memstate==100}">
+        <button type="button" class="btn btn-sm btn-outline-success hb_write_btn"
+                onclick="location.href='form'" style="margin-bottom: 10px">글쓰기
+        </button>
+    </c:if>
     <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
-
     <div id="loading" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999;">
-        <img src="${root}/photo/809.gif" alt="Loading..." style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"> <!-- 로딩 이미지의 경로를 설정하세요 -->
+        <img src="${root}/photo/loading.gif" alt="Loading..." style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"> <!-- 로딩 이미지의 경로를 설정하세요 -->
     </div>
-
     <script>
         $(document).ready(function () {
-
             var currentpage = 1;
             var isLoading = false;
             var noMoreData = false;
-
             $(window).scroll(function () {
                 var scrollHeight = Math.max(
                     document.body.scrollHeight, document.documentElement.scrollHeight,
@@ -191,12 +149,10 @@
                     document.body.clientHeight, document.documentElement.clientHeight
                 );
                 var scrollPos = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-
                 if (scrollPos + window.innerHeight >= scrollHeight) {
                     if (!isLoading && !noMoreData) {
                         isLoading = true;
                         var nextPage = currentpage + 1;
-
                         $.ajax({
                             type: "GET",
                             url: "./listajax",
@@ -240,29 +196,19 @@
                 }
             });
         });
-
-
         // When the user scrolls down 20px from the top of the document, show the button
-    window.onscroll = function() {scrollFunction()};
-
-    function scrollFunction() {
-        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-            document.getElementById("myBtn").style.display = "block";
-        } else {
-            document.getElementById("myBtn").style.display = "none";
+        window.onscroll = function() {scrollFunction()};
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("myBtn").style.display = "block";
+            } else {
+                document.getElementById("myBtn").style.display = "none";
+            }
         }
-    }
-
-    // When the user clicks on the button, scroll to the top of the document
-    function topFunction() {
-        document.body.scrollTop = 0; // For Safari
-        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-    }
-
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
     </script>
-
-
 </div>
-
-
-

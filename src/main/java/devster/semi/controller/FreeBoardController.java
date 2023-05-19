@@ -63,11 +63,13 @@ public class FreeBoardController {
             map.put("commentCnt", freeBoardService.commentCnt(dto.getFb_idx()));
 
             String m_photo = freeBoardService.selectPhotoOfMidx(dto.getFb_idx());
-            if (m_photo != "no") {
-                map.put("m_photo", m_photo);
+
+            if(m_photo.equals("no")) {
+                m_photo = "/photo/profile.jpg";
             } else {
-                map.put("m_photo", "/photo/profile.jpg");
+                m_photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+freeBoardService.selectPhotoOfMidx(dto.getFb_idx());
             }
+            map.put("m_photo",m_photo);
             map.put("fb_subject", dto.getFb_subject());
             map.put("fb_content", dto.getFb_content());
             map.put("fb_like", dto.getFb_like());
@@ -114,38 +116,31 @@ public class FreeBoardController {
     // 검색
     @PostMapping("/freeboardsearchlist")
     @ResponseBody
-    public List<Map<String, Object>> searchlist(@RequestParam(defaultValue = "1") int currentPage,
+    public List<Map<String, Object>> searchlist(@RequestParam int currentpage,
                                                 @RequestParam(defaultValue = "") String keyword,
-                                                @RequestParam(defaultValue = "all") String searchOption,
-                                                Model model) {
+                                                @RequestParam(defaultValue = "all") String searchOption
+                                                ) {
 
 
         int searchCount = freeBoardService.countsearch(searchOption, keyword);
-        int totalPage; // 총 페이지 수
         int perPage = 20; // 한 페이지당 보여줄 글 갯수
-        int perBlock = 10; // 한 블록당 보여질 페이지의 갯수
         int startNum; // 각 페이지에서 보여질 글의 시작번호
-        int startPage; // 각 블록에서 보여질 시작 페이지 번호
-        int endPage; // 각 블록에서 보여질 끝 페이지 번호
         int no; // 글 출력시 출력할 시작번호
 
-        // 총 페이지 수
-        totalPage = searchCount / perPage + (searchCount % perPage == 0 ? 0 : 1);
-        // 시작 페이지
-        startPage = (currentPage - 1) / perBlock * perBlock + 1;
-        // 끝 페이지
-        endPage = startPage + perBlock - 1;
-
-        // endPage가 totalPage 보다 큰 경우
-        if (endPage > totalPage)
-            endPage = totalPage;
 
         // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
-        startNum = (currentPage - 1) * perPage;
+        startNum = (currentpage - 1) * perPage;
+
 
         // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
         // no = totalCount - (currentPage - 1) * perPage;
         no = searchCount - startNum;
+
+        System.out.println("startNum:" + startNum);
+        System.out.println("currentpage:" +currentpage);
+        System.out.println("perPage:" + perPage);
+        System.out.println();
+
 
         // 각 페이지에 필요한 게시글 db에서 가져오기
         List<FreeBoardDto> list = freeBoardService.searchlist(searchOption, keyword, startNum, perPage);
@@ -155,15 +150,17 @@ public class FreeBoardController {
         for (FreeBoardDto dto : list) {
             Map<String, Object> map = new HashMap<>();
             map.put("fb_idx", String.valueOf(dto.getFb_idx()));
-            map.put("m_nickname", freeBoardService.selectNickNameOfMidx(dto.getFb_idx()));
+            map.put("nickName", freeBoardService.selectNickNameOfMidx(dto.getFb_idx()));
             map.put("commentCnt", freeBoardService.commentCnt(dto.getFb_idx()));
 
             String m_photo = freeBoardService.selectPhotoOfMidx(dto.getFb_idx());
-            if (m_photo != "no") {
-                map.put("m_photo", m_photo);
+
+            if(m_photo.equals("no")) {
+                m_photo = "/photo/profile.jpg";
             } else {
-                map.put("m_photo", "/photo/profile.jpg");
+                m_photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+freeBoardService.selectPhotoOfMidx(dto.getFb_idx());
             }
+            map.put("m_photo",m_photo);
             map.put("fb_subject", dto.getFb_subject());
             map.put("fb_content", dto.getFb_content());
             map.put("fb_like", dto.getFb_like());
@@ -175,12 +172,8 @@ public class FreeBoardController {
             map.put("keyword", keyword);
 
             // 출력시 필요한 변수들 model에 전부 저장
-            model.addAttribute("searchCount", searchCount);
-            model.addAttribute("startPage", startPage);
-            model.addAttribute("endPage", endPage);
-            model.addAttribute("totalPage", totalPage);
-            model.addAttribute("no", no);
-            model.addAttribute("currentPage", currentPage);
+            map.put("no", no);
+            map.put("currentpage", currentpage);
 
 
             // 사진이 들어있으면
@@ -246,11 +239,13 @@ public class FreeBoardController {
             map.put("commentCnt", freeBoardService.commentCnt(dto.getFb_idx()));
 
             String m_photo = freeBoardService.selectPhotoOfMidx(dto.getFb_idx());
-            if (m_photo != "no") {
-                map.put("m_photo", m_photo);
+
+            if(m_photo.equals("no")) {
+                m_photo = "/photo/profile.jpg";
             } else {
-                map.put("m_photo", "/photo/profile.jpg");
+                m_photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+freeBoardService.selectPhotoOfMidx(dto.getFb_idx());
             }
+            map.put("m_photo",m_photo);
             map.put("fb_subject", dto.getFb_subject());
             map.put("fb_content", dto.getFb_content());
             map.put("fb_like", dto.getFb_like());
@@ -345,8 +340,11 @@ public class FreeBoardController {
         boolean isAlreadyAddGoodRp = freeBoardService.isAlreadyAddGoodRp(fb_idx, (int) session.getAttribute("memidx"));
         boolean isAlreadyAddBadRp = freeBoardService.isAlreadyAddBadRp(fb_idx, (int) session.getAttribute("memidx"));
 
-        if (m_photo.equals("no")) {
-            m_photo = "photo/profile.jpg"; // 버켓에 넣어야 뜰듯....
+
+        if(m_photo.equals("no")) {
+            m_photo = "/photo/profile.jpg";
+        } else {
+            m_photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+freeBoardService.selectPhotoOfMidx(dto.getFb_idx());
         }
 
         model.addAttribute("dto", dto);
@@ -494,7 +492,7 @@ public class FreeBoardController {
     @ResponseBody
     public List<Map<String,Object>> list(int currentPage) {
         int totalCount = freeBoardService.getTotalCount();
-        int perPage = 10; // 한 페이지당 보여줄 글 갯수
+        int perPage = 20; // 한 페이지당 보여줄 글 갯수
         int startNum; // 각 페이지에서 보여질 글의 시작번호
         int no; // 글 출력시 출력할 시작번호
 
@@ -517,11 +515,13 @@ public class FreeBoardController {
             map.put("commentCnt", freeBoardService.commentCnt(dto.getFb_idx()));
 
             String m_photo = freeBoardService.selectPhotoOfMidx(dto.getFb_idx());
-            if (m_photo != "no") {
-                map.put("m_photo", m_photo);
+
+            if(m_photo.equals("no")) {
+                m_photo = "/photo/profile.jpg";
             } else {
-                map.put("m_photo", "/photo/profile.jpg");
+                m_photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+freeBoardService.selectPhotoOfMidx(dto.getFb_idx());
             }
+            map.put("m_photo",m_photo);
             map.put("fb_subject", dto.getFb_subject());
             map.put("fb_content", dto.getFb_content());
             map.put("fb_like", dto.getFb_like());

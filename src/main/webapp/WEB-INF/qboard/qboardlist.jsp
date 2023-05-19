@@ -7,6 +7,9 @@
 
 
 <script>
+    // 검색 여부 전역변수
+    var isSearch = false;
+
     function timeForToday(value) {
         const valueConv = value.slice(0, -2);
         const today = new Date();
@@ -45,10 +48,17 @@
             var position = $(window).scrollTop();
             $(".quickmenu").stop().animate({"top": position + currentPosition + "px"}, 1000);
 
+            console.log("$(window).scrollTop()"+$(window).scrollTop());
+            console.log($(document).height() - $(window).height());
+
+            console.log("$(document).height():"+$(document).height());
+            console.log("$(window).height()"+$(window).height());
+
+            //console.log($(window).scrollTop() == $(document).height() - $(window).height());
 
             // 무한스크롤
-            if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-                if (!isLoading && !noMoreData) {
+            if (Math.floor($(window).scrollTop()) == $(document).height() - $(window).height()) {
+                if (!isLoading && !noMoreData && !isSearch) {
                     isLoading = true;
                     var nextPage = currentpage + 1;
 
@@ -278,55 +288,111 @@
 
     <script>
 
+
         $("#searchinput").keydown(function (e) {
 
             // 일단은 엔터 눌러야 검색되는걸로 -> 나중에 뭐 클릭해도 검색되게 바꿔도될듯?
             if (e.keyCode == 13) {
+                isSearch = true;
+                console.log(isSearch);
+
                 // 검색내용
                 var keyword = $(this).val();
                 var searchOption = $("#searchOption").val();
+
+                var currentpage = 1;
+                var isLoading = false;
+                var noMoreData = false;
+
                 console.log(keyword);
                 console.log(searchOption);
 
                 // null 값 검색시 -> 아무일도 안일어남
                 if (keyword == '') {
                     alert("검색하실 내용을 입력해주세요.")
-
+                    return
                 } else {
                     //alert("검색결과출력.");
 
-                    $.ajax({
-                        type: "post",
-                        url: "./qboardsearchlist",
-                        data: {"keyword": keyword, "searchOption": searchOption},
-                        dataType: "json",
-                        success: function (res) {
-                            let s = '';
+                    if (!isLoading && !noMoreData) {
+                        isLoading = true;
+                        var nextPage = currentpage + 1;
+                        $.ajax({
+                            type: "post",
+                            url: "./qboardsearchlist",
+                            data: {"keyword": keyword, "searchOption": searchOption, "currentpage": nextPage},
+                            dataType: "json",
+                            beforeSend: function () {
+                                $("#loading").show();
+                            },
+                            complete: function () {
+                                isLoading = false;
+                            },
+                            success: function (res) {
+                                if (res.searchCount == 0) {
+                                    $(".listbox").html(`<h2 class="alert alert-outline-secondary">등록된 게시글이 없습니다..</h2>`);
+                                    $("#loading").hide();
+                                } else {
+                                    if (res.length == 0) {
+                                        alert("검색 결과가 없습니다.");
+                                        noMoreData = true;
+                                        $("#loading").hide();
+                                    } else {
+                                        setTimeout(function () {
+                                            currentpage++;
+                                            var s = '';
 
-                            $.each(res, function (idx, ele) {
+                                            $.each(res, function (idx, dto) {
+                                                if (dto.qb_dislike > 19) {
+                                                    if(idx % 2 == 1) {
+                                                        s += `<div class="blurbox" style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">`;
+                                                    } else {
+                                                        s += `<div class="blurbox">`;
+                                                    }
+                                                } else {
+                                                    if(idx % 2 == 1) {
+                                                        s += `<div class="box" style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">`;
+                                                    } else {
+                                                        s += `<div class="box">`;
+                                                    }
+                                                }
+                                                s += `<span class="qb_writeday">\${dto.qb_writeday}</span>`
+                                                s += `<span class="qb_readcount"><div class="icon_read"></div>\${dto.qb_readcount}</span><br><br>`;
+                                                s += `<span class="nickName" style="cursor: pointer" onclick=message(\${dto.nickName})><img src="http://${imageUrl}/member/\${dto.m_photo}" class="memberimg" style="width: 20px; height: 20px; border-radius: 100px;">&nbsp;\${dto.nickName}</span>`;
+                                                s += `<div class="mainbox">`
+                                                s += `<h3 class="qb_subject"><a href="detail?qb_idx=\${dto.qb_idx}"><b>\${dto.qb_subject}</b></a></h3>`;
+                                                if (dto.qb_photo == 'n') {
+                                                    var content = dto.qb_content.substring(0, 120);
+                                                    if (dto.qb_content.length >= 120) {
+                                                        content += ".....";
+                                                    }
+                                                    s += `<h5 class="qb_content" style="width: 90%"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span>\${content}</span></a></h5>`;
+                                                } else {
+                                                    var content = dto.qb_content.substring(0, 80);
+                                                    if (dto.qb_content.length >= 80) {
+                                                        content += ".....";
+                                                    }
+                                                    s += `<h5 class="qb_content" style="width:80%"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span class="photocontent">\${content}</span></a></h5>`;
+                                                    s += `<div style="position:relative; right:0; top: -80px;"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span class="qb_photo"><img src="http://${imageUrl}/qboard/\${dto.qb_photo.split(",")[0]}" id="qb_photo"></span></a></div>`;
+                                                }
+                                                s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.qb_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.qb_dislike}</div><div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;\${dto.count}</div></div>`;
+                                                s += `</div>`;
+                                                s += `</div>`;
+                                            })
+                                            $(".listbox").html(s);
+                                            $("#loading").hide();
 
-                                s += `번호 : \${ele.qb_idx}<br>`;
-                                s += `제목 : \${ele.qb_subject}<br>`;
-                                s += `작성자 : \${ele.m_nickname}<br>`;
+                                        }, 1000);  // 1초 후에 실행
+                                    }
+                                }
+                            },
 
-                                s += `내용 : \${ele.qb_content}<br>`;
-                                s += `검색한내용 : \${ele.keyword}<br>`;
-                                s += `검색 카테고리 : \${ele.searchOption}<br>`;
-                                s += `작성일 : \${ele.qb_writeday}<br>`;
-                                s += `댓글수 : \${ele.commentCnt}<br>`;
-                                s += `조회 : \${ele.qb_readcount}<br>`;
-                                s += `좋아요 : \${ele.qb_like}<br>`;
-                                s += `싫어요 : \${ele.qb_dislike}<br>`;
-                                s += `사진 : <hr>`;
-
-                            })
-                            $(".table").html(s);
-                        },
-                        error: function (xhr, status, error) {
-                            // 요청이 실패했을 때의 처리 로직
-                            console.log("Error:", error);
-                        }
-                    });
+                            error: function (xhr, status, error) {
+                                // 요청이 실패했을 때의 처리 로직
+                                console.log("Error:", error);
+                            }
+                        });
+                    }
                 }
             }
         });
