@@ -198,100 +198,16 @@
     </style>
 </head>
 <body>
-<<<<<<< HEAD
-<form name="update-form">
 
-    <div style="width: 500px; margin-left: 100px;">
-        <%-- 세션에서 로그인한 회원의 아이디를 가져옴 --%>
-        <input type="hidden" name="rb_idx" value="${dto.rb_idx}" class="rb_idx">
-
-        <c:set var="m_idx" value="${sessionScope.memidx}"/>
-        <c:set var="m_nic" value="${sessionScope.memnick}"/>
-
-        <p>로그인한 회원: ${m_nic}</p>
-        <input type="hidden" name="m_idx" value="${m_idx}" >
-
-        타입 : <select class="rb_type" name="rb_type">
-        <option value="1"${dto.rb_type == 1 ? 'selected' : ''}>면접 후기</option>
-        <option value="2"${dto.rb_type == 2 ? 'selected' : ''}>코딩테스트 후기</option>
-        <option value="3"${dto.rb_type == 3 ? 'selected' : ''}>합격 후기</option>
-    </select>
-            <input id="rearch-input" type="text" name="ci_idx" >
-            <div id="search-result"></div>
-        <br>
-
-        <div class="star-rb_star">
-
-            <c:if test="${dto.rb_star == 1}">
-                <input type="radio" id="5-stars" name="rb_star" value="5"/>
-                <label for="5-stars" class="star">&#9733;</label>
-                <input type="radio" id="4-stars" name="rb_star" value="4"/>
-                <label for="4-stars" class="star">&#9733;</label>
-                <input type="radio" id="3-stars" name="rb_star" value="3"/>
-                <label for="3-stars" class="star">&#9733;</label>
-                <input type="radio" id="2-stars" name="rb_star" value="2"/>
-                <label for="2-stars" class="star">&#9733;</label>
-                <input type="radio" id="1-stars" name="rb_star" value="1" checked="checked"/>
-                <label for="1-stars" class="star">&#9733;</label>
-            </c:if>
-            <c:if test="${dto.rb_star == 2}">
-                <input type="radio" id="5-stars" name="rb_star" value="5"/>
-                <label for="5-stars" class="star">&#9733;</label>
-                <input type="radio" id="4-stars" name="rb_star" value="4"/>
-                <label for="4-stars" class="star">&#9733;</label>
-                <input type="radio" id="3-stars" name="rb_star" value="3"/>
-                <label for="3-stars" class="star">&#9733;</label>
-                <input type="radio" id="2-stars" name="rb_star" value="2" checked="checked"/>
-                <label for="2-stars" class="star">&#9733;</label>
-                <input type="radio" id="1-stars" name="rb_star" value="1"/>
-                <label for="1-stars" class="star">&#9733;</label>
-            </c:if>
-            <c:if test="${dto.rb_star == 3}">
-                <input type="radio" id="5-stars" name="rb_star" value="5"/>
-                <label for="5-stars" class="star">&#9733;</label>
-                <input type="radio" id="4-stars" name="rb_star" value="4"/>
-                <label for="4-stars" class="star">&#9733;</label>
-                <input type="radio" id="3-stars" name="rb_star" value="3" checked="checked"/>
-                <label for="3-stars" class="star">&#9733;</label>
-                <input type="radio" id="2-stars" name="rb_star" value="2"/>
-                <label for="2-stars" class="star">&#9733;</label>
-                <input type="radio" id="1-stars" name="rb_star" value="1"/>
-                <label for="1-stars" class="star">&#9733;</label>
-            </c:if>
-            <c:if test="${dto.rb_star == 4}">
-                <input type="radio" id="5-stars" name="rb_star" value="5"/>
-                <label for="5-stars" class="star">&#9733;</label>
-                <input type="radio" id="4-stars" name="rb_star" value="4" checked="checked"/>
-                <label for="4-stars" class="star">&#9733;</label>
-                <input type="radio" id="3-stars" name="rb_star" value="3"/>
-                <label for="3-stars" class="star">&#9733;</label>
-                <input type="radio" id="2-stars" name="rb_star" value="2"/>
-                <label for="2-stars" class="star">&#9733;</label>
-                <input type="radio" id="1-stars" name="rb_star" value="1"/>
-                <label for="1-stars" class="star">&#9733;</label>
-            </c:if>
-            <c:if test="${dto.rb_star == 5}">
-                <input type="radio" id="5-stars" name="rb_star" value="5" checked="checked"/>
-                <label for="5-stars" class="star">&#9733;</label>
-                <input type="radio" id="4-stars" name="rb_star" value="4"/>
-                <label for="4-stars" class="star">&#9733;</label>
-                <input type="radio" id="3-stars" name="rb_star" value="3"/>
-                <label for="3-stars" class="star">&#9733;</label>
-                <input type="radio" id="2-stars" name="rb_star" value="2"/>
-                <label for="2-stars" class="star">&#9733;</label>
-                <input type="radio" id="1-stars" name="rb_star" value="1"/>
-                <label for="1-stars" class="star">&#9733;</label>
-            </c:if>
-=======
 <div class="post">
     <div class="contact col-lg-6">
         <div class="title" style="margin-top: 30px;">
             <img src="/photo/logoimage.png" style="width: 100px;">
             <h2>Riview Board</h2>
->>>>>>> main
+
         </div>
 
-        <form form name="update-form">
+        <form name="update-form">
 
             <c:set var="m_idx"  value="${sessionScope.memidx}"/>
             <c:set var="m_nic"  value="${sessionScope.memnick}"/>
@@ -460,21 +376,23 @@
         var rb_star = $("input[name='rb_star']:checked").val();
         var rb_content = $(".rb_content").val();
         var m_idx = $("input[name='m_idx']").val();
+        var rb_idx =$(".rb_idx").val();
         /*    var ci_idx = $("input[name='ci_idx']").val() || null;*/
-        insertAjax(ci_idx, rb_type, rb_star, rb_content, m_idx);
+        updateAjax(ci_idx, rb_type, rb_star, rb_content, m_idx,rb_idx);
     });
 
-    function insertAjax(ci_idx, rb_type, rb_star, rb_content, m_idx) {
+    function updateAjax(ci_idx, rb_type, rb_star, rb_content, m_idx,rb_idx) {
 
 
         $.ajax({
-            url : "./insert",
+            url : "./update",
             dataType: "json",
             data: { "rb_type": rb_type,
                 "rb_star": rb_star,
                 "rb_content": rb_content,
                 "m_idx": m_idx,
-                "ci_idx": ci_idx
+                "ci_idx": ci_idx,
+                "rb_idx":rb_idx
             },
 
             method: 'post',

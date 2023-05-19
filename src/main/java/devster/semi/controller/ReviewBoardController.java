@@ -156,7 +156,6 @@ public class ReviewBoardController {
         dto.setCi_idx(ci_idx);
 
         reviewService.insertreview(dto); // ReviewDto 객체 insert 하기
-        ..
         // updateCompanyinfoStar 메서드 호출
         CompanyinfoDto companyinfoDto = new CompanyinfoDto();
         companyinfoDto.setCi_idx(ci_idx);

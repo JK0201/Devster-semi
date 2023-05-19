@@ -1,5 +1,6 @@
 package devster.semi.service;
 
+import devster.semi.dto.QboardDto;
 import devster.semi.dto.Re_carDto;
 import devster.semi.dto.Re_licDto;
 import devster.semi.dto.ResumeDto;
@@ -20,4 +21,9 @@ public interface Resumserviceinter {
    public void updatelic(Re_licDto licdto);
     public void updatecar(Re_carDto cardto);
     public void deletecar (int recar_idx);
+    List<ResumeDto> selectall(ResumeDto dto);
+    public String selectNickNameOfm_idx(int m_idx);
+    public String selectPhotoOfm_idx(int m_idx);
+    public int getTotalCount();
+    public List<ResumeDto> getPagingList(int start,int perpage);
 }

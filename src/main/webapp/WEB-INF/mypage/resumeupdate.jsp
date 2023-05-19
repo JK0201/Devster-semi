@@ -48,17 +48,110 @@
         #car-end-date {
             width: 120px;
         }
+
+        /*토글*/
+
+        .toggle_box {
+            display: flex;
+            align-items: center;
+            z-index: -1;
+            margin-top: 20px;
+        }
+
+        #custom_input {
+            display: none;
+        }
+
+        #custom_input + label.toggle_btn_label {
+            position: relative;
+            width: 12rem;
+            height: 3rem;
+        }
+
+        #custom_input + label.toggle_btn_label > span {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 40px;
+            background-color: #ccc;
+
+            transition: all .4s;
+
+        }
+
+        #custom_input + label.toggle_btn_label > span:before {
+            display: flex;
+            position: absolute;
+            height: 2.5rem;
+            width: fit-content;
+            padding: 0 1rem;
+            left: 0.25rem;
+            bottom: 0.25rem;
+            border-radius: 20px;
+            background-color: #fff;
+
+            content: "비공개";
+            align-items: center;
+            font-weight: bold;
+            color: rgb(29, 29, 29);
+
+            -webkit-transition: all .4s;
+            transition: all .4s;
+        }
+
+        #custom_input:checked + label.toggle_btn_label > span {
+            background-color: black;
+        }
+
+        #custom_input:checked + label.toggle_btn_label > span:before {
+            -webkit-transform: translateX(calc(11.5rem - 100%));
+            -ms-transform: translateX(calc(11.5rem - 100%));
+            transform: translateX(calc(11.5rem - 100%));
+            right: 0.25rem;
+            bottom: 0.25rem;
+            content: "공개";
+        }
+
+        #custom_input:disabled + label.toggle_btn_label {
+            display: none;
+        }
     </style>
 </head>
 <body>
 <div class="quanbu">
-    <form action="update" enctype="multipart/form-data" method="post">
+    <form action="resumeupdate" enctype="multipart/form-data" method="post">
         <%--hidden--%>
         <input type="hidden" name="r_idx" value="${dto.r_idx}">
         <input type="hidden" name="m_idx" value="${sessionScope.memidx}">
 
 
-        <div id="r_intro">
+            <div class="toggle_box">
+                <c:if test="${dto.r_status == 1}">
+                    <input type="checkbox" id="custom_input" name="r_status" value="${dto.r_status}" checked onchange="updateToggleValue()">
+                </c:if>
+                <c:if test="${dto.r_status != 1}">
+                    <input type="checkbox" id="custom_input" name="r_status" value="${dto.r_status}" onchange="updateToggleValue()">
+                </c:if>
+                <label for="custom_input" class="toggle_btn_label">
+                    <span></span>
+                </label>
+            </div>
+
+            <script>
+                function updateToggleValue() {
+                    var toggle = document.getElementById("custom_input");
+                    if (toggle.checked) {
+                        toggle.value = "1";
+                    } else {
+                        toggle.value = "0";
+                    }
+                }
+            </script>
+
+            <div id="r_intro">
             <div style=" font-size: 20px">간단 소개줄</div>
             <hr>
             <div style="background-color: #FFF2FE;">
@@ -141,16 +234,8 @@
             <input type="text" id="skillinput" placeholder="사용가능한 툴 ex:java" name="r_skill"  style="width: 300px">
 
            <input type="hidden" id="r_skill" name="r_skill" value="${dto.r_skill}">
-            <div id="result" value="${dto.r_skill}">${dto.r_skill}</div>
-          <%--  <script>
-                var skillList = document.getElementById("result").textContent;
-                var skills = skillList.split(",");
+            <div id="result" value="${dto.r_skill}"  ><span style="display: none"> ${dto.r_skill}</span></div>
 
-                skills.forEach(function (skill) {
-                    document.write("<span>" + skill + "</span>");
-                    document.write("<span style='margin-right: 3px;'></span>"); // 공백 추가
-                });
-            </script>--%>
         </div>
 
         <div id="r_lic" style="width: 800px; height: 300px;">
@@ -209,42 +294,46 @@
 </body>
 <script>
     //skill ajax 이벤트
+
     document.addEventListener("DOMContentLoaded", function () {
         const input = document.getElementById("skillinput");
         const result = document.getElementById("result");
-        const r_skill = document.getElementById("r_skill");
-
-        const existingSkills = r_skill.value.split(","); // 기존의 값 가져오기
-
-        // 기존의 값 표시
-        existingSkills.forEach(function (skill) {
-            const span = document.createElement("span");
-            span.textContent = skill.trim();
-            result.appendChild(span);
-            result.appendChild(document.createTextNode('\u00A0'));
-        });
+        let r_text = "";
 
         input.addEventListener("keydown", function (event) {
             if (event.key === "Enter") {
-                event.preventDefault();
-                const values = input.value.split(",");
+                event.preventDefault(); // Prevent the default form submission behavior
+                const values = input.value.split(","); // Split the input value into an array of values
 
                 values.forEach(function (value) {
-                    if (value.trim() !== "") {
+                    if (value.trim() !== "") { // Ignore empty values
                         const span = document.createElement("span");
                         span.textContent = value.trim();
+
+                        const deleteButton = document.createElement("button"); // Create delete button
+                        deleteButton.textContent = "X";
+                        deleteButton.addEventListener("click", function () {
+                            result.removeChild(span); // Remove the span element
+                            result.removeChild(deleteButton); // Remove the delete button
+                            r_text = r_text.replace(span.textContent + ",", ""); // Remove the value from the r_text variable
+                            $("#r_skill").val(r_text); // Update the hidden input value
+                        });
+
                         result.appendChild(span);
-                        result.appendChild(document.createTextNode('\u00A0'));
+                        result.appendChild(deleteButton);
+                        result.appendChild(document.createTextNode('\u00A0')); // &nbsp;
+
+                        r_text += span.textContent + ',';
                     }
                 });
 
-                const updatedSkills = [...existingSkills, ...values]; // 기존 값과 새로운 값 합치기
-                r_skill.value = updatedSkills.join(","); // 업데이트된 값을 hidden input에 설정
-
-                input.value = "";
+                $("#r_skill").val(r_text);
+                input.value = ""; // Clear the input field
             }
         });
     });
+
+
     //경력 + 이벤트
     const addInputButton = document.getElementById("car-add");
     const form = document.getElementById("form-car");
@@ -255,14 +344,54 @@
         const newInputGroup = document.createElement("div");
         newInputGroup.classList.add("form-group");
         newInputGroup.innerHTML = `
-            <input type="date" name="r_carstartdate" id="car-start-date" >
-            <input type="date" name="r_carenddate"  id="car-end-date">
-            <input type="text" name="r_company" placeholder="회사명">
-            <input type="text" name="r_department" placeholder="부서">
-            <input type="text" name="r_position" placeholder="직책">
-        `;
+        <input type="date" name="r_carstartdate" class="car-start-date">
+        <input type="date" name="r_carenddate" class="car-end-date">
+        <input type="text" name="r_company" placeholder="회사명">
+        <input type="text" name="r_department" placeholder="부서">
+        <input type="text" name="r_position" placeholder="직책">
+    `;
         form.appendChild(newInputGroup);
+
+        const startDateInputs = document.querySelectorAll('.car-start-date');
+        const endDateInputs = document.querySelectorAll('.car-end-date');
+
+        startDateInputs.forEach(function (input) {
+            const currentDate = new Date().toISOString().split('T')[0];
+            input.setAttribute('max', currentDate);
+
+            input.addEventListener('change', function () {
+                const selectedDate = input.value;
+                if (selectedDate > currentDate) {
+                    alert('오늘 이후의 날짜는 선택할 수 없습니다.');
+                    input.value = currentDate;
+                }
+
+                const endDateInput = input.parentNode.querySelector('.car-end-date');
+                if (endDateInput.value !== '' && selectedDate > endDateInput.value) {
+                    endDateInput.value = selectedDate;
+                }
+            });
+        });
+
+        endDateInputs.forEach(function (input) {
+            const currentDate = new Date().toISOString().split('T')[0];
+            input.setAttribute('max', currentDate);
+
+            input.addEventListener('change', function () {
+                const selectedDate = input.value;
+                if (selectedDate > currentDate) {
+                    alert('오늘 이후의 날짜는 선택할 수 없습니다.');
+                    input.value = currentDate;
+                }
+
+                const startDateInput = input.parentNode.querySelector('.car-start-date');
+                if (startDateInput.value !== '' && selectedDate < startDateInput.value) {
+                    input.value = startDateInput.value;
+                }
+            });
+        });
     });
+
     //자격증 + 이벤트
     const addInputlic = document.getElementById("lic-add");
     const licform = document.getElementById("form-lic");
@@ -273,100 +402,141 @@
         const newInputGroup = document.createElement("div");
         newInputGroup.classList.add("form-group-lic");
         newInputGroup.innerHTML = `
-      <input type="date" id="lic-date" name="r_licdate">
-      <input type="text" placeholder="자격증" style="width: 300px" name="r_licname">
+        <input type="date" class="lic-date" name="r_licdate">
+        <input type="text" placeholder="자격증" style="width: 300px" name="r_licname">
     `;
         licform.appendChild(newInputGroup);
+
+        // Get the input element for the date
+        const dateInputlic = newInputGroup.querySelector('.lic-date');
+
+        // Get the current date
+        const currentDatelic = new Date().toISOString().split('T')[0];
+
+        // Set the max attribute of the date input to the current date
+        dateInputlic.setAttribute('max', currentDatelic);
+
+        // Add event listener to check date on change
+        dateInputlic.addEventListener('change', function () {
+            const selectedDate = dateInputlic.value;
+            if (selectedDate > currentDatelic) {
+                alert('오늘 이후의 날짜는 선택할 수 없습니다.');
+                dateInputlic.value = currentDatelic; // Reset the input value to current date
+            }
+        });
     });
 
 
-    // Get the input element for the date
-    const dateInputcar = document.getElementById('car-start-date');
-
-    // Get the current date
-    const currentDatecar = new Date().toISOString().split('T')[0];
-
-    // Set the min attribute of the date input to the current date
-    dateInputcar.setAttribute('max', currentDatecar);
+    // 경력 날짜 제한 - 오늘 이후 금지
+    // Get the input elements for start date and end date
+    const carstartDateInput = document.getElementById('car-start-date');
+    const carendDateInput = document.getElementById('car-end-date');
 
     // Add event listener to check date on change
-    dateInputcar.addEventListener('change', function () {
-        const selectedDate = dateInputcar.value;
-        if (selectedDate > currentDatecar) {
-            alert('오늘 이후의 날짜는 선택할 수 없습니다.');
-            dateInputcar.value = currentDatecar; // Reset the input value to current date
+    carendDateInput.addEventListener('change', function() {
+        const carstartDate = new Date(carstartDateInput.value);
+        const carendDate = new Date(carendDateInput.value);
+
+        if (carstartDate > carendDate) {
+            alert('입학 날짜보다 졸업 날짜가 더 빠를 수 없습니다.');
+            carendDateInput.value = ''; // Reset the end date input value
         }
     });
+
     // Get the input element for the date
-    const dateInput = document.getElementById('car-end-date');
+    const cargsdateInput = document.getElementById('car-start-date');
+    const cargedateInput = document.getElementById('car-end-date');
 
     // Get the current date
-    const currentDate = new Date().toISOString().split('T')[0];
+    const cargscurrentDate = new Date().toISOString().split('T')[0];
 
-    // Set the min attribute of the date input to the current date
-    dateInput.setAttribute('max', currentDate);
+    // Set the min and max attributes of the date inputs
+    cargsdateInput.setAttribute('max', cargscurrentDate);
+    cargedateInput.setAttribute('max', cargscurrentDate);
 
     // Add event listener to check date on change
-    dateInput.addEventListener('change', function () {
-        const selectedDate = dateInput.value;
-        if (selectedDate > currentDate) {
+    cargsdateInput.addEventListener('change', function() {
+        const carselectedDate = cargsdateInput.value;
+
+        if (carselectedDate > cargscurrentDate) {
             alert('오늘 이후의 날짜는 선택할 수 없습니다.');
-            dateInput.value = currentDate; // Reset the input value to current date
+            cargsdateInput.value = cargscurrentDate; // Reset the input value to current date
+        }
+    });
+
+    cargedateInput.addEventListener('change', function() {
+        const carselectedDate = cargedateInput.value;
+
+        if (carselectedDate > cargscurrentDate) {
+            alert('오늘 이후의 날짜는 선택할 수 없습니다.');
+            cargedateInput.value = cargscurrentDate; // Reset the input value to current date
+        }
+    });
+
+    // 학력 날짜 제한 - 오늘 이후 금지
+
+    // Get the input elements for start date and end date
+    const gradestartDateInput = document.getElementById('grade-start-date');
+    const gradeendDateInput = document.getElementById('grade-end-date');
+
+    // Add event listener to check date on change
+    gradeendDateInput.addEventListener('change', function() {
+        const gradestartDate = new Date(gradestartDateInput.value);
+        const gradeendDate = new Date(gradeendDateInput.value);
+
+        if (gradestartDate > gradeendDate) {
+            alert('입학 날짜보다 졸업 날짜가 더 빠를 수 없습니다.');
+            gradeendDateInput.value = ''; // Reset the end date input value
         }
     });
 
     // Get the input element for the date
     const gsdateInput = document.getElementById('grade-start-date');
+    const gedateInput = document.getElementById('grade-end-date');
 
     // Get the current date
     const gscurrentDate = new Date().toISOString().split('T')[0];
 
-    // Set the min attribute of the date input to the current date
+    // Set the min and max attributes of the date inputs
     gsdateInput.setAttribute('max', gscurrentDate);
+    gedateInput.setAttribute('max', gscurrentDate);
 
     // Add event listener to check date on change
-    gsdateInput.addEventListener('change', function () {
-        const selectedDate = gsdateInput.value;
-        if (selectedDate > gscurrentDate) {
+    gsdateInput.addEventListener('change', function() {
+        const gresselectedDate = gsdateInput.value;
+
+        if (gresselectedDate > gscurrentDate) {
             alert('오늘 이후의 날짜는 선택할 수 없습니다.');
             gsdateInput.value = gscurrentDate; // Reset the input value to current date
         }
     });
-    // Get the input element for the date
-    const gedateInput = document.getElementById('grade-end-date');
 
-    // Get the current date
-    const gecurrentDate = new Date().toISOString().split('T')[0];
+    gedateInput.addEventListener('change', function() {
+        const gresselectedDate = gedateInput.value;
 
-    // Set the min attribute of the date input to the current date
-    gedateInput.setAttribute('max', gecurrentDate);
-
-    // Add event listener to check date on change
-    gedateInput.addEventListener('change', function () {
-        const selectedDate = gedateInput.value;
-        if (selectedDate > gecurrentDate) {
+        if (gresselectedDate > gscurrentDate) {
             alert('오늘 이후의 날짜는 선택할 수 없습니다.');
-            dateInput.value = gecurrentDate; // Reset the input value to current date
+            gedateInput.value = gscurrentDate; // Reset the input value to current date
         }
     });
+    // 자격증 날짜 제한 - 오늘 이후 금지
 
     // Get the input element for the date
-    const licdateInput = document.getElementById('lic-date');
+    const balicdateInput = document.getElementById('lic-end-date');
 
     // Get the current date
-    const liccurrentDate = new Date().toISOString().split('T')[0];
+    const baliccurrentDate = new Date().toISOString().split('T')[0];
 
-    // Set the min attribute of the date input to the current date
-    licdateInput.setAttribute('max', liccurrentDate);
+    // Set the min and max attributes of the date input
+    balicdateInput.setAttribute('max', baliccurrentDate);
 
     // Add event listener to check date on change
-    licdateInput.addEventListener('change', function () {
-        const selectedDate = licdateInput.value;
-        if (selectedDate > liccurrentDate) {
+    balicdateInput.addEventListener('change', function() {
+        const bagresselectedDate = balicdateInput.value;
+        if (bagresselectedDate > baliccurrentDate) {
             alert('오늘 이후의 날짜는 선택할 수 없습니다.');
-            licdateInput.value = liccurrentDate; // Reset the input value to current date
+            balicdateInput.value = baliccurrentDate; // Reset the input value to current date
         }
     });
-
 </script>
 </html>

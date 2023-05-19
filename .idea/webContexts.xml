@@ -12,6 +12,8 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member/accountfinder.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member/dndprac.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/message/message_list.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/message" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/mypage/relist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/mypage" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/mypage/resumewrite.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/mypage" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/qboard/qboarddetail.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/qboard" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/qboard/qboardform.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/qboard" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/qboard/qboardlist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/qboard" />

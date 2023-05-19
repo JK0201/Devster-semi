@@ -278,27 +278,6 @@
 </script>
 
 <div id="quanbu">
-<<<<<<< HEAD
-<button type="button" class="btn btn-sm btn-outline-danger"
-        onclick="location.href='./reviewriterform'" style="margin-bottom: 10px">상품등록
-</button>
-    <button type="button" onclick="location.href='../resume/detail?m_idx=${sessionScope.memidx}'">Go to Detail Page</button>
-<select id="rb_typelist" onchange="rb_typelist()">
-    <option value="0">전체보기</option>
-    <option value="1">면접</option>
-    <option value="2">코딩테스트</option>
-    <option value="3">합격</option>
-</select>
-=======
-<%--<button type="button" class="btn btn-sm btn-outline-danger"--%>
-<%--        onclick="location.href='./reviewriterform'" style="margin-bottom: 10px">상품등록--%>
-<%--</button>--%>
-
->>>>>>> main
-
-
-<%--<h5 class="alert alert-success">--%>
-<%--    총 ${totalCount}개의 글이 등록되어있습니다</h5><br>--%>
 
 <div class="rb_listmain clear">
     <div class="headbox">

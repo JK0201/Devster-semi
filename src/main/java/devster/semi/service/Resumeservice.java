@@ -1,5 +1,6 @@
 package devster.semi.service;
 
+import devster.semi.dto.QboardDto;
 import devster.semi.dto.Re_carDto;
 import devster.semi.dto.Re_licDto;
 import devster.semi.dto.ResumeDto;
@@ -7,6 +8,7 @@ import devster.semi.mapper.ResumeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -70,4 +72,33 @@ public class Resumeservice implements Resumserviceinter {
     public void deletecar(int recar_idx) {
         resumeMapper.deletecar(recar_idx);
     }
+
+    @Override
+    public List<ResumeDto> selectall(ResumeDto dto) {
+        return resumeMapper.selectall(dto);
+    }
+
+    @Override
+    public String selectNickNameOfm_idx(int m_idx) {
+        return resumeMapper.selectNickNameOfm_idx(m_idx);
+    }
+
+    @Override
+    public String selectPhotoOfm_idx(int m_idx) {
+        return resumeMapper.selectPhotoOfm_idx(m_idx);
+    }
+
+    @Override
+    public int getTotalCount() {
+        return resumeMapper.getTotalCount();
+    }
+
+    @Override
+    public List<ResumeDto> getPagingList(int start,int perpage) {
+        Map<String,Integer> map = new HashMap<>();
+        map.put("start",start);
+        map.put("perpage",perpage);
+        return resumeMapper.getPagingList(map);
+    }
+
 }

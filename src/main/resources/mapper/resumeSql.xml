@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="devster.semi.mapper.ResumeMapper">
     <insert id="insertresume" parameterType="resumeDto">
-        INSERT INTO resume (m_idx,r_self, r_pos, r_skill, r_file, r_refile, r_link,r_gradestart,r_gradeend,r_gradecom,r_sta)
-        VALUES (#{m_idx}, #{r_self}, #{r_pos}, #{r_skill}, #{r_file}, #{r_refile}, #{r_link}, #{r_gradestart}, #{r_gradeend}, #{r_gradecom},#{r_sta})
+        INSERT INTO resume (m_idx,r_self, r_pos, r_skill, r_file, r_refile, r_link,r_gradestart,r_gradeend,r_gradecom,r_sta,r_status,r_ldate)
+        VALUES (#{m_idx}, #{r_self}, #{r_pos}, #{r_skill}, #{r_file}, #{r_refile}, #{r_link}, #{r_gradestart}, #{r_gradeend}, #{r_gradecom},#{r_sta},#{r_status},now())
     </insert>
     <insert id="insertlic" parameterType="re_licDto">
         insert into re_lic (m_idx, r_licdate, r_licname)
@@ -37,6 +37,7 @@
         update resume
         set r_self = #{r_self},r_pos=#{r_pos},r_skill=#{r_skill},r_gradecom=#{r_gradecom},r_link=#{r_link}
             ,r_sta=#{r_sta},r_gradestart=#{r_gradestart},r_gradeend=#{r_gradeend},r_file=#{r_file},r_refile=#{r_refile}
+          ,r_status=#{r_status}
             where m_idx=#{m_idx}
     </update>
     <update id="updatelic" parameterType="re_licDto">
@@ -55,6 +56,27 @@
         DELETE FROM re_car where recar_idx=#{recar_idx}
     </delete>
 
+    <select id="selectall" parameterType="int" resultType="resumeDto">
+        select * from resume
+    </select>
+    <select id="selectNickNameOfm_idx" parameterType="int" resultType="String">
+        SELECT m.m_nickname
+        FROM resume rs
+                 JOIN member m ON rs.m_idx = m.m_idx
+        WHERE rs.m_idx = #{m_idx}
+    </select>
 
+    <select id="selectPhotoOfm_idx" parameterType="int" resultType="String">
+        SELECT m.m_photo
+        FROM resume rs
+                 JOIN member m ON rs.m_idx = m.m_idx
+        WHERE rs.m_idx = #{m_idx}
+    </select>
+    <select id="getTotalCount" resultType="int">
+        select count(*) from resume
+    </select>
+    <select id="getPagingList" parameterType="Map" resultType="resumeDto">
+        select * from resume where r_status=1 order by m_idx desc limit #{start},#{perpage}
 
+    </select>
 </mapper>

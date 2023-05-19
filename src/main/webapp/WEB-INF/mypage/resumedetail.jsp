@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: USER
-  Date: 2023-05-16
-  Time: PM 1:30
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -26,10 +20,11 @@
 </head>
 <body>
 <c:if test="${empty dto}">
-    <button type="button" onclick="location.href='./resume/resumewrite.jsp'">Go to Write Form</button>
+    <button type="button" onclick="location.href='./writer'">Go to Write Form</button>
 </c:if>
 
 <c:if test="${not empty dto}">
+
 idx &nbsp;&nbsp;   ${dto.r_idx} <br>
 자기소개  &nbsp;&nbsp; ${dto.r_self}<br>
 포지션 &nbsp;&nbsp; ${dto.r_pos}<br>
@@ -80,10 +75,10 @@ idx &nbsp;&nbsp;   ${dto.r_idx} <br>
 </c:forEach>
     <a href="http://${imageUrl}/re_resume/${dto.r_refile}" download class="file">첨부파일</a> <br>
     <a href="http://${imageUrl}/re_resume/${dto.r_refile}" download class="file">이력서 파일</a> <br><br>
-    <button type="button" onclick="location.href='../resume/updateform?m_idx=${sessionScope.memidx}'"class="btn btn-outline-dark">수정</button>
+    <button type="button" onclick="location.href='../mypage/updateform?m_idx=${sessionScope.memidx}'"class="btn btn-outline-dark">수정</button>
+
 </c:if>
 <br>
-
 
 </body>
 </html>
