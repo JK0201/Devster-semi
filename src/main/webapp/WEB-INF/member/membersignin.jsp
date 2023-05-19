@@ -152,7 +152,7 @@
             margin: 0 auto;
             border: none;
             cursor: pointer;
-            font-size: 2vh;
+            font-size: 19px;
             font-family: 'Noto Sans KR', 'Roboto';
             box-shadow: 0 15px 30px rgba(114, 30, 166, .36);
             transition: .2s linear;
@@ -489,9 +489,17 @@
         }
     });
 
-    $(".inputdelbtn").click(function(){
-       $(this).siblings().val("");
-       $(this).hide();
+    $("#m_email, #m_pass, #cm_email, #cm_pass").keydown(function () {
+        if ($(this).val() != "") {
+            $(this).siblings().show();
+        } else {
+            $(this).siblings().hide();
+        }
+    });
+
+    $(".inputdelbtn").click(function () {
+        $(this).siblings().val("");
+        $(this).hide();
     });
 
     //norm
