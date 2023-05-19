@@ -154,7 +154,7 @@
         order by ab_idx desc limit #{start}, #{perpage}
     </select>
     <select id="countsearch" resultType="int" parameterType="Map">
-        select count(*) from acacdemyboard ab JOIN member m ON ab.m_idx = m.m_idx
+        select count(*) from academyboard ab JOIN member m ON ab.m_idx = m.m_idx
         <include refid="search"></include>
     </select>
 

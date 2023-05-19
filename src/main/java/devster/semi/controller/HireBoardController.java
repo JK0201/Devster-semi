@@ -183,7 +183,7 @@ public class HireBoardController {
     // 검색
     @PostMapping("/hboardsearchlist")
     @ResponseBody
-    public List<Map<String, Object>> searchlist(@RequestParam(defaultValue = "1") int currentPage, @RequestParam(defaultValue = "") String keyword, Model model){
+    public List<Map<String, Object>> searchlist(@RequestParam(defaultValue = "1") int currentpage, @RequestParam(defaultValue = "") String keyword, Model model){
         int searchCount = hireService.countsearch(keyword);
         int totalPage; // 총 페이지 수
         int perPage = 20; // 한 페이지당 보여줄 글 갯수
@@ -195,14 +195,14 @@ public class HireBoardController {
         // 총 페이지 수
         totalPage = searchCount / perPage + (searchCount % perPage == 0 ? 0 : 1);
         // 시작 페이지
-        startPage = (currentPage - 1) / perBlock * perBlock + 1;
+        startPage = (currentpage - 1) / perBlock * perBlock + 1;
         // 끝 페이지
         endPage = startPage + perBlock - 1;
         // endPage가 totalPage 보다 큰 경우
         if (endPage > totalPage)
             endPage = totalPage;
         // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
-        startNum = (currentPage - 1) * perPage;
+        startNum = (currentpage - 1) * perPage;
         // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
         // no = totalCount - (currentPage - 1) * perPage;
         no = searchCount - startNum;
@@ -223,7 +223,7 @@ public class HireBoardController {
             model.addAttribute("endPage", endPage);
             model.addAttribute("totalPage", totalPage);
             model.addAttribute("no", no);
-            model.addAttribute("currentPage", currentPage);
+            model.addAttribute("currentpage", currentpage);
             // 사진이 들어있으면
             if(dto.getHb_photo()!="no"){
                 // 사진이 두장이상이면
@@ -302,5 +302,55 @@ public class HireBoardController {
     public List<HireBoardDto> bestPosts(){
         List<HireBoardDto> list = hireService.bestfreeboardPosts();
         return list;
+    }
+
+    // 무한스크롤
+    @GetMapping("/searchlistajax")
+    @ResponseBody
+    public List<Map<String,Object>> searchlistajax(int currentpage,@RequestParam(defaultValue = "") String keyword) {
+
+        int perPage = 20; // 한 페이지당 보여줄 글 갯수
+        int startNum; // 각 페이지에서 보여질 글의 시작번호
+        int no; // 글 출력시 출력할 시작번호
+
+        // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
+        startNum = (currentpage - 1) * perPage;
+
+        // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
+        // no = totalCount - (currentPage - 1) * perPage;
+
+        // 각 페이지에 필요한 게시글 db에서 가져오기
+        List<HireBoardDto> list = hireService.searchlist(keyword, startNum, perPage);
+
+        List<Map<String, Object>> fulllList = new ArrayList<>();
+
+        for (HireBoardDto dto : list) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("hb_idx", String.valueOf(dto.getHb_idx()));
+            map.put("cm_idx", dto.getCm_idx());
+            map.put("hb_subject", dto.getHb_subject());
+            map.put("hb_content", dto.getHb_content());
+            map.put("hb_readcount", dto.getHb_readcount());
+            map.put("hb_writeday", dto.getFb_writeday());
+            map.put("currentpage", currentpage);
+
+
+            // 사진이 들어있으면
+            if (dto.getHb_photo() != "no") {
+                // 사진이 두장이상이면
+                if (dto.getHb_photo().contains(",")) {
+                    int index = dto.getHb_photo().indexOf(",");
+                    String result = dto.getHb_photo().substring(0, index);
+                    map.put("hb_photo", result);
+                } else { //사진이 한장이면
+                    map.put("hb_photo", dto.getHb_photo());
+                }
+            }
+
+
+            fulllList.add(map);
+        }
+
+        return fulllList;
     }
 }
