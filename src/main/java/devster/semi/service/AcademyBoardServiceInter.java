@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface AcademyBoardServiceInter {
 
-    public int getTotalCount();
+    public int getTotalCount(int ai_idx);
 
     public int getCommentCnt(int ab_idx);
     public List<AcademyBoardDto> getPagingList(int start, int perpage,int ai_idx);

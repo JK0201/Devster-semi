@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.SessionScope;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
@@ -43,7 +44,7 @@ public class AcademyBoardController {
     @GetMapping("/list")
     public String list(@RequestParam(defaultValue = "1") int currentPage, Model model,HttpSession session) {
 
-        int totalCount = academyBoardService.getTotalCount();
+        int totalCount = academyBoardService.getTotalCount((Integer)session.getAttribute("acaidx"));
         int perPage = 20; // 한 페이지당 보여줄 글 갯수
         int startNum; // 각 페이지에서 보여질 글의 시작번호
         int no; // 글 출력시 출력할 시작번호
@@ -390,7 +391,7 @@ public class AcademyBoardController {
     @GetMapping("/listajax")
     @ResponseBody
     public List<Map<String, Object>> list(@RequestParam(defaultValue = "1")int currentPage, int ai_idx) {
-        int totalCount = academyBoardService.getTotalCount();
+        int totalCount = academyBoardService.getTotalCount(ai_idx);
         int perPage = 20; // 한 페이지당 보여줄 글 갯수
         int startNum; // 각 페이지에서 보여질 글의 시작번호
         int no; // 글 출력시 출력할 시작번호

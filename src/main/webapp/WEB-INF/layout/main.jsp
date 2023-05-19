@@ -174,11 +174,11 @@
                 </caption>
 
                 <tbody>
-                <c:if test="${totalCount == 0}">
+                <c:if test="${qboardTotalCount == 0}">
                     <h2>등록된 게시글이 없습니다..</h2>
                 </c:if>
 
-                <c:if test="${totalCount>0}">
+                <c:if test="${qboardTotalCount>0}">
                     <c:forEach var="dto" items="${qblist}">
                         <tr>
                             <td class="qb_subject clear">
@@ -223,11 +223,11 @@
 
 
                 <tbody>
-                <c:if test="${totalCount==0}">
+                <c:if test="${hireboardtotalCount==0}">
                     <h2>등록된 게시글이 없습니다..</h2>
                 </c:if>
 
-                <c:if test="${totalCount>0}">
+                <c:if test="${hireboardtotalCount>0}">
                     <c:forEach var="dto" items="${hirelist}">
                         <tr>
                             <td class="hb_subject clear">
@@ -266,32 +266,42 @@
 
 
                 <tbody>
-                <c:if test="${totalCount==0}">
-                    <h2>등록된 게시글이 없습니다..</h2>
-                </c:if>
-
-                <c:if test="${totalCount>0}">
-                    <c:forEach var="dto" items="${ablist}">
+                    <c:if test="${sessionScope.acaidx==null}">
                         <tr>
-                            <td class="ab_subject clear">
-                                <a href="academyboard/academyboarddetail?ab_idx=${dto.ab_idx}&currentPage=${currentPage}"
-                                   style="color: #000;">
-                                        ${dto.ab_subject}</a>
-                                <c:if test="${dto.ab_photo!=''}">
-                                    &nbsp; <%--<i class="bi bi-images"></i>--%>
-                                    <div class="icon_img"><img></div>
-                                </c:if>
-
-                            </td>
-
-                            <td class="ab_readcount clear">
-                                <div class="icon_read"><img></div>
-                                <span>${dto.ab_readcount}</span>
-                            </td>
+                            <td align="center">로그인 후 이용 가능합니다</td>
                         </tr>
+                    </c:if>
+                    <c:if test="${sessionScope.acaidx!=null}">
+                        <c:if test="${academyboardTotalCount==0}">
+                            <tr><td>등록된 게시글이 없습니다..</td></tr>
+                        </c:if>
 
-                    </c:forEach>
-                </c:if>
+                        <c:if test="${academyboardTotalCount>0}">
+                            <c:forEach var="dto" items="${ablist}">
+                                <tr>
+                                    <td class="ab_subject clear">
+                                        <a href="academyboard/academyboarddetail?ab_idx=${dto.ab_idx}&currentPage=${currentPage}"
+                                           style="color: #000;">
+                                                ${dto.ab_subject}</a>
+                                        <c:if test="${dto.ab_photo!=''}">
+                                            &nbsp; <%--<i class="bi bi-images"></i>--%>
+                                            <div class="icon_img"><img></div>
+                                        </c:if>
+
+                                    </td>
+
+                                    <td class="ab_readcount clear">
+                                        <div class="icon_read"><img></div>
+                                        <span>${dto.ab_readcount}</span>
+                                    </td>
+                                </tr>
+
+                            </c:forEach>
+
+                        </c:if>
+
+                    </c:if>
+
                 </tbody>
             </table>
 

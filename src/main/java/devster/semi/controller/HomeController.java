@@ -105,10 +105,13 @@ public class HomeController {
 
 		int hireboardtotalCount = hireService.getHireTotalCount();
 		List<HireBoardDto> hirelist=hireService.getHirePagingList(startNum, perPage);
+
 		/*List<HireBoardDto> hirelist=hireMapper.getAllPosts();*/
 		//model 에 저장
 		model.addAttribute("hirelist", hirelist);
 		model.addAttribute("currentPage",currentPage);
+
+		model.addAttribute("hireboardtotalCount",hireboardtotalCount);
 
 		//===========================공지사항===============================//
 
@@ -120,8 +123,8 @@ public class HomeController {
 
 		//===========================학원별 게시판===============================//
 
-		int academyboardTotalCount = academyBoardService.getTotalCount();
-		List<AcademyBoardDto> ablist = academyBoardService.getPagingList(startNum, perPage, (Integer)session.getAttribute("acaidx")==null?-1:(int)session.getAttribute("acaidx"));
+		int academyboardTotalCount = academyBoardService.getTotalCount((Integer)session.getAttribute("acaidx")==null?-1:(Integer) session.getAttribute("acaidx"));
+		List<AcademyBoardDto> ablist = academyBoardService.getPagingList(startNum, perPage, (Integer)session.getAttribute("acaidx")==null?-1:(Integer) session.getAttribute("acaidx"));
 
 		// 출력시 필요한 변수들 model에 전부 저장
 		model.addAttribute("ablist", ablist);

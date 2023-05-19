@@ -18,8 +18,14 @@ public class AcademyBoardService implements AcademyBoardServiceInter{
     private AcademyBoardMapper academyBoardMapper;
 
     @Override
-    public int getTotalCount() {
-        return academyBoardMapper.getTotalCount();
+    public int getTotalCount(int ai_idx) {
+
+        if(ai_idx == -1) {
+            List<AcademyBoardDto> list = new ArrayList<>();
+            return 0;
+        }
+
+        return academyBoardMapper.getTotalCount(ai_idx);
     }
 
     @Override
