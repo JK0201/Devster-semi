@@ -42,7 +42,7 @@
 <!--=======================================================스크립트==============================================-->
 
 <script>
-    $(document).ready(function () {
+    /*$(document).ready(function () {
         let slideIndex = 0;
         let slideCount = $("#slideShow .slide ul li").length;
         let isHover = false;
@@ -92,7 +92,7 @@
             $("#slideShow .slide ul").animate({left: -slideIndex * 1140}, 1000);
             setActiveIndicator(slideIndex);
         });
-    });
+    });*/
 </script>
 
 

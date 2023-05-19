@@ -30,6 +30,9 @@
     <section class="main">
         <tiles:insertAttribute name="main"/>
     </section>
+    <%--<footer class="footer">
+        <tiles:insertAttribute name="footer"/>
+    </footer>--%>
 </div>
 </body>
 </html>

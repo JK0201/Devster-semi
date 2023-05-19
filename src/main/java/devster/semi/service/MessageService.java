@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MessageService implements MessageServiceInter{
@@ -21,7 +23,7 @@ public class MessageService implements MessageServiceInter{
         String nick = dto.getNick();
 
         //메세지 리스트에 나타낼 것들 가져오기 - 가장 최근 메세지, 보낸 사람 프로필사진, 보낸사람 닉네임
-        ArrayList<MessageDto> list = (ArrayList) messageMapper.getMessageList(dto);
+        ArrayList<MessageDto> list = messageMapper.getMessageList(dto);
 
         for(MessageDto msgdto : list){
             msgdto.setNick(nick);
@@ -92,7 +94,6 @@ public class MessageService implements MessageServiceInter{
     @Override
     public void MessageSendInList(MessageDto dto) {
         //메세지 리스트에서 보낸건지 프로필에서 보낸건지 구분하기 위함
-       /* if(dto.getRoom() == 0){ // room이 0이라면 프로필에서 보낸것
             int exist_chat = messageMapper.getExistChat(dto);
             //프로필에서 보낸 것 중 메세지 내역이 없어서 첫 메세지가 될 경우를 구분하기 위함
             if(exist_chat ==0){ //메세지 내역이 없어서 0이면 message 테이블의 room 최댓값을 구해서 dto에 set한다
@@ -102,7 +103,6 @@ public class MessageService implements MessageServiceInter{
                 int room = Integer.parseInt(messageMapper.getSelectRoom(dto));
                 dto.setRoom(room);
             }
-        }*/
         messageMapper.MessageSendInList(dto);
     }
 
@@ -122,11 +122,22 @@ public class MessageService implements MessageServiceInter{
     }*/
 
     @Override
-    public ArrayList<MessageDto> getMessagesWithOtherUser(MessageDto dto) {
+    public Map<String,Object> getMessagesWithOtherUser(MessageDto dto) {
         String nick = dto.getNick();
         String other_nick = dto.getOther_nick();
+        int room = 0;
 
-        ArrayList<MessageDto> list = (ArrayList) messageMapper.getMessagesWithOtherUser(dto);
+        int exist_chat = messageMapper.getExistChat(dto);
+        //프로필에서 보낸 것 중 메세지 내역이 없어서 첫 메세지가 될 경우를 구분하기 위함
+        if(exist_chat ==0){ //메세지 내역이 없어서 0이면 message 테이블의 room 최댓값을 구해서 dto에 set한다
+            int max_room = messageMapper.getMaxRoom(dto);
+            room = max_room+1;
+        }else{ // 메세지 내역이 있다면 해당 room 번호를 가져온다
+            room = Integer.parseInt(messageMapper.getSelectRoom(dto));
+        }
+
+
+        ArrayList<MessageDto> list = messageMapper.getMessagesWithOtherUser(dto);
 
         for(MessageDto msgdto : list){
             int unread = messageMapper.getUnreadCount(msgdto);
@@ -137,6 +148,10 @@ public class MessageService implements MessageServiceInter{
             msgdto.setOther_nick(other_nick);
         }
 
-        return list;
+        Map<String,Object> map = new HashMap<>();
+        map.put("list",list);
+        map.put("room",room);
+
+        return map;
     }
 }

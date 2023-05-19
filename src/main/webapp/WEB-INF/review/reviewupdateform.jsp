@@ -378,10 +378,17 @@
         var m_idx = $("input[name='m_idx']").val();
         var rb_idx =$(".rb_idx").val();
         /*    var ci_idx = $("input[name='ci_idx']").val() || null;*/
+<<<<<<< HEAD
         updateAjax(ci_idx, rb_type, rb_star, rb_content, m_idx,rb_idx);
     });
 
     function updateAjax(ci_idx, rb_type, rb_star, rb_content, m_idx,rb_idx) {
+=======
+        updateAjax(ci_idx, rb_type, rb_star, rb_content, m_idx);
+    });
+
+    function updateAjax(ci_idx, rb_type, rb_star, rb_content, m_idx) {
+>>>>>>> main
 
 
         $.ajax({

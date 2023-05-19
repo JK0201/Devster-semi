@@ -35,6 +35,9 @@ public class MyPageController {
     NoticeBoardService noticeBoardService;
 
     @Autowired
+    MessageService messageService;
+
+    @Autowired
     private NcpObjectStorageService storageService;
 
 
@@ -338,7 +341,13 @@ public class MyPageController {
     @PostMapping("/normalrejectupgrade")
     @ResponseBody
     public void rejectUpgradeMstate(int m_idx) {
+        MessageDto dto = new MessageDto();
+        dto.setSend_nick("관리자");
+        dto.setContent("학원 인증이 반려되었습니다. 가이드라인에 따라 인증 사진을 체크해서 다시 업로드해주세요.");
+        dto.setRecv_nick(memberService.getOneDataByM_idx(m_idx).getM_nickname());
+        messageService.MessageSendInList(dto);
         myPageService.rejectUpgradeMstate(m_idx);
+
     }
     @PostMapping("/companycheck")
     @ResponseBody
@@ -355,6 +364,11 @@ public class MyPageController {
     @PostMapping("/companyrejectupgrade")
     @ResponseBody
     public void rejectUpgradeCmstate(int cm_idx) {
+        MessageDto dto = new MessageDto();
+        dto.setSend_nick("관리자");
+        dto.setContent("회사 인증이 반려되었습니다. 가이드라인에 따라 인증 사진을 체크해서 다시 업로드해주세요.");
+        dto.setRecv_nick(myPageService.getOneDatabyCm_idx(cm_idx).getCm_compname());
+        messageService.MessageSendInList(dto);
         myPageService.rejectUpgradeCmstate(cm_idx);
     }
 

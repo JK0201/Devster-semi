@@ -4,22 +4,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../commonvar.jsp" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
-    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap"
-          rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
-        body, body * {
-            font-family: 'Jua'
-        }
+
         .already-added {
             background-color: #0D3EA3;
             color: white;
@@ -135,116 +122,130 @@
                 }
             });
         });
+
+    function message(nickname) {
+        window.open("other_profile?other_nick="+nickname, 'newwindow', 'width=700,height=700');
+    }
     </script>
 
-</head>
-<body>
-<div class="fullOutLine">
-    <div class="questionBox" style="border: 3px solid black; margin-top: 60px; margin-left: 100px; width: 600px">
-        <h1>
-            제목 : ${dto.qb_subject}
-        </h1>
-        <h6 style="color: #94969B">
-            조회 ${dto.qb_readcount}
-        </h6>
-        <br>
-        <h2 class="userInfo">
-            <img src="${profilePhoto}" style="width:50px; height: 50px; border:3px solid black; border-radius:100px;">
-            작성자 : ${nickname}
-        </h2>
-        <br>
-        <h2>
-            작성일자 : ${dto.qb_writeday}
-        </h2>
-        <br>
-        <c:if test="${dto.qb_dislike > 19}">
-            <p class="blind" style="color: red; font-size: 30px; cursor: pointer">블라인드 처리된 게시글 입니다.</p>
-            <div class="content" hidden="hidden">
-                <h3>
-                    내용 : ${dto.qb_content}
-                </h3>
-                <br>
+<div class="qb_detail_wrap clear">
+    <div class="qb_detail_content">
+        <div class="article_view_head">
+            <a href="/">홈</a>
+            <a href="./list?currentPage=${currentPage}" class="qboard_link">질문게시판</a>
+            <h2>${dto.qb_subject}</h2>
+            <b style="font-size: 15px; color: black;" margin-bottom: 10px;>
+                <img src="${profilePhoto}" class="memberimg" width="50px">&nbsp;
+                ${nickname}
+            </b>
+
+            <div class="wrap_info clear">
+                <div class="icon_time"></div>
+                <span class="qb_writeday">${qb_writeday}</span>
+
+
+                <span>
+                    <div class="icon_read"></div>${dto.qb_readcount}
+                </span>
+                <span id="commentCnt">
+                    <div class="icon_comment"></div>${commentCnt}
+                </span>
+            </div>
+
+        </div>
+
+        <div class="article_view_content">
+            <c:if test="${dto.qb_dislike > 19}">
+                <p class="blind" style="color: red; font-size: 30px; cursor: pointer">블라인드 처리된 게시글 입니다.</p>
+                <div class="content" hidden="hidden">
+                    <div class="content_txt">
+                            ${dto.qb_content}<br>
+                    </div>
+                    <c:choose>
+                        <c:when test="${list[0] == 'n' || list[0] == 'no'}">
+                            <!-- 이미지가 없을 때는 아무것도 출력하지 않음 -->
+                        </c:when>
+                        <c:otherwise>
+                            <div class="qb_detail_img">
+                                <c:forEach items="${list}" var="images">
+                                    <img src="http://${imageUrl}/qboard/${images}" style="">
+                                </c:forEach>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </c:if>
+
+
+            <c:if test="${dto.qb_dislike < 20}">
+                <div class="content_txt">
+                        ${dto.qb_content}<br>
+                </div>
                 <c:choose>
                     <c:when test="${list[0] == 'n' || list[0] == 'no'}">
                         <!-- 이미지가 없을 때는 아무것도 출력하지 않음 -->
                     </c:when>
                     <c:otherwise>
-                        <c:forEach items="${list}" var="images">
-                            <img src="http://${imageUrl}/qboard/${images}" style="float: left; width: 300px">
-                        </c:forEach>
+                        <div class="qb_detail_img">
+                            <c:forEach items="${list}" var="images">
+                                <img src="http://${imageUrl}/qboard/${images}" style="">
+                            </c:forEach>
+                        </div>
                     </c:otherwise>
                 </c:choose>
+            </c:if>
+
+            <div class="clear" style="margin-top: 20px;border-bottom: 1px solid #eee; padding-bottom: 40px;">
+                <%-- 좋아요 / 싫어요 버튼--%>
+                <div class="footbox">
+                    <span id="add-goodRp-btn" class="btn btn-outline" >
+                          <div class="icon_thumbup"></div>
+                          <span class="add-goodRp ml-2">좋아요</span>
+                        </span>
+                    <span id="add-badRp-btn" class="ml-5 btn btn-outline">
+                          <div class="icon_thumbdown"></div>
+                          <span class="add-badRp ml-2">별로에요</span>
+                    </span>
+                </div>
+                <div class="util_btns">
+                    <c:if test="${dto.m_idx == sessionScope.memidx}">
+                        <button class="btn btn-outline-dark" type="button"
+                                onclick="deletePost(${dto.qb_idx})">
+                            삭제
+                        </button>
+                        <button class="btn btn-outline-dark" type="button"
+                                onclick="location.href='updateform?qb_idx=${dto.qb_idx}&currentPage=${currentPage}'">
+                            수정
+                        </button>
+                    </c:if>
+                    <c:if test="${sessionScope.memstate == 100}">
+                        <button class="btn btn-outline-dark" type="button"
+                                onclick="deletePost(${dto.qb_idx})">
+                            삭제
+                        </button>
+                    </c:if>
+                </div>
             </div>
-        </c:if>
-        <c:if test="${dto.qb_dislike < 20}">
-                <h3>
-                    내용 : ${dto.qb_content}
-                </h3>
-                <br>
-            <c:choose>
-                <c:when test="${list[0] == 'n' || list[0] == 'no'}">
-                    <!-- 이미지가 없을 때는 아무것도 출력하지 않음 -->
-                </c:when>
-                <c:otherwise>
-                    <c:forEach items="${list}" var="images">
-                        <img src="http://${imageUrl}/qboard/${images}" style="float: left; width: 300px">
-                    </c:forEach>
-                </c:otherwise>
-            </c:choose>
-        </c:if>
-        <br>
-
-        <div class="buttons" style="clear: both">
-            <c:if test="${dto.m_idx == sessionScope.memidx}">
-                <button class="btn btn-outline-dark" type="button"
-                        onclick="deletePost(${dto.qb_idx})">
-                    삭제
-                </button>
-                <button class="btn btn-outline-dark" type="button"
-                        onclick="location.href='updateform?qb_idx=${dto.qb_idx}&currentPage=${currentPage}'">
-                    수정
-                </button>
-            </c:if>
-            <c:if test="${sessionScope.memstate == 100}">
-                <button class="btn btn-outline-dark" type="button"
-                        onclick="deletePost(${dto.qb_idx})">
-                    삭제
-                </button>
-            </c:if>
-<%--            좋아요 / 싫어요 버튼--%>
-            <span id="add-goodRp-btn" class="btn btn-outline" >
-                  좋아요👍
-                  <span class="add-goodRp ml-2">${dto.qb_like}</span>
-                </span>
-            <span id="add-badRp-btn" class="ml-5 btn btn-outline">
-                  싫어요👎
-                  <span class="add-badRp ml-2">${dto.qb_dislike}</span>
-            </span>
-            <button class="btn btn-warning" type="button" onclick="location.href='./list?currentPage=${currentPage}'">
-                목록
-            </button>
-            <button class="btn btn-warning" type="button" onclick="location.href='./writeform'">
-                글쓰기
-            </button>
         </div>
-    </div>
-    <div class="answerInsertBox" style="margin-left: 100px; width: 600px; border: 3px solid black">
-        <form name="aboardInsert">
-            <h3>Answer</h3>
-            <textarea id="aboardContent" class="form-control" name="ab_content"></textarea>
-            <input id="aboardPhoto" class="form-control" type="file" multiple name="upload"><br>
-            <button type="button" id="submit" class="btn btn-outline-dark" style="position: relative; right: -91%">작성</button>
-        </form>
+
+        <div class="answerInsertBox" style="">
+            <form name="aboardInsert">
+                <h3>Answer</h3>
+                <textarea id="aboardContent" class="form-control" name="ab_content"></textarea>
+                <input id="aboardPhoto" class="form-control" type="file" multiple name="upload"><br>
+                <button type="button" id="submit" class="btn btn-outline-dark" style="position: relative; right: -91%">작성</button>
+            </form>
+
+        </div>
+        <div class="answerPrintBox" style="margin-left: 100px; width: 600px; border: 3px solid black">
+
+        </div>
 
     </div>
-    <div class="answerPrintBox" style="margin-left: 100px; width: 600px; border: 3px solid black">
 
-    </div>
+
 </div>
 
-
-
-</body>
 
 <script>
 <%--    현재 버튼이 눌려있는지 확인해서 상태에 따라 버튼에 색상표시  --%>
@@ -288,7 +289,7 @@
                     }
 
                     s += `
-        \${item.nickname}</h4>
+        <p style="cursor:pointer;" onclick=message("\${item.nickname}")>\${item.nickname}</p></h4>
     <h6>\${item.ab_writeday}</h6>
     <h2>\${item.ab_content}</h2>`;
 
@@ -444,4 +445,3 @@
     })
 </script>
 
-</html>

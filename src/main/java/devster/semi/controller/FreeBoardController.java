@@ -339,6 +339,8 @@ public class FreeBoardController {
         String nickName = freeBoardService.selectNickNameOfMidx(dto.getFb_idx());
         String m_photo = freeBoardService.selectPhotoOfMidx(dto.getFb_idx());
 
+        int commentCnt = freeBoardService.commentCnt(dto.getFb_idx());
+
         //        버튼 상태에 관한 정보를 디테일 페이지로 보내줌.
         boolean isAlreadyAddGoodRp = freeBoardService.isAlreadyAddGoodRp(fb_idx, (int) session.getAttribute("memidx"));
         boolean isAlreadyAddBadRp = freeBoardService.isAlreadyAddBadRp(fb_idx, (int) session.getAttribute("memidx"));
@@ -353,6 +355,9 @@ public class FreeBoardController {
 //        model.addAttribute("currentPage", currentPage);
         model.addAttribute("isAlreadyAddGoodRp", isAlreadyAddGoodRp);
         model.addAttribute("isAlreadyAddBadRp", isAlreadyAddBadRp);
+
+        model.addAttribute("commentCnt",commentCnt);
+        model.addAttribute("fb_writeday", timeForToday(dto.getFb_writeday()));
 
         if (dto.getFb_photo() != "n") {
             //Controller 디테일 페이지 보내는 부분.
