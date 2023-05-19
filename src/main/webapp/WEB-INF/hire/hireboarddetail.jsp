@@ -139,9 +139,6 @@
                         onclick="location.href='./list?currentPage=${currentPage}'">목록
                 </button>
             </div>
-
-
-
         </div>
 
     </div>

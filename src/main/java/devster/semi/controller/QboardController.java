@@ -12,6 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.sql.Timestamp;
@@ -84,7 +87,6 @@ public class QboardController {
         model.addAttribute("totalCount", totalCount);
         model.addAttribute("no", no);
         model.addAttribute("currentPage", currentPage);
-        model.addAttribute("totalCount",totalCount);
 
 
         //===========================공지사항===============================//
@@ -162,7 +164,7 @@ public class QboardController {
         String fileName = "";
 
         if(upload.get(0).getOriginalFilename().equals("")) { // 업로드를 안한경우.
-            fileName = "no";
+            fileName = "n";
         } else {
             int i =0;
             for(MultipartFile mfile : upload) {
@@ -243,6 +245,8 @@ public class QboardController {
         String nickName = qboardService.selectNickNameOfQb_idx(dto.getQb_idx());
         String photo = qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
 
+        int commentCnt = qboardService.countComment(dto.getQb_idx());
+
 //        버튼 상태에 관한 정보를 디테일 페이지로 보내줌.
         boolean isAlreadyAddGoodRp = qboardService.isAlreadyAddGoodRp(qb_idx,(int)session.getAttribute("memidx"));
         boolean isAlreadyAddBadRp = qboardService.isAlreadyAddBadRp(qb_idx,(int)session.getAttribute("memidx"));
@@ -266,6 +270,9 @@ public class QboardController {
         model.addAttribute("photo",photo);
         model.addAttribute("isAlreadyAddGoodRp", isAlreadyAddGoodRp);
         model.addAttribute("isAlreadyAddBadRp", isAlreadyAddBadRp);
+
+        model.addAttribute("commentCnt", commentCnt);
+        model.addAttribute("qb_writeday", timeForToday(dto.getQb_writeday()));
 
 
         return "/main/qboard/qboarddetail";
@@ -518,6 +525,11 @@ public class QboardController {
 
 
         return "/main/qboard/qboardsearchlist";
+    }
+    @GetMapping("/other_profile")
+    public String message(String other_nick){
+        String encodedNick = URLEncoder.encode(other_nick, StandardCharsets.UTF_8);
+        return "redirect:/message/other_profile?other_nick="+encodedNick;
     }
 
     public String timeForToday(Timestamp value) {

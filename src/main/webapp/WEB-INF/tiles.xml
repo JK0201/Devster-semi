@@ -7,12 +7,14 @@
         <put-attribute name="header" value="/WEB-INF/layout/header.jsp"/>
         <put-attribute name="info" value="/WEB-INF/layout/info.jsp"/>
         <put-attribute name="main" value="/WEB-INF/layout/main.jsp"/>
+        <!--<put-attribute name="footer" value="/WEB-INF/layout/footer.jsp"/>-->
         <put-attribute name="css" value="/WEB-INF/layout/css.jsp"/>
     </definition>
     <definition name="subLayout" template="/WEB-INF/layout/sublayout.jsp">
         <put-attribute name="header" value="/WEB-INF/layout/header.jsp"/>
         <put-attribute name="menu" value="/WEB-INF/layout/menu.jsp"/>
         <put-attribute name="main" value="/WEB-INF/layout/main.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/layout/footer.jsp"/>
         <put-attribute name="css" value="/WEB-INF/layout/css.jsp"/>
     </definition>
     <definition name="mypageLayout" template="/WEB-INF/layout/mypagelayout.jsp">

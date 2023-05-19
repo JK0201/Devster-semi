@@ -375,20 +375,21 @@
         var rb_content = $(".rb_content").val();
         var m_idx = $("input[name='m_idx']").val();
         /*    var ci_idx = $("input[name='ci_idx']").val() || null;*/
-        insertAjax(ci_idx, rb_type, rb_star, rb_content, m_idx);
+        updateAjax(ci_idx, rb_type, rb_star, rb_content, m_idx);
     });
 
-    function insertAjax(ci_idx, rb_type, rb_star, rb_content, m_idx) {
+    function updateAjax(ci_idx, rb_type, rb_star, rb_content, m_idx) {
 
 
         $.ajax({
-            url : "./insert",
+            url : "./update",
             dataType: "json",
             data: { "rb_type": rb_type,
                 "rb_star": rb_star,
                 "rb_content": rb_content,
                 "m_idx": m_idx,
-                "ci_idx": ci_idx
+                "ci_idx": ci_idx,
+                "rb_idx":rb_idx
             },
 
             method: 'post',

@@ -342,9 +342,11 @@
 
             method: 'post',
             success : function (res) {
+                console.log(res);
                 if(res){
                 alert("입력 완료");
                 location.href="list";
+
             }}
 
         });

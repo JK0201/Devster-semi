@@ -40,12 +40,7 @@
         var isLoading = false;
         var noMoreData = false;
 
-        var currentPosition = parseInt($(".quickmenu").css("top"));
         $(window).scroll(function () {
-            var position = $(window).scrollTop();
-            $(".quickmenu").stop().animate({"top": position + currentPosition + "px"}, 1000);
-
-
             // 무한스크롤
             if ($(window).scrollTop() == $(document).height() - $(window).height()) {
                 if (!isLoading && !noMoreData) {
@@ -90,7 +85,7 @@
                                         }
                                         s += `<span class="qb_writeday">\${dto.qb_writeday}</span>`
                                         s += `<span class="qb_readcount"><div class="icon_read"></div>\${dto.qb_readcount}</span><br><br>`;
-                                        s += `<span class="nickName"><img src="\${dto.photo}" class="memberimg">&nbsp;\${dto.nickName}</span>`;
+                                        s += `<span class="nickName" style="cursor: pointer" onclick=message(\${dto.nickName})><img src="\${dto.photo}" class="memberimg">&nbsp;\${dto.nickName}</span>`;
                                         s += `<div class="mainbox">`
                                         s += `<h3 class="qb_subject"><a href="detail?qb_idx=\${dto.qb_idx}"><b>\${dto.qb_subject}</b></a></h3>`;
                                         if (dto.qb_photo == 'n') {
@@ -142,52 +137,6 @@
 
     a {
         text-decoration: none;
-    }
-
-    .quickmenu {
-        position: absolute;
-        width: 300px;
-        top: 50%;
-        margin-top: -50px;
-        right: 10px;
-        background: #fff;
-    }
-
-    .quickmenu ul {
-        position: relative;
-        float: left;
-        width: 100%;
-        display: inline-block;
-        *display: inline;
-        border: 1px solid #ddd;
-    }
-
-    .quickmenu ul li {
-        float: left;
-        width: 100%;
-        border-bottom: 1px solid #ddd;
-        text-align: center;
-        display: inline-block;
-        *display: inline;
-    }
-
-    .quickmenu ul li a {
-        position: relative;
-        float: left;
-        width: 100%;
-        height: 30px;
-        line-height: 30px;
-        text-align: center;
-        color: #999;
-        font-size: 9.5pt;
-    }
-
-    .quickmenu ul li a:hover {
-        color: #000;
-    }
-
-    .quickmenu ul li:last-child {
-        border-bottom: 0;
     }
 
     /* 서치바 */
@@ -372,8 +321,7 @@
                         <span class="qb_readcount"><div class="icon_read"></div>
                                 ${dto.qb_readcount}</span><br><br>
 
-                        <span class="nickName"><img src="${dto.photo}"
-                                                    class="memberimg">&nbsp;${dto.nickName}</span>
+                        <span class="nickName"><img src="${dto.photo}" class="memberimg">&nbsp;${dto.nickName}</span>
 
                         <div class="mainbox">
                             <h3 class="qb_subject">
@@ -423,7 +371,6 @@
                     </div>
 
                 </c:if>
-                <!-- blurbox-->
                 <!-- box-->
                 <c:if test="${dto.qb_dislike < 20}">
                     <div class="box"
@@ -439,7 +386,7 @@
                         <span class="qb_readcount"><div class="icon_read"></div>
                                 ${dto.qb_readcount}</span><br><br>
 
-                        <span class="nickName"><img src="${dto.photo}"
+                        <span class="nickName" style="cursor:pointer;" onclick=message("${dto.nickName}")><img src="${dto.photo}"
                                                     class="memberimg">&nbsp;${dto.nickName}</span>
                         <div class="mainbox">
                             <h3 class="qb_subject">
@@ -505,39 +452,9 @@
 
 </div>
 
-<div class="quickmenu">
-    <ul>
-        <li class="quickmenu_head"><p style="font-size: 30px">베스트 게시글</p></li>
-    </ul>
-</div>
-
 <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 
 <script>
-    $.ajax({
-        type: "post",
-        url: "./bestPostsForBanner",
-        dataType: "json",
-        success: function (response) {
-            let s = "";
-            $.each(response, function (index, item) {
-                s +=
-                    `
-                        <li>
-                            <a href="../freeboard/freeboarddetail?fb_idx=\${item.fb_idx}&currentPage=1">
-                                <div class="name">
-                                    <div class="num">\${index+1} \${item.fb_subject}</div>
-                                </div>
-                            </a>
-                        </li>
-                    `
-            });
-            $(".quickmenu ul").append(s);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log("Error: " + textStatus + " - " + errorThrown);
-        }
-    });
 
     // When the user scrolls down 20px from the top of the document, show the button
     window.onscroll = function () {
@@ -557,6 +474,10 @@
     function topFunction() {
         document.body.scrollTop = 0; // For Safari
         document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+    // 쪽지보내기 메서드.
+    function message(nickname) {
+        window.open("other_profile?other_nick="+nickname, 'newwindow', 'width=700,height=700');
     }
 
 
