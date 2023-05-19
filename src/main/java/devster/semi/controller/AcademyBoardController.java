@@ -4,6 +4,7 @@ import devster.semi.dto.AcademyBoardDto;
 import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.NoticeBoardDto;
 import devster.semi.service.AcademyBoardService;
+import devster.semi.service.FreeBoardService;
 import devster.semi.service.MemberService;
 import devster.semi.service.NoticeBoardService;
 import naver.cloud.NcpObjectStorageService;
@@ -36,6 +37,9 @@ public class AcademyBoardController {
 
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private FreeBoardService freeBoardService;
 
     @Autowired
     private NcpObjectStorageService storageService;
@@ -254,7 +258,9 @@ public class AcademyBoardController {
         boolean isAlreadyAddBadRp = academyBoardService.isAlreadyAddBadRp(ab_idx,(int)session.getAttribute("memidx"));
 
         if(m_photo.equals("no")) {
-            m_photo = "photo/profile.jpg"; // 버켓에 넣어야 뜰듯....
+            m_photo = "/photo/profile.jpg";
+        } else {
+            m_photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+m_photo;
         }
 
         model.addAttribute("dto", dto);
@@ -444,6 +450,13 @@ public class AcademyBoardController {
     public String message(String other_nick){
         String encodedNick = URLEncoder.encode(other_nick, StandardCharsets.UTF_8);
         return "redirect:/message/other_profile?other_nick="+encodedNick;
+    }
+
+    @PostMapping("/bestPostsForBanner")
+    @ResponseBody
+    public List<FreeBoardDto> bestPosts() {
+        List<FreeBoardDto> list = freeBoardService.bestfreeboardPosts();
+        return list;
     }
 
     public String timeForToday(Timestamp value) {

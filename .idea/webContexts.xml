@@ -3,7 +3,11 @@
   <component name="WebContextManager">
     <option name="state">
       <map>
+
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/freeboard/freeboardlist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/freeboard" />
+
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/academyboard/academyboarddetail.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/academyboard" />
+
       </map>
     </option>
   </component>

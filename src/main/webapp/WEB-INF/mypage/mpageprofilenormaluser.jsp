@@ -26,7 +26,6 @@
             전화번호 : ${dto.m_tele}<br>
             소속 : ${dto.ai_name}<br>
             별명 : ${dto.m_nickname}<br>
-            포인트 : ${dto.m_point}<br>
         </h2>
         <div id="imgbox">
 

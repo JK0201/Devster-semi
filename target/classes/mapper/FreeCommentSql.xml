@@ -41,7 +41,11 @@
         update freecomment set fbc_content=#{fbc_content} where fbc_idx=#{fbc_idx}
     </update>
     <delete id="deleteFreeComment" parameterType="int">
+<<<<<<< HEAD
         delete from freecomment where fbc_idx=#{fbc_idx} or fbc_ref=#{fbc_idx}
+=======
+        delete from freecomment where fbc_idx=#{fbc_idx} or fbc_ref=#{fbc_ref}
+>>>>>>> main
     </delete>
 
     <select id="getMaxNum" resultType="int">

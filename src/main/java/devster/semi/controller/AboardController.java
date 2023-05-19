@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.image.VolatileImage;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @RestController
@@ -76,10 +79,13 @@ public class AboardController {
             map.put("m_photo",aboardService.selectPhotoOfAb_idx(dto.getAb_idx()));
             map.put("nickname",aboardService.selectNickNameOfAb_idx(dto.getAb_idx()));
             map.put("ab_content",dto.getAb_content());
-            map.put("ab_writeday",formattedDate);
+            /*map.put("ab_writeday",formattedDate)*/;
             map.put("m_idx",dto.getM_idx());
             map.put("ab_idx",dto.getAb_idx());
             map.put("photo",photo);
+
+            map.put("ab_writeday", timeForToday(dto.getAb_writeday()));
+
             fullList.add(map);
         }
         return fullList;
@@ -129,6 +135,35 @@ public class AboardController {
 //        업로드를 한 경우에만 버킷에 이미지를 저장한다.
         dto.setAb_photo(fileName);
         aboardService.updateAnswer(dto);
+    }
+
+    public String timeForToday(Timestamp value) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime timeValue = value.toLocalDateTime();
+
+        long betweenTime = ChronoUnit.MINUTES.between(timeValue, now);
+        if (betweenTime < 1) {
+            return "방금전";
+        }
+        if (betweenTime < 60) {
+            return betweenTime + "분전";
+        }
+
+        long betweenTimeHour = betweenTime / 60;
+        if (betweenTimeHour < 24) {
+            return betweenTimeHour + "시간전";
+        }
+
+        long betweenTimeDay = betweenTime / 1440; // 60 minutes * 24 hours
+        if (betweenTimeDay < 8) {
+            return betweenTimeDay + "일전";
+        }
+
+        String month = String.format("%02d", timeValue.getMonthValue());
+        String day = String.format("%02d", timeValue.getDayOfMonth());
+        String formattedDate = month + "-" + day;
+
+        return formattedDate;
     }
 
 }

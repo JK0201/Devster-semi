@@ -3,6 +3,7 @@
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/src/main/resources/mapper/AboardSql.xml" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/src/main/resources/mapper/AcademyBoardSql.xml" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/mapper/AcademyCommentSql.xml" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/src/main/resources/mapper/FreeBoardSql.xml" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/src/main/resources/mapper/HireBoardSql.xml" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/src/main/resources/mapper/MemberSql.xml" dialect="MySQL" />
