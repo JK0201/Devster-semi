@@ -2,16 +2,6 @@
 
 @import url(common.css);
 
-/*=============================================공지사항=============================================*/
-
-.noticeboard_part ul{
-    padding: 0 !important;
-    margin: 0 !important;
-}
-.noticeboard_part ul li{
-    float: left;
-}
-
 section.main .fb_wrap{
     width: 1100px;
     margin: 32px auto;
@@ -650,4 +640,4 @@ section.main .fb_detail_wrap .fb_detail_content .commentwrite button#writepost{
     height: 23px;
     vertical-align: middle;
 }*/
->>>>>>> main
+

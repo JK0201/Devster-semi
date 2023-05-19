@@ -235,13 +235,3 @@ section.main .ab_write_btn{
 
 /*------------------------------------*/
 
-/*=============================================공지사항=============================================*/
-
-.noticeboard_part ul{
-    padding: 0 !important;
-    margin: 0 !important;
-}
-.noticeboard_part ul li{
-    float: left;
-} 
->>>>>>> main
