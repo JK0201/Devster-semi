@@ -478,7 +478,7 @@
 
                     var totalCount = res[0].totalCount;
                     document.getElementById("commentCnt").innerHTML = totalCount;
-                    document.getElementById("commentCnt2").innerHTML = "댓글 " +totalCount;
+                    /*document.getElementById("commentCnt2").innerHTML = "댓글 " +totalCount;*/
                     $("#commentBox").html(s);
                     // } else {
                     //     let html = "<div class='mb-2'>";
@@ -501,7 +501,12 @@
                 data: {"fbc_idx":fbc_idx},
                 success: function (response) {
                     alert("댓글이 삭제되었습니다.");
-                    commentList()
+                    commentList();
+
+                    /*var totalCount = res[0].totalCount;
+                    document.getElementById("commentCnt").innerHTML = totalCount;
+                    document.getElementById("commentCnt2").innerHTML = "댓글 " +totalCount;*/
+
                 },
                 error: function (xhr, status, error) {
                     // 에러 처리를 여기에서 처리합니다.

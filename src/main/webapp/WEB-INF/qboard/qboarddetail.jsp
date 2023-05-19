@@ -195,7 +195,7 @@
                 </c:choose>
             </c:if>
 
-            <div class="clear" style="margin-top: 20px;border-bottom: 1px solid #eee; padding-bottom: 40px;">
+            <div class="clear" style="margin-top: 40px;border-bottom: 1px solid #eee; padding-bottom: 40px;">
                 <%-- 좋아요 / 싫어요 버튼--%>
                 <div class="footbox">
                     <span id="add-goodRp-btn" class="btn btn-outline" >
@@ -229,21 +229,31 @@
         </div>
 
         <div class="commentwrite clear" style="margin-bottom: 30px; margin-top: 20px;">
-            <form name="aboardInsert">
+            <form name="aboardInsert" class="aboardInsert">
                 <%--<h3>Answer</h3--%>
-                <p style="font-size: 16px; font-weight: bold;color: #222;">댓글 ${commentCnt}</p>
-                <input type="text" id="aboardContent" class="form-control" name="ab_content" placeholder="댓글을 남겨주세요">
 
-                <label for="aboardPhoto" class="upload-label" style="padding: 10px;cursor: pointer;"><i class="bi bi-camera" style="font-size: 20px;"></i></label>
-                <input id="aboardPhoto" class="custom-file-upload" type="file" multiple name="upload" style="display: none;">
-                <button type="button" id="submit" class="btn btn-outline-dark" style="">작성</button>
+                <p style="font-size: 16px; font-weight: bold;color: #222;" id="qb_commentCnt">답글 ${commentCnt}</p>
+                    <label for="aboardPhoto" class="upload-label" style="padding: 10px;cursor: pointer;"><i class="bi bi-camera" style="font-size: 20px;"></i></label>
+                    <input id="aboardPhoto" class="custom-file-upload" type="file" multiple name="upload" style="display: none;">
+                <input type="text" id="aboardContent" class="form-control aboard_content_input" name="ab_content" placeholder="답글을 남겨주세요">
+
+
+                <button type="button" id="submit" class="btn btn-outline-dark" style="">답글작성</button>
             </form>
 
         </div>
-        <div class="answerPrintBox" style="margin-left: 100px; width: 600px; border: 3px solid black">
+        <div class="answerPrintBox" style="">
 
         </div>
 
+    </div>
+
+    <div class="qb_aside">
+        <div class="quickmenu">
+            <ul>
+                <li class="quickmenu_head"><h2>질문게시판 추천글</h2></li>
+            </ul>
+        </div>
     </div>
 
 
@@ -282,19 +292,20 @@
                 // 답변 리스트 출력.
                 $.each(response, function (index, item) {
                     s += `
-<div class="answerBox" data-index="\${index}">
-    <h4 class="answerWriter">`;
+                        <div class="answerBox" data-index="\${index}">
+                        <h4 class="answerWriter clear">`;
 
                     if (item.m_photo === null || item.m_photo === 'no') {
-                        s += `<img src="/photo/profile.jpg" style="width:50px; height: 50px; border:3px solid black; border-radius:100px;">`;
+                        s += `<img src="/photo/profile.jpg" style="">`;
                     } else {
-                        s += `<img src="http://${imageUrl}/member/\${item.m_photo}" style="width:50px; height: 50px; border:3px solid black; border-radius:100px;">`;
+                        s += `<img src="http://${imageUrl}/member/\${item.m_photo}" style="">`;
                     }
 
                     s += `
-        <p style="cursor:pointer;" onclick=message("\${item.nickname}")>\${item.nickname}</p></h4>
-    <h6>\${item.ab_writeday}</h6>
-    <h2>\${item.ab_content}</h2>`;
+                            <p style="cursor:pointer;" onclick=message("\${item.nickname}")>\${item.nickname}</p></h4>
+                            <h2 style="margin-top: 10px;font-size: 16px;">\${item.ab_content}</h2>
+                            <div class="icon_time"></div><h6 style="color: #94969b;font-size: 12px;display: inline">\${item.ab_writeday}</h6>
+                        `;
 
                     $.each(item.photo, function (index2, photos) {
                         if (${photos == no}) {
@@ -303,20 +314,20 @@
                     });
                     if (item.m_idx == ${sessionScope.memidx}) {
                         s += `
-    <button class="btn btn-outline-dark" type="button" onclick="deleteComment(\${item.ab_idx})">
+    <button class="btn btn-outline-dark btn-sm" type="button" onclick="deleteComment(\${item.ab_idx})" style="float:right; margin-left: 3px;">
         삭제
     </button>
-    <button class="btn btn-outline-dark" type="button" data-abidx="\${item.ab_idx}" onclick="updateCommentForm(\${item.ab_idx}, \${index})">
+    <button class="btn btn-outline-dark btn-sm" type="button" data-abidx="\${item.ab_idx}" onclick="updateCommentForm(\${item.ab_idx}, \${index})" style="float:right;">
         수정
     </button>`;
                     } else if(${sessionScope.memstate == 100}){
                         s += `
-    <button class="btn btn-outline-dark" type="button" onclick="deleteComment(\${item.ab_idx})">
+    <button class="btn btn-outline-dark btn-sm" type="button" onclick="deleteComment(\${item.ab_idx})" style="float:right;">
         삭제
     </button>
     `;
                     }
-                    s += "<hr></div>";
+                    s += "<!--<hr>--></div>";
                 });
 
                 // answerPrintBox 클래스를 사용하는 div 안에 s 값을 삽입
@@ -350,8 +361,9 @@
             processData: false, // 필수: FormData를 사용할 때는 processData를 false로 설정해야 함
             contentType: false, // 필수: FormData를 사용할 때는 contentType을 false로 설정해야 함
             success: function (response) {
-                alert("댓글이 작성되었습니다.");
+                alert("답글이 작성되었습니다.");
                 answer();
+
             },
             error: function (xhr, status, error) {
                 // 에러 처리를 여기에서 처리합니다.
@@ -366,7 +378,7 @@
                 url: "/aboard/delete",
                 data: {"ab_idx":ab_idx},
                 success: function (response) {
-                    alert("댓글이 삭제되었습니다.");
+                    alert("답글이 삭제되었습니다.");
                     answer();
                 },
                 error: function (xhr, status, error) {
@@ -421,7 +433,7 @@
             processData: false,
             contentType: false,
             success: function (response) {
-                alert("댓글이 수정되었습니다.")
+                alert("답글이 수정되었습니다.")
                 answer();
             },
             error: function (xhr, status, error) {
