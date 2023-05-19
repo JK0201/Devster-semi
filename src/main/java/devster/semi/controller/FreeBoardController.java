@@ -353,7 +353,7 @@ public class FreeBoardController {
         model.addAttribute("dto", dto);
         model.addAttribute("nickname", nickName);
         model.addAttribute("m_photo", m_photo);
-//        model.addAttribute("currentPage", currentPage);
+        //model.addAttribute("currentPage", currentPage);
         model.addAttribute("isAlreadyAddGoodRp", isAlreadyAddGoodRp);
         model.addAttribute("isAlreadyAddBadRp", isAlreadyAddBadRp);
 

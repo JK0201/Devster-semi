@@ -15,6 +15,19 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <style>
 
+        .mypagelayout .mypage_wrap{
+            margin-top: 48px;
+        }
+
+        section.menu{
+            width: 200px;
+            
+        }
+        section.main{
+            width: 880px;
+            float: right;
+
+        }
     </style>
     <tiles:insertAttribute name="css"/>
 </head>
@@ -23,12 +36,14 @@
     <header class="header">
         <tiles:insertAttribute name="header"/>
     </header>
-    <section class="menu">
-        <tiles:insertAttribute name="menu"/>
-    </section>
-    <section class="main">
-        <tiles:insertAttribute name="main"/>
-    </section>
+    <div class="mypage_wrap clear">
+        <section class="menu">
+            <tiles:insertAttribute name="menu"/>
+        </section>
+        <section class="main">
+            <tiles:insertAttribute name="main"/>
+        </section>
+    </div>
 </div>
 </body>
 </html>

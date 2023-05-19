@@ -4,38 +4,74 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../commonvar.jsp" %>
 
-
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
-    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap"
-          rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <style>
-    </style>
-</head>
-<body>
-    <div style="border: 3px solid black; width: 600px; margin-left: 400px">
-        <h2>
-            이메일 : ${dto.m_email}<br>
-            이름 : ${dto.m_name}<br>
-            전화번호 : ${dto.m_tele}<br>
-            소속 : ${dto.ai_name}<br>
-            별명 : ${dto.m_nickname}<br>
-        </h2>
-        <div id="imgbox">
+        .my_page_myinfo{
+            padding: 0 30px;
+        }
 
+        .my_page_myinfo .title{
+            font-weight: 700;
+            font-size: 30px;
+            color: #222;
+        }
+
+        .my_page_myinfo .information_box{
+            /*background-color: rgb(251, 251, 253);*/
+            margin-top: 24px;
+
+        }
+
+        .my_page_myinfo .information_box ul{
+            border-top: 1px solid rgb(34, 34, 34);
+            margin-top: 20px;
+            padding-top: 20px;
+            float: left;
+        }
+
+        .my_page_myinfo .information_box ul li{
+            font-weight: 700;
+            font-size: 17px;
+        }
+
+        .my_page_myinfo .information_box ul li p{
+            font-size: 13px;
+            color: rgb(68, 68, 68);
+            margin-top: 8px;
+            font-weight: normal;
+        }
+
+        .my_page_myinfo #imgbox{
+            float: right;
+
+        }
+
+    </style>
+
+
+    <div class="my_page_myinfo">
+
+        <h1 class="title">나의 정보</h1>
+
+        <div class="information_box clear">
+            <ul>
+                <li>이메일<p>${dto.m_email}</p></li>
+                <li>이름<p>${dto.m_name}</p></li>
+                <li>전화번호<p>${dto.m_tele}</p></li>
+                <li>소속<p>${dto.ai_name}</p></li>
+                <li>별명<p>${dto.m_nickname}</p></li>
+            </ul>
+            <div id="imgbox"></div>
         </div>
-        <script>
-            let s = '<img src="http://${imageUrl}/member/${dto.m_photo}" style="width: 300px">';
-            if(${dto.m_photo != 'no'}) {
-                $("#imgbox").html(s);
-            }
-        </script>
+
+
+
     </div>
-</body>
-</html>
+
+    <script>
+        let s = '<img src="http://${imageUrl}/member/${dto.m_photo}" style="width: 300px">';
+        if(${dto.m_photo != 'no'}) {
+            $("#imgbox").html(s);
+        }
+    </script>
+
+
