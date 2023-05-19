@@ -183,10 +183,6 @@
                 var position = $(window).scrollTop();
                 $(".quickmenu").stop().animate({"top": position + currentPosition + "px"}, 1000);
 
-                console.log("$(window).scrollTop() : " + $(window).scrollTop());
-                console.log("$(document).height() : " + $(document).height());
-                console.log("$(window).height() : " + $(window).height());
-
                 console.log($(window).scrollTop() == $(document).height() - $(window).height());
                 // 무한스크롤
                 if ($(window).scrollTop() == $(document).height() - $(window).height()) {
