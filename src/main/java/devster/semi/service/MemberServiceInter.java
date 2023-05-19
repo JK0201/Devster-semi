@@ -20,8 +20,6 @@ public interface MemberServiceInter {
 
     public int emailpasschk(String m_email, String m_pass);
 
-    public void dailyPoint(String m_email);
-
     public MemberDto getOneData(String m_email);
 
     public CompanyMemberDto getCmOneData(String cm_email);

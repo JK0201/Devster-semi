@@ -11,27 +11,296 @@
     <title>Insert title here</title>
     <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap"
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&family=Roboto&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"
             charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        .compinput {
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans KR', 'Roboto';
+            background: white;
+        }
+
+        .container {
+            display: block;
+            max-width: 680px;
+            width: 80%;
+            margin: -60px auto;
+        }
+
+        .logo {
+            font-size: 20px;
+            text-align: center;
+            margin: 120px 0 40px 0;
+            transition: .2s linear;
+        }
+
+        .links {
+            list-style-type: none;
+        }
+
+        .links li {
+            display: inline-block;
+            margin: 0 20px 0 0;
+            transition: .2s linear;
+        }
+
+        .links li:nth-child(1):hover {
+            opacity: 1;
+        }
+
+        .links li:nth-child(2) {
+            opacity: .6;
+        }
+
+        .links li a {
+            text-decoration: none;
+            color: #0f132a;
+            font-weight: bolder;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        #normmember span {
+            color: #8007AD;
+        }
+
+        .inputdiv {
+            width: 100%;
+            max-width: 680px;
+            margin: 40px auto 10px;
+        }
+
+        .inputdiv .input__block {
+            margin: 20px auto;
+            display: block;
+            position: relative;
+        }
+
+        .inputdiv .input__block.first-input__block::before {
+            content: "";
+            position: absolute;
+            top: -15px;
+            left: 50px;
+            display: block;
+            width: 0;
+            height: 0;
+            background: transparent;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 15px solid rgba(15, 19, 42, .1);
+            transition: .2s linear;
+        }
+
+        .inputdiv .input__block.signup-input__block::before {
+            content: "";
+            position: absolute;
+            top: -15px;
+            left: 150px;
+            display: block;
+            width: 0;
+            height: 0;
+            background: transparent;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 15px solid rgba(15, 19, 42, .1);
+            transition: .2s linear;
+        }
+
+        .inputdiv .input__block input {
+            display: block;
+            width: 90%;
+            max-width: 680px;
+            height: 50px;
+            margin: 0 auto;
+            border-radius: 8px;
+            border: none;
+            background: rgba(15, 19, 42, .1);
+            color: rgba(15, 19, 42, .5);
+            padding: 0 0 0 15px;
+            font-size: 18px;
+            font-family: 'Noto Sans KR', 'Roboto';
+        }
+
+        .inputdiv .input__block input:focus,
+        .inputdiv .input__block input:active {
+            outline: none;
+            border: none;
+            color: rgba(15, 19, 42, 1);
+        }
+
+        .inputdiv .input__block input.repeat__password {
+            opacity: 0;
             display: none;
+            transition: .2s linear;
+        }
+
+        .inputdiv .signin__btn {
+            background: #8007AD;
+            color: white;
+            display: block;
+            width: 92.5%;
+            max-width: 680px;
+            height: 50px;
+            border-radius: 8px;
+            margin: 0 auto;
+            border: none;
+            cursor: pointer;
+            font-size: 2vh;
+            font-family: 'Noto Sans KR', 'Roboto';
+            box-shadow: 0 15px 30px rgba(114, 30, 166, .36);
+            transition: .2s linear;
+            font-weight: bold;
+        }
+
+        .inputdiv .signin__btn:hover {
+            box-shadow: 0 0 0 rgba(233, 30, 99, 0);
+        }
+
+        .separator {
+            display: block;
+            margin: 30px auto 10px;
+            text-align: center;
+            height: 40px;
+            position: relative;
+            background: transparent;
+            color: rgba(15, 19, 42, .5);
+            font-size: 13px;
+            width: 90%;
+            max-width: 680px;
+        }
+
+        .separator::before {
+            content: "";
+            position: absolute;
+            top: 8px;
+            left: 0;
+            background: rgba(15, 19, 42, .2);
+            height: 1px;
+            width: 35%;
+        }
+
+        .separator::after {
+            content: "";
+            position: absolute;
+            top: 8px;
+            right: 0;
+            background: rgba(15, 19, 42, .2);
+            height: 1px;
+            width: 35%;
+        }
+
+        .kakao__btn,
+        .naver__btn {
+            display: block;
+            width: 90%;
+            max-width: 680px;
+            margin: 20px auto;
+            height: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: 'Noto Sans KR', 'Roboto';
+            border-radius: 8px;
+            border: none;
+            line-height: 50px;
+        }
+
+        .kakao__btn {
+            background: #F7E600;
+            color: white;
+            box-shadow: 0 15px 30px rgba(91, 144, 240, .36);
+            transition: .2s linear;
+            text-decoration: none;
+        }
+
+        .kakao__btn:hover {
+            box-shadow: 0 0 0 rgba(91, 144, 240, 0);
+        }
+
+        .naver__btn {
+            background: #2DB400;
+            color: white;
+            box-shadow: 0 15px 30px rgba(37, 40, 45, .36);
+            transition: .2s linear;
+        }
+
+        .naver__btn:hover {
+            box-shadow: 0 0 0 rgba(37, 40, 45, 0);
+        }
+
+        footer p {
+            margin-top: 4vh;
+            text-align: center;
+        }
+
+        footer p a {
+            text-decoration: none;
+            font-size: 17px;
+            margin: 0 5px;
         }
 
         #chkyes {
+            color: #8007AD;
             display: none;
-            display:
         }
+
+        #compchkyes {
+            color: #8007AD;
+            display: none;
+        }
+
+        #kakao-signin {
+            font-weight: bold;
+            text-align: center;
+            color: black;
+            font-size: 2vh;
+        }
+
+        #naver-signin {
+            font-weight: bold;
+            text-align: center;
+            color: white;
+            font-size: 2vh;
+        }
+
+        #selmember, #finder {
+            text-decoration: none;
+            color: #0f132a;
+            opacity: 0.6;
+            font-weight: bold;
+        }
+
+        #selmember:hover, #finder:hover {
+            opacity: 1;
+            color: #8007AD;
+        }
+
+        .inputdelbtn {
+            opacity: 0.3;
+            font-size: 2vh;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: 37%;
+            margin-top: -2%;
+            cursor: pointer;
+            display: none;
+        }
+
     </style>
 </head>
 <script>
     $(function () {
         let chk = localStorage.getItem("chk");
         let m_email = localStorage.getItem("m_email");
+        let compchk = localStorage.getItem("compchk");
+        let cm_email = localStorage.getItem("cm_email");
 
         if (chk == "yes") {
             $("#m_email").val(m_email);
@@ -39,79 +308,197 @@
             $("#chkyes").show();
             chkbtn = true;
         }
-    })
+
+        if (compchk == 'yes') {
+            $("#cm_email").val(cm_email);
+            $("#compchkno").css("display", "none");
+            $("#compchkyes").show();
+            compchkbtn = true;
+        }
+    });
 </script>
 <body>
-<div>
-    <div>
-        <strong id="normmember">일반회원 로그인</strong>
-        &nbsp;&nbsp;&nbsp;
-        <strong id="compmember">회사계정 로그인</strong>
+<div class="container">
+    <!-- Heading -->
+    <div class="logo">
+        <a href="${root}/" style="text-decoration: none;"> <img src="/photo/logo.png" class="logotext">
+            <span><img src="/photo/logoimage.png" class="logoimage"></span>
+        </a>
+        <div style="color:#0f132a; opacity: 0.6; font-weight: bold">로&nbsp;그&nbsp;인</div>
     </div>
-    <div class="norminput">
-        <strong>개인 </strong>
-        <input type="text" id="m_email" required>
-        <strong>비밀번호 </strong>
-        <input type="password" id="m_pass" required>
-    </div>
-    <div class="compinput">
-        <strong>회사 </strong>
-        <input type="text" id="cm_email">
-        <strong>비밀번호 </strong>
-        <input type="password" id="cm_pass">
-    </div>
-    <label id="chkbtn">
-        <i class="bi bi-circle" id="chkno"></i>
-        <i class="bi bi-check-circle-fill" id="chkyes"></i>
-        <strong>아이디 저장하기</strong>
-    </label>
-    <div class="norminput">
-        <button type="button" id="signinbtn" class="btn btn-outline-primary">로그인</button>
-        - 소셜 계정으로 간편 로그인/회원가입 -
-        <div style="margin-bottom: 30px;">
-            <a id="kakao-login-btn" href="javascript:kakaoLogin()">
-                <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222"
-                     alt="카카오 로그인 버튼"/>
-            </a>
+
+    <!-- Links -->
+    <ul class="links">
+        <li>
+            <a href="#" id="normmember"><span>일반회원</span></a>
+        </li>
+        <li>
+            <a href="#" id="compmember"><span>기업회원</span></a>
+        </li>
+    </ul>
+    <div class="inputdiv">
+        <!-- email input -->
+        <div id="normmode">
+            <div class="first-input input__block first-input__block">
+                <input type="email" placeholder="Email" class="input" id="m_email" required/>
+                <i class="bi bi-x-circle-fill inputdelbtn"></i>
+            </div>
+            <!-- password input -->
+            <div class="input__block">
+                <input type="password" placeholder="Password" class="input" id="m_pass" required/>
+                <i class="bi bi-x-circle-fill inputdelbtn"></i>
+            </div>
+            <div class="input__block">
+                <label id="chkbtn" style="margin-left:3.5vh;">
+                    <i class="bi bi-circle" id="chkno" style="opacity: 0.7;"></i>
+                    <i class="bi bi-check-circle-fill" id="chkyes"></i>
+                    <strong style="opacity: 0.7;">이메일 저장</strong>
+                </label>
+            </div>
+            <div>
+                <button class="signin__btn" id="signinbtn">로&nbsp;그&nbsp;인</button>
+            </div>
+            <div>
+                <!-- separator -->
+                <div class="separator">
+                    <p>소셜 계정으로 간편 로그인</p>
+                </div>
+                <!-- kakao button -->
+                <a id="kakao-login-btn" href="javascript:kakaoLogin()" class="kakao__btn">
+                    <div id="kakao-signin">
+                        <i class="bi bi-chat-fill"></i>
+                        &nbsp;
+                        <span>카카오 아이디로 로그인</span>
+                    </div>
+                </a>
+                <!-- naver button -->
+                <div class="naver__btn">
+                    <div id="naver-signin">
+                        <span>N</span>
+                        &nbsp;
+                        <span>네이버 아이디로 로그인</span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="naver_id_login"></div>
-        <a href="selmember">회원가입</a>
-        <strong>|</strong>
-        <a href="finder">아이디/비밀번호 찾기</a>
-    </div>
-    <div class="compinput">
-        <button type="button" id="csigninbtn">로그인</button>
-        <a href="compsignup">회원가입</a>
-        <strong>|</strong>
-        <a href="finder">아이디/비밀번호 찾기</a>
+        <!-- Comp member -->
+        <div id="compmode">
+            <div class="first-input input__block first-input__block">
+                <input type="email" placeholder="Email" class="input repeat__password" id="cm_email"/>
+                <i class="bi bi-x-circle-fill inputdelbtn"></i>
+            </div>
+            <div class="input__block">
+                <input type="password" placeholder="Password" class="input repeat__password" id="cm_pass"/>
+                <i class="bi bi-x-circle-fill inputdelbtn"></i>
+            </div>
+            <div class="input__block">
+                <label id="compchkbtn" style="margin-left:3.5vh;">
+                    <i class="bi bi-circle" id="compchkno" style="opacity: 0.7;"></i>
+                    <i class="bi bi-check-circle-fill" id="compchkyes"></i>
+                    <strong style="opacity: 0.7;">이메일 저장</strong>
+                </label>
+            </div>
+            <div class="input__block">
+                <button class="signin__btn" id="csigninbtn">로&nbsp;그&nbsp;인</button>
+            </div>
+        </div>
+        <footer>
+            <p>
+                <a href="selmember" id="selmember">회원가입</a>
+                <strong style="color:#0f132a; opacity: 0.6;">|</strong>
+                <a href="finder" id="finder">아이디/비밀번호 찾기</a>
+            </p>
+        </footer>
     </div>
 </div>
+<div id="naver_id_login" style="display: none;"></div>
 
 <script>
-    $("#normmember").click(function () {
-        $(".norminput").show();
-        $(".compinput").hide();
-        $("#cm_email").val("");
-        $("#cm_pass").val("");
-    });
+    $(document).ready(function () {
+        let normmode = $("#normmode");
+        let compmode = $("#compmode");
+        let compmember = $(".links").find("li").find("#compmember");
+        let normmember = $(".links").find("li").find("#normmember");
 
-    $("#compmember").click(function () {
-        $(".norminput").hide();
-        $(".compinput").show();
-        $("#m_email").val("");
-        $("#m_pass").val("");
-    });
+        let first_input = $(".inputdiv").find(".first-input");
+        let hidden_input1 = $(".inputdiv").find(".input__block").find("#cm_email");
+        let hidden_input2 = $(".inputdiv").find(".input__block").find("#cm_pass");
 
+        compmode.hide();
+        //----------- comp ---------------------
+        compmember.on("click", function (e) {
+            e.preventDefault();
+            $(this).parent().find("span").css("color", "#8007AD");
+            $(this).parent().css("opacity", "1");
+            $(this).parent().siblings().find("span").css("color", "#0f132a");
+            $(this).parent().siblings().css("opacity", ".5");
+            normmode.hide();
+            compmode.show();
+
+            first_input.removeClass("first-input__block").addClass("signup-input__block");
+            hidden_input1.css({
+                "opacity": "1",
+                "display": "block"
+            });
+            first_input.removeClass("first-input__block").addClass("signup-input__block");
+            hidden_input2.css({
+                "opacity": "1",
+                "display": "block"
+            });
+        });
+
+        //----------- norm ---------------------
+        normmember.on("click", function (e) {
+            e.preventDefault();
+            $(this).parent().find("span").css("color", "#8007AD");
+            $(this).parent().css("opacity", "1");
+            $(this).parent().siblings().find("span").css("color", "#0f132a");
+            $(this).parent().siblings().css("opacity", ".5");
+            normmode.show();
+            compmode.hide();
+
+            first_input.addClass("first-input__block").removeClass("signup-input__block");
+            hidden_input1.css({
+                "opacity": "0",
+                "display": "none"
+            });
+            first_input.addClass("first-input__block").removeClass("signup-input__block");
+            hidden_input2.css({
+                "opacity": "0",
+                "display": "none"
+            });
+        });
+    });
     $("#chkbtn").click(function () {
         $("#chkyes").toggle();
         $("#chkno").toggle();
         chkbtn = !chkbtn;
     });
 
+    $("#compchkbtn").click(function () {
+        $("#compchkyes").toggle();
+        $("#compchkno").toggle();
+        compchkbtn = !compchkbtn;
+    });
+
+    $("#m_email, #m_pass, #cm_email, #cm_pass").keyup(function () {
+        if ($(this).val() != "") {
+            $(this).siblings().show();
+        } else {
+            $(this).siblings().hide();
+        }
+    });
+
+    $(".inputdelbtn").click(function(){
+       $(this).siblings().val("");
+       $(this).hide();
+    });
 
     //norm
     let chkbtn = false;
+    let compchkbtn = false;
     let cnt = 0;
+    let compcnt = 0;
 
     $("#signinbtn").click(function () {
         $.ajax({
@@ -125,11 +512,21 @@
                         let m_pass = $("#m_pass").val();
 
                         if (m_email == "") {
-                            alert("이메일을 입력해주세요");
+                            Swal.fire({
+                                icon: 'warning',
+                                title: '이메일을 입력 해주세요',
+                                confirmButtonText: '확인',
+                                confirmButtonColor: '#8007AD'
+                            });
                             return false;
                         }
                         if (m_pass == "") {
-                            alert("비밀번호를 입력해주세요");
+                            Swal.fire({
+                                icon: 'warning',
+                                title: '비밀번호를 입력 해주세요',
+                                confirmButtonText: '확인',
+                                confirmButtonColor: '#8007AD'
+                            });
                             return false;
                         }
 
@@ -140,7 +537,6 @@
                             data: {"m_email": m_email, "m_pass": m_pass},
                             success: function (res) {
                                 if (res.result == "yes") {
-                                    alert("ㅎㅇ 출석포인트 +10점");
                                     if (chkbtn) {
                                         localStorage.setItem("chk", "yes");
                                         localStorage.setItem("m_email", m_email);
@@ -151,7 +547,12 @@
                                     location.replace("/");
                                 } else {
                                     cnt++;
-                                    alert(cnt + "회 잘못 입력하셨습니다\n이메일과 비밀번호를 확인해주세요\n5회 잘못입력시 로그인 제한");
+                                    Swal.fire({
+                                        icon: 'warning',
+                                        title: '아이디/비밀번호를\n확인해 주세요',
+                                        confirmButtonText: '확인',
+                                        confirmButtonColor: '#8007AD'
+                                    });
                                 }
                             }
                         });
@@ -161,14 +562,22 @@
                             url: "blocksignin",
                             dataType: "text",
                             success: function () {
-                                alert("이용정지");
-                                $("#signinbtn").prop("disabled", true);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: cnt + "회 잘못 입력 하셨습니다",
+                                    confirmButtonText: '확인',
+                                    confirmButtonColor: '#8007AD'
+                                });
                             }
                         });
                     }
                 } else {
-                    alert("로그인 제한");
-                    $("#signinbtn").prop("disabled", true);
+                    Swal.fire({
+                        icon: 'error',
+                        title: '로그인이 제한 되었습니다',
+                        confirmButtonText: '확인',
+                        confirmButtonColor: '#8007AD'
+                    });
                 }
             }
         });
@@ -188,32 +597,87 @@
 
     //cm
     $("#csigninbtn").click(function () {
-        let cm_email = $("#cm_email").val();
-        let cm_pass = $("#cm_pass").val();
-
-        if (cm_email == "") {
-            alert("이메일을 입력해주세요");
-            return false;
-        }
-        if (cm_pass == "") {
-            alert("비밀번호를 입력해주세요");
-            return false;
-        }
-
         $.ajax({
             type: "get",
-            url: "cemailpasschk",
-            dataType: "json",
-            data: {"cm_email": cm_email, "cm_pass": cm_pass},
+            url: "csignincheck",
+            cache: false,
             success: function (res) {
-                if (res.result == "yes") {
-                    alert("ㅎㅇ 출석포인트 +10점");
-                    location.replace("/");
+                if (res == "yes") {
+                    if (compcnt < 4) {
+                        let cm_email = $("#cm_email").val();
+                        let cm_pass = $("#cm_pass").val();
+                        if (cm_email == "") {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: '이메일을 입력 해주세요',
+                                confirmButtonText: '확인',
+                                confirmButtonColor: '#8007AD'
+                            });
+                        }
+                        if (cm_pass == "") {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: '비밀번호를 입력 해주세요',
+                                confirmButtonText: '확인',
+                                confirmButtonColor: '#8007AD'
+                            });
+                            return false;
+                        }
+
+                        $.ajax({
+                            type: "get",
+                            url: "cemailpasschk",
+                            dataType: "json",
+                            data: {"cm_email": cm_email, "cm_pass": cm_pass},
+                            success: function (res) {
+                                if (res.result == "yes") {
+                                    alert("ㅎㅇ 출석포인트 +10점");
+                                    if (compchkbtn) {
+                                        localStorage.setItem("compchk", "yes");
+                                        localStorage.setItem("cm_email", cm_email);
+                                    } else {
+                                        localStorage.removeItem("compchk");
+                                        localStorage.removeItem("cm_email");
+                                    }
+                                    location.replace("/");
+                                } else {
+                                    compcnt++
+                                    Swal.fire({
+                                        icon: 'warning',
+                                        title: '아이디/비밀번호를\n확인해 주세요',
+                                        confirmButtonText: '확인',
+                                        confirmButtonColor: '#8007AD'
+                                    });
+                                }
+                            }
+                        });
+                    } else {
+                        $.ajax({
+                            type: "get",
+                            url: "cblocksignin",
+                            dataType: "text",
+                            success: function () {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: compcnt + "회 잘못 입력 하셨습니다",
+                                    confirmButtonText: '확인',
+                                    confirmButtonColor: '#8007AD'
+                                });
+                            }
+                        });
+                    }
                 } else {
-                    alert("이메일과 비밀번호를 확인해주세요");
+                    Swal.fire({
+                        icon: 'error',
+                        title: '로그인이 제한 되었습니다',
+                        confirmButtonText: '확인',
+                        confirmButtonColor: '#8007AD'
+                    });
                 }
             }
         });
+
+
     });
 
     $("#cm_email").keyup(function (e) {
@@ -228,15 +692,19 @@
         }
     });
 
-
     //naver
     var naver_id_login = new naver_id_login("Qr3pEkAiiIBJ_L9HaGiY", "http://localhost:9000/member/navercallback");
     var state = naver_id_login.getUniqState();
-    naver_id_login.setButton("green", 10, 40);
+    naver_id_login.setButton("green", 3, 50);
     naver_id_login.setDomain("http://localhost:9000");
     naver_id_login.setState(state);
     naver_id_login.setPopup();
     naver_id_login.init_naver_id_login();
+
+    $(document).on("click", ".naver__btn", function () {
+        var btnNaverLogin = document.getElementById("naver_id_login").firstChild;
+        btnNaverLogin.click();
+    });
 
     //kakao
     window.Kakao.init("82a8d8044b53724691554098e719219c");
@@ -268,15 +736,27 @@
                             dataType: "json",
                             success: function (res) {
                                 if (res.result == "yes") {
-                                    alert("ㅎㅇ 출석포인트 +10점");
                                     location.replace("/");
                                 } else {
-                                    let b = confirm("계정 없음");
-                                    if (b) {
-                                        location.href = "apisignup";
-                                    } else {
-                                        return false;
-                                    }
+                                    Swal.fire({
+                                        icon: 'question',
+                                        title: 'Devster 계정이 없습니다',
+                                        text: '지금 바로 가입 하시겠습니까?',
+
+                                        showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+                                        confirmButtonColor: '#8007AD', // confrim 버튼 색깔 지정
+                                        cancelButtonColor: '#bdbebd', // cancel 버튼 색깔 지정
+                                        confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+                                        cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+
+                                        reverseButtons: true // 버튼 순서 거꾸로
+                                    }).then(result => {
+                                        if (result.isConfirmed) {
+                                            location.href = "apisignup";
+                                        } else {
+                                            return false;
+                                        }
+                                    });
                                 }
                             }
                         });
@@ -288,3 +768,4 @@
 </script>
 </body>
 </html>
+

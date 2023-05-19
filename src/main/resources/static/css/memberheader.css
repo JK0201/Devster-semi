@@ -4,7 +4,7 @@
 
 header.memberheader .black_bar{
     position:relative;
-    height:40px;
+    height:5vh;
     width: 100%;
     background-color: #222;
 }
@@ -14,8 +14,8 @@ header.memberheader{
 }
 
 header.memberheader .wrap {
-    width: 1140px;
-    height: 80px;
+    width: 100%;
+    height: 10vh;
     margin: 0 auto;
     /*background-color: palegreen;*/
 }
@@ -23,7 +23,8 @@ header.memberheader .wrap {
 
 /*================== 로고 ======================*/
 header.memberheader .logo{
-    float: left;
+    margin:0 auto;
+    width:200px;
     /* margin-top: 30px; */
     line-height: 70px;
 }

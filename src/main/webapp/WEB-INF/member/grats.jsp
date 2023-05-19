@@ -11,17 +11,71 @@
     <title>Insert title here</title>
     <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap"
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&family=Roboto&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans KR', 'Roboto';
+            background: white;
+        }
+
+        .container {
+            display: block;
+            max-width: 680px;
+            width: 80%;
+            margin: -60px auto;
+        }
+
+        .logo {
+            font-size: 20px;
+            text-align: center;
+            margin: 120px 0 40px 0;
+            transition: .2s linear;
+        }
+
+        .inputdiv {
+            width: 100%;
+            max-width: 680px;
+            margin: 40px auto 10px;
+        }
+
+        footer p {
+            margin-top: 4vh;
+            text-align: center;
+        }
+
+        footer p a {
+            text-decoration: none;
+            font-size: 17px;
+            margin: 0 5px;
+        }
     </style>
 </head>
 <body>
-로그인
-마이페이지에서 인증을 하시면 더 많은 기능을 사용할수 있습니다
-로그인버튼 / 메인으로가기
-<button type="button" id="tomain"></button>
+<div class="container">
+    <!-- Heading -->
+    <div class="logo">
+        <a href="${root}/" style="text-decoration: none;"> <img src="/photo/logo.png" class="logotext">
+            <span><img src="/photo/logoimage.png" class="logoimage"></span>
+        </a>
+        <div style="color:#0f132a; opacity: 0.6; font-weight: bold">회&nbsp;원&nbsp;가&nbsp;입</div>
+    </div>
+
+    <div class="inputdiv">
+
+        <footer>
+            <p>
+            </p>
+        </footer>
+    </div>
+</div>
+<script>
+
+</script>
 </body>
 </html>
-

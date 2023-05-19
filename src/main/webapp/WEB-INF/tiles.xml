@@ -22,7 +22,11 @@
     </definition>
     <definition name="memberLayout" template="/WEB-INF/layout/memberlayout.jsp">
         <put-attribute name="memberheader" value="/WEB-INF/layout/memberheader.jsp"/>
-        <put-attribute name="main" value="/WEB-INF/layout/main.jsp"/>
+        <put-attribute name="main" value="/WEB-INF/layout/membermain.jsp"/>
+        <put-attribute name="css" value="/WEB-INF/layout/css.jsp"/>
+    </definition>
+    <definition name="memberLayoutMain" template="/WEB-INF/layout/memberlayoutmain.jsp">
+        <put-attribute name="main" value="/WEB-INF/layout/membermain.jsp"/>
         <put-attribute name="css" value="/WEB-INF/layout/css.jsp"/>
     </definition>
 
@@ -37,7 +41,10 @@
         <put-attribute name="main" value="/WEB-INF/mypage/mpageprofile.jsp"/>
     </definition>
     <definition name="/mem" extends="memberLayout">
-        <put-attribute name="main" value="/WEB-INF/layout/main.jsp"/>
+        <put-attribute name="main" value="/WEB-INF/layout/membermain.jsp"/>
+    </definition>
+    <definition name="/memmain" extends="memberLayoutMain">
+        <put-attribute name="main" value="/WEB-INF/layout/membermain.jsp"/>
     </definition>
 
     <!-- wild card macro -->
@@ -51,6 +58,9 @@
         <put-attribute name="main" value="/WEB-INF/{1}/{2}.jsp"/>
     </definition>
     <definition name="/mem/*/*" extends="memberLayout">
+        <put-attribute name="main" value="/WEB-INF/{1}/{2}.jsp"/>
+    </definition>
+    <definition name="/memmain/*/*" extends="memberLayoutMain">
         <put-attribute name="main" value="/WEB-INF/{1}/{2}.jsp"/>
     </definition>
 </tiles-definitions>

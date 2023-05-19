@@ -23,8 +23,6 @@ public interface MemberMapper {
 
     public int emailpasschk(Map<String, String> map);
 
-    public void dailyPoint(String m_email);
-
     public MemberDto getOneData(String m_email);
 
     public CompanyMemberDto getCmOneData(String cm_email);

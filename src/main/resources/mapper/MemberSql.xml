@@ -49,11 +49,6 @@
         from companymember
         where cm_email = #{cm_email}
     </select>
-    <update id="dailyPoint" parameterType="String">
-        update member
-        set m_point=m_point + 10
-        where m_email = #{m_email}
-    </update>
 
     <select id="searchAcaInfo" resultType="AcademyInfoDto" parameterType="String">
         select *

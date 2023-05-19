@@ -200,7 +200,7 @@ public class QboardController {
         QboardDto dto = qboardService.getOnePost(qb_idx);
 
         model.addAttribute("dto", dto);
-
+        model.addAttribute("imageUrl",dto.getQb_photo());
         return "/main/qboard/qboardupdateform";
     }
 
