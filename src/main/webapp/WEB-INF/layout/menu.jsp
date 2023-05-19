@@ -34,9 +34,11 @@
         }
     </style>
 </head>
+
 <c:set var="root" value="<%=request.getContextPath()%>"/>
 <body>
 <div class="outline">
+    <input type="hidden" >
 <c:choose>
     <c:when test="${sessionScope.cmidx != null && sessionScope.memidx == null}">
         <h2 id="name">${sessionScope.cmname} 님</h2>
@@ -45,7 +47,7 @@
             <li><a href="/mypage/updateuserform">계정 설정</a></li>
             <li><a href="/mypage/deleteuserform">계정 탈퇴</a></li>
             <hr/>
-            <li onclick="">구직자 이력서 보기</li>
+            <li ><a href="/mypage/relist">구직자 이력서 보기</a></li>
             <hr/>
             <li><a href="/mypage/list">공지사항</a></li>
 
@@ -59,7 +61,8 @@
                 <ul>
                     <li><a href="/mypage/">나의 정보</a></li>
                     <li><a href="/mypage/bookmark">채용정보 북마크</a></li>
-                    <li onclick="">내 이력서</li>
+                    <c:set var="m_idx"  value="${sessionScope.memidx}"/>
+                    <li><a href="/mypage/detail?m_idx=${m_idx}">내 이력서</a></li>
                     <hr/>
                     <li><a href="/mypage/updateuserform">계정 설정</a></li>
                     <li><a href="/mypage/deleteuserform">계정 탈퇴</a></li>

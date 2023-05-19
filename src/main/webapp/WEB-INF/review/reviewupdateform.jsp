@@ -198,14 +198,16 @@
     </style>
 </head>
 <body>
+
 <div class="post">
     <div class="contact col-lg-6">
         <div class="title" style="margin-top: 30px;">
             <img src="/photo/logoimage.png" style="width: 100px;">
             <h2>Riview Board</h2>
+
         </div>
 
-        <form form name="update-form">
+        <form name="update-form">
 
             <c:set var="m_idx"  value="${sessionScope.memidx}"/>
             <c:set var="m_nic"  value="${sessionScope.memnick}"/>
@@ -374,11 +376,13 @@
         var rb_star = $("input[name='rb_star']:checked").val();
         var rb_content = $(".rb_content").val();
         var m_idx = $("input[name='m_idx']").val();
+        var rb_idx =$(".rb_idx").val();
         /*    var ci_idx = $("input[name='ci_idx']").val() || null;*/
-        updateAjax(ci_idx, rb_type, rb_star, rb_content, m_idx);
+
+        updateAjax(ci_idx, rb_type, rb_star, rb_content, m_idx,rb_idx);
     });
 
-    function updateAjax(ci_idx, rb_type, rb_star, rb_content, m_idx) {
+    function updateAjax(ci_idx, rb_type, rb_star, rb_content, m_idx,rb_idx) {
 
 
         $.ajax({

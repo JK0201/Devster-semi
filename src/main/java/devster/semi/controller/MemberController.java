@@ -41,7 +41,7 @@ public class MemberController {
 
     @GetMapping("/signin")
     public String memberSignIn() {
-        return "/main/member/membersignin";
+        return "/memmain/member/membersignin";
     }
 
     @GetMapping("/signup")
@@ -49,7 +49,7 @@ public class MemberController {
         List<AcademyInfoDto> list = memberService.listAcademyInfo();
         model.addAttribute("list", list);
 
-        return "/main/member/membersignup";
+        return "/memmain/member/membersignup";
     }
 
     @GetMapping("/searchai")
@@ -61,7 +61,7 @@ public class MemberController {
 
     @GetMapping("/compsignup")
     public String compSignUp() {
-        return "/main/member/compsignup";
+        return "/memmain/member/compsignup";
     }
 
     @GetMapping("/apisignup")
@@ -81,6 +81,11 @@ public class MemberController {
     @GetMapping("/navercallback")
     public String naverCallBack() {
         return "/member/navercallback";
+    }
+
+    @GetMapping("/navercallbackacc")
+    public String naverCallBackAcc() {
+        return "/member/navercallbackacc";
     }
 
     @GetMapping("/emailchk")
@@ -117,9 +122,6 @@ public class MemberController {
             int memstate = memberService.getOneData(m_email).getM_state();
             int acaidx = memberService.getOneData(m_email).getAi_idx();
 
-            //포인트 증가 (1회증가로 나중에 로직짜기)
-            memberService.dailyPoint(m_email);
-
             session.setMaxInactiveInterval(60 * 60 * 4);
             session.setAttribute("logstat", "yes");
             session.setAttribute("memidx", memidx);
@@ -128,12 +130,34 @@ public class MemberController {
             session.setAttribute("acaidx", acaidx);
         } else {
             map.put("result", "no");
-            session.setMaxInactiveInterval(5);
+            session.setMaxInactiveInterval(60);
             session.setAttribute("m_email", m_email);
             session.setAttribute("m_pass", m_pass);
         }
 
         return map;
+    }
+
+    @GetMapping("/accapichk")
+    @ResponseBody
+    public Map<String, String> acckanachk(String m_email) {
+        int chk = memberService.apichk(m_email);
+        Map<String, String> map = new HashMap<>();
+
+        if (chk == 1) {
+            map.put("result", "yes");
+        } else {
+            map.put("result", "no");
+        }
+        return map;
+    }
+
+    @GetMapping("/apiaccinfo")
+    @ResponseBody
+    public void apiAccInfo(String m_email, String m_pass, HttpSession session) {
+        session.setMaxInactiveInterval(60);
+        session.setAttribute("m_email", m_email);
+        session.setAttribute("m_pass", m_pass);
     }
 
     @GetMapping("/nicknamechk")
@@ -169,8 +193,6 @@ public class MemberController {
             int acaidx = memberService.getOneData(m_email).getAi_idx();
             int state = memberService.getOneData(m_email).getM_state();
             String memacademy = memberService.getOneData(m_email).getAi_name();
-            //포인트 증가 (1회증가로 나중에 로직짜기)
-            memberService.dailyPoint(m_email);
 
             session.setMaxInactiveInterval(60 * 60 * 4);
             session.setAttribute("logstat", "yes");
@@ -178,8 +200,8 @@ public class MemberController {
             session.setAttribute("memnick", memnick);
             session.setAttribute("memstate", memstate);
             session.setAttribute("acaidx", acaidx);
-            session.setAttribute("state",state);
-            session.setAttribute("memacademy",memacademy);
+            session.setAttribute("state", state);
+            session.setAttribute("memacademy", memacademy);
 
 
         } else {
@@ -280,6 +302,20 @@ public class MemberController {
         return cond;
     }
 
+    @GetMapping("/csignincheck")
+    @ResponseBody
+    public String cSignInCheck(HttpSession session) {
+        String signin = (String) session.getAttribute("csignin");
+        String cond = "";
+        if (signin == null) {
+            cond = "yes";
+        } else {
+            cond = "no";
+        }
+
+        return cond;
+    }
+
     @GetMapping("/blocksend")
     @ResponseBody
     public void blockSend(HttpSession session) {
@@ -298,6 +334,13 @@ public class MemberController {
     @ResponseBody
     public void blockSignIn(HttpSession session) {
         session.setAttribute("signin", "block");
+        session.setMaxInactiveInterval(30);
+    }
+
+    @GetMapping("/cblocksignin")
+    @ResponseBody
+    public void cBlockSignIn(HttpSession session) {
+        session.setAttribute("csignin", "block");
         session.setMaxInactiveInterval(30);
     }
 
@@ -434,7 +477,7 @@ public class MemberController {
 
     @GetMapping("/selmember")
     public String selMember() {
-        return "/main/member/memberselect";
+        return "/memmain/member/memberselect";
     }
 
     @GetMapping("/agreement")
@@ -444,7 +487,7 @@ public class MemberController {
 
     @GetMapping("/grats")
     public String grats() {
-        return "/main/member/grats";
+        return "/memmain/member/grats";
     }
 
     @GetMapping("/finder")
@@ -569,7 +612,7 @@ public class MemberController {
     @GetMapping("/findaccinfo")
     @ResponseBody
     public void pFindAccInfo(String m_email, String m_name, HttpSession session) {
-        session.setMaxInactiveInterval(5);
+        session.setMaxInactiveInterval(60);
         session.setAttribute("m_email", m_email);
         session.setAttribute("m_name", m_name);
     }
@@ -627,7 +670,7 @@ public class MemberController {
     @GetMapping("/cfindaccinfo")
     @ResponseBody
     public void CPFindAccInfo(String cm_email, String cm_name, HttpSession session) {
-        session.setMaxInactiveInterval(5);
+        session.setMaxInactiveInterval(60);
         session.setAttribute("cm_email", cm_email);
         session.setAttribute("cm_name", cm_name);
     }
@@ -668,11 +711,6 @@ public class MemberController {
         return map;
     }
 
-    @GetMapping("/dndupdate")
-    public String dndupdate() {
-        return "/main/member/dndupdate";
-    }
-
     @GetMapping("/compreg")
     public String compreg() {
         return "/main/member/compreg";
@@ -691,6 +729,11 @@ public class MemberController {
         map.put("result", chk == 1 ? "yes" : "no");
 
         return map;
+    }
+
+    @GetMapping("/dndupdate")
+    public String dndupdate() {
+        return "/main/member/dndupdate";
     }
 
     @PostMapping("/dndupdatetest")
@@ -720,12 +763,6 @@ public class MemberController {
         //일단 테스트 계정이라 사진이 자동으로 삭제가 들어감, 업로드 안할시 sql 수정해야함
 
         memberService.testupdate(m_photo);
-    }
-
-    //페이징형식 DnD
-    @GetMapping("/dndpaging")
-    public String dndpaging() {
-        return "/main/member/dndpaging";
     }
 
 }

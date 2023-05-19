@@ -22,8 +22,15 @@
         <put-attribute name="menu" value="/WEB-INF/layout/menu.jsp"/>
         <put-attribute name="css" value="/WEB-INF/layout/css.jsp"/>
     </definition>
-
-
+    <definition name="memberLayout" template="/WEB-INF/layout/memberlayout.jsp">
+        <put-attribute name="memberheader" value="/WEB-INF/layout/memberheader.jsp"/>
+        <put-attribute name="main" value="/WEB-INF/layout/membermain.jsp"/>
+        <put-attribute name="css" value="/WEB-INF/layout/css.jsp"/>
+    </definition>
+    <definition name="memberLayoutMain" template="/WEB-INF/layout/memberlayoutmain.jsp">
+        <put-attribute name="main" value="/WEB-INF/layout/membermain.jsp"/>
+        <put-attribute name="css" value="/WEB-INF/layout/css.jsp"/>
+    </definition>
 
     <!-- main 페이지는 따로 설정해도 됨 -->
     <definition name="/main" extends="mainLayout">
@@ -35,6 +42,12 @@
     <definition name="/mypage" extends="mypageLayout">
         <put-attribute name="main" value="/WEB-INF/mypage/mpageprofile.jsp"/>
     </definition>
+    <definition name="/mem" extends="memberLayout">
+        <put-attribute name="main" value="/WEB-INF/layout/membermain.jsp"/>
+    </definition>
+    <definition name="/memmain" extends="memberLayoutMain">
+        <put-attribute name="main" value="/WEB-INF/layout/membermain.jsp"/>
+    </definition>
 
     <!-- wild card macro -->
     <definition name="/main/*/*" extends="mainLayout">
@@ -44,6 +57,12 @@
         <put-attribute name="main" value="/WEB-INF/{1}/{2}.jsp"/>
     </definition>
     <definition name="/mypage/*/*" extends="mypageLayout">
+        <put-attribute name="main" value="/WEB-INF/{1}/{2}.jsp"/>
+    </definition>
+    <definition name="/mem/*/*" extends="memberLayout">
+        <put-attribute name="main" value="/WEB-INF/{1}/{2}.jsp"/>
+    </definition>
+    <definition name="/memmain/*/*" extends="memberLayoutMain">
         <put-attribute name="main" value="/WEB-INF/{1}/{2}.jsp"/>
     </definition>
 </tiles-definitions>

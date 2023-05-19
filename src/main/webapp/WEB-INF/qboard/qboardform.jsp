@@ -65,6 +65,7 @@
             width: 60%;
             margin-top: 10px;
         }
+
         .post .contact form .input-group input[type="file"] {
             background: #ebebeb;
             border: 0;
@@ -90,7 +91,7 @@
             width: 60%;
         }
 
-        .post .contact form .input-group input#file-upload-btn{
+        .post .contact form .input-group input#file-upload-btn {
             height: 40px;
         }
 
@@ -131,7 +132,7 @@
             float: left;
         }
 
-        .post .btn-block{
+        .post .btn-block {
             width: 15%;
             background-color: #7f07ac;
             margin-bottom: 100px;
@@ -309,7 +310,7 @@
             font-weight: bold;
         }
 
-        #uploadmodal{
+        #uploadmodal {
             z-index: 0;
         }
 
@@ -343,7 +344,8 @@
                     <button type="button" id="uploadmodal" class="btn btn-outline-secondary">파일 선택</button>
                     &nbsp;&nbsp;<span id="uploadfilesnum">업로드할 사진을 선택해주세요. (10장 이하)</span>
                 </label>
-                <input accept=".jpg, .jpeg, .png, .gif" class="file_select btn-file d-none" id="fileInput" type="file" name="upload" style="padding-top: 10px;" multiple>
+                <input accept=".jpg, .jpeg, .png, .gif" class="file_select btn-file d-none" id="fileInput" type="file"
+                       name="upload" style="padding-top: 10px;" multiple>
                 <%--<i class="bi bi-images" id="clickableImage"></i>--%>
             </div>
             <div class="col-md-12 form-group">
@@ -397,11 +399,6 @@
 </div>
 
 
-
-
-
-
-
 <!-------------------------Drag and Drop------------------------>
 <script>
     //uploadbtn for paging
@@ -429,11 +426,10 @@
                 var inputElement = $("#fileInput")[0];
                 inputElement.files = fileList.files;
 
-                if(filesarr.length==0) {
+                if (filesarr.length == 0) {
                     $("#uploadfilesnum").html("업로드할 사진을 선택해주세요. (10장 이하)");
-                }
-                else {
-                    $("#uploadfilesnum").html(filesarr.length+"장의 파일이 선택되었습니다")
+                } else {
+                    $("#uploadfilesnum").html(filesarr.length + "장의 파일이 선택되었습니다")
                 }
 
                 Swal.fire({
@@ -562,7 +558,7 @@
     //박스 밖으로 Drag가 나갈때
     uploadbox.addEventListener("dragleave", function (e) {
         e.preventDefault();
-        $(this).css("border-color", "ㅇ");
+        $(this).css("border-color", "#bdbebd");
         $("#dndtext").css("backgroundColor", "#8007AD");
     });
 
