@@ -200,6 +200,7 @@ section.main .ab_wrap .hr_tag_2{
     padding: 1px 8px 0px 7px;
     color: rgb(119, 101, 255);
 }
+
 section.main .paginate{
     width: 1100px;
     margin: 0 auto;
@@ -234,12 +235,3 @@ section.main .ab_write_btn{
 
 /*------------------------------------*/
 
-/*=============================================공지사항=============================================*/
-
-.noticeboard_part ul{
-    padding: 0 !important;
-    margin: 0 !important;
-}
-.noticeboard_part ul li{
-    float: left;
-} 

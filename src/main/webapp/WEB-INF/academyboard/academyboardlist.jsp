@@ -64,6 +64,7 @@
 
 </style>
 
+
 <script>
     //몇시간전글인지
     function timeForToday(value) {
@@ -102,7 +103,7 @@
 
         $(window).scroll(function () {
             // 무한스크롤
-            if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+            if ((Math.floor($(window).scrollTop()) == $(document).height() - $(window).height())) {
                 if (!isLoading && !noMoreData) {
                     isLoading = true;
                     var nextPage = currentpage + 1;

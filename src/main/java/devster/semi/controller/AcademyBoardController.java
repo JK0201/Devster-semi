@@ -15,8 +15,10 @@ import org.springframework.web.context.request.SessionScope;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -390,6 +392,7 @@ public class AcademyBoardController {
     // 무한스크롤
     @GetMapping("/listajax")
     @ResponseBody
+
     public List<Map<String, Object>> list(@RequestParam(defaultValue = "1")int currentPage, int ai_idx) {
         int totalCount = academyBoardService.getTotalCount(ai_idx);
         int perPage = 20; // 한 페이지당 보여줄 글 갯수
@@ -430,10 +433,12 @@ public class AcademyBoardController {
             map.put("ab_writeday",timeForToday(dto.getAb_writeday()));
             map.put("ab_photo",dto.getAb_photo());
 
+
             fulllList.add(map);
         }
         return fulllList;
     }
+
 
     @GetMapping("/other_profile")
     public String message(String other_nick){
