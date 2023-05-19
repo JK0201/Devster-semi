@@ -6,102 +6,11 @@
 <%@ include file="../commonvar.jsp" %>
 
 
-<div class="fb_wrap">
 
-
-<script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Gothic+A1&family=Gowun+Batang&family=Hahmlet&family=Song+Myung&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-
-<style>
-    .freeboard_table{
-        font-family: 'Gowun Batang';
-        margin-left: 30px;
-        margin-top: 30px;
-        width: 100%;
-    }
-    .dtocontainer{
-        font-family: 'Gowun Batang';
-        width: 100%;
-    }
-    caption *{
-        font-family: 'Hahmlet';
-    }
-
-    .idxbox{
-        font-size: 13px;
-        color: gray;
-    }
-    .subjectbox{
-        font-size: 18px;
-        font-weight: bold;
-    }
-
-
-    .namebox{
-        font-size: 13px;
-        font-weight: bold;
-    }
-    img{
-        width: 100px;
-    }
-
-    .writedaybox{
-        font-size: 14px;
-        color: gray;
-        float: right;
-    }
-    .etcbox{
-        font-size: 14px;
-        color: gray;
-    }
-
-    .memberimg{
-        width: 23px;
-        height: 23px;
-        border-radius: 100px;
-    }
-
-    div, ul, li {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding:0;margin:0}
-    a {text-decoration:none;}
-
-    .quickmenu {position:absolute;width:300px;top:50%;margin-top:-50px;right:10px;background:#fff;}
-    .quickmenu ul {position:relative;float:left;width:100%;display:inline-block;*display:inline;border:1px solid #ddd;}
-    .quickmenu ul li {float:left;width:100%;border-bottom:1px solid #ddd;text-align:center;display:inline-block;*display:inline;}
-    .quickmenu ul li a {position:relative;float:left;width:100%;height:30px;line-height:30px;text-align:center;color:#999;font-size:9.5pt;}
-    .quickmenu ul li a:hover {color:#000;}
-    .quickmenu ul li:last-child {border-bottom:0;}
-
-    /* 서치바 */
-
-    .searchdiv{
-        /*position: absolute;*/
-        position: relative;
-    }
-    .searchbar{
-        width: 736px;
-        height: 60px;
-        padding: 0 10px 0 62px;
-        border: 2px solid #222;
-        border-radius: 30px;
-        font-size: 18px;
-        box-sizing: border-box;
-    }
-
-    .bi-search {
-        position: absolute;
-        right: 5px; /* 아이콘과 입력란 사이의 공간을 조절합니다. */
-        top: 31px;
-        left: 27px;
-        transform: translateY(-50%); /* 아이콘을 입력란의 정중앙에 배치합니다. */
-        pointer-events: none; /* 입력란 위에서 클릭이나 기타 동작이 가능하게 합니다. */
-        font-size: 24px;
-    }
-
-</style>
 
 <script>
+
+    // 몇시간전글인지
     function timeForToday(value) {
         const valueConv = value.slice(0, -2);
         const today = new Date();
@@ -131,328 +40,322 @@
     }
 
 
+    $(document).ready(function () {
 
-        $(document).ready(function(){
-        var currentPosition = parseInt($(".quickmenu").css("top"));
-        $(window).scroll(function() {
-        var position = $(window).scrollTop();
-        $(".quickmenu").stop().animate({"top":position+currentPosition+"px"},1000);
-    });
-    });
-</script>
+        var currentpage = 1;
+        var isLoading = false;
+        var noMoreData = false;
+        var keyword = "${keyword}";
+        console.log(keyword);
 
-    <!-- 검색창 -->
-    <div class="searchdiv">
-        <input id="searchinput" name="keyword" type="search" autocomplete="off" value="${keyword}"
-               class="searchbar">
-        <i class="bi bi-search"></i>
+        $(window).scroll(function () {
+            console.log(Math.floor($(window).scrollTop()) == $(document).height() - $(window).height());
 
-        <select id="searchOption">
-            <option id="all">전체검색</option>
-            <option id="searchnickname">작성자 검색</option>
-            <option id="searchcontent">제목 검색</option>
-        </select>
-    </div>
+            // 무한스크롤
+            if (Math.floor($(window).scrollTop()) == $(document).height() - $(window).height()) {
 
-    <script>
+                if (!isLoading && !noMoreData) {
+                    isLoading = true;
+                    var nextPage = currentpage + 1;
 
-        $("#searchinput").keydown(function (e){
-            // 검색내용
-            var keyword = $(this).val();
+                    $.ajax({
+                        type: "GET",
+                        url: "./searchlistajax",
+                        data: {"keyword": keyword, "searchOption": "all", "currentpage": nextPage},
+                        beforeSend: function () {
+                            $("#loading").show();
+                        },
+                        complete: function () {
+                            isLoading = false;
+                        },
+                        success: function (res) {
 
-            // 일단은 엔터 눌러야 검색되는걸로 -> 나중에 뭐 클릭해도 검색되게 바꿔도될듯?
-            if(e.keyCode==13){
-                // null 값 검색시 -> 아무일도 안일어남
-                if(keyword==''){
-                    // alert("검색하실 내용을 입력해주세요.")
-                    return
-                } else {
-                    search(keyword);
+                            if (res.searchCount == 0) {
+                                $(".listbox").append(`<h2 class="alert alert-outline-secondary">등록된 게시글이 없습니다..</h2>`);
+                                $("#loading").hide();
+                            } else {
+                                if (res.length == 0) {
+                                    noMoreData = true;
+                                    $("#loading").hide();
+                                } else {
+                                    setTimeout(function () {
+                                        currentpage++;
+                                        var s = '';
+                                        $.each(res, function (idx, dto) {
+                                            if (dto.fb_dislike > 19) {
+                                                if (idx % 2 == 1) {
+                                                    s += `<div class="blurbox" style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">`;
+                                                } else {
+                                                    s += `<div class="blurbox">`;
+                                                }
+                                            } else {
+                                                if (idx % 2 == 1) {
+                                                    s += `<div class="box" style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">`;
+                                                } else {
+                                                    s += `<div class="box">`;
+                                                }
+                                            }
+                                            s += `<span class="fb_writeday">\${dto.fb_writeday}</span>`
+                                            s += `<span class="fb_readcount"><div class="icon_read"></div>\${dto.fb_readcount}</span><br><br>`;
+                                            s += `<span class="nickName" style="cursor:pointer;" onclick=message("\${dto.nickName}")><img src="\${dto.m_photo}" class="memberimg">&nbsp;
+\${dto.nickName}</span>`;
+                                            s += `<div class="mainbox">`
+                                            s += `<h3 class="fb_subject"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}"><b>\${dto.fb_subject}</b></a></h3>`;
+                                            if (dto.fb_photo == 'n') {
+                                                var content = dto.fb_content.substring(0, 120);
+                                                if (dto.fb_content.length >= 120) {
+                                                    content += ".....";
+                                                }
+                                                s += `<h5 class="fb_content" style="width: 90%"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span>\${content}</span></a></h5>`;
+                                            } else {
+                                                var content = dto.fb_content.substring(0, 80);
+                                                if (dto.fb_content.length >= 80) {
+                                                    content += ".....";
+                                                }
+                                                s += `<h5 class="fb_content" style="width:80%"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span class="photocontent">\${content}</span></a></h5>`;
+                                                s += `<div style="position:relative; right:0; top: -80px;"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span class="fb_photo"><img src="http://${imageUrl}/freeboard/\${dto.fb_photo.split(",")[0]}" id="fb_photo"></span></a></div>`;
+                                            }
+                                            s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.fb_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.fb_dislike}</div><div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;\${dto.commentCnt}</div></div>`;
+                                            s += `</div>`;
+                                            s += `</div>`;
+                                        })
+                                        $(".listbox").append(s);
+                                        $("#loading").hide();
+                                    }, 1000);  // 1초 후에 실행
+                                }
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.log("Error:", error);
+                            $("#loading").hide();
+                        }
+
+                    })
                 }
             }
+
+
         });
 
-        // 검색 함수
-        function search(keyword){
 
+    });
+
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function () {
+        scrollFunction()
+    };
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("myBtn").style.display = "block";
+        } else {
+            document.getElementById("myBtn").style.display = "none";
         }
-
-    </script>
-
+    }
 
 
-<table class="freeboard_table table table-bordered">
-    <caption align="top"><h4 style="color: black; font-weight: bold;"><img src="/photo/icon_fb.png" style="width: 40px;">일반게시판
-        <button class="btn btn-secondary" type="button" style="float: right; margin-right: 150px; margin-top: 30px;" onclick="location.href='./freewriteform'"><i class="bi bi-pen"></i>&nbsp;글쓰기</button>
-    </h4>
-    </caption>
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+
+    // 프로필 클릭
+    function message(nickname) {
+        window.open("other_profile?other_nick=" + nickname, 'newwindow', 'width=700,height=700');
+    }
 
 
-    <tr>
-        <td class="alert alert-outline-secondary">
-            '${keyword}' 검색결과 :
-            총 ${searchCount}개의 게시글
-        </td>
-    </tr>
-    <tr>
 
+</script>
+
+
+<div class="fb_wrap">
+
+    <!--===============================Headbox==============================================-->
+
+    <div class="headbox" style="display: unset">
+        <h4 class="boardname">
+            <div class="yellowbar">&nbsp;</div>&nbsp;&nbsp;일반게시판
+        </h4><br><br>
+
+        <!-- 검색결과 -->
+        <div class="searchres">
+           <h5>&nbsp;<b>${keyword}</b>&nbsp;검색결과 : 전체 (${searchCount})</h5>
+        </div>
+    </div>
+
+    <!--=============================================================================-->
+
+    <!-- listbox -->
+    <div class="listbox">
         <c:if test="${searchCount==0}">
             <h2 class="alert alert-outline-secondary">등록된 게시글이 없습니다..</h2>
         </c:if>
 
         <c:if test="${searchCount>0}">
             <c:forEach var="dto" items="${list}" varStatus="i">
+                <!-- blurbox-->
+                <c:if test="${dto.fb_dislike > 19}">
+                    <div class="blurbox"
+                         <c:if test="${i.index % 2 == 1}">style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;"</c:if>>
 
-        <c:if test="${dto.fb_dislike > 19}">
-
-        <td style="filter: blur(2px);">
-            <table  class="dtocontainer" style="filter: blur(2px);">
-                <tr>
-                    <td class="idxbox">no. ${dto.fb_idx}</td>
-                </tr>
-                <tr>
-                    <td class="subjectbox">
-                        <a href="freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}" style="color: #000;">${dto.fb_subject}</a></td>
-                </tr>
-
-                <c:if test="${dto.fb_photo=='n'}">
-                    &nbsp;<tr style="height: 130px;">
-                    <td style="width: 100%">
-                        <a href="freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}" style="color: #000;">
-                                <span >
-
-                                    <c:set var="length" value="${fn:length(dto.fb_content)}"/>
-                                    ${fn:substring(dto.fb_content, 0, 130)}
-
-                                    <c:if test="${length>=130}">
-                                        .....
-                                    </c:if>
-
-                                   </span></a>
-
-                    </td></tr>
-                </c:if>
-                <c:if test="${dto.fb_photo!='n'}">
-                    &nbsp;<tr style="height: 130px;">
-                    <td style="width: 80%">
-                        <a href="freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}" style="color: #000;">
-                                    <span>
-
-                                    <c:set var="length" value="${fn:length(dto.fb_content)}"/>
-                                    ${fn:substring(dto.fb_content, 0, 90)}
-
-                                    <c:if test="${length>=90}">
-                                        .....
-                                    </c:if>
-
-                                   </span></a>
-                    </td>
-
-                    <td style="width: 20%">
-                                <span class="imgbox">
-
-                                        <img src="http://${imageUrl}/freeboard/${dto.fb_photo}" style="width: 70%; border: 1px solid lightgray; margin-right: 5px;">
-
-
-                                </span>
-                    </td>
-                    </tr>
-                </c:if>
-
-                <tr>
-                    <td class="namebox">
-                        <img src="http://${imageUrl}/member/${dto.m_photo}" class="memberimg">&nbsp; ${dto.nickName}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <b class="etcbox">
-                            <i class="bi bi-eye"></i>&nbsp;조회&nbsp;${dto.fb_readcount}&nbsp;
-                            <i class="bi bi-hand-thumbs-up"></i>&nbsp;좋아요&nbsp;${dto.fb_like}&nbsp;&nbsp;
-                            <i class="bi bi-hand-thumbs-down"></i>&nbsp;싫어요&nbsp;${dto.fb_dislike}&nbsp;
-                            <i class="bi bi-chat-right"></i>&nbsp;댓글&nbsp;${dto.commentCnt}
-                        </b>
-
-                        <p class="writedaybox">
-                            <span id="writeday-${dto.fb_idx}"></span>
-                        </p>
+                        <span class="fb_writeday" id="writeday-${dto.fb_idx}"></span>
                         <script>
                             var writedayElement = document.getElementById("writeday-${dto.fb_idx}");
                             var formattedWriteday = timeForToday("${dto.fb_writeday}");
                             writedayElement.textContent = formattedWriteday;
                         </script>
 
-                    </td>
-                </tr>
-            </table>
-        </td>
+                        <span class="fb_readcount"><div class="icon_read"></div>
+                                ${dto.fb_readcount}</span><br><br>
 
-        <c:if test="${i.index % 1 == 0}"></tr><tr></c:if>
-        </c:if>
+                        <span class="nickName" style="cursor:pointer;" onclick=message("${dto.nickName}")><img
+                                src="${dto.m_photo}"
+                                class="memberimg">&nbsp;&nbsp;${dto.nickName}</span>
 
-        <c:if test="${dto.fb_dislike < 20}">
+                        <div class="mainbox">
+                            <h3 class="fb_subject">
+                                <a href="freeboarddetail?fb_idx=${dto.fb_idx}"><b>${dto.fb_subject}</b></a>
+                            </h3>
 
-        <td>
-            <table class="dtocontainer">
-                <tr>
-                    <td class="idxbox">no. ${dto.fb_idx}</td>
-                </tr>
-                <tr>
-                    <td class="subjectbox">
-                        <a href="freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}" style="color: #000;">${dto.fb_subject}</a></td>
-                </tr>
-
-                <c:if test="${dto.fb_photo=='n'}">
-                    &nbsp;<tr style="height: 130px;">
-                    <td style="width: 100%">
-                        <a href="freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}" style="color: #000;">
-                                <span >
-
+                            <c:if test="${dto.fb_photo=='n'}">
+                                <h5 class="fb_content" style="width: 90%">
+                                    <a href="freeboarddetail?fb_idx=${dto.fb_idx}"
+                                       style="color: #000;">
+                                <span>
                                     <c:set var="length" value="${fn:length(dto.fb_content)}"/>
-                                    ${fn:substring(dto.fb_content, 0, 130)}
+                                    ${fn:substring(dto.fb_content, 0, 120)}
 
-                                    <c:if test="${length>=130}">
+                                    <c:if test="${length>=120}">
                                         .....
                                     </c:if>
-
                                    </span></a>
-
-                    </td></tr>
-                </c:if>
-                <c:if test="${dto.fb_photo!='n'}">
-                    &nbsp;<tr style="height: 130px;">
-                    <td style="width: 80%">
-                        <a href="freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}" style="color: #000;">
-                                    <span>
-
+                                </h5>
+                            </c:if>
+                            <c:if test="${dto.fb_photo!='n'}">
+                                <h5 class="fb_content" style="width: 80%;">
+                                    <a href="freeboarddetail?fb_idx=${dto.fb_idx}"
+                                       style="color: #000;">
+                                <span class="photocontent">
                                     <c:set var="length" value="${fn:length(dto.fb_content)}"/>
-                                    ${fn:substring(dto.fb_content, 0, 90)}
+                                    ${fn:substring(dto.fb_content, 0, 80)}
 
-                                    <c:if test="${length>=90}">
+                                    <c:if test="${length>=80}">
                                         .....
                                     </c:if>
+                                   </span>
+                                    </a>
+                                </h5>
+                                <div style="position:relative; right:0; top: -80px;">
+                                    <a href="freeboarddetail?fb_idx=${dto.fb_idx}">
+                                    <span class="fb_photo">
+                    <img src="http://${imageUrl}/freeboard/${dto.fb_photo.split(",")[0]}" id="fb_photo">
+                        </span>
+                                    </a>
+                                </div>
 
-                                   </span></a>
-                    </td>
+                            </c:if>
 
-                    <td style="width: 20%">
-                                <span class="imgbox">
+                            <div class="hr_tag">
+                                <div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;${dto.fb_like}&nbsp;&nbsp;<i
+                                        class="bi bi-hand-thumbs-down-"></i>&nbsp;${dto.fb_dislike}</div>
+                                <div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;${dto.commentCnt}</div>
+                            </div>
 
-                                        <img src="http://${imageUrl}/freeboard/${dto.fb_photo}" style="width: 70%; border: 1px solid lightgray; margin-right: 5px;">
+                        </div>
+
+                    </div>
 
 
-                                </span>
-                    </td>
-                    </tr>
                 </c:if>
+                <!-- blurbox-->
+                <!-- box-->
+                <c:if test="${dto.fb_dislike < 20}">
+                    <div class="box"
+                         <c:if test="${i.index % 2 == 1}">style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;"</c:if>>
 
-                <tr>
-                    <td class="namebox">
-                        <img src="http://${imageUrl}/member/${dto.m_photo}" class="memberimg">&nbsp; ${dto.nickName}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <b class="etcbox">
-                            <i class="bi bi-eye"></i>&nbsp;조회&nbsp;${dto.fb_readcount}&nbsp;
-                            <i class="bi bi-hand-thumbs-up"></i>&nbsp;좋아요&nbsp;${dto.fb_like}&nbsp;&nbsp;
-                            <i class="bi bi-hand-thumbs-down"></i>&nbsp;싫어요&nbsp;${dto.fb_dislike}&nbsp;
-                            <i class="bi bi-chat-right"></i>&nbsp;댓글&nbsp;${dto.commentCnt}
-                        </b>
-
-                        <p class="writedaybox">
-                            <span id="writeday-${dto.fb_idx}"></span>
-                        </p>
+                        <span class="fb_writeday" id="writeday-${dto.fb_idx}"></span>
                         <script>
                             var writedayElement = document.getElementById("writeday-${dto.fb_idx}");
                             var formattedWriteday = timeForToday("${dto.fb_writeday}");
                             writedayElement.textContent = formattedWriteday;
                         </script>
 
-                    </td>
-                </tr>
-            </table>
-        </td>
+                        <span class="fb_readcount"><div class="icon_read"></div>
+                                ${dto.fb_readcount}</span><br><br>
 
-        <c:if test="${i.index % 1 == 0}"></tr><tr></c:if>
+                        <span class="nickName" style="cursor:pointer;" onclick=message("${dto.nickName}")><img
+                                src="${dto.m_photo}"
+                                class="memberimg">&nbsp;${dto.nickName}</span>
 
+                        <div class="mainbox">
+                            <h3 class="fb_subject">
+                                <a href="freeboarddetail?fb_idx=${dto.fb_idx}"><b>${dto.fb_subject}</b></a>
+                            </h3>
 
-        </c:if>
+                            <c:if test="${dto.fb_photo=='n'}">
+                                <h5 class="fb_content" style="width: 90%">
+                                    <a href="freeboarddetail?fb_idx=${dto.fb_idx}"
+                                       style="color: #000;">
+                                <span>
+                                    <c:set var="length" value="${fn:length(dto.fb_content)}"/>
+                                    ${fn:substring(dto.fb_content, 0, 120)}
 
+                                    <c:if test="${length>=120}">
+                                        .....
+                                    </c:if>
+                                   </span></a>
+                                </h5>
+                            </c:if>
+                            <c:if test="${dto.fb_photo!='n'}">
+                                <h5 class="fb_content">
+                                    <a href="freeboarddetail?fb_idx=${dto.fb_idx}"
+                                       style="color: #000;">
+                                <span class="photocontent">
+                                    <c:set var="length" value="${fn:length(dto.fb_content)}"/>
+                                    ${fn:substring(dto.fb_content, 0, 80)}
 
+                                    <c:if test="${length>=80}">
+                                        .....
+                                    </c:if>
+                                   </span>
+                                    </a>
+                                </h5>
+                                <div style="position:relative; right:0; top: -80px;">
+                                    <a href="freeboarddetail?fb_idx=${dto.fb_idx}">
+                                <span class="fb_photo">
+                    <img src="http://${imageUrl}/freeboard/${dto.fb_photo.split(",")[0]}" id="fb_photo">
+            </span>
+                                    </a>
+                                </div>
+
+                            </c:if>
+
+                            <div class="hr_tag">
+                                <div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;${dto.fb_like}&nbsp;&nbsp;<i
+                                        class="bi bi-hand-thumbs-down"></i>&nbsp;${dto.fb_dislike}</div>
+                                <div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;${dto.commentCnt}</div>
+                            </div>
+                        </div>
+                    </div>
+                </c:if>
+
+                <!-- box-->
             </c:forEach>
         </c:if>
-        </tr>
-
-
-
-
-
-</table>
-
-
-
-<!-- 페이징 처리 -->
-<div style="width:700px; text-align: center; font-size: 20px; background-color: rgba(255, 255, 255, 0.6)">
-    <!-- 이전 -->
-    <c:if test="${startPage>1}">
-    <a style="font-size:17px; font-weight: bold; color: black; text-decoration: none; cursor: pointer;" href="list?currentPage=${startPage-1 }">&nbsp;이전&nbsp;</a>
-    </c:if>
-
-    <!-- 페이지번호출력 -->
-    <c:forEach var="pp" begin="${startPage }" end="${endPage }">
-
-    <c:if test="${currentPage == pp }">
-    <a style="color: #3366CC; text-decoration: none; cursor: pointer; font-weight: bold;" href="list?currentPage=${pp }">&nbsp;${pp}&nbsp;</a>
-    </c:if>
-    <c:if test="${currentPage != pp }">
-    <a style="color: black; text-decoration: none; cursor: pointer; font-weight: bold;" href="list?currentPage=${pp }">&nbsp;${pp}&nbsp;</a>
-    </c:if>
-    </c:forEach>
-
-    <!-- 다음 -->
-    <c:if test="${endPage<searchPage}">
-    <a style="font-size:17px; font-weight: bold; color: black; text-decoration: none; cursor: pointer;" href="list?currentPage=${endPage+1 }">&nbsp;다음&nbsp;</a>
-    </c:if>
-</div>
-
-    <div class="quickmenu">
-        <ul>
-            <li class="quickmenu_head"><p style="font-size: 30px">베스트 게시글</p></li>
-        </ul>
     </div>
+    <!-- listbox -->
+    <div id="loading"
+         style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999;">
+        <img src="${root}/photo/loading.gif" alt="Loading..."
+             style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <!-- 로딩 이미지의 경로를 설정하세요 -->
+    </div>
+
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+    <br>
+    <button id="myWriteBtn" type="button" onclick="location.href='./freewriteform'">글쓰기</button>
+
+
 </div>
-
-<script>
-    $.ajax({
-        type: "post",
-        url: "./bestPostsForBanner",
-        dataType: "json",
-        success: function(response) {
-            let s = "";
-            $.each(response, function(index, item) {
-                s +=
-                    `
-                        <li>
-                            <a href="../freeboard/freeboarddetail?fb_idx=\${item.fb_idx}&currentPage=1">
-                                <div class="name">
-                                    <div class="num">\${index+1} \${item.fb_subject}</div>
-                                </div>
-                            </a>
-                        </li>
-                    `
-            });
-            s+=
-                `
-                        <button type="button" onclick="window.scrollTo({top:0});">
-                         <i class="bi bi-arrow-up-square-fill"></i>
-                        </button>
-                    `;
-            $(".quickmenu ul").append(s);
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log("Error: " + textStatus + " - " + errorThrown);
-        }
-    });
-
-</script>

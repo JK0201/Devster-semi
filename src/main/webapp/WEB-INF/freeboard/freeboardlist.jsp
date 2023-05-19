@@ -17,15 +17,13 @@
 
         <!-- 검색창 -->
         <div class="searchdiv">
-            <input id="searchinput" name="keyword" type="search" placeholder="관심있는 내용을 검색해보세요!" autocomplete="off"
-                   class="searchbar">
-            <i class="bi bi-search"></i>
-
-            <select id="searchOption">
+            <select id="searchOption" class="form-select">
                 <option id="all" value="all">전체검색</option>
                 <option id="searchnickname" value="m_nickname">작성자 검색</option>
                 <option id="searchsubject" value="fb_subject">제목 검색</option>
             </select>
+            <input id="searchinput" name="keyword" type="search" placeholder="관심있는 내용을 검색해보세요!" autocomplete="off"
+                   class="searchbar">
         </div>
     </div>
 
@@ -55,140 +53,6 @@
 
     <!--=============================================================================-->
 
-    <style>
-        /*notice*/
-        .noticeboard_part {
-            margin-bottom: 10px;
-        }
-
-        .noticeboard_part ul {
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-
-        .noticeboard_part li .noticetitle {
-            background-color: #cdcdcd;
-            border-radius: 5px;
-            margin-right: 20px;
-            width: 50px;
-            height: 13px;
-            padding-left: 20px;
-            padding-right: 20px;
-            padding-bottom: 7px;
-            padding-top: 7px;
-            font-weight: bold;
-            font-size: 13px;
-        }
-
-        .noticeboard_part li {
-
-            background-color: #e3e3e3;
-            border-radius: 5px;
-
-            padding-top: 15px;
-            padding-bottom: 15px;
-            padding-left: 20px;
-
-            color: #000;
-            margin-bottom: 5px;
-            font-size: 16px;
-        }
-
-
-        /*headbox*/
-        .headbox {
-            display: flex;
-            margin-bottom: 10px;
-        }
-
-        .yellowbar {
-            display: inline-block;
-            background-color: #e3da50;
-            width: 8px;
-            height: 100%;
-        }
-
-        .headbox .boardname {
-            color: black;
-            font-weight: bold;
-            display: inline-block;
-        }
-
-        .writebtn {
-            margin-left: 30px;
-        }
-
-        /* 서치바 */
-        .searchdiv {
-            /*position: absolute;*/
-            position: relative;
-            display: inline-block;
-            float: right;
-            margin-left: 600px;
-        }
-
-        .searchbar {
-            width: 270px;
-            height: 40px;
-            padding: 0 0 0 50px;
-            border: 2px solid #222;
-            border-radius: 30px;
-            font-size: 15px;
-            box-sizing: border-box;
-        }
-
-        .bi-search {
-            position: absolute;
-            right: 10px; /* 아이콘과 입력란 사이의 공간을 조절합니다. */
-            top: 20px;
-            left: 20px;
-            transform: translateY(-50%); /* 아이콘을 입력란의 정중앙에 배치합니다. */
-            pointer-events: none; /* 입력란 위에서 클릭이나 기타 동작이 가능하게 합니다. */
-            font-size: 15px;
-        }
-
-        #myBtn {
-            display: none; /* Hidden by default */
-            position: fixed; /* Fixed/sticky position */
-            bottom: 20px; /* Place the button at the bottom of the page */
-            right: 30px; /* Place the button 30px from the right */
-            z-index: 99; /* Make sure it does not overlap */
-            border: none; /* Remove borders */
-            outline: none; /* Remove outline */
-            background-color: #7f07ac; /* Set a background color */
-            color: white; /* Text color */
-            cursor: pointer; /* Add a mouse pointer on hover */
-            padding: 15px; /* Some padding */
-            border-radius: 10px; /* Rounded corners */
-            font-size: 18px; /* Increase font size */
-        }
-
-        #myBtn:hover {
-            background-color: #530871; /* Add a dark-grey background on hover */
-        }
-
-        #myWriteBtn {
-            /*display: none; !* Hidden by default *!*/
-            position: fixed; /* Fixed/sticky position */
-            bottom: 20px; /* Place the button at the bottom of the page */
-            right: 30px; /* Place the button 30px from the right */
-            z-index: 99; /* Make sure it does not overlap */
-            border: none; /* Remove borders */
-            outline: none; /* Remove outline */
-            background-color: #7f07ac; /* Set a background color */
-            color: white; /* Text color */
-            cursor: pointer; /* Add a mouse pointer on hover */
-            padding: 15px; /* Some padding */
-            border-radius: 10px; /* Rounded corners */
-            font-size: 18px; /* Increase font size */
-            margin-bottom: 70px;
-        }
-
-        #myWriteBtn:hover {
-            background-color: #530871; /* Add a dark-grey background on hover */
-        }
-
-    </style>
 
     <script>
 
@@ -251,10 +115,6 @@
                                 isLoading = false;
                             },
                             success: function (res) {
-                                console.log(currentpage);
-                                console.log("총 게시물수 : "+res.searchCount);
-                                console.log(noMoreData);
-                                console.log(res.length);
                                 if (res.totalCount == 0) {
                                     $(".listbox").append(`<h2 class="alert alert-outline-secondary">등록된 게시글이 없습니다..</h2>`);
                                     $("#loading").hide();
@@ -369,59 +229,59 @@
                             console.log(currentpage);
                             console.log(noMoreData);
 
-                                if (res.length == 0) {
-                                    alert("검색 결과가 없습니다.");
-                                    noMoreData = true;
-                                    $("#loading").hide();
-                                } else {
-                                    setTimeout(function () {
-                                        currentpage++;
-                                        var s = '';
-                                        $.each(res, function (idx, dto) {
-                                            if (dto.fb_dislike > 19) {
-                                                if (idx % 2 == 1) {
-                                                    s += `<div class="blurbox" style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">`;
-                                                } else {
-                                                    s += `<div class="blurbox">`;
-                                                }
+                            if (res.length == 0) {
+                                alert("검색 결과가 없습니다.");
+                                noMoreData = true;
+                                $("#loading").hide();
+                            } else {
+                                setTimeout(function () {
+                                    currentpage++;
+                                    var s = '';
+                                    $.each(res, function (idx, dto) {
+                                        if (dto.fb_dislike > 19) {
+                                            if (idx % 2 == 1) {
+                                                s += `<div class="blurbox" style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">`;
                                             } else {
-                                                if (idx % 2 == 1) {
-                                                    s += `<div class="box" style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">`;
-                                                } else {
-                                                    s += `<div class="box">`;
-                                                }
+                                                s += `<div class="blurbox">`;
                                             }
-                                            s += `<span class="fb_writeday">\${dto.fb_writeday}</span>`
-                                            s += `<span class="fb_readcount"><div class="icon_read"></div>\${dto.fb_readcount}</span><br><br>`;
-                                            s += `<span class="m_nickname"style="cursor:pointer;" onclick=message("\${dto.nickName}")><img src="\${dto.m_photo}" class="memberimg" style="width: 20px; height: 20px; border-radius: 100px;">&nbsp;
+                                        } else {
+                                            if (idx % 2 == 1) {
+                                                s += `<div class="box" style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">`;
+                                            } else {
+                                                s += `<div class="box">`;
+                                            }
+                                        }
+                                        s += `<span class="fb_writeday">\${dto.fb_writeday}</span>`
+                                        s += `<span class="fb_readcount"><div class="icon_read"></div>\${dto.fb_readcount}</span><br><br>`;
+                                        s += `<span class="m_nickname"style="cursor:pointer;" onclick=message("\${dto.nickName}")><img src="\${dto.m_photo}" class="memberimg" style="width: 20px; height: 20px; border-radius: 100px;">&nbsp;
 \${dto.nickName}</span>`;
-                                            s += `<div class="mainbox">`
-                                            s += `<h3 class="fb_subject"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}"><b>\${dto.fb_subject}</b></a></h3>`;
-                                            if (dto.fb_photo == 'n') {
-                                                var content = dto.fb_content.substring(0, 120);
-                                                if (dto.fb_content.length >= 120) {
-                                                    content += ".....";
-                                                }
-                                                s += `<h5 class="fb_content" style="width: 90%"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span>\${content}</span></a></h5>`;
-                                            } else {
-                                                var content = dto.fb_content.substring(0, 80);
-                                                if (dto.fb_content.length >= 80) {
-                                                    content += ".....";
-                                                }
-                                                s += `<h5 class="fb_content" style="width:80%"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span class="photocontent">\${content}</span></a></h5>`;
-                                                s += `<div style="position:relative; right:0; top: -80px;"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span class="fb_photo"><img src="http://${imageUrl}/freeboard/\${dto.fb_photo.split(",")[0]}" id="fb_photo"></span></a></div>`;
+                                        s += `<div class="mainbox">`
+                                        s += `<h3 class="fb_subject"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}"><b>\${dto.fb_subject}</b></a></h3>`;
+                                        if (dto.fb_photo == 'n') {
+                                            var content = dto.fb_content.substring(0, 120);
+                                            if (dto.fb_content.length >= 120) {
+                                                content += ".....";
                                             }
-                                            s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.fb_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.fb_dislike}</div><div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;\${dto.commentCnt}</div></div>`;
-                                            s += `</div>`;
-                                            s += `</div>`;
-                                        })
-                                        s += ``;
+                                            s += `<h5 class="fb_content" style="width: 90%"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span>\${content}</span></a></h5>`;
+                                        } else {
+                                            var content = dto.fb_content.substring(0, 80);
+                                            if (dto.fb_content.length >= 80) {
+                                                content += ".....";
+                                            }
+                                            s += `<h5 class="fb_content" style="width:80%"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span class="photocontent">\${content}</span></a></h5>`;
+                                            s += `<div style="position:relative; right:0; top: -80px;"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span class="fb_photo"><img src="http://${imageUrl}/freeboard/\${dto.fb_photo.split(",")[0]}" id="fb_photo"></span></a></div>`;
+                                        }
+                                        s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.fb_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.fb_dislike}</div><div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;\${dto.commentCnt}</div></div>`;
+                                        s += `</div>`;
+                                        s += `</div>`;
+                                    })
+                                    s += ``;
 
-                                        $(".listbox").html(s);
-                                        $("#loading").hide();
+                                    $(".listbox").html(s);
+                                    $("#loading").hide();
 
-                                    }, 1000);  // 1초 후에 실행
-                                }
+                                }, 1000);  // 1초 후에 실행
+                            }
 
                         },
 
@@ -697,9 +557,9 @@
         <!-- 로딩 이미지의 경로를 설정하세요 -->
     </div>
 
-    <button id="myWriteBtn" type="button" onclick="location.href='./freewriteform'">글쓰기</button>
-    <br>
     <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+    <br>
+    <button id="myWriteBtn" type="button" onclick="location.href='./freewriteform'">글쓰기</button>
     <script>
         $.ajax({
             type: "post",

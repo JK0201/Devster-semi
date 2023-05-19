@@ -6,6 +6,7 @@ import devster.semi.dto.NoticeBoardDto;
 import devster.semi.service.FreeBoardService;
 import devster.semi.service.NoticeBoardService;
 import naver.cloud.NcpObjectStorageService;
+import org.apache.ibatis.javassist.compiler.ast.Keyword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -116,7 +117,7 @@ public class FreeBoardController {
     // 검색
     @PostMapping("/freeboardsearchlist")
     @ResponseBody
-    public List<Map<String, Object>> searchlist(@RequestParam int currentpage,
+    public List<Map<String, Object>> searchlist(@RequestParam(defaultValue = "1") int currentpage,
                                                 @RequestParam(defaultValue = "") String keyword,
                                                 @RequestParam(defaultValue = "all") String searchOption
                                                 ) {
@@ -556,6 +557,70 @@ public class FreeBoardController {
 
         return fulllList;
     }
+
+    // 무한스크롤
+    @GetMapping("/searchlistajax")
+    @ResponseBody
+    public List<Map<String,Object>> searchlistajax(int currentpage,@RequestParam(defaultValue = "") String keyword,
+                                               @RequestParam(defaultValue = "all") String searchOption) {
+
+        int perPage = 20; // 한 페이지당 보여줄 글 갯수
+        int startNum; // 각 페이지에서 보여질 글의 시작번호
+        int no; // 글 출력시 출력할 시작번호
+
+        // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
+        startNum = (currentpage - 1) * perPage;
+
+        // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
+        // no = totalCount - (currentPage - 1) * perPage;
+
+        // 각 페이지에 필요한 게시글 db에서 가져오기
+        List<FreeBoardDto> list = freeBoardService.searchlist(searchOption, keyword, startNum, perPage);
+
+        List<Map<String, Object>> fulllList = new ArrayList<>();
+
+        for (FreeBoardDto dto : list) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("fb_idx", String.valueOf(dto.getFb_idx()));
+            map.put("nickName", freeBoardService.selectNickNameOfMidx(dto.getFb_idx()));
+            map.put("commentCnt", freeBoardService.commentCnt(dto.getFb_idx()));
+
+            String m_photo = freeBoardService.selectPhotoOfMidx(dto.getFb_idx());
+
+            if(m_photo.equals("no")) {
+                m_photo = "/photo/profile.jpg";
+            } else {
+                m_photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+freeBoardService.selectPhotoOfMidx(dto.getFb_idx());
+            }
+            map.put("m_photo",m_photo);
+            map.put("fb_subject", dto.getFb_subject());
+            map.put("fb_content", dto.getFb_content());
+            map.put("fb_like", dto.getFb_like());
+            map.put("fb_dislike", dto.getFb_dislike());
+            map.put("fb_readcount", dto.getFb_readcount());
+            map.put("fb_writeday", timeForToday(dto.getFb_writeday()));
+            map.put("currentpage", currentpage);
+
+
+            // 사진이 들어있으면
+            if (dto.getFb_photo() != "no") {
+                // 사진이 두장이상이면
+                if (dto.getFb_photo().contains(",")) {
+                    int index = dto.getFb_photo().indexOf(",");
+                    String result = dto.getFb_photo().substring(0, index);
+                    map.put("fb_photo", result);
+                } else { //사진이 한장이면
+                    map.put("fb_photo", dto.getFb_photo());
+                }
+            }
+
+
+            fulllList.add(map);
+        }
+
+        return fulllList;
+    }
+
 
 
     public String timeForToday(Timestamp value) {

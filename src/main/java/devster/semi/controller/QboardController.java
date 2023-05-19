@@ -344,7 +344,7 @@ public class QboardController {
     // 검색
     @PostMapping("/qboardsearchlist")
     @ResponseBody
-    public List<Map<String, Object>> searchlist(@RequestParam(defaultValue = "1") int currentPage,
+    public List<Map<String, Object>> searchlist(@RequestParam(defaultValue = "1") int currentpage,
                                                 @RequestParam(defaultValue = "") String keyword,
                                                 @RequestParam(defaultValue = "all") String searchOption,
                                                 Model model){
@@ -362,7 +362,7 @@ public class QboardController {
         // 총 페이지 수
         totalPage = searchCount / perPage + (searchCount % perPage == 0 ? 0 : 1);
         // 시작 페이지
-        startPage = (currentPage - 1) / perBlock * perBlock + 1;
+        startPage = (currentpage - 1) / perBlock * perBlock + 1;
         // 끝 페이지
         endPage = startPage + perBlock - 1;
 
@@ -371,7 +371,7 @@ public class QboardController {
             endPage = totalPage;
 
         // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
-        startNum = (currentPage - 1) * perPage;
+        startNum = (currentpage - 1) * perPage;
 
         // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
         // no = totalCount - (currentPage - 1) * perPage;
@@ -410,7 +410,7 @@ public class QboardController {
             model.addAttribute("endPage", endPage);
             model.addAttribute("totalPage", totalPage);
             model.addAttribute("no", no);
-            model.addAttribute("currentPage", currentPage);
+            model.addAttribute("currentPage", currentpage);
 
 
             // 사진이 들어있으면
@@ -433,7 +433,7 @@ public class QboardController {
     }
 
     @GetMapping("/searchlist")
-    public String searchlist(@RequestParam(defaultValue = "1") int currentPage, Model model,@RequestParam(defaultValue = "") String keyword){
+    public String searchlist(@RequestParam(defaultValue = "1") int currentpage, Model model,@RequestParam(defaultValue = "") String keyword){
 
 
         int searchCount = qboardService.countsearch("all",keyword);
@@ -448,7 +448,7 @@ public class QboardController {
         // 총 페이지 수
         totalPage = searchCount / perPage + (searchCount % perPage == 0 ? 0 : 1);
         // 시작 페이지
-        startPage = (currentPage - 1) / perBlock * perBlock + 1;
+        startPage = (currentpage - 1) / perBlock * perBlock + 1;
         // 끝 페이지
         endPage = startPage + perBlock - 1;
 
@@ -457,7 +457,7 @@ public class QboardController {
             endPage = totalPage;
 
         // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
-        startNum = (currentPage - 1) * perPage;
+        startNum = (currentpage - 1) * perPage;
 
         // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
         // no = totalCount - (currentPage - 1) * perPage;
@@ -511,7 +511,7 @@ public class QboardController {
         model.addAttribute("endPage", endPage);
         model.addAttribute("totalPage", totalPage);
         model.addAttribute("no", no);
-        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("currentPage", currentpage);
         model.addAttribute("keyword", keyword);
 
 

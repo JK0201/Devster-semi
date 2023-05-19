@@ -3,29 +3,7 @@
   <component name="WebContextManager">
     <option name="state">
       <map>
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/academyboard/academyboarddetail.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/academyboard" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/academyboard/academyboardlist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/academyboard" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/freeboard/freeboarddetail.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/freeboard" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/freeboard/freeboardlist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/freeboard" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/hire/hirelist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/hire" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/layout/header.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/layout" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member/accountfinder.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member/compsignup.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member/dndprac.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member" />
-<<<<<<< HEAD
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member/grats.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member/membersignin.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member" />
-=======
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/message/message_content_list.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/message" />
->>>>>>> df86ecd5a0a52f247837228f4c8ab7f541d4c53f
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/message/message_list.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/message" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/mypage/relist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/mypage" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/mypage/resumewrite.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/mypage" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/qboard/qboarddetail.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/qboard" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/qboard/qboardform.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/qboard" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/qboard/qboardlist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/qboard" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/resume/resumewrite.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/resume" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/review/reviewlist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/review" />
       </map>
     </option>
   </component>

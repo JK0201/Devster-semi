@@ -35,12 +35,7 @@ section.main .ab_wrap .blurbox {
     padding-right: 20px;
 }
 
-section.main .ab_wrap .box:first-child{
-    border-top: 1px solid #eee;
-}
-section.main .ab_wrap .box:nth-child(2){
-    border-top: 1px solid #eee;
-}
+
 section.main .ab_wrap .box .ab_writeday{
     border: 2px solid rgba(148,150,155,0.3);
     padding: 4px 10px;
@@ -109,12 +104,7 @@ section.main .ab_wrap .box span.ab_photo img{
 /*-------------blurbox----------------*/
 
 
-section.main .ab_wrap .blurbox:first-child{
-    border-top: 1px solid #eee;
-}
-section.main .ab_wrap .blurbox:nth-child(2){
-    border-top: 1px solid #eee;
-}
+
 section.main .ab_wrap .blurbox .ab_writeday{
     border: 2px solid rgba(148,150,155,0.3);
     padding: 4px 10px;

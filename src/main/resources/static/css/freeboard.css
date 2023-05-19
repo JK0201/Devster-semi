@@ -641,3 +641,147 @@ section.main .fb_detail_wrap .fb_detail_content .commentwrite button#writepost{
     vertical-align: middle;
 }*/
 
+
+
+
+/*공지, headbox, searchbar*/
+
+/*notice*/
+.noticeboard_part {
+    margin-bottom: 10px;
+}
+
+.noticeboard_part ul {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.noticeboard_part li .noticetitle {
+    background-color: #cdcdcd;
+    border-radius: 5px;
+    margin-right: 20px;
+    width: 50px;
+    height: 13px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 7px;
+    padding-top: 7px;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.noticeboard_part li {
+
+    background-color: #e3e3e3;
+    border-radius: 5px;
+
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 20px;
+
+    color: #000;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+
+/*headbox*/
+.headbox {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.yellowbar {
+    display: inline-block;
+    background-color: #e3da50;
+    width: 8px;
+    height: 100%;
+}
+
+.headbox .boardname {
+    color: black;
+    font-weight: bold;
+    display: inline-block;
+}
+
+
+/* 서치바 */
+.searchdiv {
+    /*position: absolute;*/
+    position: relative;
+    display: inline-block;
+    float: right;
+    margin-left: 500px;
+}
+
+.searchbar {
+    width: 458px;
+    height: 45px;
+    padding: 0 0 0 150px;
+    border: 2px solid #222;
+    border-radius: 30px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.searchdiv #searchOption{
+    position: absolute;
+    /* right: 5px;*/ /* 아이콘과 입력란 사이의 공간을 조절합니다. */
+    top: 24px;
+    left: 24px;
+    right: 10px;
+    transform: translateY(-50%); /* 아이콘을 입력란의 정중앙에 배치합니다. */
+    /*pointer-events: none;*/ /* 입력란 위에서 클릭이나 기타 동작이 가능하게 합니다. */
+    font-size: 12px;
+    width: 110px;
+    z-index: 100;
+    /*border-color: #222;*/
+    height: 30px;
+}
+
+.searchdiv #searchinput{
+    z-index: 1;
+    position: relative;
+}
+
+#myBtn {
+    display: none; /* Hidden by default */
+    position: fixed; /* Fixed/sticky position */
+    bottom: 70px; /* Place the button at the bottom of the page */
+    right: 30px; /* Place the button 30px from the right */
+    z-index: 99; /* Make sure it does not overlap */
+    border: none; /* Remove borders */
+    outline: none; /* Remove outline */
+    background-color: #7f07ac; /* Set a background color */
+    color: white; /* Text color */
+    cursor: pointer; /* Add a mouse pointer on hover */
+    padding: 15px; /* Some padding */
+    border-radius: 10px; /* Rounded corners */
+    font-size: 18px; /* Increase font size */
+    margin-bottom: 20px;
+}
+
+#myBtn:hover {
+    background-color: #530871; /* Add a dark-grey background on hover */
+}
+
+#myWriteBtn {
+    /*display: none; !* Hidden by default *!*/
+    position: fixed; /* Fixed/sticky position */
+    bottom: 20px; /* Place the button at the bottom of the page */
+    right: 30px; /* Place the button 30px from the right */
+    z-index: 99; /* Make sure it does not overlap */
+    border: none; /* Remove borders */
+    outline: none; /* Remove outline */
+    background-color: #7f07ac; /* Set a background color */
+    color: white; /* Text color */
+    cursor: pointer; /* Add a mouse pointer on hover */
+    padding: 15px; /* Some padding */
+    border-radius: 10px; /* Rounded corners */
+    font-size: 18px; /* Increase font size */
+
+}
+
+#myWriteBtn:hover {
+    background-color: #530871; /* Add a dark-grey background on hover */
+}
