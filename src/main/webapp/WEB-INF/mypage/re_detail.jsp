@@ -11,14 +11,13 @@
     <style>
         .quanbox {
             width: 1100px;
-            height: 220px;
             margin: 10px auto;
             padding-top: 10px;
             padding-right: 20px;
         }
 
         .main2 {
-            width: 1100px;
+
             /* border: 1px solid black;*/
 
         }
@@ -28,7 +27,7 @@
             border: #cccccc solid 1px; /* 테두리 색상과 초기 두께 설정 */
             border-radius: 50px;
             padding: 10px;
-            font-size: 24px;
+            font-size: 18px;
         }
 
         .rpos {
@@ -36,18 +35,21 @@
             border: #cccccc solid 1px; /* 테두리 색상과 초기 두께 설정 */
             border-radius: 50px;
             padding: 10px;
-            font-size: 24px;
+            font-size: 18px;
         }
 
         .grdinfo {
-            font-size: 20px;
+            font-size: 18px;
             color: #4c4c4c;
 
         }
 
         .grd2 {
-            font-size: 22px;
+            font-size: 18px;
             color: #4c4c4c;
+        }
+        .grd3{
+            font-size: 20px;
         }
 
         .bi-circle {
@@ -72,12 +74,12 @@
         }
 
         .reemail {
-            font-size: 20px;
+            font-size: 16px;
             line-height: 40px;
         }
         .rewrite{
             width: 900px;
-            height: 400px;
+            height: 200px;
             margin: 10px auto;
             padding-top: 10px;
             padding-right: 20px;
@@ -132,6 +134,7 @@
         <button type="button" class="w-btn-outline w-btn-green-outline" onclick="location.href='./writer'">이력서 작성하러 가기</button>
     </div>
 </c:if>
+
 <div class="quanbox">
 
     <c:if test="${not empty dto}">
@@ -143,17 +146,18 @@
     <i class="bi bi-telephone reemail"></i> &nbsp;&nbsp; <span class="rein">${tele}</span><br><br><br>
 
     <table class="main2">
-        <thead></thead>
-        <thead></thead>
+        <thead style="width: 20%;"></thead>
+        <thead style="width: 80%; text-align: right;"></thead>
+
 
         <tr style="height: 100px;">
-            <td style="width: 200px;font-size: 26px; align-content: center"><b>개발 직무</b></td>
-            <td><span class="rpos">${dto.r_pos}</span></td>
+            <td style="width: 10%;font-size: 20px; align-content: center"><b>개발 직무</b></td>
+            <td style="width: 90%;"> <span class="rpos">${dto.r_pos}</span></td>
         </tr>
 
         <tr style="height: 100px;">
-            <td style="width: 200px;font-size: 26px; align-content: center"><b>개발 스킬</b></td>
-            <td style="width: 800px;font-size: 30px; text-align: left">
+            <td style="width: 25%;font-size: 20px; align-content: center"><b>개발 스킬</b></td>
+            <td style="width: 75%;font-size: 30px; text-align: left">
                 <div id="result"></div>
             </td>
         </tr>
@@ -162,8 +166,8 @@
             <td colspan="2" style="width: 1000px;"></td>
         </tr>
         <tr style="height: 50px;">
-            <td style="width: 200px;font-size: 28px; align-content: center"><b>링크</b></td>
-            <td style="width: 800px;font-size: 30px; text-align: left"></td>
+            <td style="width: 200px;font-size: 20px; align-content: center"><b>링크</b></td>
+            <td style="width: 800px;font-size: 20px; text-align: left"></td>
         </tr>
         <tr style="height: 10px;">
             <td colspan="2" style="width: 1000px;">
@@ -171,12 +175,12 @@
             </td>
         </tr>
         <tr style="height: 100px;">
-            <td style="width: 400px;font-size: 25px; align-content: center">
-                <i class="bi bi-circle"></i> <span class="grdinfo">개인 블로그</span>
+            <td style="width: 10%;font-size: 20px; align-content: center">
+                <i class="bi bi-circle" style="width: 100px"></i> <span class="grdinfo">개인 블로그</span>
                 <span class="grdinfo"></span>
             </td>
-            <td style="width: 800px;font-size: 30px; text-align: left">
-                <span class="grd3"><b><a id="link" href="${dto.r_link}">${dto.r_link}</a></b></span>
+            <td style="width: 90%;font-size: 30px; text-align: left">
+                <span class="grd3" style="width: 900px"><b><a id="link" href="${dto.r_link}">${dto.r_link}</a></b></span>
                 <span class="grd2"> </span>
             </td>
         </tr>
@@ -194,7 +198,7 @@
             </td>
         </tr>
         <tr style="height: 100px;">
-            <td style="width: 400px;font-size: 25px; align-content: center">
+            <td style="width: 200px;font-size: 25px; align-content: center">
                 <i class="bi bi-circle"></i> <span class="grdinfo">${r_gradestart} 입학</span><br>
                 <i class="bi bi-circle"></i> <span class="grdinfo"> ${r_gradeend} ${dto.r_sta}</span>
             </td>
@@ -225,7 +229,7 @@
 
 
             <tr style="height: 100px;">
-                <td style="width: 400px;font-size: 25px; vertical-align: top;">
+                <td style="width: 200px;font-size: 25px; vertical-align: top;">
                     <i class="bi bi-circle"></i>
                     <span class="grdinfo">${r_carstartdate} ~ &nbsp;${r_carenddate}</span><br>
                     <span class="grdinfo"></span>
@@ -260,7 +264,7 @@
         <tr style="height: 15px;">
             <td colspan="2" style="width: 1000px;"></td>
         </tr>
-        <td style="width: 400px; font-size: 25px; align-content: center">
+        <td style="width: 200px; font-size: 25px; align-content: center">
             <i class="bi bi-circle"></i> <span class="grdinfo">${r_licdate} </span><br>
             <span class="grdinfo"></span>
         </td>
@@ -276,7 +280,7 @@
         </tr>
         <tr style="height: 50px;">
             <td style="width: 200px;font-size: 28px; align-content: center"><b>간단 소개글</b></td>
-            <td style="width: 800px;font-size: 30px; text-align: left"></td>
+            <td style="width: 800px;font-size: 15px; text-align: left"></td>
         </tr>
         <tr style="height: 10px;">
             <td colspan="2" style="width: 1000px;">
@@ -309,7 +313,7 @@
             </td>
         </tr>
         <tr style="height: 100px;">
-            <td style="width: 400px;font-size: 25px; align-content: center">
+            <td style="width: 200px;font-size: 25px; align-content: center">
                 <i class="bi bi-circle"></i> <span class="grdinfo">이력서</span><br>
                 <i class="bi bi-circle"></i> <span class="grdinfo">자격증</span>
             </td>
@@ -324,11 +328,12 @@
             </td>
         </tr>
     </table>
-        <div style="text-align: right;">
-            <button type="button" onclick="window.history.back();" class="btn btn-outline-dark btndresume">뒤로가기</button>
-
-        </div>
-        <div style="height: 120px; width: 1000px; "></div>
+    <div style="text-align: right;">
+        <button type="button" onclick="location.href='../mypage/updateform?m_idx=${sessionScope.memidx}'"
+                class="btn btn-outline-dark btndresume">수정
+        </button>
+    </div>
+    <div style="height: 120px; width: 1000px; "></div>
 </div>
 </c:if>
 </body>
