@@ -479,9 +479,9 @@
                     var totalCount = res[0].totalCount;
                     document.getElementById("commentCnt").innerHTML = totalCount;
 
-
-
+                    document.getElementById("commentCnt2").innerHTML ="댓글 " + totalCount;
                     $("#commentBox").html(s);
+
                     // } else {
                     //     let html = "<div class='mb-2'>";
                     //     html += "<h6><strong>등록된 댓글이 없습니다.</strong></h6>";

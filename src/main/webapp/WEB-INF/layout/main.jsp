@@ -127,7 +127,7 @@
                                 <a href="freeboard/freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}"
                                    style="color: #000;">
                                         ${dto.fb_subject}
-                                    <c:if test="${dto.fb_photo!=''}">
+                                    <c:if test="${dto.fb_photo!='n'}">
                                         &nbsp; <%--<i class="bi bi-images"></i>--%>
                                         <div class="icon_img"><img></div>
                                     </c:if>
@@ -185,7 +185,7 @@
                                 <a href="qboard/detail?qb_idx=${dto.qb_idx}&currentPage=${currentPage}"
                                    style="color: #000;">
                                         ${dto.qb_subject}
-                                    <c:if test="${dto.qb_photo!=''}">
+                                    <c:if test="${dto.qb_photo!='n'}">
                                         &nbsp; <%--<i class="bi bi-images"></i>--%>
                                         <div class="icon_img"><img></div>
                                     </c:if>
@@ -234,7 +234,7 @@
                                 <a href="hire/hireboarddetail?hb_idx=${dto.hb_idx}&currentPage=${currentPage}"
                                    style="color: #000;">
                                         ${dto.hb_subject}</a>
-                                    <c:if test="${dto.hb_photo!=''}">
+                                    <c:if test="${dto.hb_photo!='n'}">
                                         &nbsp; <%--<i class="bi bi-images"></i>--%>
                                         <div class="icon_img"><img></div>
                                     </c:if>
@@ -283,7 +283,7 @@
                                         <a href="academyboard/academyboarddetail?ab_idx=${dto.ab_idx}&currentPage=${currentPage}"
                                            style="color: #000;">
                                                 ${dto.ab_subject}</a>
-                                        <c:if test="${dto.ab_photo!=''}">
+                                        <c:if test="${dto.ab_photo!='n'}">
                                             &nbsp; <%--<i class="bi bi-images"></i>--%>
                                             <div class="icon_img"><img></div>
                                         </c:if>
