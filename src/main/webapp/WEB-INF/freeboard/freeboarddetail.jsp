@@ -261,7 +261,7 @@
         <div class="article_view_content">
 
             <div class="content_txt">
-                ${dto.fb_content}<br>
+                <pre>${dto.fb_content}</pre>
             </div>
 
 

@@ -166,7 +166,7 @@
                 <p class="blind" style="color: red; font-size: 30px; cursor: pointer">블라인드 처리된 게시글 입니다.</p>
                 <div class="content" hidden="hidden">
                     <div class="content_txt">
-                            ${dto.qb_content}<br>
+                        <pre>${dto.qb_content}</pre>
                     </div>
                     <c:choose>
                         <c:when test="${list[0] == 'n' || list[0] == 'no'}">
@@ -186,7 +186,7 @@
 
             <c:if test="${dto.qb_dislike < 20}">
                 <div class="content_txt">
-                        ${dto.qb_content}<br>
+                    <pre>${dto.qb_content}</pre>
                 </div>
                 <c:choose>
                     <c:when test="${list[0] == 'n' || list[0] == 'no'}">
