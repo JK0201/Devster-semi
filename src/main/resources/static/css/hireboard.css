@@ -203,7 +203,7 @@ section.main .hb_detail_wrap .hb_detail_content .article_view_head a{
     font-weight: bold;
 }
 
-section.main .hb_detail_wrap .hb_detail_content .article_view_head .wrap_info span{
+section.main .hb_detail_wrap .hb_detail_content .article_view_head .wrap_info span.readCnt{
     /*float: left;*/
     color: #94969b;
     margin-left: 14px;
