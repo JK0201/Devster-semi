@@ -384,12 +384,15 @@ public class MyPageController {
     }
 
     @GetMapping("/writer")
-    public String writer(@RequestParam(defaultValue = "0") int r_idx, Model model) {
+    public String writer(@RequestParam(defaultValue = "0")  int r_idx, Model model, HttpSession session) {
+        int m_idx = (int)session.getAttribute("memidx");
         model.addAttribute("r_idx", r_idx);
+MemberDto mdto = memberService.getOneDataByM_idx(m_idx);
+model.addAttribute("mdto",mdto);
+
         return "/mypage/mypage/resumewrite";
-
-
     }
+
 
     @PostMapping("/resumeinsert")
     public String insert(MultipartFile upload_r, MultipartFile upload_re,
@@ -459,7 +462,13 @@ public class MyPageController {
 
         List<Re_licDto> llist = resumeservice.getDatare_lic(m_idx);
         List<Re_carDto> clist = resumeservice.getDatare_car(m_idx);
+        String email = resumeservice.selectemailOfm_idx(m_idx);
+        String name = resumeservice.selectnameOfm_idx(m_idx);
+        String tele = resumeservice.selectteleOfm_idx(m_idx);
 
+        model.addAttribute("name",name);
+        model.addAttribute("tele",tele);
+        model.addAttribute("email", email);
 
         model.addAttribute("dto", dto); // ResumeDto를 모델에 추가
         model.addAttribute("clist", clist);
@@ -474,8 +483,13 @@ public class MyPageController {
 
         List<Re_licDto> llist = resumeservice.getDatare_lic(m_idx);
         List<Re_carDto> clist = resumeservice.getDatare_car(m_idx);
+        String email = resumeservice.selectemailOfm_idx(m_idx);
+        String name = resumeservice.selectnameOfm_idx(m_idx);
+        String tele = resumeservice.selectteleOfm_idx(m_idx);
 
-
+        model.addAttribute("name",name);
+        model.addAttribute("tele",tele);
+        model.addAttribute("email", email);
         model.addAttribute("dto", dto); // ResumeDto를 모델에 추가
         model.addAttribute("clist", clist);
         model.addAttribute("llist", llist);

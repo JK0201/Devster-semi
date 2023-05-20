@@ -101,4 +101,18 @@ public class Resumeservice implements Resumserviceinter {
         return resumeMapper.getPagingList(map);
     }
 
+    @Override
+    public String selectnameOfm_idx(int m_idx) {
+        return resumeMapper.selectnameOfm_idx(m_idx);
+    }
+
+    @Override
+    public String selectteleOfm_idx(int m_idx) {
+        return resumeMapper.selectteleOfm_idx(m_idx);
+    }
+
+    @Override
+    public String selectemailOfm_idx(int m_idx) {
+        return resumeMapper.selectemailOfm_idx(m_idx);
+    }
 }
