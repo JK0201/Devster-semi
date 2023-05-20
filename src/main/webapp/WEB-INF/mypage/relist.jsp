@@ -12,7 +12,7 @@
           width: 1100px;
           height: 220px;
           margin: 32px auto;
-          border-bottom: 1px solid #eee;
+          border-bottom: 1px solid #C9C9C9;
           padding-top: 1px;
           padding-right: 20px;
       }
@@ -111,4 +111,33 @@
         });
     });
 </script>--%>
+
+<!--페이징 처리  -->
+<%--<div style="width: 700px; text-align: center; font-size: 20px;">
+    <!-- 이전 -->
+    <c:if test="${currentPage > 1}">
+        <a style="color: black; text-decoration: none; cursor: pointer;"
+           href="list?currentPage=${currentPage - 1}">이전</a>
+    </c:if>
+
+    <!-- 페이지 번호 출력 -->
+    <c:forEach var="pp" begin="${startpage}" end="${endpage}">
+        <c:if test="${currentPage == pp}">
+            <a style="color: green; text-decoration: none; cursor: pointer;"
+               href="list?currentPage=${pp}">${pp}</a>
+        </c:if>
+        <c:if test="${currentPage != pp}">
+            <a style="color: black; text-decoration: none; cursor: pointer;"
+               href="list?currentPage=${pp}">${pp}</a>
+        </c:if>
+        &nbsp;
+    </c:forEach>
+
+    <!-- 다음 -->
+    <c:if test="${endpage < totalpage}">
+        <a style="color: black; text-decoration: none; cursor: pointer;"
+           href="list?currentPage=${endpage + 1}">다음</a>
+    </c:if>
+</div>--%>
+
 </html>

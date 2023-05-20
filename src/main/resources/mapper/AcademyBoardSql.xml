@@ -52,12 +52,12 @@
                  JOIN member m ON ab.m_idx = m.m_idx
         WHERE ab.ab_idx = #{ab_idx};
     </select>
-    <select id="selectPhotoOfMidx" parameterType="int" resultType="String">
-        SELECT m.m_photo
-        FROM academyboard ab
-                 JOIN member m ON ab.m_idx = m.m_idx
-        WHERE ab.ab_idx = #{ab_idx};
-    </select>
+        <select id="selectPhotoOfMidx" parameterType="int" resultType="String">
+            SELECT m.m_photo
+            FROM academyboard ab
+                     JOIN member m ON ab.m_idx = m.m_idx
+            WHERE ab.ab_idx = #{ab_idx};
+        </select>
 
 
     <update id="increaseGoodRp">

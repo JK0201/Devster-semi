@@ -25,7 +25,7 @@
                 <div class="headind_srch">
 
                     <div class="recent_heading">
-                        <h4>recent</h4>
+                        <h4>메세지</h4>
                     </div>
                     <!--메세지 검색-->
                     <div class="srch_bar">

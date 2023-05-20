@@ -329,7 +329,6 @@
 
     function insertAjax(ci_idx, rb_type, rb_star, rb_content, m_idx) {
 
-
         $.ajax({
             url : "./insert",
             dataType: "json",
