@@ -69,7 +69,7 @@
                 <caption align="top" class="clear">
                     <h2>
                         <img src="/photo/icon_notice.png">공지사항
-                        <span><a href="noticeboard/list" class="btn-more">더보기<i class="bi bi-chevron-right"></i></a></span>
+                        <span><a href="mypage/list" class="btn-more">더보기<i class="bi bi-chevron-right"></i></a></span>
                     </h2>
                 </caption>
 

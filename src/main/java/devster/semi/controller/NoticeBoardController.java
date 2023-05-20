@@ -121,7 +121,7 @@ public class NoticeBoardController {
 
         noticeBoardService.insertBoard(dto);
 
-        return "redirect:list";
+        return "redirect:../mypage/list";
     }
 
     @GetMapping("/noticeboarddetail")
@@ -160,7 +160,7 @@ public class NoticeBoardController {
         }
         noticeBoardService.deleteBoard(nb_idx);
 
-        return "redirect:list";
+        return "redirect:../mypage/list";
     }
 
     @GetMapping("/noticeupdateform")
@@ -203,7 +203,7 @@ public class NoticeBoardController {
 
         noticeBoardService.updateBoard(dto);
 
-        return "redirect:./noticeboarddetail?nb_idx="+dto.getNb_idx()+"&currentPage="+currentPage;
+        return "redirect:../mypage/noticeboarddetail?nb_idx="+dto.getNb_idx()+"&currentPage="+currentPage;
     }
 
 
