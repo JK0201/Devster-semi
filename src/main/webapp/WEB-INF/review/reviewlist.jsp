@@ -183,9 +183,12 @@
         }
 
         .custom-btn {
-            color: gray;
-            border-color: gray;
-
+            color: darkgrey;
+            border-color: darkgray;
+            height:25px;
+            line-height:0.8;
+            font-size: 12px;
+            border-radius:0%;
         }
 
         .custom-btn:hover {
@@ -196,10 +199,17 @@
         .yetadded {
             border-color: darkgrey;
             color: darkgrey;
-            height: 32px;
+            height: 25px;
             padding-bottom: 5px;
-            width: 54px;
+            width: 130px;
             font-size: 12px;
+            border-radius: 0%;
+            line-height:0.8;
+        }
+        .yetadded:hover{
+            background-color: gray;
+            border-color:gray;
+            color:white;
         }
 
         .paging {
@@ -226,41 +236,16 @@
             background-color: #530871; /* Add a dark-grey background on hover */
         }
 
-        .btn_comm_fb{
-            border: none;
-            margin-left:5px;
-            margin-bottom: 20px;
-            margin-top: -20px;
-            background-color: white;
-        }
 
-        .btn_comm_fbimg{
-            width:25px;
-            margin-bottom: 10px;
-        }
-
-        .btn_comm_tw{
-            border: none;
-            margin-left:5px;
-            margin-bottom: 20px;
-            margin-top: -20px;
-            background-color: white;
-
-
-        }
-
-        .btn_comm_twimg{
-            width:30px;
-            margin-bottom: 10px;
-            background-color: white;
-            border-radius: 50%;
-        }
 
         .memberimg{
             width: 20px;
             height: 20px;
             border-radius: 100px;
         }
+
+
+
     </style>
 
 <script>
@@ -538,6 +523,19 @@
                         </p>
 
                   <div class="fncbtn" style="text-align:right;">
+                          <%--            좋아요 / 싫어요 버튼--%>
+                      <span id="add-goodRp-btn${dto.rb_idx}" class="btn btn-outline yetadded"
+                            style="margin-bottom: 10px">
+                       👍 도움이 돼요(
+                      <span class="add-goodRp${dto.rb_idx} ml-2 " style="margin-bottom: 10px">${dto.rb_like}</span>
+                      )
+                      </span>
+                      <span id="add-badRp-btn${dto.rb_idx}" class="ml-5 btn btn-outline yetadded"
+                            style="margin-bottom: 10px">
+                       👎 불필요해요(
+                      <span class="add-badRp${dto.rb_idx} ml-2" style="margin-bottom: 10px">${dto.rb_dislike}</span>
+                      )
+                      </span>
                             <c:set var="m_idx" value="${sessionScope.memidx}"/>
                             <c:if test="${dto.m_idx eq m_idx}">
                                 <button type="button" class="btn btn-sm btn-outline-primary custom-btn"
@@ -548,17 +546,7 @@
                                         onclick="delreview(${dto.rb_idx})" style="margin-bottom: 10px">글 삭제
                                 </button>
                             </c:if>
-                                <%--            좋아요 / 싫어요 버튼--%>
-                            <span id="add-goodRp-btn${dto.rb_idx}" class="btn btn-outline yetadded"
-                                  style="margin-bottom: 10px">
-                       👍
-                      <span class="add-goodRp${dto.rb_idx} ml-2 " style="margin-bottom: 10px">${dto.rb_like}</span>
-                    </span>
-                            <span id="add-badRp-btn${dto.rb_idx}" class="ml-5 btn btn-outline yetadded"
-                                  style="margin-bottom: 10px">
-                       👎
-                      <span class="add-badRp${dto.rb_idx} ml-2" style="margin-bottom: 10px">${dto.rb_dislike}</span>
-                    </span>
+
 
                   </div>
                         <br>
@@ -835,20 +823,21 @@
                                             // sessionScope.memidx에 해당하는 값 필요
                                             let m_idx = "${sessionScope.memidx}";
                                             s += `<div class="fncbtn" style="text-align:right;">`;
-                                            if (dto.m_idx == m_idx) {
-                                                s += `<button type="button" class="btn btn-sm btn-outline-primary custom-btn" onclick="location.href='./updateform?rb_idx=\${dto.rb_idx}'" style="margin-bottom: 10px">글 수정</button>`;
-                                                s += `&nbsp;<button type="button" class="btn btn-sm btn-outline-primary custom-btn" onclick="delreview(\${dto.rb_idx})" style="margin-bottom: 10px">글 삭제</button>`;
-                                            }
+
                                             if (dto.isAlreadyAddGoodRp==true){
-                                                s += `&nbsp;<span class="btn btn-outline add-goodRp-btn already-added yetadded" id="add-goodRp-btn\${dto.rb_idx}"  style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👍<span class="add-goodRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px">\${dto.rb_like}</span></span>`;
-                                                s += `&nbsp;<span class="ml-5 btn btn-outline add-badRp-btn yetadded" id="add-badRp-btn\${dto.rb_idx}" style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👎<span class="add-badRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px" >\${dto.rb_dislike}</span></span>`;
+                                                s += `&nbsp;<span class="btn btn-outline add-goodRp-btn already-added yetadded" id="add-goodRp-btn\${dto.rb_idx}"  style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👍도움이 돼요( <span class="add-goodRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px">\${dto.rb_like}</span>&nbsp;)</span>`;
+                                                s += `&nbsp;<span class="ml-5 btn btn-outline add-badRp-btn yetadded" id="add-badRp-btn\${dto.rb_idx}" style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👎불필요해요( <span class="add-badRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px" >\${dto.rb_dislike}</span>&nbsp;)</span>`;
 
                                             }else if(dto.isAlreadyAddBadRp==true){
-                                                s += `&nbsp;<span class="btn btn-outline add-goodRp-btn yetadded" id="add-goodRp-btn\${dto.rb_idx}"  style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👍<span class="add-goodRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px">\${dto.rb_like}</span></span>`;
-                                                s += `&nbsp;<span class="ml-5 btn btn-outline add-badRp-btn already-added yetadded" id="add-badRp-btn\${dto.rb_idx}" style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👎<span class="add-badRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px" >\${dto.rb_dislike}</span></span>`;
+                                                s += `&nbsp;<span class="btn btn-outline add-goodRp-btn yetadded" id="add-goodRp-btn\${dto.rb_idx}"  style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👍도움이 돼요( <span class="add-goodRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px">\${dto.rb_like}</span>&nbsp;)</span>`;
+                                                s += `&nbsp;<span class="ml-5 btn btn-outline add-badRp-btn already-added yetadded" id="add-badRp-btn\${dto.rb_idx}" style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👎불필요해요( <span class="add-badRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px" >\${dto.rb_dislike}</span>&nbsp;)</span>`;
                                             }else{
-                                                s += `&nbsp;<span class="btn btn-outline add-goodRp-btn yetadded" id="add-goodRp-btn\${dto.rb_idx}"  style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👍<span class="add-goodRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px">\${dto.rb_like}</span></span>`;
-                                                s += `&nbsp;<span class="ml-5 btn btn-outline add-badRp-btn yetadded" id="add-badRp-btn\${dto.rb_idx}" style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👎<span class="add-badRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px" >\${dto.rb_dislike}</span></span>`;
+                                                s += `&nbsp;<span class="btn btn-outline add-goodRp-btn yetadded" id="add-goodRp-btn\${dto.rb_idx}"  style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👍도움이 돼요( <span class="add-goodRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px">\${dto.rb_like}</span>&nbsp;)</span>`;
+                                                s += `&nbsp;<span class="ml-5 btn btn-outline add-badRp-btn yetadded" id="add-badRp-btn\${dto.rb_idx}" style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👎불필요해요( <span class="add-badRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px" >\${dto.rb_dislike}</span>&nbsp;)</span>`;
+                                            }
+                                            if (dto.m_idx == m_idx) {
+                                                s += `&nbsp;<button type="button" class="btn btn-sm btn-outline-primary custom-btn" onclick="location.href='./updateform?rb_idx=\${dto.rb_idx}'" style="margin-bottom: 10px">글 수정</button>`;
+                                                s += `&nbsp;<button type="button" class="btn btn-sm btn-outline-primary custom-btn" onclick="delreview(\${dto.rb_idx})" style="margin-bottom: 10px">글 삭제</button>`;
                                             }
                                             s += `</div><br></div></div>`;
                                         });
