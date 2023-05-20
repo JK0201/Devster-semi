@@ -32,7 +32,8 @@ public class AboardController {
     private String bucketName = "devster-bucket";
 
     @PostMapping("/insert")
-    public void insert(AboardDto dto, List<MultipartFile> upload,int qb_idx,int m_idx) {
+    @ResponseBody
+    public int insert(AboardDto dto, List<MultipartFile> upload,int qb_idx,int m_idx) {
 
         String fileName = "";
 
@@ -51,6 +52,8 @@ public class AboardController {
         dto.setM_idx(m_idx);
 
         aboardService.insertAboard(dto);
+
+        return aboardService.getAllAnswers(qb_idx).size();
     }
 
     @PostMapping("/list")
@@ -92,7 +95,7 @@ public class AboardController {
     }
 
     @GetMapping("/delete")
-    public void delete(int ab_idx) {
+    public int delete(int ab_idx) {
 
         AboardDto dto = aboardService.getOneAnswer(ab_idx);
 
@@ -103,6 +106,8 @@ public class AboardController {
         }
 
         aboardService.deleteComment(ab_idx);
+
+        return aboardService.getAllAnswers(dto.getQb_idx()).size();
     }
 
     @GetMapping("/updateform")

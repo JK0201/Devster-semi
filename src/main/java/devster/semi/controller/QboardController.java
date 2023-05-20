@@ -334,8 +334,8 @@ public class QboardController {
 
     @PostMapping("/bestPostsForBanner")
     @ResponseBody
-    public List<FreeBoardDto> bestPosts() {
-        List<FreeBoardDto> list = qboardService.bestfreeboardPosts();
+    public List<QboardDto> bestPosts(){
+        List<QboardDto> list = qboardService.bestQboardPosts();
         return list;
     }
 

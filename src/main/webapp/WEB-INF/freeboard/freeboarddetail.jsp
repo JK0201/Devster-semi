@@ -239,7 +239,7 @@
 
             <h2>${dto.fb_subject}</h2>
             <b style="font-size: 15px; color: black;" margin-bottom: 10px;>
-                <img src="http://${imageUrl}/member/${m_photo}" class="memberimg">&nbsp;
+                <img src="${m_photo}" class="memberimg">&nbsp;
                 ${nickname}
             </b>
             <div class="wrap_info clear">
@@ -261,7 +261,7 @@
         <div class="article_view_content">
 
             <div class="content_txt">
-                ${dto.fb_content}<br>
+                <pre>${dto.fb_content}</pre>
             </div>
 
 
