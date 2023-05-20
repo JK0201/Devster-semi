@@ -13,7 +13,7 @@
         WHERE ab.ab_idx = #{ab_idx}
     </select>
     <select id="getAllAnswers" resultType="AboardDto" parameterType="int">
-        select * from aboard where qb_idx=#{qb_idx}
+        select * from aboard where qb_idx=#{qb_idx} order by ab_idx desc
     </select>
     <select id="getOneAnswer" parameterType="int" resultType="AboardDto">
         select *

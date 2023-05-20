@@ -35,12 +35,7 @@ section.main .qb_wrap .blurbox {
     padding-right: 20px;
 }
 
-section.main .qb_wrap .box:first-child{
-    border-top: 1px solid #eee;
-}
-section.main .qb_wrap .box:nth-child(2){
-    border-top: 1px solid #eee;
-}
+
 section.main .qb_wrap .box .qb_writeday{
     border: 2px solid rgba(148,150,155,0.3);
     padding: 4px 10px;
@@ -109,12 +104,6 @@ section.main .qb_wrap .box span.qb_photo img{
 /*-------------blurbox----------------*/
 
 
-section.main .qb_wrap .blurbox:first-child{
-    border-top: 1px solid #eee;
-}
-section.main .qb_wrap .blurbox:nth-child(2){
-    border-top: 1px solid #eee;
-}
 section.main .qb_wrap .blurbox .qb_writeday{
     border: 2px solid rgba(148,150,155,0.3);
     padding: 4px 10px;
@@ -232,18 +221,6 @@ section.main .qb_write_btn{
     left: 1203px;
 }
 
-/*------------------------------------*/
-
-/*=============================================공지사항=============================================*/
-
-.noticeboard_part ul{
-    padding: 0 !important;
-    margin: 0 !important;
-}
-.noticeboard_part ul li{
-    float: left;
-}
-
 
 /*================================== 질문게시판 디테일 페이지 ====================================*/
 
@@ -291,6 +268,12 @@ section.main .qb_detail_wrap .qb_detail_content .show_tag .tag_career{
 section.main .qb_detail_wrap .qb_detail_content .article_view_head{
     border-bottom: 1px solid #eee;
     padding-bottom: 29px;
+}
+
+section.main .qb_detail_wrap .qb_detail_content .article_view_head img{
+    width: 23px;
+    height: 23px;
+    border-radius: 100px;
 }
 
 
@@ -443,7 +426,13 @@ section.main .qb_detail_wrap .qb_detail_content .article_view_content .util_btns
 }
 
 section.main .qb_detail_wrap .qb_detail_content .article_view_content .footbox #add-goodRp-btn{
-    margin-right: 10px;
+    margin-right: 20px;
+    padding: 0;
+}
+
+section.main .qb_detail_wrap .qb_detail_content .article_view_content .footbox #add-badRp-btn{
+
+    padding: 0;
 }
 
 /*.already-added {
@@ -467,3 +456,187 @@ section.main .qb_detail_wrap .qb_detail_content .article_view_content .footbox{
     vertical-align: middle;
     margin-left: 10px;
 }
+
+section.main .qb_detail_wrap .qb_detail_content .commentwrite .aboardInsert{
+    position: relative;
+}
+
+section.main .qb_detail_wrap .qb_detail_content .commentwrite .aboard_content_input{
+    padding-left: 60px;
+    height: 63px;
+    font-size: 16px;
+    width: 637px;
+    /*float: left;*/
+    display: inline-block;
+}
+
+/*댓글 사진 선택 아이콘*/
+section.main .qb_detail_wrap .qb_detail_content .commentwrite .upload-label{
+    position: absolute;
+    top: 45px;
+    left: 14px;
+}
+
+section.main .qb_detail_wrap .qb_detail_content .commentwrite .aboardInsert button{
+    display: inline-block;
+    height: 60px;
+    margin-top: 2px;
+    padding: 0 17px;
+}
+
+/*댓글 박스 */
+section.main .qb_detail_wrap .qb_detail_content .answerPrintBox .answerBox{
+    padding: 12px 20px 19px;
+    border-bottom: 1px solid #eee;
+}
+
+section.main .qb_detail_wrap .qb_detail_content .answerPrintBox .answerBox:first-child{
+    border-top: 1px solid #eee;
+}
+
+section.main .qb_detail_wrap .qb_detail_content .answerPrintBox .answerBox .answerWriter img{
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    border-radius: 100px;
+    float: left;
+}
+
+section.main .qb_detail_wrap .qb_detail_content .answerPrintBox .answerBox .answerWriter p{
+    /*display: inline-block;*/
+    /*margin-top: 9px;*/
+    color: #94969b;
+    font-size: 12px;
+    float: left;
+    margin:0;
+    margin-top: 3px;
+    margin-left: 3px;
+
+}
+
+
+/*========================================== 디테일 페이지 aside ===========================================*/
+
+section.main .qb_detail_wrap .qb_aside{
+    width: 340px;
+    margin-left: 64px;
+    /*background-color: palegreen;*/
+    float: left;
+    padding-top: 40px;
+}
+
+/* 베스트 게시글 */
+
+section.main .qb_detail_wrap .qb_aside .quickmenu {
+    position: relative;
+    width: 340px;
+    /*top: 50%;*/
+    transition: transform 0.5s ease-out;
+    margin-top: -20px;
+    /*right: 142px;*/
+    background: #fff;
+}
+
+section.main .qb_detail_wrap .qb_aside .quickmenu ul {
+    position: relative;
+    float: left;
+    width: 100%;
+    display: inline-block;
+    *display: inline;
+    border: 1px solid #eee;
+}
+
+section.main .qb_detail_wrap .qb_aside .quickmenu ul li {
+    float: left;
+    width: 100%;
+    /*border-bottom: 1px solid #eee;*/
+    /*text-align: center;*/
+    display: inline-block;
+    *display: inline;
+    /*padding: 16px 20px 17px;*/
+    padding: 9px 20px 10px;
+    font-size: 13px;
+    /*border-bottom: 1px solid #ddd;*/
+}
+
+section.main .qb_detail_wrap .qb_aside .quickmenu ul li:last-child{
+    border-top: 1px solid #eee;
+}
+
+section.main .qb_detail_wrap .qb_aside .quickmenu ul li:first-child{
+    border-bottom: 0px;
+    padding: 5px 8px 0px;
+}
+
+section.main .qb_detail_wrap .qb_aside .quickmenu ul li a {
+    position: relative;
+    float: left;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    /*text-align: center;*/
+    color: #999;
+    font-size: 16px;
+}
+
+section.main .qb_detail_wrap .qb_aside .quickmenu ul li a:hover {
+    color: #000;
+}
+
+section.main .qb_detail_wrap .qb_aside .quickmenu ul li:last-child {
+    border-bottom: 0;
+}
+
+section.main .qb_detail_wrap .qb_aside .quickmenu_head h2{
+    padding: 15px 18px 4px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+section.main .qb_detail_wrap .qb_aside .quickmenu ul li a>div>div{
+    display: inline-block;
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /*font-weight: 700;*/
+    /*line-height: 1.25em;*/
+    color: #222;
+    margin-left: 3px;
+}
+
+section.main .qb_detail_wrap .qb_aside .quickmenu ul li a>div>div:after {
+    content: '';
+    background: url(https://static.teamblind.com/img/www_kr/sp-kr.png) no-repeat;
+    background-size: 600px 900px;
+    background-position: -88px -626px;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    transform: translateY(-50%);
+}
+
+section.main .qb_detail_wrap .qb_aside .quickmenu .view_all_li{
+    text-align: center;
+}
+
+section.main .qb_detail_wrap .qb_aside .quickmenu .view_all{
+    text-align: center;
+    font-size: 18px;
+}
+
+section.main .qb_detail_wrap .qb_aside .quickmenu .view_all:after {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 24px;
+    background: url(https://static.teamblind.com/img/www_kr/sp-kr.png) no-repeat;
+    background-size: 600px 900px;
+    background-position: -9px -620px;
+    vertical-align: top;
+    margin-top: 3px;
+    margin-left: 2px;
+}
+

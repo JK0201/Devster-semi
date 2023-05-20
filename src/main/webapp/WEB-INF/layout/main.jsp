@@ -27,24 +27,24 @@
                     if(boardsearchOption == "freeboard"){ // 1. 일반게시판 검색
 
                         location.href="${root}/freeboard/searchlist?keyword="+keyword;
-                        alert("freeboard 검색");
+                       // alert("freeboard 검색");
 
                     }
                     if(boardsearchOption == "qboard"){ // 2. 질문게시판 검색
 
                         location.href="${root}/qboard/searchlist?keyword="+keyword;
-                        alert("qboard 검색");
+                        //alert("qboard 검색");
                     }
                     if(boardsearchOption == "hireboard"){ // 3. 채용정보게시판 검색
 
                         location.href="${root}/hire/searchlist?keyword="+keyword;
-                        alert("hireboard 검색");
+                       // alert("hireboard 검색");
 
                     }
                     if(boardsearchOption == "reviewboard"){ // 5. 회사 후기 검색
 
                         location.href="${root}/review/searchlist?keyword="+keyword;
-                        alert("reviewboard 검색");
+                        //alert("reviewboard 검색");
 
                     }
 
