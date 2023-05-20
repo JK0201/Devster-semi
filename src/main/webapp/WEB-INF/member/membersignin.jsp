@@ -637,7 +637,6 @@
                             data: {"cm_email": cm_email, "cm_pass": cm_pass},
                             success: function (res) {
                                 if (res.result == "yes") {
-                                    alert("ㅎㅇ 출석포인트 +10점");
                                     if (compchkbtn) {
                                         localStorage.setItem("compchk", "yes");
                                         localStorage.setItem("cm_email", cm_email);
