@@ -28,6 +28,9 @@
             float: right;
 
         }
+        .mypagelayout .footer{
+            margin-top: 100px;
+        }
     </style>
     <tiles:insertAttribute name="css"/>
 </head>
@@ -44,6 +47,9 @@
             <tiles:insertAttribute name="main"/>
         </section>
     </div>
+    <footer class="footer">
+        <tiles:insertAttribute name="footer"/>
+    </footer>
 </div>
 </body>
 </html>
