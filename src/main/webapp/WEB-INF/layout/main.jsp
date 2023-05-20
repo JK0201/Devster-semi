@@ -27,24 +27,24 @@
                     if(boardsearchOption == "freeboard"){ // 1. 일반게시판 검색
 
                         location.href="${root}/freeboard/searchlist?keyword="+keyword;
-                        alert("freeboard 검색");
+                       // alert("freeboard 검색");
 
                     }
                     if(boardsearchOption == "qboard"){ // 2. 질문게시판 검색
 
                         location.href="${root}/qboard/searchlist?keyword="+keyword;
-                        alert("qboard 검색");
+                        //alert("qboard 검색");
                     }
                     if(boardsearchOption == "hireboard"){ // 3. 채용정보게시판 검색
 
                         location.href="${root}/hire/searchlist?keyword="+keyword;
-                        alert("hireboard 검색");
+                       // alert("hireboard 검색");
 
                     }
                     if(boardsearchOption == "reviewboard"){ // 5. 회사 후기 검색
 
                         location.href="${root}/review/searchlist?keyword="+keyword;
-                        alert("reviewboard 검색");
+                        //alert("reviewboard 검색");
 
                     }
 
@@ -69,7 +69,7 @@
                 <caption align="top" class="clear">
                     <h2>
                         <img src="/photo/icon_notice.png">공지사항
-                        <span><a href="noticeboard/list" class="btn-more">더보기<i class="bi bi-chevron-right"></i></a></span>
+                        <span><a href="mypage/list" class="btn-more">더보기<i class="bi bi-chevron-right"></i></a></span>
                     </h2>
                 </caption>
 
@@ -127,7 +127,7 @@
                                 <a href="freeboard/freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}"
                                    style="color: #000;">
                                         ${dto.fb_subject}
-                                    <c:if test="${dto.fb_photo!=''}">
+                                    <c:if test="${dto.fb_photo!='n'}">
                                         &nbsp; <%--<i class="bi bi-images"></i>--%>
                                         <div class="icon_img"><img></div>
                                     </c:if>
@@ -185,7 +185,7 @@
                                 <a href="qboard/detail?qb_idx=${dto.qb_idx}&currentPage=${currentPage}"
                                    style="color: #000;">
                                         ${dto.qb_subject}
-                                    <c:if test="${dto.qb_photo!=''}">
+                                    <c:if test="${dto.qb_photo!='n'}">
                                         &nbsp; <%--<i class="bi bi-images"></i>--%>
                                         <div class="icon_img"><img></div>
                                     </c:if>
@@ -234,7 +234,7 @@
                                 <a href="hire/hireboarddetail?hb_idx=${dto.hb_idx}&currentPage=${currentPage}"
                                    style="color: #000;">
                                         ${dto.hb_subject}</a>
-                                    <c:if test="${dto.hb_photo!=''}">
+                                    <c:if test="${dto.hb_photo!='n'}">
                                         &nbsp; <%--<i class="bi bi-images"></i>--%>
                                         <div class="icon_img"><img></div>
                                     </c:if>
@@ -283,7 +283,7 @@
                                         <a href="academyboard/academyboarddetail?ab_idx=${dto.ab_idx}&currentPage=${currentPage}"
                                            style="color: #000;">
                                                 ${dto.ab_subject}</a>
-                                        <c:if test="${dto.ab_photo!=''}">
+                                        <c:if test="${dto.ab_photo!='n'}">
                                             &nbsp; <%--<i class="bi bi-images"></i>--%>
                                             <div class="icon_img"><img></div>
                                         </c:if>

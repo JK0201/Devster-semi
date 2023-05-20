@@ -154,4 +154,10 @@ public class MessageService implements MessageServiceInter{
 
         return map;
     }
+
+    @Override
+    public int getAllUnreadCount(String nickname) {
+        return messageMapper.getAllUnreadCount(nickname);
+    }
+
 }

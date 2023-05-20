@@ -4,19 +4,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../commonvar.jsp" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
-    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap"
-          rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <style>
-        #ai_name {
+        /*#ai_name {
             cursor: default;
         }
 
@@ -35,49 +25,119 @@
 
         .emailreg {
             display: none;
+        }*/
+
+        .user_info_update{
+            padding: 0 30px;
+        }
+
+        .user_info_update .title{
+            font-weight: 700;
+            font-size: 30px;
+            color: #222;
+        }
+
+        .user_info_update .wrapped{
+            margin-top: 24px;
+        }
+
+        .user_info_update .user_informations{
+            border-top: 1px solid rgb(34, 34, 34);
+            padding-top: 40px;
+            padding-left: 40px;
+        }
+
+        .user_info_update .user_informations>div{
+            margin-bottom: 24px;
+        }
+
+        .user_info_update .user_informations strong{
+            font-weight: 400;
+            font-size: 15px;
+            color: rgb(34, 34, 34);
+            width: 100px;
+            display: inline-block;
+        }
+
+        .user_info_update .user_informations input{
+            width: 400px;
+            padding: 12px 16px;
+            border-radius: 4px;
+            box-sizing: border-box;
+            border: 1px solid rgb(212, 212, 212);
+        }
+
+        .user_info_update .user_informations input#m_tele{
+            width: 400px;
+            padding: 12px 16px;
+            border-radius: 4px;
+            box-sizing: border-box;
+            border: 1px solid rgb(212, 212, 212);
+            margin-left: 3px;
+        }
+
+        .user_info_update .user_informations .buttons{
+            margin-left: 100px;
+            margin-top: 10px;
         }
     </style>
-</head>
-<body>
+
 <input type="hidden" id="m_type" value="0">
-<div style="width : 800px; margin-left: 500px">
-    <div>
-        <strong>이메일</strong>
-        <input type="email" id="m_email" required placeholder="${dto.m_email}" disabled>
-        <span id="emailchkicon"></span>
-    </div>
-    <div>
-        <strong>닉네임</strong>
-        <input type="text" id="m_nickname" required value="${dto.m_nickname}">
-        <span id="nicknamechkicon"></span>
-    </div>
-    <div>
-        <strong>비밀번호</strong>
-        <input type="password" id="m_pass" required placeholder="8~16자리/영문 대소문자, 숫자, 특수문자 조합">
-        <span id="passokicon"></span><br>
-        <b>비밀번호확인</b>
-        <input type="password" id="passchk" placeholder="8~16자리/영문 대소문자, 숫자, 특수문자 조합">
-        <span id="passchkicon"></span>
-    </div>
-    <div>
-        <strong>이름 </strong>
-        <input type="text" id="m_name" required value="${dto.m_name}">
-        <span id="namechkicon"></span>
-    </div>
-    <div class="input-group phonechk">
-        <strong>휴대폰</strong>
-        <input type="tel" id="m_tele" required value="${dto.m_tele}">
-        <span id="telechkicon"></span>
-    </div>
-    <div>
-        <strong>사진</strong>
-        <input type="file" id="m_photo">
-        <br>
-        <img id="showimg" src="" style="width: 400px">
-        <br>
-        <button onclick="setDefaultProfile()">기본 프로필사진으로 변경</button>
-        <br>
-        <button type="button" id="submitbtn" disabled>수정하기</button>
+<div class="user_info_update">
+
+    <h1 class="title">계정 설정</h1>
+
+    <div class="wrapped">
+        <div class="user_informations">
+            <div>
+                <strong>이메일</strong>
+                <input type="email" id="m_email" required placeholder="${dto.m_email}" disabled>
+                <span id="emailchkicon"></span>
+            </div>
+            <div>
+                <strong>닉네임</strong>
+                <input type="text" id="m_nickname" required value="${dto.m_nickname}">
+                <span id="nicknamechkicon"></span>
+            </div>
+            <div>
+                <strong>비밀번호</strong>
+                <input type="password" id="m_pass" required placeholder="8~16자리/영문 대소문자, 숫자, 특수문자 조합">
+                <span id="passokicon"></span>
+            </div>
+            <div>
+                <strong>비밀번호확인</strong>
+                <input type="password" id="passchk" placeholder="8~16자리/영문 대소문자, 숫자, 특수문자 조합">
+                <span id="passchkicon"></span>
+            </div>
+            <div>
+                <strong>이름 </strong>
+                <input type="text" id="m_name" required value="${dto.m_name}">
+                <span id="namechkicon"></span>
+            </div>
+            <div class="input-group phonechk">
+                <strong>휴대폰</strong>
+                <input type="tel" id="m_tele" required value="${dto.m_tele}">
+                <span id="telechkicon"></span>
+            </div>
+            <div>
+                <strong>사진</strong>
+                <input type="file" id="m_photo">
+
+                <div class="buttons">
+                    <button onclick="setDefaultProfile()">기본 프로필사진으로 변경</button>
+
+                    <button type="button" id="submitbtn" disabled>수정하기</button>
+                </div>
+
+                <img id="showimg" src="" style="width: 400px">
+            </div>
+        </div>
+
+       <%-- <div>
+            <button onclick="setDefaultProfile()">기본 프로필사진으로 변경</button>
+
+            <button type="button" id="submitbtn" disabled>수정하기</button>
+        </div>--%>
     </div>
 </div>
 
@@ -286,6 +346,5 @@
         });
     }
 </script>
-</body>
-</html>
+
 

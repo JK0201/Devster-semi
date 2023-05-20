@@ -295,14 +295,6 @@
 </script>
 
 <div id="quanbu">
-<%--<button type="button" class="btn btn-sm btn-outline-danger"--%>
-<%--        onclick="location.href='./reviewriterform'" style="margin-bottom: 10px">상품등록--%>
-<%--</button>--%>
-
-
-
-<%--<h5 class="alert alert-success">--%>
-<%--    총 ${totalCount}개의 글이 등록되어있습니다</h5><br>--%>
 
 <div class="rb_listmain clear">
     <div class="headbox">

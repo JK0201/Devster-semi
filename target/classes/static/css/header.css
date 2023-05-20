@@ -41,8 +41,12 @@ header.header{
 
 header.header .wrap .gnb{
     float: left;
-    margin-left: 10px;
+    margin-left: 60px;
     line-height: 90px;
+}
+
+header.header .wrap .gnb li:first-child{
+    margin-left: 0px;
 }
 
 

@@ -4,6 +4,7 @@ import devster.semi.dto.AcademyBoardDto;
 import devster.semi.dto.FreeBoardDto;
 import devster.semi.dto.NoticeBoardDto;
 import devster.semi.service.AcademyBoardService;
+import devster.semi.service.FreeBoardService;
 import devster.semi.service.MemberService;
 import devster.semi.service.NoticeBoardService;
 import naver.cloud.NcpObjectStorageService;
@@ -15,8 +16,10 @@ import org.springframework.web.context.request.SessionScope;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -34,6 +37,9 @@ public class AcademyBoardController {
 
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private FreeBoardService freeBoardService;
 
     @Autowired
     private NcpObjectStorageService storageService;
@@ -112,7 +118,7 @@ public class AcademyBoardController {
     // 검색
     @PostMapping("/academyboardsearchlist")
     @ResponseBody
-    public List<Map<String, Object>> searchlist(@RequestParam(defaultValue = "1") int currentPage,
+    public List<Map<String, Object>> searchlist(@RequestParam(defaultValue = "1") int currentpage,
                                                 @RequestParam(defaultValue = "") String keyword,
                                                 @RequestParam(defaultValue = "all") String searchOption,
                                                 Model model) {
@@ -130,7 +136,7 @@ public class AcademyBoardController {
         // 총 페이지 수
         totalPage = searchCount / perPage + (searchCount % perPage == 0 ? 0 : 1);
         // 시작 페이지
-        startPage = (currentPage - 1) / perBlock * perBlock + 1;
+        startPage = (currentpage - 1) / perBlock * perBlock + 1;
         // 끝 페이지
         endPage = startPage + perBlock - 1;
 
@@ -139,7 +145,7 @@ public class AcademyBoardController {
             endPage = totalPage;
 
         // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
-        startNum = (currentPage - 1) * perPage;
+        startNum = (currentpage - 1) * perPage;
 
         // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
         // no = totalCount - (currentPage - 1) * perPage;
@@ -153,21 +159,23 @@ public class AcademyBoardController {
         for (AcademyBoardDto dto : list) {
             Map<String, Object> map = new HashMap<>();
             map.put("ab_idx", String.valueOf(dto.getAb_idx()));
-            map.put("m_nickname", academyBoardService.selectNickNameOfMidx(dto.getAb_idx()));
-            map.put("commentCnt", academyBoardService.commentCnt(dto.getAb_idx()));
+            map.put("nickName", academyBoardService.selectNickNameOfMidx(dto.getAb_idx()));
+            map.put("commentCnt", academyBoardService.getCommentCnt(dto.getAb_idx()));
 
             String m_photo = academyBoardService.selectPhotoOfMidx(dto.getAb_idx());
-            if (m_photo != "no") {
-                map.put("m_photo", m_photo);
+
+            if(m_photo.equals("no")) {
+                m_photo = "/photo/profile.jpg";
             } else {
-                map.put("m_photo", "/photo/profile.jpg");
+                m_photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+academyBoardService.selectPhotoOfMidx(dto.getAb_idx());
             }
+            map.put("m_photo",m_photo);
             map.put("ab_subject", dto.getAb_subject());
             map.put("ab_content", dto.getAb_content());
             map.put("ab_like", dto.getAb_like());
             map.put("ab_dislike", dto.getAb_dislike());
             map.put("ab_readcount", dto.getAb_readcount());
-            map.put("ab_writeday", dto.getAb_writeday());
+            map.put("ab_writeday", timeForToday(dto.getAb_writeday()));
 
             map.put("searchOption", searchOption);
             map.put("keyword", keyword);
@@ -178,7 +186,7 @@ public class AcademyBoardController {
             model.addAttribute("endPage", endPage);
             model.addAttribute("totalPage", totalPage);
             model.addAttribute("no", no);
-            model.addAttribute("currentPage", currentPage);
+            model.addAttribute("currentPage", currentpage);
 
 
             // 사진이 들어있으면
@@ -252,7 +260,9 @@ public class AcademyBoardController {
         boolean isAlreadyAddBadRp = academyBoardService.isAlreadyAddBadRp(ab_idx,(int)session.getAttribute("memidx"));
 
         if(m_photo.equals("no")) {
-            m_photo = "photo/profile.jpg"; // 버켓에 넣어야 뜰듯....
+            m_photo = "/photo/profile.jpg";
+        } else {
+            m_photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+m_photo;
         }
 
         model.addAttribute("dto", dto);
@@ -390,6 +400,7 @@ public class AcademyBoardController {
     // 무한스크롤
     @GetMapping("/listajax")
     @ResponseBody
+
     public List<Map<String, Object>> list(@RequestParam(defaultValue = "1")int currentPage, int ai_idx) {
         int totalCount = academyBoardService.getTotalCount(ai_idx);
         int perPage = 20; // 한 페이지당 보여줄 글 갯수
@@ -430,15 +441,24 @@ public class AcademyBoardController {
             map.put("ab_writeday",timeForToday(dto.getAb_writeday()));
             map.put("ab_photo",dto.getAb_photo());
 
+
             fulllList.add(map);
         }
         return fulllList;
     }
 
+
     @GetMapping("/other_profile")
     public String message(String other_nick){
         String encodedNick = URLEncoder.encode(other_nick, StandardCharsets.UTF_8);
         return "redirect:/message/other_profile?other_nick="+encodedNick;
+    }
+
+    @PostMapping("/bestPostsForBanner")
+    @ResponseBody
+    public List<FreeBoardDto> bestPosts() {
+        List<FreeBoardDto> list = freeBoardService.bestfreeboardPosts();
+        return list;
     }
 
     public String timeForToday(Timestamp value) {

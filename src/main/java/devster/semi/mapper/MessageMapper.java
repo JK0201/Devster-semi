@@ -18,6 +18,7 @@ public interface MessageMapper {
     public String getOtherProfile(MessageDto dto);
 
     public int getUnreadCount(MessageDto dto);
+    public int getAllUnreadCount(String nickname);
 
     public void MessageReadChk(MessageDto dto);
 

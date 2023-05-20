@@ -16,6 +16,13 @@
     <script>
 <%--        버튼 상태 관련 이벤트  --%>
         $(document).ready(function() {
+
+            var currentPosition = parseInt($(".quickmenu").css("top"));
+            $(window).scroll(function () {
+                var position = $(window).scrollTop();
+                /*$(".quickmenu").stop().animate({"top": position + currentPosition + "px"}, 700);*/
+                $(".quickmenu").css("transform", "translateY(" + position + "px)");
+            });
             <!-- jsp 실행 이전의 리액션 여부 체크 및 버튼 색상 표현 -->
                 checkAddRpBefore();
                 answer();
@@ -134,7 +141,7 @@
             <a href="/">홈</a>
             <a href="./list?currentPage=${currentPage}" class="qboard_link">질문게시판</a>
             <h2>${dto.qb_subject}</h2>
-            <b style="font-size: 15px; color: black;" margin-bottom: 10px;>
+            <b style="font-size: 15px; cursor:pointer; color: black;" margin-bottom: 10px; onclick=message("${nickname}")>
                 <img src="${profilePhoto}" class="memberimg" width="50px">&nbsp;
                 ${nickname}
             </b>
@@ -159,7 +166,7 @@
                 <p class="blind" style="color: red; font-size: 30px; cursor: pointer">블라인드 처리된 게시글 입니다.</p>
                 <div class="content" hidden="hidden">
                     <div class="content_txt">
-                            ${dto.qb_content}<br>
+                        <pre>${dto.qb_content}</pre>
                     </div>
                     <c:choose>
                         <c:when test="${list[0] == 'n' || list[0] == 'no'}">
@@ -179,7 +186,7 @@
 
             <c:if test="${dto.qb_dislike < 20}">
                 <div class="content_txt">
-                        ${dto.qb_content}<br>
+                    <pre>${dto.qb_content}</pre>
                 </div>
                 <c:choose>
                     <c:when test="${list[0] == 'n' || list[0] == 'no'}">
@@ -195,7 +202,7 @@
                 </c:choose>
             </c:if>
 
-            <div class="clear" style="margin-top: 20px;border-bottom: 1px solid #eee; padding-bottom: 40px;">
+            <div class="clear" style="margin-top: 40px;border-bottom: 1px solid #eee; padding-bottom: 40px;">
                 <%-- 좋아요 / 싫어요 버튼--%>
                 <div class="footbox">
                     <span id="add-goodRp-btn" class="btn btn-outline" >
@@ -228,19 +235,32 @@
             </div>
         </div>
 
-        <div class="answerInsertBox" style="">
-            <form name="aboardInsert">
-                <h3>Answer</h3>
-                <textarea id="aboardContent" class="form-control" name="ab_content"></textarea>
-                <input id="aboardPhoto" class="form-control" type="file" multiple name="upload"><br>
-                <button type="button" id="submit" class="btn btn-outline-dark" style="position: relative; right: -91%">작성</button>
+        <div class="commentwrite clear" style="margin-bottom: 30px; margin-top: 20px;">
+            <form name="aboardInsert" class="aboardInsert">
+                <%--<h3>Answer</h3--%>
+
+                <p style="font-size: 16px; font-weight: bold;color: #222;" id="qb_commentCnt">답글 ${commentCnt}</p>
+                    <label for="aboardPhoto" class="upload-label" style="padding: 10px;cursor: pointer;"><i class="bi bi-camera" style="font-size: 20px;"></i></label>
+                    <input id="aboardPhoto" class="custom-file-upload" type="file" multiple name="upload" style="display: none;">
+                <input type="text" id="aboardContent" class="form-control aboard_content_input" name="ab_content" placeholder="답글을 남겨주세요">
+
+
+                <button type="button" id="submit" class="btn btn-outline-dark" style="">답글작성</button>
             </form>
 
         </div>
-        <div class="answerPrintBox" style="margin-left: 100px; width: 600px; border: 3px solid black">
+        <div class="answerPrintBox" style="">
 
         </div>
 
+    </div>
+
+    <div class="qb_aside">
+        <div class="quickmenu">
+            <ul>
+                <li class="quickmenu_head"><h2>질문게시판 추천글</h2></li>
+            </ul>
+        </div>
     </div>
 
 
@@ -279,19 +299,20 @@
                 // 답변 리스트 출력.
                 $.each(response, function (index, item) {
                     s += `
-<div class="answerBox" data-index="\${index}">
-    <h4 class="answerWriter">`;
+                        <div class="answerBox" data-index="\${index}">
+                        <h4 class="answerWriter clear">`;
 
                     if (item.m_photo === null || item.m_photo === 'no') {
-                        s += `<img src="/photo/profile.jpg" style="width:50px; height: 50px; border:3px solid black; border-radius:100px;">`;
+                        s += `<img src="/photo/profile.jpg" style="">`;
                     } else {
-                        s += `<img src="http://${imageUrl}/member/\${item.m_photo}" style="width:50px; height: 50px; border:3px solid black; border-radius:100px;">`;
+                        s += `<img src="http://${imageUrl}/member/\${item.m_photo}" style="">`;
                     }
 
                     s += `
-        <p style="cursor:pointer;" onclick=message("\${item.nickname}")>\${item.nickname}</p></h4>
-    <h6>\${item.ab_writeday}</h6>
-    <h2>\${item.ab_content}</h2>`;
+                            <p style="cursor:pointer;" onclick=message("\${item.nickname}")>\${item.nickname}</p></h4>
+                            <h2 style="margin-top: 10px;font-size: 16px;">\${item.ab_content}</h2>
+                            <div class="icon_time"></div><h6 style="color: #94969b;font-size: 12px;display: inline">\${item.ab_writeday}</h6>
+                        `;
 
                     $.each(item.photo, function (index2, photos) {
                         if (${photos == no}) {
@@ -300,20 +321,20 @@
                     });
                     if (item.m_idx == ${sessionScope.memidx}) {
                         s += `
-    <button class="btn btn-outline-dark" type="button" onclick="deleteComment(\${item.ab_idx})">
+    <button class="btn btn-outline-dark btn-sm" type="button" onclick="deleteComment(\${item.ab_idx})" style="float:right; margin-left: 3px;">
         삭제
     </button>
-    <button class="btn btn-outline-dark" type="button" data-abidx="\${item.ab_idx}" onclick="updateCommentForm(\${item.ab_idx}, \${index})">
+    <button class="btn btn-outline-dark btn-sm" type="button" data-abidx="\${item.ab_idx}" onclick="updateCommentForm(\${item.ab_idx}, \${index})" style="float:right;">
         수정
     </button>`;
                     } else if(${sessionScope.memstate == 100}){
                         s += `
-    <button class="btn btn-outline-dark" type="button" onclick="deleteComment(\${item.ab_idx})">
+    <button class="btn btn-outline-dark btn-sm" type="button" onclick="deleteComment(\${item.ab_idx})" style="float:right;">
         삭제
     </button>
     `;
                     }
-                    s += "<hr></div>";
+                    s += "<!--<hr>--></div>";
                 });
 
                 // answerPrintBox 클래스를 사용하는 div 안에 s 값을 삽입
@@ -347,8 +368,11 @@
             processData: false, // 필수: FormData를 사용할 때는 processData를 false로 설정해야 함
             contentType: false, // 필수: FormData를 사용할 때는 contentType을 false로 설정해야 함
             success: function (response) {
-                alert("댓글이 작성되었습니다.");
+                alert("답글이 작성되었습니다.");
+                $("#qb_commentCnt").text("댓글 " + response);
+                $("#commentCnt").html("<div class='icon_comment'></div>" +response);
                 answer();
+
             },
             error: function (xhr, status, error) {
                 // 에러 처리를 여기에서 처리합니다.
@@ -363,7 +387,9 @@
                 url: "/aboard/delete",
                 data: {"ab_idx":ab_idx},
                 success: function (response) {
-                    alert("댓글이 삭제되었습니다.");
+                    alert("답글이 삭제되었습니다.");
+                    $("#qb_commentCnt").text("댓글 " + response);
+                    $("#commentCnt").html("<div class='icon_comment'></div>" +response);
                     answer();
                 },
                 error: function (xhr, status, error) {
@@ -418,7 +444,7 @@
             processData: false,
             contentType: false,
             success: function (response) {
-                alert("댓글이 수정되었습니다.")
+                alert("답글이 수정되었습니다.")
                 answer();
             },
             error: function (xhr, status, error) {
@@ -443,5 +469,38 @@
         $("#aboardContent").val("");
         $('#aboardPhoto').val('');
     })
+
+$.ajax({
+    type: "post",
+    url: "./bestPostsForBanner",
+    dataType: "json",
+    success: function (response) {
+        let s = "";
+        $.each(response, function (index, item) {
+            s +=
+                `
+                    <li>
+                    <a href="../qboard/detail?qb_idx=\${item.qb_idx}&currentPage=1">
+                    <div class="name">
+                    <div class="num"><div style="width: 3px;height: 3px; border-radius: 50%; background-color: red; display: inline-block"></div><span style="vertical-align: middle; margin-left: 10px;">\${item.qb_subject}</span></div>
+                    </div>
+                    </a>
+                    </li>
+                    `
+        });
+        s +=
+            `
+                <li class="view_all_li">
+                    <a href="/qboard/list">
+                        <span class="view_all">전체보기</span>
+                    </a>
+                </li>
+                `;
+        $(".quickmenu ul").append(s);
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+        console.log("Error: " + textStatus + " - " + errorThrown);
+    }
+});
 </script>
 

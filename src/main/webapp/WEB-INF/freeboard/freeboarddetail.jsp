@@ -239,7 +239,7 @@
 
             <h2>${dto.fb_subject}</h2>
             <b style="font-size: 15px; color: black;" margin-bottom: 10px;>
-                <img src="http://${imageUrl}/member/${m_photo}" class="memberimg">&nbsp;
+                <img src="${m_photo}" class="memberimg">&nbsp;
                 ${nickname}
             </b>
             <div class="wrap_info clear">
@@ -261,7 +261,7 @@
         <div class="article_view_content">
 
             <div class="content_txt">
-                ${dto.fb_content}<br>
+                <pre>${dto.fb_content}</pre>
             </div>
 
 
@@ -309,7 +309,7 @@
         <div class="commentwrite clear" style="margin-bottom: 30px; margin-top: 20px;">
             <%--    <form name="commentinsert" width="600">--%>
             <input type="hidden" name="fb_idx" value="${dto.fb_idx}">
-                <p style="font-size: 16px; font-weight: bold;color: #222;">댓글 ${commentCnt}</p>
+                <p style="font-size: 16px; font-weight: bold;color: #222;" id="commentCnt2">댓글 ${commentCnt}</p>
             <input type="text" name="fbc_content" id="commentContent" class="form-control" placeholder="댓글을 남겨주세요">
             <button type="button" id="writepost" class="btn btn-sm btn-secondary" style="">댓글쓰기</button>
             <%--    </form>--%>
@@ -478,7 +478,10 @@
 
                     var totalCount = res[0].totalCount;
                     document.getElementById("commentCnt").innerHTML = totalCount;
+
+                    document.getElementById("commentCnt2").innerHTML ="댓글 " + totalCount;
                     $("#commentBox").html(s);
+
                     // } else {
                     //     let html = "<div class='mb-2'>";
                     //     html += "<h6><strong>등록된 댓글이 없습니다.</strong></h6>";
@@ -500,7 +503,12 @@
                 data: {"fbc_idx":fbc_idx},
                 success: function (response) {
                     alert("댓글이 삭제되었습니다.");
-                    commentList()
+                    commentList();
+
+                    /*var totalCount = res[0].totalCount;
+                    document.getElementById("commentCnt").innerHTML = totalCount;
+                    document.getElementById("commentCnt2").innerHTML = "댓글 " +totalCount;*/
+
                 },
                 error: function (xhr, status, error) {
                     // 에러 처리를 여기에서 처리합니다.

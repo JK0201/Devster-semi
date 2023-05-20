@@ -23,6 +23,9 @@
     <section>
         <tiles:insertAttribute name="main"/>
     </section>
+    <footer>
+        <tiles:insertAttribute name="footer"/>
+    </footer>
 </div>
 </body>
 </html>
