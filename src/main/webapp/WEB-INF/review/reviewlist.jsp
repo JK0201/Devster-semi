@@ -3,20 +3,8 @@
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
-    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap"
-          rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+
     <style>
-        body, body * {
-            font-family: 'Jua'
-        }
 
         /*리뷰 별점 css*/
         .star-rb_star {
@@ -268,8 +256,12 @@
             border-radius: 50%;
         }
 
+        .memberimg{
+            width: 20px;
+            height: 20px;
+            border-radius: 100px;
+        }
     </style>
-</head>
 
 <script>
     let dynamicVars = {};
@@ -441,7 +433,7 @@
     }
 </script>
 
-<body>
+
 <!-- 검색창 -->
 <div class="searchdiv">
     <input id="searchinput" name="keyword" type="search" placeholder="관심있는 내용을 검색해보세요!" autocomplete="off"
@@ -514,7 +506,7 @@
                                  onclick="showCompanyInfo('${dto.ci_idx}')"/>
                         </p>
                     <div class="star_listc">
-                            &nbsp;<span> 별점 : ${dto.rb_star} / 5</span>
+                            &nbsp;<span>  ${dto.rb_star} . 0</span>
                             <div class="star-rb_star">
                                 <c:forEach var="i" begin="1" end="5">
                                     <input type="radio" id="rating${i}" name="rating" value="${i}"
@@ -534,7 +526,8 @@
                         <br>
                         <h5>리뷰 종류
                             : ${dto.rb_type == 1 ? "면접" : dto.rb_type == 2 ? "코딩테스트": dto.rb_type == 3 ? "합격후기" : ""}</h5>
-                        <p style="cursor:pointer;color:darkgrey" onclick=message("${dto.nickName}")>작성자 : ${dto.nickName}
+                        <p style="color:darkgrey" >
+                            <img src="${dto.m_photo}" class="memberimg">&nbsp;<span style="cursor:pointer;" onclick=message("${dto.nickName}")>${dto.nickName}</span>
                             &nbsp;&nbsp; 작성시간 : ${dto.rb_writeday}</p>
 
                         <h5>내용 : <br>
@@ -793,7 +786,7 @@
             // $(".quickmenu").stop().animate({"top": position + currentPosition + "px"}, 1000);
 
             // 무한스크롤
-            if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+            if (Math.floor($(window).scrollTop()) == $(document).height() - $(window).height()) {
                 if (!isLoading && !noMoreData) {
                     isLoading = true;
                     var nextPage = currentpage + 1;
@@ -827,7 +820,7 @@
                                             s += `<div class="review" data-type="\${dto.rb_type}">`;
                                             s += `<div class="rb_listc">`;
                                             s += `<p><img class="imgSelect" src="\${dto.ci_photo}" data-ci-idx="\${dto.ci_idx}" onclick="showCompanyInfo('\${dto.ci_idx}')"/></p>`;
-                                            s += `<div class="star_listc">&nbsp;<span> 별점 : \${dto.rb_star} / 5</span>`;
+                                            s += `<div class="star_listc">&nbsp;<span> 별점 : \${dto.rb_star} . 0 </span>`;
                                             s += `<div class="star-rb_star">`;
                                             for (let i = 1; i <= 5; i++) {
                                                 s += `<input type="radio" id="rating${i}" name="rating" value="${i}" \${i == dto.rb_star ? 'checked="checked"' : ''} />`;
@@ -836,7 +829,7 @@
                                             s += `</div></div></div>`;
                                             s += `<div class="rb_listm">`;
                                             s += `<br><h5>리뷰 종류 : \${dto.rb_type == 1 ? "면접" : dto.rb_type == 2 ? "코딩테스트": dto.rb_type == 3 ? "합격후기" : ""}</h5>`;
-                                            s += `<p style="cursor:pointer;color:darkgrey" onclick=message("\${dto.nickName}")>작성자 : \${dto.nickName} &nbsp;&nbsp; 작성시간 : \${dto.rb_writeday}</p>`;
+                                            s += `<p style="color:darkgrey"><img src="\${dto.m_photo}" class="memberimg">&nbsp;  <span style="cursor:pointer;" onclick=message("\${dto.nickName}")>\${dto.nickName}</span> &nbsp;&nbsp; 작성시간 : \${dto.rb_writeday}</p>`;
                                             s += `<h5>내용 : <br></h5>`;
                                             s += `<p><pre>\${dto.rb_content}</pre></p>`;
                                             // sessionScope.memidx에 해당하는 값 필요
@@ -1037,5 +1030,3 @@
 
 </script>
 
-</body>
-</html>

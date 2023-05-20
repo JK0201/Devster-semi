@@ -74,6 +74,13 @@ public class ReviewBoardController {
             map.put("rb_type", dto.getRb_type());
             map.put("rb_star", dto.getRb_star());
             map.put("nickName", reviewService.selectnicnameofmidx(dto.getM_idx()));
+            String m_photo = reviewService.selectPhotoOfMidx(dto.getRb_idx());
+            if(m_photo.equals("no")) {
+                m_photo = "/photo/profile.jpg";
+            } else {
+                m_photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+m_photo;
+            }
+            map.put("m_photo",m_photo);
             map.put("rb_content", dto.getRb_content());
             String currentTimestampToString = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(dto.getRb_writeday());
             map.put("rb_writeday", currentTimestampToString);
@@ -156,6 +163,13 @@ public class ReviewBoardController {
             map.put("rb_type", dto.getRb_type());
             map.put("rb_star", dto.getRb_star());
             map.put("nickName", reviewService.selectnicnameofmidx(dto.getM_idx()));
+            String m_photo = reviewService.selectPhotoOfMidx(dto.getRb_idx());
+            if(m_photo.equals("no")) {
+                m_photo = "/photo/profile.jpg";
+            } else {
+                m_photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+m_photo;
+            }
+            map.put("m_photo",m_photo);
             map.put("rb_content", dto.getRb_content());
             String currentTimestampToString = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(dto.getRb_writeday());
             map.put("rb_writeday", currentTimestampToString);
