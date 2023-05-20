@@ -157,6 +157,30 @@
                 <div id="result"></div>
             </td>
         </tr>
+
+        <tr style="height: 30px;">
+            <td colspan="2" style="width: 1000px;"></td>
+        </tr>
+        <tr style="height: 50px;">
+            <td style="width: 200px;font-size: 28px; align-content: center"><b>링크</b></td>
+            <td style="width: 800px;font-size: 30px; text-align: left"></td>
+        </tr>
+        <tr style="height: 10px;">
+            <td colspan="2" style="width: 1000px;">
+                <hr style="border-color: black;">
+            </td>
+        </tr>
+        <tr style="height: 100px;">
+            <td style="width: 400px;font-size: 25px; align-content: center">
+                <i class="bi bi-circle"></i> <span class="grdinfo">개인 블로그</span>
+                <span class="grdinfo"></span>
+            </td>
+            <td style="width: 800px;font-size: 30px; text-align: left">
+                <span class="grd3"><b><a id="link" href="${dto.r_link}">${dto.r_link}</a></b></span>
+                <span class="grd2"> </span>
+            </td>
+        </tr>
+
         <tr style="height: 30px;">
             <td colspan="2" style="width: 1000px;"></td>
         </tr>
@@ -175,7 +199,7 @@
                 <i class="bi bi-circle"></i> <span class="grdinfo"> ${r_gradeend} ${dto.r_sta}</span>
             </td>
             <td style="width: 800px;font-size: 30px; text-align: left">
-                <span class="grd2">대학교</span> &nbsp;&nbsp;&nbsp;
+                <%--<span class="grd2">대학교</span> &nbsp;&nbsp;&nbsp;--%>
                 <span class="grd3"> <b>${dto.r_gradecom}</b></span>
             </td>
         </tr>
@@ -243,16 +267,15 @@
         <td style="width: 800px; font-size: 30px; text-align: left">
             <span class="grd3"><b>${lic.r_licname}</b></span>
         </td>
-        </tr>
+
 
         </c:forEach>
-
-
+<%--                 --%>
         <tr style="height: 30px;">
             <td colspan="2" style="width: 1000px;"></td>
         </tr>
         <tr style="height: 50px;">
-            <td style="width: 200px;font-size: 28px; align-content: center"><b>링크</b></td>
+            <td style="width: 200px;font-size: 28px; align-content: center"><b>간단 소개글</b></td>
             <td style="width: 800px;font-size: 30px; text-align: left"></td>
         </tr>
         <tr style="height: 10px;">
@@ -261,15 +284,17 @@
             </td>
         </tr>
         <tr style="height: 100px;">
-            <td style="width: 400px;font-size: 25px; align-content: center">
-                <i class="bi bi-circle"></i> <span class="grdinfo">개인 블로그</span>
-                <span class="grdinfo"></span>
-            </td>
-            <td style="width: 800px;font-size: 30px; text-align: left">
-                <span class="grd3"><b><a id="link" href="${dto.r_link}">${dto.r_link}</a></b></span>
-                <span class="grd2"> </span>
+
+            <td style="width: 800px; font-size: 30px; text-align: left">
+                <DIV NAME="r_self" style="height: auto;"> <pre>${dto.r_self}</pre></DIV>
             </td>
         </tr>
+
+
+
+        <%--          --%>
+
+
 
         <tr style="height: 30px;">
             <td colspan="2" style="width: 1000px;"></td>
@@ -311,19 +336,24 @@
 <script>
 
     //skill 이벤트
+    // skill 이벤트
     var existingSkills = "${dto.r_skill}".split(",");
 
     existingSkills.forEach(function (skill, index) {
-        const skillElement = document.createElement("span");
-        skillElement.classList.add("r_skill");
-        skillElement.textContent = skill.trim();
-        document.getElementById("result").appendChild(skillElement);
+        const trimmedSkill = skill.trim();
+        if (trimmedSkill !== "") {
+            const skillElement = document.createElement("span");
+            skillElement.classList.add("r_skill");
+            skillElement.textContent = trimmedSkill;
+            document.getElementById("result").appendChild(skillElement);
 
-        if (index !== existingSkills.length - 1) {
-            const separator = document.createTextNode('\u00A0'); // &nbsp;
-            document.getElementById("result").appendChild(separator);
+            if (index !== existingSkills.length - 1) {
+                const separator = document.createTextNode('\u00A0'); // &nbsp;
+                document.getElementById("result").appendChild(separator);
+            }
         }
     });
+
 
 </script>
 </html>

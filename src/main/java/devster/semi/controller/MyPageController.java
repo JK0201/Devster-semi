@@ -498,12 +498,13 @@ model.addAttribute("mdto",mdto);
     }
 
     @GetMapping("/updateform")
-    public String updateform(@RequestParam("m_idx")int m_idx,Model model){
-
+    public String updateform(/*@RequestParam("m_idx")int m_idx*/Model model,HttpSession session){
+        int m_idx = (int)session.getAttribute("memidx");
         ResumeDto dto=resumeservice.getDataresume(m_idx);
         List<Re_licDto> llist = resumeservice.getDatare_lic(m_idx);
         List<Re_carDto> clist = resumeservice.getDatare_car(m_idx);
-
+        MemberDto mdto = memberService.getOneDataByM_idx(m_idx);
+        model.addAttribute("mdto",mdto);
         model.addAttribute("dto", dto);
         model.addAttribute("llist",llist);
         model.addAttribute("clist",clist);
@@ -541,7 +542,7 @@ model.addAttribute("mdto",mdto);
             dto.setR_gradestart(Timestamp.valueOf(r_gradestart.atStartOfDay()));
             dto.setR_gradeend(Timestamp.valueOf(r_gradeend.atStartOfDay()));
             dto.setR_gradecom(r_gradecom);
-            dto.setR_skill(r_skill.substring(0, r_skill.length() - 1));
+            dto.setR_skill(r_skill/*.substring(0, r_skill.length() - 1)*/);
         if (r_status == null) {
             r_status = 0; // 기본값 설정
         }

@@ -85,10 +85,6 @@
             display: none;
         }
 
-        body, body * {
-            font-family: 'Jua'
-        }
-
         div.quanbu {
             width: 1000px;
             margin: 10px auto;
@@ -175,7 +171,7 @@
         </div>
 
         <div id="r_skills" style="width: 800px; height: 200px;">
-            <div  class="repoint">기술 스택(업무 툴/스킬)</div>
+            <div  class="repoint">기술 스택 &nbsp;<span style="font-size: 20px">(업무 툴/스킬)</span></div>
             <HR>
             <br>
             <input type="text" id="skillinput" placeholder="사용가능한 툴 ex:java">
@@ -192,7 +188,7 @@
 
 <%-- 학력--%>
         <div id="r_deg"style="width: 800px; height: 200px;" >
-            <div  class="repoint">학력</div>
+            <div  class="repoint">학력<span style="font-size: 20px">(최종학력)</span></div>
             <hr>
             <br>
             <div class="form-group-grade" style="width: 800px;">
@@ -277,6 +273,7 @@
         <div style="text-align: right;">
             <button type="submit"  class="btn btn-outline-dark">게시글등록   </button>
         </div>
+        <DIV STYLE="height: 60PX"></DIV>
 
     </form>
 </div>
@@ -332,48 +329,49 @@
     });
 
 
-    //경력 + 이벤트
+    // 경력 + 이벤트
     const addInputButton = document.getElementById("car-add");
     const form = document.getElementById("form-car");
-    let inputCount = 1;
+    let inputCount = document.querySelectorAll('.r_carstartdate').length;
 
     addInputButton.addEventListener("click", function () {
         inputCount++;
         const newInputGroup = document.createElement("div");
-       newInputGroup.classList.add("form-group");
+        newInputGroup.classList.add("form-group");
+
         newInputGroup.innerHTML = `
-        <br>
-        <input type="date" class="r_carstartdate" name="r_carstartdate" id="car-start-date"
-            style="width: 280px; height: 45px;">
-        <input type="date" class="r_carenddate" name="r_carenddate" id="car-end-date"
-            style="width: 280px; height: 45px;">
-<br><br>
-        <input type="text" class="r_company" name="r_company" placeholder="회사명" style="width: 250px; height: 45px;">
+<br>
+    <input type="date" class="r_carstartdate" name="r_carstartdate" id="car-start-date-${inputCount}"
+        style="width: 280px; height: 45px;">
+    <input type="date" class="r_carenddate" name="r_carenddate" id="car-end-date-${inputCount}"
+        style="width: 280px; height: 45px;">
+    <br><br>
+    <input type="text" class="r_company" name="r_company" placeholder="회사명" style="width: 250px; height: 45px;">
+    <input type="text" class="r_department" name="r_department" placeholder="부서" style="width: 250px; height: 45px;">
+    <input type="text" class="r_position" name="r_position" placeholder="직책" style="width: 250px; height: 45px;">`;
 
-        <input type="text" class="r_department" name="r_department" placeholder="부서" style="width: 250px; height: 45px;">
-
-        <input type="text" class="r_position" name="r_position" placeholder="직책" style="width: 250px; height: 45px;">
-
-
-    `;
         form.appendChild(newInputGroup);
 
-        // Get the input elements for the dates
-        const startDateInputs = document.querySelectorAll('.r_carstartdate');
-        const endDateInputs = document.querySelectorAll('.r_carenddate');
+        const startDateInput = document.getElementById(`car-start-date-${inputCount}`);
+        const endDateInput = document.getElementById(`car-end-date-${inputCount}`);
 
-        // Loop through each input element and apply date restrictions
-        startDateInputs.forEach(function (input) {
-            const currentDate = new Date().toISOString().split('T')[0];
-            input.setAttribute('max', currentDate);
+        const currentDate = new Date().toISOString().split('T')[0];
+        startDateInput.setAttribute('max', currentDate);
+        endDateInput.setAttribute('max', currentDate);
 
-            input.addEventListener('change', function () {
-                const selectedDate = input.value;
-                if (selectedDate > currentDate) {
-                    alert('오늘 이후의 날짜는 선택할 수 없습니다.');
-                    input.value = currentDate;
-                }
-            });
+        startDateInput.addEventListener('change', function () {
+            const selectedDate = startDateInput.value;
+            if (selectedDate > endDateInput.value) {
+                endDateInput.value = selectedDate;
+            }
+        });
+
+        endDateInput.addEventListener('change', function () {
+            const selectedDate = endDateInput.value;
+            if (selectedDate < startDateInput.value) {
+                startDateInput.value = selectedDate;
+                alert("시작일 이전은 선택할 수 없습니다.");
+            }
         });
     });
 
@@ -388,10 +386,10 @@
         const newInputGroup = document.createElement("div");
         newInputGroup.classList.add("form-group-lic");
         newInputGroup.innerHTML = `
-<br>
-      <input type="date" name="r_licdate" id="lic-end-date" style="width: 250px; height: 40px;">&nbsp;&nbsp;
-                    <input type="text" name="r_licname" placeholder="자격증" style="width: 520px; height: 40px;">
-    `;
+        <br>
+    <input type="date" name="r_licdate" class="lic-date" id="lic-end-date-${inputCountlic}" style="width: 250px; height: 40px;">
+    <input type="text" name="r_licname" placeholder="자격증" style="width: 520px; height: 40px;"><br>
+  `;
         licform.appendChild(newInputGroup);
 
         // Get the input element for the date

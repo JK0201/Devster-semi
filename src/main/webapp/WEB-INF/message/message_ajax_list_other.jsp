@@ -283,7 +283,7 @@
                                         <div class="received_msg">
                                             <div class="received_withd_msg">
                                                 <span>${tmp.send_nick}</span>
-                                                <p>${tmp.content}</p>
+                                                <pre>${tmp.content}</pre>
                                                 <span class="time_date">${tmp.send_time}</span>
                                             </div>
                                         </div>
@@ -296,7 +296,7 @@
                                     <div class="outgoing_msg">
                                         <div class="sent_msg">
                                             <span>${tmp.send_nick}</span>
-                                            <p>${tmp.content}</p>
+                                            <pre>${tmp.content}</pre>
                                             <span class="time_date">${tmp.send_time}</span>
                                         </div>
                                     </div>
@@ -314,7 +314,7 @@
                                         <div class="received_msg">
                                             <div class="received_withd_msg">
                                                 <span>${tmp.send_nick}</span>
-                                                <p>${tmp.content}</p>
+                                                <pre>${tmp.content}</pre>
                                                 <span class="time_date">${tmp.send_time}</span>
                                             </div>
                                         </div>
@@ -327,7 +327,7 @@
                                     <div class="outgoing_msg">
                                         <div class="sent_msg">
                                             <span>${tmp.send_nick}</span>
-                                            <p>${tmp.content}</p>
+                                            <pre>${tmp.content}</pre>
                                             <span class="time_date">${tmp.send_time}</span>
                                         </div>
                                     </div>
@@ -342,10 +342,10 @@
 
                     <div class='type_msg'>
                         <div class='input_msg_write row'>
-                           <div class='col-11'>
-                              <input type='text' class='write_msg form-control' placeholder='메세지를 입력...' />
-                           </div>
-                           <div class='col-1'>
+                            <div class="col-11">
+                                <textarea class="write_msg form-control" placeholder="메세지를 입력..."></textarea>
+                            </div>
+                            <div class='col-1'>
                                <button class='msg_send_btn_other' type='button'><i class='bi bi-send-fill'></i></button>
                            </div>
                         </div>
