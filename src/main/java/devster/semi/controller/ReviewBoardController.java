@@ -150,7 +150,7 @@ public class ReviewBoardController {
     @PostMapping("/insert")
     @ResponseBody
 
-    public boolean insertreview(@RequestParam int rb_type, String rb_content, int rb_star, int m_idx, Integer
+    public boolean insertreview(@RequestParam int rb_type, String rb_content, int rb_star, int m_idx, int
             ci_idx) {
 
         ReviewDto dto = new ReviewDto();

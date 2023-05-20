@@ -57,7 +57,7 @@
     border-bottom: 1px solid #f7f7f7;
 }
 .recent_heading h4{
-    color: #9D09D4;
+    color: #454444;
     font-size: 30px;
     margin: 0 auto;
 }
@@ -150,13 +150,13 @@
     width: 92%;
 }
 
-.received_withd_msg p{
+.received_withd_msg pre{
     background: /*#f4f4f4*/ none repeat scroll 0 0;
     border-radius: 7px;
     color: #646464;
-    font-size: 14px;
+    font-size: 19px;
     margin: 0;
-    padding: 10px 10px 10px 12px;
+  /*  padding: 10px 10px 10px 12px;*/
     width: 100%;
 }
 .time_date{
@@ -167,39 +167,47 @@
 }
 .received_withd_msg{
     position: relative;
-    width: max-content;
-    max-width: 80%;
+/*    width: max-content;*/
+    max-width: 50%;
     min-width: 4em;
     margin-top: 0.5em;
-    padding: 0.5em 0.9em;
-    border-radius: 1.5em;
-    background-color: #E7C4EA;
+    padding: 0.3em 0.7em;
+    border-radius: 1em;
+    background-color: #EDEDED;
     transform-origin: bottom left;
     animation: intro 0.4s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .mesgs{
     float: left;
     padding: 30px 15px 0 25px;
     width: 60%;
 }
-.sent_msg{
+.sent_msg {
     float: right;
-    width: 46%;
+    width: 52%;
+    text-align: right;
 }
 
-.sent_msg p {
+
+.sent_msg pre {
     position: relative;
-    width: max-content;
-    max-width: 80%;
+    display: inline-block;
+/*    width: max-content;*/
+    max-width:90%;
     min-width: 4em;
-    height: auto;
     margin-top: 0.5em;
     padding: 0.5em 0.9em;
     border-radius: 1.5em;
-    background-color: #D1D1D1;
-    transform-origin: bottom left;
+    background-color: #EBCEEA;
+    transform-origin: bottom right;
     animation: intro 0.4s ease-in-out;
     color: #4A4A4A;
+    font-size: 18px;
+    text-align: left;
+    font-family: "Noto Sans KR";
 }
 
 .outgoing_msg{

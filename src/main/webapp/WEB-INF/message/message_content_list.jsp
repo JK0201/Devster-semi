@@ -49,6 +49,7 @@
                         <div class="incoming_msg_img">
                                 <img src="http://${imageUrl}/member/${tmp.m_photo}" width="50px">
                         </div>
+                        &nbsp;
                         <div class="received_msg">
                             <div class="received_withd_msg">
                                 <pre>${tmp.content}</pre>
