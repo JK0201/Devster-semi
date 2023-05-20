@@ -418,7 +418,16 @@
 
                         <div class="mainbox">
                             <h3 class="fb_subject">
-                                <a href="freeboarddetail?fb_idx=${dto.fb_idx}"><b>${dto.fb_subject}</b></a>
+                                <a href="freeboarddetail?fb_idx=${dto.fb_idx}">
+                                    <b>
+                                        <c:set var="length" value="${fn:length(dto.fb_subject)}"/>
+                                            ${fn:substring(dto.fb_subject, 0, 30)}
+
+                                        <c:if test="${length>=30}">
+                                            .....
+                                        </c:if>
+                                    </b>
+                                </a>
                             </h3>
 
                             <c:if test="${dto.fb_photo=='n'}">
@@ -427,9 +436,9 @@
                                        style="color: #000;">
                                 <span>
                                     <c:set var="length" value="${fn:length(dto.fb_content)}"/>
-                                    ${fn:substring(dto.fb_content, 0, 120)}
+                                    ${fn:substring(dto.fb_content, 0, 110)}
 
-                                    <c:if test="${length>=120}">
+                                    <c:if test="${length>=110}">
                                         .....
                                     </c:if>
                                    </span></a>
@@ -493,7 +502,16 @@
 
                         <div class="mainbox">
                             <h3 class="fb_subject">
-                                <a href="freeboarddetail?fb_idx=${dto.fb_idx}"><b>${dto.fb_subject}</b></a>
+                                <a href="freeboarddetail?fb_idx=${dto.fb_idx}">
+                                    <b>
+                                        <c:set var="length" value="${fn:length(dto.fb_subject)}"/>
+                                            ${fn:substring(dto.fb_subject, 0, 30)}
+
+                                        <c:if test="${length>=30}">
+                                            .....
+                                        </c:if>
+                                    </b>
+                                </a>
                             </h3>
 
                             <c:if test="${dto.fb_photo=='n'}">
@@ -502,16 +520,16 @@
                                        style="color: #000;">
                                 <span>
                                     <c:set var="length" value="${fn:length(dto.fb_content)}"/>
-                                    ${fn:substring(dto.fb_content, 0, 120)}
+                                    ${fn:substring(dto.fb_content, 0, 110)}
 
-                                    <c:if test="${length>=120}">
+                                    <c:if test="${length>=110}">
                                         .....
                                     </c:if>
                                    </span></a>
                                 </h5>
                             </c:if>
                             <c:if test="${dto.fb_photo!='n'}">
-                                <h5 class="fb_content">
+                                <h5 class="fb_content" style="width: 80%">
                                     <a href="freeboarddetail?fb_idx=${dto.fb_idx}"
                                        style="color: #000;">
                                 <span class="photocontent">

@@ -351,6 +351,13 @@
             location.href='../member/signin';
             return false;
         });
+
+        $(".academyboard_table a").click(function (){
+            alert("로그인 후 이용가능한 기능입니다.");
+            location.href='../member/signin';
+            return false;
+        });
+
         $("#searchinput").click(function (){
             alert("로그인 후 이용가능한 기능입니다.");
             location.href='../member/signin';
@@ -382,6 +389,14 @@
 
     }
 
+    $(document).on("click",".bestposts",function () {
+        if(${sessionScope.logstat!='yes'}) {
+            alert("로그인 후 이용가능한 기능입니다.");
+            location.href='../member/signin';
+            return false;
+        }
+    })
+
     //실시간 인기 글 ajax
     $.ajax({
         type: "post",
@@ -393,7 +408,7 @@
                 s +=
                     `
                     <li>
-                        <a href="../freeboard/freeboarddetail?fb_idx=\${item.fb_idx}&currentPage=1">
+                        <a href="../freeboard/freeboarddetail?fb_idx=\${item.fb_idx}&currentPage=1" class="bestposts" >
                             <div class="name">
                                 <div class="num"><span style="color: #94969b">\${index+1}</span> \${item.fb_subject}</div>
                             </div>
@@ -435,6 +450,12 @@
         document.body.scrollTop = 0; // For Safari
         document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
     }*/
+
+    function checkLogin() {
+        if(${sessionScope.logstat!='yes'}) {
+
+        }
+    }
 
 
 </script>
