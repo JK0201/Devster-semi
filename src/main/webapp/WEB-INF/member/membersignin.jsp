@@ -283,12 +283,10 @@
 
         .inputdelbtn {
             opacity: 0.3;
-            font-size: 2vh;
+            font-size: 19px;
             position: absolute;
-            left: 50%;
-            top: 50%;
-            margin-left: 37%;
-            margin-top: -2%;
+            right: 65px;
+            top: 11px;
             cursor: pointer;
             display: none;
         }

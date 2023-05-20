@@ -57,14 +57,15 @@
             border-top: 2px solid transparent;
         }
 
-        .links li span:hover {
-            color: #8007AD;
-            border-top: 2px solid #8007AD;
-            opacity: 1 !important;
+        .links li:hover {
+            border-color: #8007AD;
+            transition: .5s linear;
         }
 
-        .links li:nth-child(1):hover {
-            opacity: 1;
+        .links li span:hover {
+            color: #8007AD;
+            opacity: 1 !important;
+            transition: .5s linear;
         }
 
         .links li span {
