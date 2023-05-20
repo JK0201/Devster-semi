@@ -217,6 +217,7 @@ public class ReviewBoardController {
 
     @PostMapping("/insert")
     @ResponseBody
+
     public boolean insertreview(@RequestParam int rb_type, String rb_content, int rb_star, int m_idx, int
             ci_idx) {
 
@@ -228,7 +229,6 @@ public class ReviewBoardController {
         dto.setCi_idx(ci_idx);
 
         reviewService.insertreview(dto); // ReviewDto 객체 insert 하기
-
         // updateCompanyinfoStar 메서드 호출
         CompanyinfoDto companyinfoDto = new CompanyinfoDto();
         companyinfoDto.setCi_idx(ci_idx);

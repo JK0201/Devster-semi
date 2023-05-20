@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Mapper
 public interface AcademyBoardMapper {
-    public int getTotalCount();
+    public int getTotalCount(int ai_idx);
     public int getCommentCnt(int ab_idx);
     public List<AcademyBoardDto> getPagingList(Map<String,Integer> map);
     public AcademyBoardDto getData(int ab_idx);

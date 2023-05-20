@@ -1,25 +1,26 @@
 package devster.semi.controller;
 
-import devster.semi.dto.FreeBoardDto;
-import devster.semi.dto.HireBoardDto;
-import devster.semi.dto.NoticeBoardDto;
-import devster.semi.dto.QboardDto;
+import devster.semi.dto.*;
 import devster.semi.mapper.HireMapper;
-import devster.semi.service.FreeBoardService;
-import devster.semi.service.HireService;
-import devster.semi.service.NoticeBoardService;
-import devster.semi.service.QboardService;
+import devster.semi.service.*;
 import naver.cloud.NcpObjectStorageService;
+import net.nurigo.java_sdk.api.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
 public class HomeController {
+
+	@Autowired
+	private MessageService messageService;
 
 	@Autowired
 	private FreeBoardService freeBoardService;
@@ -34,7 +35,13 @@ public class HomeController {
 	private HireService hireService;
 
 	@Autowired
+	private AcademyBoardService academyBoardService;
+
+	@Autowired
 	private NoticeBoardService noticeBoardService;
+
+	@Autowired
+	private ReviewService reviewService;
 
 	@Autowired
 	private NcpObjectStorageService storageService;
@@ -42,7 +49,7 @@ public class HomeController {
 	private String bucketName="devster-bucket";
 
 	@GetMapping({"/","/home"})
-	public String fblist(@RequestParam(defaultValue = "1") int currentPage, Model model)
+	public String fblist(@RequestParam(defaultValue = "1") int currentPage, Model model, HttpSession session)
 	{
 		//===========================일반게시판===============================//
 
@@ -102,10 +109,13 @@ public class HomeController {
 
 		int hireboardtotalCount = hireService.getHireTotalCount();
 		List<HireBoardDto> hirelist=hireService.getHirePagingList(startNum, perPage);
+
 		/*List<HireBoardDto> hirelist=hireMapper.getAllPosts();*/
 		//model 에 저장
 		model.addAttribute("hirelist", hirelist);
 		model.addAttribute("currentPage",currentPage);
+
+		model.addAttribute("hireboardtotalCount",hireboardtotalCount);
 
 		//===========================공지사항===============================//
 
@@ -115,10 +125,48 @@ public class HomeController {
 		model.addAttribute("nblist", nblist);
 		model.addAttribute("NoticeBoardTotalCount",NoticeBoardTotalCount);
 
+		//===========================학원별 게시판===============================//
+
+		int academyboardTotalCount = academyBoardService.getTotalCount((Integer)session.getAttribute("acaidx")==null?-1:(Integer) session.getAttribute("acaidx"));
+		List<AcademyBoardDto> ablist = academyBoardService.getPagingList(startNum, perPage, (Integer)session.getAttribute("acaidx")==null?-1:(Integer) session.getAttribute("acaidx"));
+
+		// 출력시 필요한 변수들 model에 전부 저장
+		model.addAttribute("ablist", ablist);
+		model.addAttribute("academyboardTotalCount", academyboardTotalCount);
+
+		//===========================회사 후기 게시판===============================//
+
+		int reviewboardTotalCount = reviewService.getTotalcount();
+		List<ReviewDto> rblist = reviewService.getPagingList(startNum, perPage);
+
+		// 출력시 필요한 변수들 model에 전부 저장
+		model.addAttribute("rblist", rblist);
+		model.addAttribute("reviewboardTotalCount", reviewboardTotalCount);
+
 
 		return "/sub";//tiles.xml 에 이 이름으로 정의된 definition 이 적용됨
 
+
 	}
+
+	//실시간 인기글
+	@PostMapping("/bestPostsForBanner")
+	@ResponseBody
+	public List<FreeBoardDto> bestPosts() {
+		List<FreeBoardDto> list = freeBoardService.bestfreeboardPosts();
+		return list;
+	}
+
+	@PostMapping("/messagecount")
+	@ResponseBody
+	public int messageCount(HttpSession session) {
+		return messageService.getAllUnreadCount((String)session.getAttribute("memnick"));
+	}
+
+
+
+
+
 	
 	/*@GetMapping("/home2")
 	public String home2()

@@ -55,39 +55,38 @@ public class QboardController {
         List<QboardDto> list = qboardService.getPagingList(startNum, perPage);
 
 
-        List<Map<String,Object>> fulllList =new ArrayList<>();
+        List<Map<String, Object>> fulllList = new ArrayList<>();
 
-            for(QboardDto dto : list) {
-                Map<String,Object> map = new HashMap<>();
-                map.put("qb_idx",dto.getQb_idx());
-                map.put("nickName",qboardService.selectNickNameOfQb_idx(dto.getQb_idx()));
+        for (QboardDto dto : list) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("qb_idx", dto.getQb_idx());
+            map.put("nickName", qboardService.selectNickNameOfQb_idx(dto.getQb_idx()));
 
-                String photo = qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
-                int countComment = qboardService.countComment(dto.getQb_idx());
+            String photo = qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
+            int countComment = qboardService.countComment(dto.getQb_idx());
 
-                if(photo.equals("no")) {
-                    photo = "/photo/profile.jpg";
-                } else {
-                    photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
-                }
-                map.put("photo",photo);
-                map.put("count",countComment);
-                map.put("qb_subject",dto.getQb_subject());
-                map.put("qb_content",dto.getQb_content());
-                map.put("qb_writeday", dto.getQb_writeday());
-                map.put("qb_readcount",dto.getQb_readcount());
-                map.put("qb_like",dto.getQb_like());
-                map.put("qb_dislike",dto.getQb_dislike());
-                map.put("qb_photo",dto.getQb_photo());
-                fulllList.add(map);
+            if (photo.equals("no")) {
+                photo = "/photo/profile.jpg";
+            } else {
+                photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/" + qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
             }
+            map.put("photo", photo);
+            map.put("count", countComment);
+            map.put("qb_subject", dto.getQb_subject());
+            map.put("qb_content", dto.getQb_content());
+            map.put("qb_writeday", dto.getQb_writeday());
+            map.put("qb_readcount", dto.getQb_readcount());
+            map.put("qb_like", dto.getQb_like());
+            map.put("qb_dislike", dto.getQb_dislike());
+            map.put("qb_photo", dto.getQb_photo());
+            fulllList.add(map);
+        }
 
         // 출력시 필요한 변수들 model에 전부 저장
         model.addAttribute("list", fulllList);
         model.addAttribute("totalCount", totalCount);
         model.addAttribute("no", no);
         model.addAttribute("currentPage", currentPage);
-        model.addAttribute("totalCount",totalCount);
 
 
         //===========================공지사항===============================//
@@ -96,15 +95,14 @@ public class QboardController {
         List<NoticeBoardDto> nblist = noticeBoardService.getTopThree();
 
         model.addAttribute("nblist", nblist);
-        model.addAttribute("NoticeBoardTotalCount",NoticeBoardTotalCount);
+        model.addAttribute("NoticeBoardTotalCount", NoticeBoardTotalCount);
 
         return "/main/qboard/qboardlist";
     }
 
     @GetMapping("/listajax")
     @ResponseBody
-    public List<Map<String,Object>> listAjax(int currentPage)
-    {
+    public List<Map<String, Object>> listAjax(int currentPage) {
         int totalCount = qboardService.getTotalCount();
         int perPage = 20; // 한 페이지당 보여줄 글 갯수
         int startNum; // 각 페이지에서 보여질 글의 시작번호
@@ -121,30 +119,30 @@ public class QboardController {
         List<QboardDto> list = qboardService.getPagingList(startNum, perPage);
 
 
-        List<Map<String,Object>> fulllList =new ArrayList<>();
+        List<Map<String, Object>> fulllList = new ArrayList<>();
 
-        for(QboardDto dto : list) {
-            Map<String,Object> map = new HashMap<>();
-            map.put("qb_idx",dto.getQb_idx());
-            map.put("nickName",qboardService.selectNickNameOfQb_idx(dto.getQb_idx()));
+        for (QboardDto dto : list) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("qb_idx", dto.getQb_idx());
+            map.put("nickName", qboardService.selectNickNameOfQb_idx(dto.getQb_idx()));
 
             String photo = qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
             int countComment = qboardService.countComment(dto.getQb_idx());
 
-            if(photo.equals("no")) {
+            if (photo.equals("no")) {
                 photo = "/photo/profile.jpg";
             } else {
-                photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
+                photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/" + qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
             }
-            map.put("photo",photo);
-            map.put("count",countComment);
-            map.put("qb_subject",dto.getQb_subject());
-            map.put("qb_content",dto.getQb_content());
+            map.put("photo", photo);
+            map.put("count", countComment);
+            map.put("qb_subject", dto.getQb_subject());
+            map.put("qb_content", dto.getQb_content());
             map.put("qb_writeday", timeForToday(dto.getQb_writeday()));
-            map.put("qb_readcount",dto.getQb_readcount());
-            map.put("qb_like",dto.getQb_like());
-            map.put("qb_dislike",dto.getQb_dislike());
-            map.put("qb_photo",dto.getQb_photo());
+            map.put("qb_readcount", dto.getQb_readcount());
+            map.put("qb_like", dto.getQb_like());
+            map.put("qb_dislike", dto.getQb_dislike());
+            map.put("qb_photo", dto.getQb_photo());
             map.put("currentPage", currentPage);
             fulllList.add(map);
         }
@@ -164,15 +162,15 @@ public class QboardController {
     public String insert(QboardDto dto, List<MultipartFile> upload) {
         String fileName = "";
 
-        if(upload.get(0).getOriginalFilename().equals("")) { // 업로드를 안한경우.
+        if (upload.get(0).getOriginalFilename().equals("")) { // 업로드를 안한경우.
             fileName = "n";
         } else {
-            int i =0;
-            for(MultipartFile mfile : upload) {
+            int i = 0;
+            for (MultipartFile mfile : upload) {
                 //사진 업로드.
                 fileName += (storageService.uploadFile(bucketName, "qboard", mfile) + ",");
             }
-            fileName=fileName.substring(0,fileName.length()-1);
+            fileName = fileName.substring(0, fileName.length() - 1);
         }
 //        업로드를 한 경우에만 버킷에 이미지를 저장한다.
         dto.setQb_photo(fileName);
@@ -187,7 +185,7 @@ public class QboardController {
         QboardDto dto = qboardService.getOnePost(qb_idx);
 
         List<String> list = new ArrayList<>();
-        StringTokenizer st = new StringTokenizer(dto.getQb_photo(),",");
+        StringTokenizer st = new StringTokenizer(dto.getQb_photo(), ",");
         while (st.hasMoreElements()) {
             storageService.deleteFile(bucketName, "qboard", st.nextToken());
         }
@@ -203,7 +201,7 @@ public class QboardController {
         QboardDto dto = qboardService.getOnePost(qb_idx);
 
         model.addAttribute("dto", dto);
-
+        model.addAttribute("imageUrl", dto.getQb_photo());
         return "/main/qboard/qboardupdateform";
     }
 
@@ -212,30 +210,30 @@ public class QboardController {
         dto.setQb_idx(qb_idx);
 
         String oriPhoto = qboardService.getOnePost(qb_idx).getQb_photo();
-        String fileName ="";
+        String fileName = "";
 
         List<String> list = new ArrayList<>();
-        StringTokenizer st = new StringTokenizer(oriPhoto,",");
+        StringTokenizer st = new StringTokenizer(oriPhoto, ",");
         while (st.hasMoreTokens()) {
             storageService.deleteFile(bucketName, "qboard", st.nextToken());
         }
 
-        if(upload.get(0).getOriginalFilename().equals("")) { // 업로드를 안한경우.
+        if (upload.get(0).getOriginalFilename().equals("")) { // 업로드를 안한경우.
             fileName = "no";
         } else {
-            int i =0;
-            for(MultipartFile mfile : upload) {
+            int i = 0;
+            for (MultipartFile mfile : upload) {
                 //사진 업로드.
                 fileName += (storageService.uploadFile(bucketName, "qboard", mfile) + ",");
 
             }
-            fileName=fileName.substring(0,fileName.length()-1);
+            fileName = fileName.substring(0, fileName.length() - 1);
         }
 //        업로드를 한 경우에만 버킷에 이미지를 저장한다.
         dto.setQb_photo(fileName);
 
         qboardService.updatePost(dto);
-        return "redirect:detail?qb_idx="+qb_idx;
+        return "redirect:detail?qb_idx=" + qb_idx;
     }
 
     @GetMapping("/detail")
@@ -246,46 +244,51 @@ public class QboardController {
         String nickName = qboardService.selectNickNameOfQb_idx(dto.getQb_idx());
         String photo = qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
 
-//        버튼 상태에 관한 정보를 디테일 페이지로 보내줌.
-        boolean isAlreadyAddGoodRp = qboardService.isAlreadyAddGoodRp(qb_idx,(int)session.getAttribute("memidx"));
-        boolean isAlreadyAddBadRp = qboardService.isAlreadyAddBadRp(qb_idx,(int)session.getAttribute("memidx"));
+        int commentCnt = qboardService.countComment(dto.getQb_idx());
 
-        if(photo.equals("no")) {
+//        버튼 상태에 관한 정보를 디테일 페이지로 보내줌.
+        boolean isAlreadyAddGoodRp = qboardService.isAlreadyAddGoodRp(qb_idx, (int) session.getAttribute("memidx"));
+        boolean isAlreadyAddBadRp = qboardService.isAlreadyAddBadRp(qb_idx, (int) session.getAttribute("memidx"));
+
+        if (photo.equals("no")) {
             photo = "/photo/profile.jpg";
         } else {
-            photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
+            photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/" + qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
         }
         //사진 여러장 분할 처리.
         List<String> list = new ArrayList<>();
-        StringTokenizer st = new StringTokenizer(dto.getQb_photo(),",");
+        StringTokenizer st = new StringTokenizer(dto.getQb_photo(), ",");
         while (st.hasMoreTokens()) {
             list.add(st.nextToken());
         }
 
-        model.addAttribute("profilePhoto",photo);
-        model.addAttribute("list",list);
-        model.addAttribute("dto",dto);
-        model.addAttribute("nickname",nickName);
-        model.addAttribute("photo",photo);
+        model.addAttribute("profilePhoto", photo);
+        model.addAttribute("list", list);
+        model.addAttribute("dto", dto);
+        model.addAttribute("nickname", nickName);
+        model.addAttribute("photo", photo);
         model.addAttribute("isAlreadyAddGoodRp", isAlreadyAddGoodRp);
         model.addAttribute("isAlreadyAddBadRp", isAlreadyAddBadRp);
+
+        model.addAttribute("commentCnt", commentCnt);
+        model.addAttribute("qb_writeday", timeForToday(dto.getQb_writeday()));
 
 
         return "/main/qboard/qboarddetail";
     }
 
-    
+
     //좋아요 증가 메서드
     @RequestMapping("/increaseGoodRp")
     @ResponseBody
-    public int increaseGoodRp(int qb_idx,int m_idx) {
+    public int increaseGoodRp(int qb_idx, int m_idx) {
         // article 테이블에서 해당 게시물의 좋아요 1 증가
         qboardService.increaseGoodRp(qb_idx);
         // article 테이블에서 해당 게시물의 최신화된 좋아요 수 불러오기
         int goodRp = qboardService.getGoodRpCount(qb_idx);
 
         // reactionPoint 테이블에 리액션 정보(게시물 id, 사용자 id)를 기록
-        qboardService.addIncreasingGoodRpInfo(qb_idx,m_idx);
+        qboardService.addIncreasingGoodRpInfo(qb_idx, m_idx);
 
         return goodRp;
     }
@@ -293,14 +296,14 @@ public class QboardController {
     //좋아요 감소 메서드
     @RequestMapping("/decreaseGoodRp")
     @ResponseBody
-    public int decreaseGoodRp(int qb_idx,int m_idx) {
+    public int decreaseGoodRp(int qb_idx, int m_idx) {
         // article 테이블에서 해당 게시물의 좋아요 1 감소
         qboardService.decreaseGoodRp(qb_idx);
         // article 테이블에서 해당 게시물의 최신화된 좋아요 수 불러오기
         int goodRp = qboardService.getGoodRpCount(qb_idx);
 
         // reactionPoint 테이블에 리액션 정보(게시물 id, 사용자 id) 기록을 삭제
-        qboardService.deleteGoodRpInfo(qb_idx,m_idx);
+        qboardService.deleteGoodRpInfo(qb_idx, m_idx);
 
         return goodRp;
     }
@@ -312,7 +315,7 @@ public class QboardController {
         qboardService.increaseBadRp(qb_idx);
         int badRp = qboardService.getBadRpCount(qb_idx);
 
-        qboardService.addIncreasingBadRpInfo(qb_idx,m_idx);
+        qboardService.addIncreasingBadRpInfo(qb_idx, m_idx);
 
         return badRp;
     }
@@ -331,8 +334,8 @@ public class QboardController {
 
     @PostMapping("/bestPostsForBanner")
     @ResponseBody
-    public List<FreeBoardDto> bestPosts(){
-        List<FreeBoardDto> list = qboardService.bestfreeboardPosts();
+    public List<QboardDto> bestPosts(){
+        List<QboardDto> list = qboardService.bestQboardPosts();
         return list;
     }
 
@@ -340,13 +343,13 @@ public class QboardController {
     // 검색
     @PostMapping("/qboardsearchlist")
     @ResponseBody
-    public List<Map<String, Object>> searchlist(@RequestParam(defaultValue = "1") int currentPage,
+    public List<Map<String, Object>> searchlist(@RequestParam(defaultValue = "1") int currentpage,
                                                 @RequestParam(defaultValue = "") String keyword,
                                                 @RequestParam(defaultValue = "all") String searchOption,
-                                                Model model){
+                                                Model model) {
 
 
-        int searchCount = qboardService.countsearch(searchOption,keyword);
+        int searchCount = qboardService.countsearch(searchOption, keyword);
         int totalPage; // 총 페이지 수
         int perPage = 20; // 한 페이지당 보여줄 글 갯수
         int perBlock = 10; // 한 블록당 보여질 페이지의 갯수
@@ -358,7 +361,7 @@ public class QboardController {
         // 총 페이지 수
         totalPage = searchCount / perPage + (searchCount % perPage == 0 ? 0 : 1);
         // 시작 페이지
-        startPage = (currentPage - 1) / perBlock * perBlock + 1;
+        startPage = (currentpage - 1) / perBlock * perBlock + 1;
         // 끝 페이지
         endPage = startPage + perBlock - 1;
 
@@ -367,7 +370,7 @@ public class QboardController {
             endPage = totalPage;
 
         // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
-        startNum = (currentPage - 1) * perPage;
+        startNum = (currentpage - 1) * perPage;
 
         // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
         // no = totalCount - (currentPage - 1) * perPage;
@@ -376,25 +379,27 @@ public class QboardController {
         // 각 페이지에 필요한 게시글 db에서 가져오기
         List<QboardDto> list = qboardService.searchlist(searchOption, keyword, startNum, perPage);
 
-        List<Map<String,Object>> fulllList =new ArrayList<>();
+        List<Map<String, Object>> fulllList = new ArrayList<>();
 
-        for(QboardDto dto : list) {
-            Map<String,Object> map = new HashMap<>();
-            map.put("qb_idx",String.valueOf(dto.getQb_idx()));
-            map.put("m_nickname",qboardService.selectNickNameOfQb_idx(dto.getQb_idx()));
+        for (QboardDto dto : list) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("qb_idx", String.valueOf(dto.getQb_idx()));
+            map.put("nickName", qboardService.selectNickNameOfQb_idx(dto.getQb_idx()));
             map.put("commentCnt", qboardService.countComment(dto.getQb_idx()));
 
-            String m_photo = qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
-            if(m_photo!="no"){
-                map.put("m_photo", m_photo);
+            String photo = qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
+
+            if (photo.equals("no")) {
+                photo = "/photo/profile.jpg";
             } else {
-                map.put("m_photo", "/photo/profile.jpg");
+                photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/" + qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
             }
-            map.put("qb_subject",dto.getQb_subject());
-            map.put("qb_content",dto.getQb_content());
-            map.put("qb_like",dto.getQb_like());
-            map.put("qb_dislike",dto.getQb_dislike());
-            map.put("qb_readcount",dto.getQb_readcount());
+            map.put("photo", photo);
+            map.put("qb_subject", dto.getQb_subject());
+            map.put("qb_content", dto.getQb_content());
+            map.put("qb_like", dto.getQb_like());
+            map.put("qb_dislike", dto.getQb_dislike());
+            map.put("qb_readcount", dto.getQb_readcount());
             map.put("qb_writeday", dto.getQb_writeday());
 
             map.put("searchOption", searchOption);
@@ -406,13 +411,13 @@ public class QboardController {
             model.addAttribute("endPage", endPage);
             model.addAttribute("totalPage", totalPage);
             model.addAttribute("no", no);
-            model.addAttribute("currentPage", currentPage);
+            model.addAttribute("currentPage", currentpage);
 
 
             // 사진이 들어있으면
-            if(dto.getQb_photo()!="no"){
+            if (dto.getQb_photo() != "no") {
                 // 사진이 두장이상이면
-                if(dto.getQb_photo().contains(",")){
+                if (dto.getQb_photo().contains(",")) {
                     int index = dto.getQb_photo().indexOf(",");
                     String result = dto.getQb_photo().substring(0, index);
                     map.put("qb_photo", result);
@@ -428,11 +433,12 @@ public class QboardController {
         return fulllList;
     }
 
+    // 메인 검색
     @GetMapping("/searchlist")
-    public String searchlist(@RequestParam(defaultValue = "1") int currentPage, Model model,@RequestParam(defaultValue = "") String keyword){
+    public String searchlist(@RequestParam(defaultValue = "1") int currentpage, Model model, @RequestParam(defaultValue = "") String keyword) {
 
 
-        int searchCount = qboardService.countsearch("all",keyword);
+        int searchCount = qboardService.countsearch("all", keyword);
         int totalPage; // 총 페이지 수
         int perPage = 20; // 한 페이지당 보여줄 글 갯수
         int perBlock = 10; // 한 블록당 보여질 페이지의 갯수
@@ -444,7 +450,7 @@ public class QboardController {
         // 총 페이지 수
         totalPage = searchCount / perPage + (searchCount % perPage == 0 ? 0 : 1);
         // 시작 페이지
-        startPage = (currentPage - 1) / perBlock * perBlock + 1;
+        startPage = (currentpage - 1) / perBlock * perBlock + 1;
         // 끝 페이지
         endPage = startPage + perBlock - 1;
 
@@ -453,41 +459,44 @@ public class QboardController {
             endPage = totalPage;
 
         // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
-        startNum = (currentPage - 1) * perPage;
+        startNum = (currentpage - 1) * perPage;
 
         // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
         // no = totalCount - (currentPage - 1) * perPage;
         no = searchCount - startNum;
 
         // 각 페이지에 필요한 게시글 db에서 가져오기
-        List<QboardDto> list = qboardService.searchlist("all",keyword,startNum, perPage);
+        List<QboardDto> list = qboardService.searchlist("all", keyword, startNum, perPage);
 
-        List<Map<String,Object>> fulllList =new ArrayList<>();
+        List<Map<String, Object>> fulllList = new ArrayList<>();
 
-        for(QboardDto dto : list) {
-            Map<String,Object> map = new HashMap<>();
-            map.put("qb_idx",String.valueOf(dto.getQb_idx()));
-            map.put("nickName",qboardService.selectNickNameOfQb_idx(dto.getQb_idx()));
+        for (QboardDto dto : list) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("qb_idx", String.valueOf(dto.getQb_idx()));
+            map.put("nickName", qboardService.selectNickNameOfQb_idx(dto.getQb_idx()));
             map.put("commentCnt", qboardService.countComment(dto.getQb_idx()));
 
-            String m_photo = qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
-            if(m_photo!="no"){
-                map.put("m_photo", m_photo);
+            String photo = qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
+
+            if (photo.equals("no")) {
+                photo = "/photo/profile.jpg";
             } else {
-                map.put("m_photo", "/photo/profile.jpg");
+                photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/" + qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
             }
-            map.put("qb_subject",dto.getQb_subject());
-            map.put("qb_content",dto.getQb_content());
-            map.put("qb_like",dto.getQb_like());
-            map.put("qb_dislike",dto.getQb_dislike());
-            map.put("qb_readcount",dto.getQb_readcount());
+            map.put("photo", photo);
+
+            map.put("qb_subject", dto.getQb_subject());
+            map.put("qb_content", dto.getQb_content());
+            map.put("qb_like", dto.getQb_like());
+            map.put("qb_dislike", dto.getQb_dislike());
+            map.put("qb_readcount", dto.getQb_readcount());
             map.put("qb_writeday", dto.getQb_writeday());
 
 
             // 사진이 들어있으면
-            if(dto.getQb_photo()!="no"){
+            if (dto.getQb_photo() != "no") {
                 // 사진이 두장이상이면
-                if(dto.getQb_photo().contains(",")){
+                if (dto.getQb_photo().contains(",")) {
                     int index = dto.getQb_photo().indexOf(",");
                     String result = dto.getQb_photo().substring(0, index);
                     map.put("qb_photo", result);
@@ -507,7 +516,7 @@ public class QboardController {
         model.addAttribute("endPage", endPage);
         model.addAttribute("totalPage", totalPage);
         model.addAttribute("no", no);
-        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("currentPage", currentpage);
         model.addAttribute("keyword", keyword);
 
 
@@ -517,15 +526,16 @@ public class QboardController {
         List<NoticeBoardDto> nblist = noticeBoardService.getTopThree();
 
         model.addAttribute("nblist", nblist);
-        model.addAttribute("NoticeBoardTotalCount",NoticeBoardTotalCount);
+        model.addAttribute("NoticeBoardTotalCount", NoticeBoardTotalCount);
 
 
         return "/main/qboard/qboardsearchlist";
     }
+
     @GetMapping("/other_profile")
-    public String message(String other_nick){
+    public String message(String other_nick) {
         String encodedNick = URLEncoder.encode(other_nick, StandardCharsets.UTF_8);
-        return "redirect:/message/other_profile?other_nick="+encodedNick;
+        return "redirect:/message/other_profile?other_nick=" + encodedNick;
     }
 
     public String timeForToday(Timestamp value) {
@@ -557,9 +567,68 @@ public class QboardController {
         return formattedDate;
     }
 
+    // 무한스크롤
+    @GetMapping("/searchlistajax")
+    @ResponseBody
+    public List<Map<String,Object>> searchlistajax(int currentpage,@RequestParam(defaultValue = "") String keyword,
+                                                   @RequestParam(defaultValue = "all") String searchOption) {
+
+        int perPage = 20; // 한 페이지당 보여줄 글 갯수
+        int startNum; // 각 페이지에서 보여질 글의 시작번호
+        int no; // 글 출력시 출력할 시작번호
+
+        // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
+        startNum = (currentpage - 1) * perPage;
+
+        // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
+        // no = totalCount - (currentPage - 1) * perPage;
+
+        // 각 페이지에 필요한 게시글 db에서 가져오기
+        List<QboardDto> list = qboardService.searchlist(searchOption, keyword, startNum, perPage);
+
+        List<Map<String, Object>> fulllList = new ArrayList<>();
+
+        for (QboardDto dto : list) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("qb_idx", String.valueOf(dto.getQb_idx()));
+            map.put("nickName", qboardService.selectNickNameOfQb_idx(dto.getQb_idx()));
+            map.put("commentCnt", qboardService.countComment(dto.getQb_idx()));
+
+            String photo = qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
+
+            if (photo.equals("no")) {
+                photo = "/photo/profile.jpg";
+            } else {
+                photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/" + qboardService.selectPhotoOfQb_idx(dto.getQb_idx());
+            }
+            map.put("photo", photo);
+            map.put("qb_subject", dto.getQb_subject());
+            map.put("qb_content", dto.getQb_content());
+            map.put("qb_like", dto.getQb_like());
+            map.put("qb_dislike", dto.getQb_dislike());
+            map.put("qb_readcount", dto.getQb_readcount());
+            map.put("qb_writeday", timeForToday(dto.getQb_writeday()));
+            map.put("currentpage", currentpage);
 
 
+            // 사진이 들어있으면
+            if (dto.getQb_photo() != "no") {
+                // 사진이 두장이상이면
+                if (dto.getQb_photo().contains(",")) {
+                    int index = dto.getQb_photo().indexOf(",");
+                    String result = dto.getQb_photo().substring(0, index);
+                    map.put("qb_photo", result);
+                } else { //사진이 한장이면
+                    map.put("qb_photo", dto.getQb_photo());
+                }
+            }
 
+
+            fulllList.add(map);
+        }
+
+        return fulllList;
+    }
 
 
 

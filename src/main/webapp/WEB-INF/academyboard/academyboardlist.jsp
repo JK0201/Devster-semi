@@ -1,470 +1,592 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: hyunohsmacbook
-  Date: 2023/05/12
-  Time: 1:52 AM
-  To change this template use File | Settings | File Templates.
---%>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="../commonvar.jsp" %>
-<html>
-<head>
-    <style>
-        .academyboard_table{
-            font-family: 'Gowun Batang';
-            margin-left: 30px;
-            margin-top: 30px;
-            width: 100%;
-        }
-        #dtocontainer{
-            font-family: 'Gowun Batang';
-            width: 100%;
-        }
-        caption *{
-            font-family: 'Hahmlet';
-        }
 
-        #idxbox{
-            font-size: 13px;
-            color: gray;
-        }
-        #subjectbox{
-            font-size: 18px;
-            font-weight: bold;
-        }
+<style>
+    .headbox .boardname_aca {
+        color: black;
+        font-weight: bold;
+        display: inline-block;
+        width: 900px;
+    }
 
 
-        #namebox{
-            font-size: 13px;
-            font-weight: bold;
-        }
-        img{
-            width: 100px;
-        }
+    /* 서치바 */
+    .searchdiv_aca{
+        /*position: absolute;*/
+        position: relative;
+        display: inline-block;
+        float: right;
 
-        #writedaybox{
-            font-size: 14px;
-            color: gray;
-            float: right;
-        }
-        #etcbox{
-            font-size: 14px;
-            color: gray;
-        }
+    }
+    .searchdiv_aca #searchOption{
+        position: absolute;
+        /* right: 5px;*/ /* 아이콘과 입력란 사이의 공간을 조절합니다. */
+        top: 24px;
+        left: 24px;
+        right: 10px;
+        transform: translateY(-50%); /* 아이콘을 입력란의 정중앙에 배치합니다. */
+        /*pointer-events: none;*/ /* 입력란 위에서 클릭이나 기타 동작이 가능하게 합니다. */
+        font-size: 12px;
+        width: 110px;
+        z-index: 100;
+        /*border-color: #222;*/
+        height: 30px;
+    }
 
+    .searchdiv_aca #searchinput{
+        z-index: 1;
+        position: relative;
+    }
 
-
-        .memberimg{
-            width: 23px;
-            height: 23px;
-            border-radius: 100px;
-        }
-
-    </style>
-
-    <script>
-        //몇시간전글인지
-        function timeForToday(value) {
-            const valueConv = value.slice(0, -2);
-            const today = new Date();
-            const timeValue = new Date(valueConv);
-
-            const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
-            if (betweenTime < 1) return '방금전';
-            if (betweenTime < 60) {
-                return `\${betweenTime}분전`;
-            }
-
-            const betweenTimeHour = Math.floor(betweenTime / 60);
-            if (betweenTimeHour < 24) {
-                return `\${betweenTimeHour}시간전`;
-            }
-
-            const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
-            if (betweenTimeDay < 7) {
-                return `\${betweenTimeDay}일전`;
-            }
-
-            const month = String(timeValue.getMonth() + 1).padStart(2, '0');
-            const day = String(timeValue.getDate()).padStart(2, '0');
-            const formattedDate = `\${month}-\${day}`;
-
-            return `\${formattedDate}`;
-        }
-
-        // 퀵메뉴
-        $(document).ready(function () {
-            var currentPosition = parseInt($(".quickmenu").css("top"));
-            $(window).scroll(function () {
-                var position = $(window).scrollTop();
-                $(".quickmenu").stop().animate({"top": position + currentPosition + "px"}, 1000);
-            });
-
-            // 스크롤
-            var currentpage = 1;
-            var isLoading = false;
-            var noMoreData = false;
-
-            $(window).scroll(function () {
-                if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-                    if (!isLoading && !noMoreData) {
-                        isLoading = true;
-                        var nextPage = currentpage + 1;
-
-                        $.ajax({
-                            type: "GET",
-                            url: "./listajax",
-                            data: {currentPage: nextPage},
-                            beforeSend: function () {
-                                $("#loading").show();
-                            },
-                            complete: function () {
-                                isLoading = false;
-                            },
-                            success: function (res) {
-                                if (res.list.length == 0) {
-                                    noMoreData = true;
-                                    $("#loading").hide();
-                                } else {
-                                    setTimeout(function () {
-                                        currentpage++;
-                                        var s = '';
-                                        $.each(res.list, function (idx, ele) {
-                                            var writedayElement = document.getElementById("writeday-${ele.ab_idx}");
-                                            var formattedWriteday = timeForToday("${ele.ab_writeday}");
-                                            writedayElement.textContent = formattedWriteday;
-
-
-
-                                        }) //foreach
-                                        $(".listbox").append(s);
-                                        $("#loading").hide();
-                                    }, 1000);  // 1초 후에 실행
-
-                                }
-                            },
-                            error: function (xhr, status, error) {
-                                console.log("Error:", error);
-                                $("#loading").hide();
-                            }
-                        });
-                    }
-                }
-            });
-
-        });
-
-
-    </script>
-</head>
-<body>
-
-<!--=============================================================================-->
-<!-- 검색창 -->
-<div class="searchdiv">
-    <input id="searchinput" name="keyword" type="search" placeholder="관심있는 내용을 검색해보세요!" autocomplete="off"
-           class="searchbar">
-    <i class="bi bi-search"></i>
-
-    <select id="searchOption">
-        <option id="all" value="all">전체검색</option>
-        <option id="searchnickname" value="m_nickname">작성자 검색</option>
-        <option id="searchsubject" value="ab_subject">제목 검색</option>
-    </select>
-</div>
+</style>
 <script>
+    // 검색 여부 전역변수
+    var isSearch = false;
 
-    $("#searchinput").keydown(function (e) {
+    //몇시간전글인지
+    function timeForToday(value) {
+        const valueConv = value.slice(0, -2);
+        const today = new Date();
+        const timeValue = new Date(valueConv);
 
-        // 일단은 엔터 눌러야 검색되는걸로 -> 나중에 뭐 클릭해도 검색되게 바꿔도될듯?
-        if (e.keyCode == 13) {
-            // 검색내용
-            var keyword = $(this).val();
-            var searchOption = $("#searchOption").val();
-            console.log(keyword);
-            console.log(searchOption);
-
-            // null 값 검색시 -> 아무일도 안일어남
-            if (keyword == '') {
-                alert("검색하실 내용을 입력해주세요.")
-                return
-            } else {
-                //alert("검색결과출력.");
-
-                $.ajax({
-                    type: "post",
-                    url: "./academyboardsearchlist",
-                    data: {"keyword": keyword, "searchOption": searchOption},
-                    dataType: "json",
-                    success: function (res) {
-                        let s = '';
-
-                        $.each(res, function (idx, ele) {
-
-                            s += `번호 : \${ele.ab_idx}<br>`;
-                            s += `제목 : \${ele.ab_subject}<br>`;
-                            s += `작성자 : \${ele.m_nickname}<br>`;
-
-                            s += `내용 : \${ele.ab_content}<br>`;
-                            s += `검색한내용 : \${ele.keyword}<br>`;
-                            s += `검색 카테고리 : \${ele.searchOption}<br>`;
-                            s += `작성일 : \${ele.ab_writeday}<br>`;
-                            s += `댓글수 : \${ele.commentCnt}<br>`;
-                            s += `조회 : \${ele.ab_readcount}<br>`;
-                            s += `좋아요 : \${ele.ab_like}<br>`;
-                            s += `싫어요 : \${ele.ab_dislike}<br>`;
-                            s += `사진 : <hr>`;
-
-                        })
-                        $(".roop").html(s);
-                    },
-                    error: function (xhr, status, error) {
-                        // 요청이 실패했을 때의 처리 로직
-                        console.log("Error:", error);
-                    }
-                });
-            }
+        const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+        if (betweenTime < 1) return '방금전';
+        if (betweenTime < 60) {
+            return `\${betweenTime}분전`;
         }
-    });
 
+        const betweenTimeHour = Math.floor(betweenTime / 60);
+        if (betweenTimeHour < 24) {
+            return `\${betweenTimeHour}시간전`;
+        }
+
+        const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+        if (betweenTimeDay < 7) {
+            return `\${betweenTimeDay}일전`;
+        }
+
+        const month = String(timeValue.getMonth() + 1).padStart(2, '0');
+        const day = String(timeValue.getDate()).padStart(2, '0');
+        const formattedDate = `\${month}-\${day}`;
+
+        return `\${formattedDate}`;
+    }
+
+    $(document).ready(function () {
+        var currentpage = 1;
+        var isLoading = false;
+        var noMoreData = false;
+
+        $(window).scroll(function () {
+            // 무한스크롤
+            if ((Math.floor($(window).scrollTop()) == $(document).height() - $(window).height())) {
+                if (!isLoading && !noMoreData && !isSearch) {
+                    isLoading = true;
+                    var nextPage = currentpage + 1;
+
+                    $.ajax({
+                        type: "GET",
+                        url: "./listajax",
+                        data: {currentPage: nextPage, "ai_idx": ${ai_idx}},
+                        beforeSend: function () {
+                            $("#loading").show();
+                        },
+                        complete: function () {
+                            isLoading = false;
+                        },
+                        success: function (res) {
+                            if (res.length == 0) {
+                                noMoreData = true;
+                                $("#loading").hide();
+                            } else {
+                                setTimeout(function () {
+                                    currentpage++;
+                                    var s = '';
+                                    $.each(res, function (idx, dto) {
+                                        if (dto.ab_dislike > 19) {
+                                            s += '<div class="blurbox"';
+                                        } else {
+                                            s += '<div class="box"';
+                                        }
+
+                                        if (idx % 2 == 1) {
+                                            s += ' style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">';
+                                        } else {
+                                            s += '>';
+                                        }
+
+                                        s += `<span class="ab_writeday">\${dto.ab_writeday}</span>`
+
+                                        s += `<span class="ab_readcount" style="margin-left: 5px"><div class="icon_read"></div>\${dto.ab_readcount}</span><br><br>`;
+                                        s += `<span class="nickName" style="cursor:pointer;" onclick=message("\${dto.nickName}")><img src="\${dto.m_photo}" class="memberimg">&nbsp;\${dto.nickName}</span>`;
+
+                                        s += '<div class="mainbox">';
+
+                                        s += `<h3 class="ab_subject"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}"><b>\${dto.ab_subject}</b></a></h3>`;
+
+                                        if (dto.ab_photo == 'n') {
+                                            s += `<h5 class="ab_content" style="width: 90%"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}" style="color: #000;"><span>\${dto.ab_content.substring(0, 120)}</span></a>`;
+                                            if (dto.ab_content.length >= 120) {
+                                                s += '.....';
+                                            }
+                                            s += '</h5>';
+                                        }
+
+                                        if (dto.ab_photo != 'n') {
+                                            s += `<h5 class="ab_content" style="width: 80%;"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}" style="color: #000;"><span class="photocontent">\${dto.ab_content.substring(0, 80)}</span></a>`;
+                                            if (dto.ab_content.length >= 80) {
+                                                s += '.....';
+                                            }
+                                            s += '</h5>';
+
+                                            s += `<div style="position:relative; right:0; top: -80px;"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}"><span class="ab_photo"><img src="http://${imageUrl}/academyboard/\${dto.ab_photo.split(",")[0]}" id="ab_photo"></span></a></div>`;
+                                        }
+
+                                        s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.ab_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.ab_dislike}</div>`;
+                                        s += `<div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;\${dto.commentCnt}</div></div></div></div>`;
+                                    })
+
+                                    $(".listbox").append(s);
+                                    $("#loading").hide();
+                                }, 1000);  // 1초 후에 실행
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.log("Error:", error);
+                            $("#loading").hide();
+                        }
+                    });
+                }
+            }
+        });
+    });
 </script>
 
+<!--=============================================================================-->
 
-<div class="ab_wrap clear">
-<%--    <button class="btn btn-secondary btn-sm" type="button" style="float: right;" onclick="location.href='./academywriteform'">글쓰기</button>--%>
-<%--    <h2><b><i class="bi bi-chat-square-quote-fill"></i>&nbsp;${sessionScope.memacademy}&nbsp;게시판</b></h2><br>--%>
+<div class="ab_wrap">
+    <!--===============================Headbox==============================================-->
 
     <div class="headbox">
-        <h4 style="color: black; font-weight: bold;"><i class="bi bi-chat-square-quote-fill"></i>&nbsp;${sessionScope.memacademy}게시판
-            <button class="btn btn-secondary" type="button"
-                    style="float: right; margin-right: 150px; "
-                    onclick="location.href='./academywriteform'"><i class="bi bi-pen"></i>&nbsp;글쓰기
-            </button>
+        <h4 class="boardname_aca">
+            <div class="yellowbar">&nbsp;</div>&nbsp;&nbsp;${sessionScope.memacademy}게시판
         </h4>
-<%--        <b>총 ${totalCount}개의 게시글</b><br>--%>
+
+        <!-- 검색창 -->
+        <div class="searchdiv_aca">
+            <select id="searchOption" class="form-select">
+                <option id="all" value="all">전체검색</option>
+                <option id="searchnickname" value="m_nickname">작성자 검색</option>
+                <option id="searchsubject" value="fb_subject">제목 검색</option>
+            </select>
+            <input id="searchinput" name="keyword" type="search" placeholder="관심있는 내용을 검색해보세요!" autocomplete="off"
+                   class="searchbar">
+        </div>
     </div>
-    <br><br>
 
-    <div class="listbox">
-        <c:forEach var="dto" items="${list}" varStatus="i">
-            <c:if test="${dto.ai_idx==sessionScope.acaidx}">
-            <div class="box" <c:if test="${i.index % 2 == 1}">style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;"</c:if>
-                 <c:if test="${dto.ab_dislike>19}">style="filter:blur(2px);"</c:if>>
+    <!--=============================================================================-->
 
-<%--                <span class="ab_writeday" id="writeday-${dto.ab_idx}"><fmt:formatDate value="${dto.ab_writeday}" pattern="MM/dd"/></span>--%>
-        <span class="ab_writeday" id="writeday-${dto.ab_idx}"></span>
-        <script>
-            var writedayElement = document.getElementById("writeday-${dto.ab_idx}");
-            var formattedWriteday = timeForToday("${dto.ab_writeday}");
-            writedayElement.textContent = formattedWriteday;
-        </script>
+    <!--=============================================================================-->
 
-        <span class="ab_readcount"><div class="icon_read"></div> ${dto.ab_readcount}</span><br><br>
-        <span class="nickName"><img src="http://${imageUrl}/member/${dto.m_photo}"
-                                class="memberimg">&nbsp;${dto.nickName}</span>
-
-                <span class="ab_photo">
-                    <a href="academyboarddetail?ab_idx=${dto.ab_idx}&currentPage=${currentPage}">
-                        <img src="http://${imageUrl}/academyboard/${dto.ab_photo.split(",")[0]}" id="photo">
-                    </a>
-                </span>
-                    <h3 class="ab_subject">
-                        <a href="academyboarddetail?ab_idx=${dto.ab_idx}&currentPage=${currentPage}"><b>${dto.ab_subject}</b></a>
-                        <br><br><div class="ar_tag">
-                            <div class="ar_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;${dto.ab_like}&nbsp;&nbsp;<i
-                                    class="bi bi-hand-thumbs-down"></i>&nbsp;${dto.ab_dislike}</div>
-                            <div class="ar_tag_2"><i class="bi bi-chat"></i>&nbsp;${dto.commentCnt}</div>
-                        </div>
-                    </h3>
+    <div class="noticeboard_part">
+        <ul class="clear noticelist">
+            <c:if test="${NoticeBoardTotalCount>0}">
+                <c:forEach var="dto" items="${nblist}">
 
 
-            </div>
+                    <li>
+                        <b class="noticetitle">Devster 공지사항</b>
+                        <a href="../noticeboard/noticeboarddetail?nb_idx=${dto.nb_idx}&currentPage=${currentPage}">
+                                ${dto.nb_subject}
+                            <c:if test="${dto.nb_photo!='n'}">
+                                &nbsp; <i class="bi bi-images"></i>
+                            </c:if>
+                        </a>
+                    </li>
+                </c:forEach>
             </c:if>
-        </c:forEach>
+        </ul>
     </div>
 
+    <!--=============================================================================-->
 
-<%--    <table class="academyboard_table table table-bordered">--%>
-<%--        <caption align="top"><h2> ${sessionScope.memacademy}게시판--%>
-<%--            <button class="btn btn-secondary btn-sm" type="button" style="float: right;" onclick="location.href='./academywriteform'">글쓰기</button>--%>
-<%--        </h2>--%>
-<%--        </caption>--%>
+    <script>
 
-<%--&lt;%&ndash;        <tr>&ndash;%&gt;--%>
-<%--&lt;%&ndash;            <td class="alert alert-outline-secondary">총 ${totalCount}개의 게시글&ndash;%&gt;--%>
-<%--&lt;%&ndash;            </td>&ndash;%&gt;--%>
-<%--&lt;%&ndash;        </tr>&ndash;%&gt;--%>
-<%--        <tr>--%>
+        $("#searchinput").keydown(function (e) {
 
-<%--&lt;%&ndash;        <c:if test="${totalCount==0}">&ndash;%&gt;--%>
-<%--&lt;%&ndash;            <h2 class="alert alert-outline-secondary">등록된 게시글이 없습니다..</h2>&ndash;%&gt;--%>
-<%--&lt;%&ndash;        </c:if>&ndash;%&gt;--%>
-<%--        <c:if test="${totalCount>0}">--%>
-<%--            <c:forEach var="dto" items="${list}" varStatus="i">--%>
-<%--            <c:if test="${dto.ai_idx==sessionScope.acaidx}">--%>
-<%--            <td>--%>
-<%--                <table id="dtocontainer">--%>
-<%--                    <tr>--%>
-<%--                        <td id="idxbox">no. ${dto.ab_idx}</td>--%>
-<%--                    </tr>--%>
-<%--                    <tr>--%>
-<%--                        <td id="subjectbox">--%>
-<%--                            <a href="academyboarddetail?ab_idx=${dto.ab_idx}&currentPage=${currentPage}" style="color: #000;">${dto.ab_subject}</a></td>--%>
-<%--                    </tr>--%>
+            // 일단은 엔터 눌러야 검색되는걸로 -> 나중에 뭐 클릭해도 검색되게 바꿔도될듯?
+            if (e.keyCode == 13) {
+                isSearch = true;
+                // 검색내용
+                var keyword = $(this).val();
+                var searchOption = $("#searchOption").val();
 
-<%--                    <c:if test="${dto.ab_photo=='n'}">--%>
-<%--                        &nbsp;<tr style="height: 130px;">--%>
-<%--                        <td style="width: 100%">--%>
-<%--                            <a href="academyboarddetail?ab_idx=${dto.ab_idx}&currentPage=${currentPage}" style="color: #000;">--%>
-<%--                                <span >--%>
+                var currentpage = 1;
+                var isLoading = false;
+                var noMoreData = false;
 
-<%--                                    <c:set var="length" value="${fn:length(dto.ab_content)}"/>--%>
-<%--                                    ${fn:substring(dto.ab_content, 0, 130)}--%>
+                // null 값 검색시 -> 아무일도 안일어남
+                if (keyword == '') {
+                    alert("검색하실 내용을 입력해주세요.")
+                    return
+                } else {
+                    //alert("검색결과출력.");
+                    // 기본출력
+                    $.ajax({
+                        type: "post",
+                        url: "./academyboardsearchlist",
+                        data: {"keyword": keyword, "searchOption": searchOption, "currentpage":currentpage},
+                        dataType: "json",
+                        beforeSend: function () {
+                            $("#loading").show();
+                        },
+                        complete: function () {
+                            isLoading = false;
+                        },
+                        success: function (res) {
 
-<%--                                    <c:if test="${length>=130}">--%>
-<%--                                        .....--%>
-<%--                                    </c:if>--%>
+                            if (res.length == 0) {
+                                alert("검색 결과가 없습니다.");
+                                noMoreData = true;
+                                $("#loading").hide();
+                            } else {
+                                setTimeout(function () {
+                                    currentpage++;
+                                    var s = '';
+                                    $.each(res, function (idx, dto) {
+                                        if (dto.ab_dislike > 19) {
+                                            s += '<div class="blurbox"';
+                                        } else {
+                                            s += '<div class="box"';
+                                        }
 
-<%--                                   </span></a>--%>
+                                        if (idx % 2 == 1) {
+                                            s += ' style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">';
+                                        } else {
+                                            s += '>';
+                                        }
 
-<%--                        </td></tr>--%>
-<%--                    </c:if>--%>
-<%--                    <c:if test="${dto.ab_photo!='n'}">--%>
-<%--                        &nbsp;<tr style="height: 130px;">--%>
-<%--                        <td style="width: 80%">--%>
-<%--                            <a href="academyboarddetail?ab_idx=${dto.ab_idx}&currentPage=${currentPage}" style="color: #000;">--%>
-<%--                                    <span>--%>
+                                        s += `<span class="ab_writeday">\${dto.ab_writeday}</span>`
 
-<%--                                    <c:set var="length" value="${fn:length(dto.ab_content)}"/>--%>
-<%--                                    ${fn:substring(dto.ab_content, 0, 90)}--%>
+                                        s += `<span class="ab_readcount" style="margin-left: 5px"><div class="icon_read"></div>\${dto.ab_readcount}</span><br><br>`;
+                                        s += `<span class="nickName" style="cursor:pointer;" onclick=message("\${dto.nickName}")><img src="\${dto.m_photo}" class="memberimg">&nbsp;\${dto.nickName}</span>`;
 
-<%--                                    <c:if test="${length>=90}">--%>
-<%--                                        .....--%>
-<%--                                    </c:if>--%>
+                                        s += '<div class="mainbox">';
 
-<%--                                   </span></a>--%>
-<%--                        </td>--%>
+                                        s += `<h3 class="ab_subject"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}"><b>\${dto.ab_subject}</b></a></h3>`;
 
-<%--                        <td style="width: 20%">--%>
-<%--                                <span id="imgbox">--%>
+                                        if (dto.ab_photo == 'n') {
+                                            s += `<h5 class="ab_content" style="width: 90%"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}" style="color: #000;"><span>\${dto.ab_content.substring(0, 120)}</span></a>`;
+                                            if (dto.ab_content.length >= 120) {
+                                                s += '.....';
+                                            }
+                                            s += '</h5>';
+                                        }
 
-<%--                                        <img src="http://${imageUrl}/academyboard/${dto.ab_photo}" style="width: 70%; border: 1px solid lightgray; margin-right: 5px;">--%>
+                                        if (dto.ab_photo != 'n') {
+                                            s += `<h5 class="ab_content" style="width: 80%;"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}" style="color: #000;"><span class="photocontent">\${dto.ab_content.substring(0, 80)}</span></a>`;
+                                            if (dto.ab_content.length >= 80) {
+                                                s += '.....';
+                                            }
+                                            s += '</h5>';
 
+                                            s += `<div style="position:relative; right:0; top: -80px;"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}"><span class="ab_photo"><img src="http://${imageUrl}/academyboard/\${dto.ab_photo.split(",")[0]}" id="ab_photo"></span></a></div>`;
+                                        }
 
-<%--                                </span>--%>
-<%--                        </td>--%>
-<%--                        </tr>--%>
-<%--                    </c:if>--%>
+                                        s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.ab_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.ab_dislike}</div>`;
+                                        s += `<div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;\${dto.commentCnt}</div></div></div></div>`;
+                                    })
+                                    s += ``;
 
-<%--                    <tr>--%>
-<%--                        <td id="namebox">--%>
-<%--                            <img src="http://${imageUrl}/member/${dto.m_photo}" class="memberimg">&nbsp; ${dto.nickName}--%>
-<%--                        </td>--%>
-<%--                    </tr>--%>
-<%--                    <tr>--%>
-<%--                        <td>--%>
-<%--                            <b id="etcbox">--%>
-<%--                                <i class="bi bi-eye"></i>&nbsp;조회&nbsp;${dto.ab_readcount}&nbsp;--%>
-<%--                                <i class="bi bi-hand-thumbs-up"></i>&nbsp;좋아요&nbsp;${dto.ab_like}&nbsp;&nbsp;--%>
-<%--                                <i class="bi bi-hand-thumbs-down"></i>&nbsp;싫어요&nbsp;${dto.ab_dislike}&nbsp;--%>
-<%--&lt;%&ndash;                                <i class="bi bi-chat-right"></i>&nbsp;댓글&nbsp;${dto.commentCnt}&ndash;%&gt;--%>
-<%--                            </b>--%>
+                                    $(".listbox").html(s);
+                                    $("#loading").hide();
 
-<%--                            <p id="writedaybox">--%>
-<%--                                <span id="writeday-${dto.ab_idx}"></span>--%>
-<%--                            </p>--%>
-<%--                            <script>--%>
-<%--                                var writedayElement = document.getElementById("writeday-${dto.ab_idx}");--%>
-<%--                                var formattedWriteday = timeForToday("${dto.ab_writeday}");--%>
-<%--                                writedayElement.textContent = formattedWriteday;--%>
-<%--                            </script>--%>
+                                }, 1000);  // 1초 후에 실행
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            // 요청이 실패했을 때의 처리 로직
+                            console.log("Error:", error);
+                        }
+                    });
 
-<%--                        </td>--%>
-<%--                    </tr>--%>
-<%--                </table>--%>
-<%--            </td>--%>
+                    // 추가리스트 출력 (스크롤)
+                    $(window).scroll(function () {
 
-<%--            <c:if test="${i.index % 1 == 0}"></tr><tr></c:if>--%>
-<%--        </c:if>--%>
+                        if (Math.floor($(window).scrollTop()) == $(document).height() - $(window).height()) {
 
-<%--        </c:forEach>--%>
-<%--        </c:if>--%>
-<%--    </tr>--%>
+                            if (!isLoading && !noMoreData) {
+                                isLoading = true;
+                                let nextPage = currentpage;
+                                $.ajax({
+                                    type: "post",
+                                    url: "./academyboardsearchlist",
+                                    data: {"keyword": keyword, "searchOption": searchOption, "currentpage": nextPage},
+                                    dataType: "json",
+                                    beforeSend: function () {
+                                        $("#loading").show();
+                                    },
+                                    complete: function () {
+                                        isLoading = false;
+                                    },
+                                    success: function (res) {
+                                        console.log(currentpage);
+                                        console.log(noMoreData);
+                                        console.log(res.length);
+                                        if (res.searchCount == 0) {
+                                            noMoreData = true;
+                                            $("#loading").hide();
+                                        } else {
+                                            if (res.length == 0) {
+                                                noMoreData = true;
+                                                $("#loading").hide();
+                                            } else {
+                                                setTimeout(function () {
+                                                    currentpage++;
+                                                    var s = '';
 
+                                                    $.each(res, function (idx, dto) {
+                                                        if (dto.ab_dislike > 19) {
+                                                            s += '<div class="blurbox"';
+                                                        } else {
+                                                            s += '<div class="box"';
+                                                        }
 
+                                                        if (idx % 2 == 1) {
+                                                            s += ' style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">';
+                                                        } else {
+                                                            s += '>';
+                                                        }
 
+                                                        s += `<span class="ab_writeday">\${dto.ab_writeday}</span>`
 
+                                                        s += `<span class="ab_readcount" style="margin-left: 5px"><div class="icon_read"></div>\${dto.ab_readcount}</span><br><br>`;
+                                                        s += `<span class="nickName" style="cursor:pointer;" onclick=message("\${dto.nickName}")><img src="\${dto.m_photo}" class="memberimg">&nbsp;\${dto.nickName}</span>`;
 
-<%--    </table>--%>
+                                                        s += '<div class="mainbox">';
 
+                                                        s += `<h3 class="ab_subject"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}"><b>\${dto.ab_subject}</b></a></h3>`;
 
-<%--    <!-- 페이징 처리 -->--%>
-<%--    <div style="width:700px; text-align: center; font-size: 20px; background-color: rgba(255, 255, 255, 0.6)">--%>
-<%--        <!-- 이전 -->--%>
-<%--        <c:if test="${startPage>1}">--%>
-<%--            <a style="font-size:17px; font-weight: bold; color: black; text-decoration: none; cursor: pointer;" href="list?currentPage=${startPage-1 }">&nbsp;이전&nbsp;</a>--%>
-<%--        </c:if>--%>
+                                                        if (dto.ab_photo == 'n') {
+                                                            s += `<h5 class="ab_content" style="width: 90%"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}" style="color: #000;"><span>\${dto.ab_content.substring(0, 120)}</span></a>`;
+                                                            if (dto.ab_content.length >= 120) {
+                                                                s += '.....';
+                                                            }
+                                                            s += '</h5>';
+                                                        }
 
-<%--        <!-- 페이지번호출력 -->--%>
-<%--        <c:forEach var="pp" begin="${startPage }" end="${endPage }">--%>
+                                                        if (dto.ab_photo != 'n') {
+                                                            s += `<h5 class="ab_content" style="width: 80%;"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}" style="color: #000;"><span class="photocontent">\${dto.ab_content.substring(0, 80)}</span></a>`;
+                                                            if (dto.ab_content.length >= 80) {
+                                                                s += '.....';
+                                                            }
+                                                            s += '</h5>';
 
-<%--            <c:if test="${currentPage == pp }">--%>
-<%--                <a style="color: #3366CC; text-decoration: none; cursor: pointer; font-weight: bold;" href="list?currentPage=${pp }">&nbsp;${pp}&nbsp;</a>--%>
-<%--            </c:if>--%>
-<%--            <c:if test="${currentPage != pp }">--%>
-<%--                <a style="color: black; text-decoration: none; cursor: pointer; font-weight: bold;" href="list?currentPage=${pp }">&nbsp;${pp}&nbsp;</a>--%>
-<%--            </c:if>--%>
+                                                            s += `<div style="position:relative; right:0; top: -80px;"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}"><span class="ab_photo"><img src="http://${imageUrl}/academyboard/\${dto.ab_photo.split(",")[0]}" id="ab_photo"></span></a></div>`;
+                                                        }
 
-<%--        </c:forEach>--%>
+                                                        s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.ab_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.ab_dislike}</div>`;
+                                                        s += `<div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;\${dto.commentCnt}</div></div></div></div>`;
+                                                    })
+                                                    s += ``;
 
-<%--        <!-- 다음 -->--%>
-<%--        <c:if test="${endPage<totalPage}">--%>
-<%--            <a style="font-size:17px; font-weight: bold; color: black; text-decoration: none; cursor: pointer;" href="list?currentPage=${endPage+1 }">&nbsp;다음&nbsp;</a>--%>
-<%--        </c:if>--%>
-<%--    </div>--%>
+                                                    $(".listbox").append(s);
+                                                    $("#loading").hide();
 
+                                                }, 1000);  // 1초 후에 실행
+                                            }
+                                        }
+                                    },
+
+                                    error: function (xhr, status, error) {
+                                        // 요청이 실패했을 때의 처리 로직
+                                        console.log("Error:", error);
+                                    }
+                                });
+                            }
+                        }
+                    })
+                }
+            }
+        });
+
+    </script>
+
+    <!--=============================================================================-->
+
+    <!--=============================================================================-->
+    <!-- listbox -->
+    <div class="listbox">
+        <c:if test="${totalCount==0}">
+        <h2 class="alert alert-outline-secondary">${sessionScope.memacademy}게시판엔 등록된 게시글이 없습니다..</h2>
+        </c:if>
+
+        <c:if test="${totalCount>0}">
+        <c:forEach var="dto" items="${list}" varStatus="i">
+        <!-- blurbox-->
+        <c:if test="${dto.ab_dislike>19}">
+        <div class="blurbox"
+             <c:if test="${i.index % 2 == 1}">style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;"</c:if>>
+            <span class="ab_writeday" id="writeday-${dto.ab_idx}"></span>
+            <script>
+                var writedayElement = document.getElementById("writeday-${dto.ab_idx}");
+                var formattedWriteday = timeForToday("${dto.ab_writeday}");
+                writedayElement.textContent = formattedWriteday;
+            </script>
+            <span class="ab_readcount"><div class="icon_read"></div>
+                    ${dto.ab_readcount}</span><br><br>
+            <span class="nickName" style="cursor: pointer" onclick=message("${dto.nickName}")><img src="${dto.m_photo}"
+                                        class="memberimg">&nbsp;${dto.nickName}</span>
+
+            <div class="mainbox">
+                <h3 class="ab_subject">
+                    <a href="academyboarddetail?ab_idx=${dto.ab_idx}"><b>${dto.ab_subject}</b></a>
+                </h3>
+                <c:if test="${dto.ab_photo=='n'}">
+                    <h5 class="ab_content" style="width: 90%">
+                        <a href="academyboarddetail?ab_idx=${dto.ab_idx}"
+                           style="color: #000;">
+                                <span>
+                                    <c:set var="length" value="${fn:length(dto.ab_content)}"/>
+                                    ${fn:substring(dto.ab_content, 0, 120)}
+
+                                    <c:if test="${length>=120}">
+                                        .....
+                                    </c:if>
+                                </span></a>
+                    </h5>
+                </c:if>
+                <c:if test="${dto.ab_photo!='n'}">
+                    <h5 class="ab_content" style="width: 80%;">
+                        <a href="academyboarddetail?ab_idx=${dto.ab_idx}" style="color: #000;">
+                            <span class="photocontent">
+                                <c:set var="length" value="${fn:length(dto.ab_content)}"/>${fn:substring(dto.ab_content, 0, 80)}
+                                <c:if test="${length>=80}">
+                                    .....
+                                </c:if>
+                           </span>
+                        </a>
+                    </h5>
+                    <div style="position:relative; right:0; top: -80px;">
+                        <a href="academyboarddetail?ab_idx=${dto.ab_idx}">
+                            <span class="ab_photo">
+                                <img src="http://${imageUrl}/academyboard/${dto.ab_photo.split(",")[0]}" id="ab_photo">
+                            </span>
+                        </a>
+                    </div>
+                </c:if>
+                <div class="hr_tag">
+                    <div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;${dto.ab_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;${dto.ab_dislike}</div>
+                    <div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;${dto.commentCnt}</div>
+                </div>
+            </div>
+        </div>
+            </c:if>
+            <!-- box-->
+            <c:if test="${dto.ab_dislike<20}">
+                <div class="box"
+                     <c:if test="${i.index % 2 == 1}">style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;"</c:if>>
+                    <span class="ab_writeday" id="writeday-${dto.ab_idx}"></span>
+                    <script>
+                        var writedayElement = document.getElementById("writeday-${dto.ab_idx}");
+                        var formattedWriteday = timeForToday("${dto.ab_writeday}");
+                        writedayElement.textContent = formattedWriteday;
+                    </script>
+
+                    <span class="ab_readcount"><div class="icon_read"></div>
+                            ${dto.ab_readcount}</span><br><br>
+                    <span class="nickName" style="cursor:pointer;" onclick=message("${dto.nickName}")><img src="${dto.m_photo}"
+                                                class="memberimg">&nbsp;${dto.nickName}</span>
+
+                    <div class="mainbox">
+                        <h3 class="ab_subject">
+                            <a href="academyboarddetail?ab_idx=${dto.ab_idx}"><b>${dto.ab_subject}</b></a>
+                        </h3>
+                        <c:if test="${dto.ab_photo=='n'}">
+                            <h5 class="ab_content" style="width: 90%">
+                                <a href="academyboarddetail?ab_idx=${dto.ab_idx}"
+                                   style="color: #000;">
+                                <span>
+                                    <c:set var="length" value="${fn:length(dto.ab_content)}"/>
+                                    ${fn:substring(dto.ab_content, 0, 120)}
+
+                                    <c:if test="${length>=120}">
+                                        .....
+                                    </c:if>
+                                   </span></a>
+                            </h5>
+                        </c:if>
+                        <c:if test="${dto.ab_photo!='n'}">
+                            <h5 class="ab_content" style="width: 80%;">
+                                <a href="academyboarddetail?ab_idx=${dto.ab_idx}"
+                                   style="color: #000;">
+                                    <span class="photocontent">
+                                        <c:set var="length" value="${fn:length(dto.ab_content)}"/>
+                                        ${fn:substring(dto.ab_content, 0, 80)}
+                                        <c:if test="${length>=80}">
+                                            .....
+                                        </c:if>
+                                   </span>
+                                </a>
+                            </h5>
+                            <div style="position:relative; right:0; top: -80px;">
+                                <a href="academyboarddetail?ab_idx=${dto.ab_idx}">
+                                        <span class="ab_photo">
+                                            <img src="http://${imageUrl}/aboard/${dto.ab_photo.split(",")[0]}"
+                                                 id="ab_photo">
+                                        </span>
+                                </a>
+                            </div>
+                        </c:if>
+                        <div class="hr_tag">
+                            <div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;${dto.ab_like}&nbsp;&nbsp;<i
+                                    class="bi bi-hand-thumbs-down"></i>&nbsp;${dto.ab_dislike}</div>
+                            <div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;${dto.commentCnt}</div>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
+            </c:forEach>
+            </c:if>
+        </div>
+
+    <div id="loading"
+             style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999;">
+        <img src="${root}/photo/loading.gif" alt="Loading..."
+        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <!-- 로딩 이미지의 경로를 설정하세요 -->
+    </div>
 </div>
+
 <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
-
-<div id="loading"
-     style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999;">
-    <img src="${root}/photo/809.gif" alt="Loading..."
-         style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-    <!-- 로딩 이미지의 경로를 설정하세요 -->
-</div>
-<!--=============================================================================-->
-<%--quickmenu--%>
-<div class="quickmenu">
-    <ul>
-<%--        <li class="quickmenu_head"><p style="font-size: 30px">베스트 게시글</p></li>--%>
-    </ul>
-</div>
+<br>
+<button id="myWriteBtn" type="button" onclick="location.href='./academywriteform'">글쓰기</button>
 <script>
-    // When the user scrolls down 20px from the top of the document, show the button
-    window.onscroll = function () {
-        scrollFunction()
-    };
+            // When the user scrolls down 20px from the top of the document, show the button
+            window.onscroll = function () {
+                scrollFunction()
+            };
 
-    function scrollFunction() {
-        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-            document.getElementById("myBtn").style.display = "block";
-        } else {
-            document.getElementById("myBtn").style.display = "none";
-        }
-    }
+            function scrollFunction() {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    document.getElementById("myBtn").style.display = "block";
+                } else {
+                    document.getElementById("myBtn").style.display = "none";
+                }
+            }
 
+            // When the user clicks on the button, scroll to the top of the document
+            function topFunction() {
+                document.body.scrollTop = 0; // For Safari
+                document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+            }
 
-    // When the user clicks on the button, scroll to the top of the document
-    function topFunction() {
-        document.body.scrollTop = 0; // For Safari
-        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-    }
+            // 쪽지보내기 메서드.
+            function message(nickname) {
+                window.open("other_profile?other_nick=" + nickname, 'newwindow', 'width=700,height=700');
+            }
 
-</script>
-</body>
-</html>
+        </script>

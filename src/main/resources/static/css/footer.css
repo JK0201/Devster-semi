@@ -1,0 +1,70 @@
+@charset "utf-8";
+
+@import url(common.css);
+
+footer.footer{
+    width: 100%;
+    /*height: 200px;*/
+    border-top: 1px solid #d4d4d4;
+    text-align: left;
+    /*background-color: #000;*/
+    margin-top: 60px;
+}
+
+footer.footer .wrap{
+    /*border: 1px solid gray;*/
+    position: relative;
+    max-width: 1140px;
+    height: 125px;
+    margin: 0 auto;
+    padding-top: 24px;
+    padding-bottom: 20px;
+}
+
+footer.footer .wrap .info{
+    /*padding: 0 20px;*/
+}
+
+footer.footer .wrap .info a{
+    height: 35px;
+    width: auto;
+    padding: 0 10px 0 11px;
+    position: relative;
+    display: inline-block;
+  /*  width: 50%;*/
+    height: 28px;
+    /*padding: 0;*/
+    color: #94969b !important;
+    font-size: 14px;
+    line-height: 28px;
+}
+
+footer.footer .wrap .info a:first-child{
+    padding-left: 0;
+}
+
+footer.footer .wrap .info a:before {
+    content: '';
+    position: absolute;
+    top: calc(50% - 5px);
+    left: 0;
+    width: 1px;
+    height: 10px;
+    background: #d4d4d4;
+}
+
+footer.footer .wrap .info a:first-child:before{
+    display: none;
+}
+
+footer.footer .wrap .info .hire-report{
+    margin-top: 8px;
+    color: #bbc0c5;
+    font-size: 12px;
+}
+
+footer.footer .wrap .info .copy{
+    margin-top: 4px;
+    font-size: 14px;
+    color: #bbc0c5;
+}

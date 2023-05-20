@@ -771,6 +771,7 @@
 
 
 
+
 <%--무한스크롤--%>
 <script>
     $(document).ready(function () {
@@ -779,6 +780,7 @@
             var ci_idx = $(this).data('ci-idx');  // get the data attribute value
             showCompanyInfo(ci_idx);
         });
+
 
         var currentpage = 1;
         var isLoading = false;

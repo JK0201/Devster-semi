@@ -4,22 +4,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../commonvar.jsp" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
-    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap"
-          rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
-        body, body * {
-            font-family: 'Jua'
-        }
+
         .already-added {
             background-color: #0D3EA3;
             color: white;
@@ -29,6 +16,13 @@
     <script>
 <%--        버튼 상태 관련 이벤트  --%>
         $(document).ready(function() {
+
+            var currentPosition = parseInt($(".quickmenu").css("top"));
+            $(window).scroll(function () {
+                var position = $(window).scrollTop();
+                /*$(".quickmenu").stop().animate({"top": position + currentPosition + "px"}, 700);*/
+                $(".quickmenu").css("transform", "translateY(" + position + "px)");
+            });
             <!-- jsp 실행 이전의 리액션 여부 체크 및 버튼 색상 표현 -->
                 checkAddRpBefore();
                 answer();
@@ -141,114 +135,137 @@
     }
     </script>
 
-</head>
-<body>
-<div class="fullOutLine">
-    <div class="questionBox" style="border: 3px solid black; margin-top: 60px; margin-left: 100px; width: 600px">
-        <h1>
-            제목 : ${dto.qb_subject}
-        </h1>
-        <h6 style="color: #94969B">
-            조회 ${dto.qb_readcount}
-        </h6>
-        <br>
-        <h2 class="userInfo">
-            <img src="${profilePhoto}" style="width:50px; height: 50px; border:3px solid black; border-radius:100px;">
-            <p style="cursor:pointer;" onclick=message("${nickname}")>작성자 : ${nickname}</p>
-        </h2>
-        <br>
-        <h2>
-            작성일자 : ${dto.qb_writeday}
-        </h2>
-        <br>
-        <c:if test="${dto.qb_dislike > 19}">
-            <p class="blind" style="color: red; font-size: 30px; cursor: pointer">블라인드 처리된 게시글 입니다.</p>
-            <div class="content" hidden="hidden">
-                <h3>
-                    내용 : ${dto.qb_content}
-                </h3>
-                <br>
+<div class="qb_detail_wrap clear">
+    <div class="qb_detail_content">
+        <div class="article_view_head">
+            <a href="/">홈</a>
+            <a href="./list?currentPage=${currentPage}" class="qboard_link">질문게시판</a>
+            <h2>${dto.qb_subject}</h2>
+            <b style="font-size: 15px; cursor:pointer; color: black;" margin-bottom: 10px; onclick=message("${nickname}")>
+                <img src="${profilePhoto}" class="memberimg" width="50px">&nbsp;
+                ${nickname}
+            </b>
+
+            <div class="wrap_info clear">
+                <div class="icon_time"></div>
+                <span class="qb_writeday">${qb_writeday}</span>
+
+
+                <span>
+                    <div class="icon_read"></div>${dto.qb_readcount}
+                </span>
+                <span id="commentCnt">
+                    <div class="icon_comment"></div>${commentCnt}
+                </span>
+            </div>
+
+        </div>
+
+        <div class="article_view_content">
+            <c:if test="${dto.qb_dislike > 19}">
+                <p class="blind" style="color: red; font-size: 30px; cursor: pointer">블라인드 처리된 게시글 입니다.</p>
+                <div class="content" hidden="hidden">
+                    <div class="content_txt">
+                        <pre>${dto.qb_content}</pre>
+                    </div>
+                    <c:choose>
+                        <c:when test="${list[0] == 'n' || list[0] == 'no'}">
+                            <!-- 이미지가 없을 때는 아무것도 출력하지 않음 -->
+                        </c:when>
+                        <c:otherwise>
+                            <div class="qb_detail_img">
+                                <c:forEach items="${list}" var="images">
+                                    <img src="http://${imageUrl}/qboard/${images}" style="">
+                                </c:forEach>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </c:if>
+
+
+            <c:if test="${dto.qb_dislike < 20}">
+                <div class="content_txt">
+                    <pre>${dto.qb_content}</pre>
+                </div>
                 <c:choose>
                     <c:when test="${list[0] == 'n' || list[0] == 'no'}">
                         <!-- 이미지가 없을 때는 아무것도 출력하지 않음 -->
                     </c:when>
                     <c:otherwise>
-                        <c:forEach items="${list}" var="images">
-                            <img src="http://${imageUrl}/qboard/${images}" style="float: left; width: 300px">
-                        </c:forEach>
+                        <div class="qb_detail_img">
+                            <c:forEach items="${list}" var="images">
+                                <img src="http://${imageUrl}/qboard/${images}" style="">
+                            </c:forEach>
+                        </div>
                     </c:otherwise>
                 </c:choose>
-            </div>
-        </c:if>
-        <c:if test="${dto.qb_dislike < 20}">
-                <h3>
-                    내용 : ${dto.qb_content}
-                </h3>
-                <br>
-            <c:choose>
-                <c:when test="${list[0] == 'n' || list[0] == 'no'}">
-                    <!-- 이미지가 없을 때는 아무것도 출력하지 않음 -->
-                </c:when>
-                <c:otherwise>
-                    <c:forEach items="${list}" var="images">
-                        <img src="http://${imageUrl}/qboard/${images}" style="float: left; width: 300px">
-                    </c:forEach>
-                </c:otherwise>
-            </c:choose>
-        </c:if>
-        <br>
+            </c:if>
 
-        <div class="buttons" style="clear: both">
-            <c:if test="${dto.m_idx == sessionScope.memidx}">
-                <button class="btn btn-outline-dark" type="button"
-                        onclick="deletePost(${dto.qb_idx})">
-                    삭제
-                </button>
-                <button class="btn btn-outline-dark" type="button"
-                        onclick="location.href='updateform?qb_idx=${dto.qb_idx}&currentPage=${currentPage}'">
-                    수정
-                </button>
-            </c:if>
-            <c:if test="${sessionScope.memstate == 100}">
-                <button class="btn btn-outline-dark" type="button"
-                        onclick="deletePost(${dto.qb_idx})">
-                    삭제
-                </button>
-            </c:if>
-<%--            좋아요 / 싫어요 버튼--%>
-            <span id="add-goodRp-btn" class="btn btn-outline" >
-                  좋아요👍
-                  <span class="add-goodRp ml-2">${dto.qb_like}</span>
-                </span>
-            <span id="add-badRp-btn" class="ml-5 btn btn-outline">
-                  싫어요👎
-                  <span class="add-badRp ml-2">${dto.qb_dislike}</span>
-            </span>
-            <button class="btn btn-warning" type="button" onclick="location.href='./list?currentPage=${currentPage}'">
-                목록
-            </button>
-            <button class="btn btn-warning" type="button" onclick="location.href='./writeform'">
-                글쓰기
-            </button>
+            <div class="clear" style="margin-top: 40px;border-bottom: 1px solid #eee; padding-bottom: 40px;">
+                <%-- 좋아요 / 싫어요 버튼--%>
+                <div class="footbox">
+                    <span id="add-goodRp-btn" class="btn btn-outline" >
+                          <div class="icon_thumbup"></div>
+                          <span class="add-goodRp ml-2">좋아요</span>
+                        </span>
+                    <span id="add-badRp-btn" class="ml-5 btn btn-outline">
+                          <div class="icon_thumbdown"></div>
+                          <span class="add-badRp ml-2">별로에요</span>
+                    </span>
+                </div>
+                <div class="util_btns">
+                    <c:if test="${dto.m_idx == sessionScope.memidx}">
+                        <button class="btn btn-outline-dark" type="button"
+                                onclick="deletePost(${dto.qb_idx})">
+                            삭제
+                        </button>
+                        <button class="btn btn-outline-dark" type="button"
+                                onclick="location.href='updateform?qb_idx=${dto.qb_idx}&currentPage=${currentPage}'">
+                            수정
+                        </button>
+                    </c:if>
+                    <c:if test="${sessionScope.memstate == 100}">
+                        <button class="btn btn-outline-dark" type="button"
+                                onclick="deletePost(${dto.qb_idx})">
+                            삭제
+                        </button>
+                    </c:if>
+                </div>
+            </div>
+        </div>
+
+        <div class="commentwrite clear" style="margin-bottom: 30px; margin-top: 20px;">
+            <form name="aboardInsert" class="aboardInsert">
+                <%--<h3>Answer</h3--%>
+
+                <p style="font-size: 16px; font-weight: bold;color: #222;" id="qb_commentCnt">답글 ${commentCnt}</p>
+                    <label for="aboardPhoto" class="upload-label" style="padding: 10px;cursor: pointer;"><i class="bi bi-camera" style="font-size: 20px;"></i></label>
+                    <input id="aboardPhoto" class="custom-file-upload" type="file" multiple name="upload" style="display: none;">
+                <input type="text" id="aboardContent" class="form-control aboard_content_input" name="ab_content" placeholder="답글을 남겨주세요">
+
+
+                <button type="button" id="submit" class="btn btn-outline-dark" style="">답글작성</button>
+            </form>
+
+        </div>
+        <div class="answerPrintBox" style="">
+
+        </div>
+
+    </div>
+
+    <div class="qb_aside">
+        <div class="quickmenu">
+            <ul>
+                <li class="quickmenu_head"><h2>질문게시판 추천글</h2></li>
+            </ul>
         </div>
     </div>
-    <div class="answerInsertBox" style="margin-left: 100px; width: 600px; border: 3px solid black">
-        <form name="aboardInsert">
-            <h3>Answer</h3>
-            <textarea id="aboardContent" class="form-control" name="ab_content"></textarea>
-            <input id="aboardPhoto" class="form-control" type="file" multiple name="upload"><br>
-            <button type="button" id="submit" class="btn btn-outline-dark" style="position: relative; right: -91%">작성</button>
-        </form>
 
-    </div>
-    <div class="answerPrintBox" style="margin-left: 100px; width: 600px; border: 3px solid black">
 
-    </div>
 </div>
 
-
-
-</body>
 
 <script>
 <%--    현재 버튼이 눌려있는지 확인해서 상태에 따라 버튼에 색상표시  --%>
@@ -282,19 +299,20 @@
                 // 답변 리스트 출력.
                 $.each(response, function (index, item) {
                     s += `
-<div class="answerBox" data-index="\${index}">
-    <h4 class="answerWriter">`;
+                        <div class="answerBox" data-index="\${index}">
+                        <h4 class="answerWriter clear">`;
 
                     if (item.m_photo === null || item.m_photo === 'no') {
-                        s += `<img src="/photo/profile.jpg" style="width:50px; height: 50px; border:3px solid black; border-radius:100px;">`;
+                        s += `<img src="/photo/profile.jpg" style="">`;
                     } else {
-                        s += `<img src="http://${imageUrl}/member/\${item.m_photo}" style="width:50px; height: 50px; border:3px solid black; border-radius:100px;">`;
+                        s += `<img src="http://${imageUrl}/member/\${item.m_photo}" style="">`;
                     }
 
                     s += `
-        \${item.nickname}</h4>
-    <h6>\${item.ab_writeday}</h6>
-    <h2>\${item.ab_content}</h2>`;
+                            <p style="cursor:pointer;" onclick=message("\${item.nickname}")>\${item.nickname}</p></h4>
+                            <h2 style="margin-top: 10px;font-size: 16px;">\${item.ab_content}</h2>
+                            <div class="icon_time"></div><h6 style="color: #94969b;font-size: 12px;display: inline">\${item.ab_writeday}</h6>
+                        `;
 
                     $.each(item.photo, function (index2, photos) {
                         if (${photos == no}) {
@@ -303,20 +321,20 @@
                     });
                     if (item.m_idx == ${sessionScope.memidx}) {
                         s += `
-    <button class="btn btn-outline-dark" type="button" onclick="deleteComment(\${item.ab_idx})">
+    <button class="btn btn-outline-dark btn-sm" type="button" onclick="deleteComment(\${item.ab_idx})" style="float:right; margin-left: 3px;">
         삭제
     </button>
-    <button class="btn btn-outline-dark" type="button" data-abidx="\${item.ab_idx}" onclick="updateCommentForm(\${item.ab_idx}, \${index})">
+    <button class="btn btn-outline-dark btn-sm" type="button" data-abidx="\${item.ab_idx}" onclick="updateCommentForm(\${item.ab_idx}, \${index})" style="float:right;">
         수정
     </button>`;
                     } else if(${sessionScope.memstate == 100}){
                         s += `
-    <button class="btn btn-outline-dark" type="button" onclick="deleteComment(\${item.ab_idx})">
+    <button class="btn btn-outline-dark btn-sm" type="button" onclick="deleteComment(\${item.ab_idx})" style="float:right;">
         삭제
     </button>
     `;
                     }
-                    s += "<hr></div>";
+                    s += "<!--<hr>--></div>";
                 });
 
                 // answerPrintBox 클래스를 사용하는 div 안에 s 값을 삽입
@@ -350,8 +368,11 @@
             processData: false, // 필수: FormData를 사용할 때는 processData를 false로 설정해야 함
             contentType: false, // 필수: FormData를 사용할 때는 contentType을 false로 설정해야 함
             success: function (response) {
-                alert("댓글이 작성되었습니다.");
+                alert("답글이 작성되었습니다.");
+                $("#qb_commentCnt").text("댓글 " + response);
+                $("#commentCnt").html("<div class='icon_comment'></div>" +response);
                 answer();
+
             },
             error: function (xhr, status, error) {
                 // 에러 처리를 여기에서 처리합니다.
@@ -366,7 +387,9 @@
                 url: "/aboard/delete",
                 data: {"ab_idx":ab_idx},
                 success: function (response) {
-                    alert("댓글이 삭제되었습니다.");
+                    alert("답글이 삭제되었습니다.");
+                    $("#qb_commentCnt").text("댓글 " + response);
+                    $("#commentCnt").html("<div class='icon_comment'></div>" +response);
                     answer();
                 },
                 error: function (xhr, status, error) {
@@ -421,7 +444,7 @@
             processData: false,
             contentType: false,
             success: function (response) {
-                alert("댓글이 수정되었습니다.")
+                alert("답글이 수정되었습니다.")
                 answer();
             },
             error: function (xhr, status, error) {
@@ -446,6 +469,38 @@
         $("#aboardContent").val("");
         $('#aboardPhoto').val('');
     })
+
+$.ajax({
+    type: "post",
+    url: "./bestPostsForBanner",
+    dataType: "json",
+    success: function (response) {
+        let s = "";
+        $.each(response, function (index, item) {
+            s +=
+                `
+                    <li>
+                    <a href="../qboard/detail?qb_idx=\${item.qb_idx}&currentPage=1">
+                    <div class="name">
+                    <div class="num"><div style="width: 3px;height: 3px; border-radius: 50%; background-color: red; display: inline-block"></div><span style="vertical-align: middle; margin-left: 10px;">\${item.qb_subject}</span></div>
+                    </div>
+                    </a>
+                    </li>
+                    `
+        });
+        s +=
+            `
+                <li class="view_all_li">
+                    <a href="/qboard/list">
+                        <span class="view_all">전체보기</span>
+                    </a>
+                </li>
+                `;
+        $(".quickmenu ul").append(s);
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+        console.log("Error: " + textStatus + " - " + errorThrown);
+    }
+});
 </script>
 
-</html>

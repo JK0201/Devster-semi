@@ -169,6 +169,11 @@ public class QboardService implements QboardServiceInter{
         return qboardMapper.countComment(qb_idx);
     }
 
+    @Override
+    public List<QboardDto> bestQboardPosts() {
+        return qboardMapper.bestQboardPosts();
+    }
+
     // 검색
     @Override
     public List<QboardDto> searchlist(String searchOption, String keyword, int start, int perpage) {

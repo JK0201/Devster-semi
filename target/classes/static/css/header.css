@@ -41,18 +41,22 @@ header.header{
 
 header.header .wrap .gnb{
     float: left;
-    margin-left: 10px;
+    margin-left: 60px;
     line-height: 90px;
+}
+
+header.header .wrap .gnb li:first-child{
+    margin-left: 0px;
 }
 
 
 header.header .wrap .gnb li{margin-left: 30px;}
 
-header.header .wrap .gnb li:last-child{
+/*header.header .wrap .gnb li:last-child{
     position: absolute;
     top: 35px;
     left: 0px;
-}
+}*/
 
 header.header .wrap .util_menu{
     float: right;
@@ -68,15 +72,16 @@ header.header .wrap .util_menu li{
 /*================== 로고 ======================*/
 header.header .wrap .logo{
     float: left;
-    /* margin-top: 30px; */
+     margin-top: 18px;
     line-height: 70px;
 }
 header.header .wrap .logo .logotext{
-    width: 150px;
+    width: 130px;
     margin-top: 10px;
 }
 header.header .wrap .logo .logoimage{
-    width: 40px;
+    width: 36px;
+    margin-top: 3px;
 }
 
 /*================== 회원가입/로그인버튼 ======================*/
@@ -86,27 +91,62 @@ header.header .wrap .util_menu .btnsignup{
     height: 40px;
     background-color: #8007ad;
     color: #fff;
-    font-size: 14px;
+    font-size: 12px;
+    border-radius: 0px;
 }
 header.header .wrap .util_menu .btnsignin{
     width: 82px;
     height: 40px;
     background-color: #fff;
     color: #000;
-    font-size: 14px;
+    font-size: 12px;
     border: 1px solid #ccc;
+    border-radius: 0px;
 }
 
 
 
 
-/*======================================================*/
+/*=============================메세지 함=========================*/
+
+header.header .wrap .util_menu li.message_box{
+    margin-top: 16px;
+    position: relative;
+
+}
+
+header.header .wrap .util_menu li.message_box i{
+    font-size: 24px;
+    color: #ccc;
+    margin-right: 10px;
+}
+
+header.header .wrap .util_menu li.message_box .message_count_alarm{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #aaaaaa;
+    /*color: #fff;*/
+    position: absolute;
+    top: 10px;
+    left: 12px;
+
+}
+
+header.header .wrap .util_menu li.message_box .message_count_text{
+    color: #fff;
+    position: absolute;
+    top: -13px;
+    left: 21px;
+    width: 10px;
+    height: 10px;
+    font-size: 14px;
+}
 
 
-
-
-
-
+/*header.header .wrap .util_menu li.message_box .message_count_alarm p{
+    position: relative;
+}*/
 
 
 

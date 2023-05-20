@@ -3,15 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../commonvar.jsp" %>
-
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
-    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Gothic+A1&family=Gowun+Batang&family=Hahmlet&family=Song+Myung&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <style>
         body, body * {
             font-family: 'Gowun Batang'
@@ -49,13 +40,6 @@
             color: crimson;
         }
 
-        .commentwrite{
-            margin-left: 100px;
-            width: 80%;
-            margin-bottom: 50px;
-            text-align: center;
-        }
-
         .memberimg{
             width: 23px;
             height: 23px;
@@ -67,12 +51,17 @@
             color: white;
         }
     </style>
+
     <script>
         $(document).ready(function (){
+
+            var currentPosition = parseInt($(".quickmenu").css("top"));
+            $(window).scroll(function () {
+                var position = $(window).scrollTop();
+                $(".quickmenu").css("transform", "translateY(" + position + "px)");
+            });
+
             commentList();
-
-
-
             <!-- jsp 실행 이전의 리액션 여부 체크 및 버튼 색상 표현 -->
             $(function() {
                 checkAddRpBefore();
@@ -97,8 +86,7 @@
                             "m_idx" : ${sessionScope.memidx}
                         },
                         success : function(goodReactionPoint) {
-                            $("#add-goodRp-btn").addClass("already-added");
-                            $(".add-goodRp").html(goodReactionPoint);
+                            $("#add-goodRp-btn .icon_thumbup").css("background-position","-159px -486px");
                             isAlreadyAddGoodRp = true;
                         },
                         error : function() {
@@ -116,8 +104,8 @@
                             "m_idx" : ${sessionScope.memidx}
                         },
                         success : function(goodReactionPoint) {
-                            $("#add-goodRp-btn").removeClass("already-added");
-                            $(".add-goodRp").html(goodReactionPoint);
+                            $("#add-goodRp-btn .icon_thumbup").css("background-position","-130px -486px");
+
                             isAlreadyAddGoodRp = false;
                         },
                         error : function() {
@@ -148,8 +136,7 @@
                             "m_idx" : ${sessionScope.memidx}
                         },
                         success : function(badReactionPoint) {
-                            $("#add-badRp-btn").addClass("already-added");
-                            $(".add-badRp").html(badReactionPoint);
+                            $("#add-badRp-btn .icon_thumbdown").css("background-position","-395px -486px");
                             isAlreadyAddBadRp = true;
                         },
                         error : function() {
@@ -167,8 +154,7 @@
                             "m_idx" : ${sessionScope.memidx}
                         },
                         success : function(badReactionPoint) {
-                            $("#add-badRp-btn").removeClass("already-added");
-                            $(".add-badRp").html(badReactionPoint);
+                            $("#add-badRp-btn .icon_thumbdown").css("background-position","-424px -486px");
                             isAlreadyAddBadRp = false;
                         },
                         error : function() {
@@ -179,86 +165,131 @@
                     return;
                 }
             });
-
-
-
         });
 
+        function timeForToday(value) {
+            const valueConv = value.slice(0, -2);
+            const today = new Date();
+            const timeValue = new Date(valueConv);
+
+            const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+            if (betweenTime < 1) return '방금전';
+            if (betweenTime < 60) {
+                return `\${betweenTime}분전`;
+            }
+
+            const betweenTimeHour = Math.floor(betweenTime / 60);
+            if (betweenTimeHour < 24) {
+                return `\${betweenTimeHour}시간전`;
+            }
+
+            const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+            if (betweenTimeDay < 7) {
+                return `\${betweenTimeDay}일전`;
+            }
+
+            const month = String(timeValue.getMonth() + 1).padStart(2, '0');
+            const day = String(timeValue.getDate()).padStart(2, '0');
+            const formattedDate = `\${month}-\${day}`;
+
+            return `\${formattedDate}`;
+        }
     </script>
-</head>
-<body>
 
+<div class="ab_detail_wrap clear">
 
-<div class="container">
-    <div class="headbox">
-        <b style="font-size: 15px; color: #94969B; margin-bottom: 20px;">no.${dto.ab_idx}</b><br>
-        <h4 style="font-family: 'Hahmlet'; color: black; font-weight: bolder; margin-top: 5px;margin-bottom: 20px;">${dto.ab_subject}</h4>
+    <div class="ab_detail_content">
 
-        <b style="font-size: 15px; color: black;" margin-bottom: 10px;>
-            <img src="http://${imageUrl}/member/${m_photo}" class="memberimg">&nbsp;
-            ${nickname}&nbsp;</b><br>
+        <div class="article_view_head">
+            <a href="/">홈</a>
+            <a href="./list?currentPage=${currentPage}" class="academyboard_link">${sessionScope.memacademy}게시판</a>
 
-        <b style="font-size: 13px; color: #94969B;"><fmt:formatDate value="${dto.ab_writeday}" pattern="MM/dd HH:mm"/>&nbsp;&nbsp;</b>
-        <b style="font-size: 13px; color: #94969B;"><i class="bi bi-eye"></i>&nbsp;${dto.ab_readcount}&nbsp;&nbsp;</b>
-        <b style="font-size: 13px; color: #94969B;"><i class="bi bi-chat-right"></i>&nbsp;<b id="commentCnt">0</b></b>
-    </div>
-    <div class="bodybox">
-        <p style="margin-bottom: 50px;">${dto.ab_content}</p>
+            <h2>${dto.ab_subject}</h2>
+            <b style="font-size: 15px; color: black; cursor:pointer;" margin-bottom: 10px; onclick=message("${nickname}")>
+                <img src="${m_photo}" class="memberimg">&nbsp;
+                ${nickname}
+            </b>
+            <div class="wrap_info clear">
+                <div class="icon_time"></div>
+                <div style="display: inline-block; color: #94969b;" class="ab_writeday" id="writedayMain"></div>
+                <script>
+                    $("#writedayMain").text(timeForToday("${dto.ab_writeday}"));ㅉ
+                </script>
 
-        <c:forEach items="${list}" var="images">
-            <c:if test="${images!='n'}">
-                <img src="http://${imageUrl}/academyboard/${images}"><br>
-            </c:if>
-        </c:forEach>
-    </div>
-
-
-<%--    &lt;%&ndash;  좋아요 / 싫어요 버튼&ndash;%&gt;--%>
-<%--    <div class="footbox">--%>
-<%--    <span id="add-goodRp-btn" class="btn btn-outline btn-sm">--%>
-<%--                  <i class="bi bi-hand-thumbs-up thumbsup"></i>&nbsp;좋아요--%>
-<%--                  <span class="add-goodRp ml-2">${dto.fb_like}</span>--%>
-<%--                </span>--%>
-<%--        <span id="add-badRp-btn" class="ml-5 btn btn-outline btn-sm">--%>
-<%--                  <i class="bi bi-hand-thumbs-down thumbsdown"></i>&nbsp;싫어요--%>
-<%--                  <span class="add-badRp ml-2">${dto.fb_dislike}</span>--%>
-<%--            </span>--%>
-<%--    </div>--%>
-
-    <%--  좋아요 / 싫어요 버튼--%>
-    <div class="footbox">
-    <span id="add-goodRp-btn" class="btn btn-outline btn-sm">
-                  <i class="bi bi-hand-thumbs-up thumbsup"></i>&nbsp;좋아요
-                  <span class="add-goodRp ml-2">${dto.ab_like}</span>
+                <span>
+                    <div class="icon_read"></div>${dto.ab_readcount}
                 </span>
-        <span id="add-badRp-btn" class="ml-5 btn btn-outline btn-sm">
-                  <i class="bi bi-hand-thumbs-down thumbsdown"></i>&nbsp;싫어요
-                  <span class="add-badRp ml-2">${dto.ab_dislike}</span>
-            </span>
+                <div class="icon_comment"></div><span id="commentCnt">${commentCnt}</span>
+            </div>
+
+        </div>
+
+        <div class="article_view_content">
+            <div class="content_txt">
+                <pre>${dto.ab_content}</pre>
+            </div>
+
+            <div class="ab_detail_img">
+                <c:forEach items="${list}" var="images">
+                    <c:if test="${dto.ab_photo!='n'}">
+                        <img src="http://${imageUrl}/freeboard/${images}" style="float: left">
+                        <br style="clear: both;"><br>
+                    </c:if>
+                </c:forEach>
+            </div>
+
+            <div class="clear" style="margin-top: 20px;border-bottom: 1px solid #eee; padding-bottom: 40px;">
+                <%--  좋아요 / 싫어요 버튼--%>
+                <div class="footbox">
+                    <span id="add-goodRp-btn" class="clear" style="display: inline-block; cursor: pointer">
+                        <div class="icon_thumbup"></div>
+                        <span class="add-goodRp ml-2">좋아요</span>
+                    </span>
+                    <span id="add-badRp-btn" class="clear" style="display: inline-block; cursor: pointer; margin-left: 10px;">
+                        <div class="icon_thumbdown"></div>
+                        <span class="add-badRp ml-2">별로에요</span>
+                    </span>
+                </div>
+
+                <div class="util_btns">
+                    <c:if test="${dto.m_idx == sessionScope.memidx}">
+                        <button type="button" onclick="del(${dto.ab_idx})" class="btn btn-sm btn-outline-secondary"><i class="bi bi-trash"></i>&nbsp;삭제</button>
+                        <button type="button" onclick="location.href='./list?currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-card-list"></i>&nbsp;목록</button>
+                        <button type="button" onclick="location.href='./academyupdateform?ab_idx=${dto.ab_idx}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil-square"></i>&nbsp;수정</button>
+                    </c:if>
+                    <c:if test="${sessionScope.memstate == 100}">
+
+                        <button type="button" onclick="del(${dto.ab_idx})" class="btn btn-sm btn-outline-secondary"><i class="bi bi-trash"></i>&nbsp;삭제</button>
+                        <button type="button" onclick="location.href='./list?currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-card-list"></i>&nbsp;목록</button>
+                    </c:if>
+                    <c:if test="${dto.m_idx != sessionScope.memidx}">
+                        <button type="button" onclick="location.href='./list?currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-card-list"></i>&nbsp;목록</button>
+                    </c:if>
+
+                </div>
+            </div>
+        </div>
+
+        <!--댓글출력-->
+        <div class="commentwrite clear" style="margin-bottom: 30px; margin-top: 20px;">
+            <%--    <form name="commentinsert" width="600">--%>
+            <input type="hidden" name="ab_idx" value="${dto.ab_idx}">
+            <p style="font-size: 16px; font-weight: bold;color: #222;" id="commentCnt2">댓글 ${commentCnt}</p>
+            <input type="text" name="abc_content" id="commentContent" class="form-control" placeholder="댓글을 남겨주세요">
+            <button type="button" id="writepost" class="btn btn-sm btn-secondary" style="">댓글쓰기</button>
+            <%--    </form>--%>
+        </div>
+        <div id="commentBox" style=""></div>
+    </div>
+
+    <div class="ab_aside">
+        <div class="quickmenu">
+            <ul>
+                <li class="quickmenu_head"><h2>일반게시판 추천글</h2></li>
+            </ul>
+        </div>
     </div>
 </div>
-
-<div class="btnbox">
-    <c:if test="${dto.m_idx == sessionScope.memidx}">
-        <button type="button" onclick="location.href='./academyupdateform?ab_idx=${dto.ab_idx}&currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil-square"></i>&nbsp;수정</button>
-        <button type="button" onclick="del(${dto.ab_idx})" class="btn btn-sm btn-outline-secondary"><i class="bi bi-trash"></i>&nbsp;삭제</button>
-    </c:if>
-
-    <button type="button" onclick="location.href='./list?currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-card-list"></i>&nbsp;목록</button>
-</div>
-
-<hr>
-
-<div class="commentwrite" style="margin-bottom: 30px; margin-top: 50px; height: 50px;">
-    <%--    <form name="commentinsert" width="600">--%>
-    <input type="hidden" name="ab_idx" value="${dto.ab_idx}">
-
-    <input type="text" name="abc_content" id="commentContent" class="form-control" style="width: 500px; float: left">
-    <button type="button" id="writepost" class="btn btn-sm btn-secondary" style="width: 100px; float: left; margin-left: 5px;"><i class="bi bi-pencil"></i>&nbsp;댓글쓰기</button>
-    <%--    </form>--%>
-</div>
-<div id="commentBox" style="margin-left: 100px; width: 800px; border: 1px solid gray"></div><hr>
-
 
 <script>
 
@@ -309,7 +340,7 @@
                     $.each(res, function (idx, ele) {
                         s += `
                             <div class='answerBox' data-index="\${idx}"><input type="hidden" name="abc_idx" value="\${ele.abc_idx}">
-                            <b style='margin-left: 10px;'>`;
+                            <b style='cursor:pointer;' class="ab_nickname" onclick=message("\${ele.nickname}")>`;
 
                         if (ele.m_photo === null || ele.m_photo === 'no') {
                             s += `<img src="/photo/profile.jpg" style="width:20px; height: 20px; border:1px solid black; border-radius:100px;">`;
@@ -317,25 +348,45 @@
                             s += `<img src="http://${imageUrl}/member/\${ele.m_photo}" style="width:20px; height: 20px; border:1px solid black; border-radius:100px;">`;
                         }
 
-                        s+=`&nbsp;\${ele.nickname}</b><br><br>
-                            <b style="color: #999; float:right; font-size: 15px; font-weight: lighter; margin-right: 15px;" align='right'>\${ele.abc_writeday}</b>
-                            <h5 style='display: inline; margin-left: 10px; font-size: 18px;'>\${ele.abc_content}</h5>
-                            <span style='color: red; font-size: 13px;'>[\${ele.replyCnt}]</span><br><br>`;
+                        s+=`&nbsp;\${ele.nickname}</b>
+                            <h5 style='' class="ab_content">\${ele.abc_content}</h5>
+                            <!--<span style='color: red; font-size: 13px;'>[\${ele.replyCnt}]</span>-->
 
-                        if (ele.m_idx == ${sessionScope.memidx}) {
-                            s += `<button class="btn btn-outline-dark btn-sm" type="button" onclick="deleteComment(\${ele.abc_idx})" style="margin-left: 10px;">삭제</button>
-                                <button class="btn btn-outline-dark btn-sm" type="button" data-abcidx="\${ele.abc_idx}" onclick="updateCommentForm(\${ele.abc_idx},\${idx})">수정</button>`;
-                        }
+                        `;
+
+
 
                         s += `
-                                   <span style='cursor: pointer; color: blue; font-size: 15px;' class='reCommentBtn' id="reCommentBtn_" data-index="\${idx}">답글 달기 </span>
-<span style='display:none; cursor: pointer; color: blue; font-size: 15px;' class='reCommentCloseBtn' id='reCommentCloseBtn_' data-index="\${idx}">답글 닫기 </span>
-                                    <hr><div class='mx-4 reCommentDiv' id='reCommentDiv_' data-index="\${idx}"></div>
-</div>`;
+                                <div style="display: inline-block">
+                                    <div class="icon_time"></div>
+                                    <b style="" class="ab_writeday">\${ele.abc_writeday}</b>
+                                    <!--<div class="icon_reply"></div>
+                                    <b style="" class="ab_replyCnt">\${ele.replyCnt}</b>-->
+                                </div>
+                                   <span style='cursor: pointer;color: #94969b; font-size: 12px;' class='reCommentBtn' id="reCommentBtn_" data-index="\${idx}">
+                                        <div class="icon_reply"></div>\${ele.replyCnt}
+                                   </span>
+                                   <span style='display:none; cursor: pointer;color: #94969b; font-size: 12px;' class='reCommentCloseBtn' id='reCommentCloseBtn_' data-index="\${idx}">
+                                        <div class="icon_reply"></div>\${ele.replyCnt}
+                                   </span>
+
+                                   <!--<div class='mx-4 reCommentDiv' id='reCommentDiv_' data-index="\${idx}"></div>-->
+                                   `;
+
+                        if (ele.m_idx == ${sessionScope.memidx }) {
+                            s += `<div style="" class="clear">
+                                  <button class="btn btn-outline-dark btn-sm" type="button" onclick="deleteComment(\${ele.abc_idx})" style="float: right; margin-left: 3px;">삭제</button>
+                                  <button class="btn btn-outline-dark btn-sm" type="button" data-abcidx="\${ele.abc_idx}" onclick="updateCommentForm(\${ele.abc_idx},\${idx})" style="float: right; ">수정</button></div>
+
+                                  <div class='mx-4 reCommentDiv' id='reCommentDiv_' data-index="\${idx}"></div>
+
+                                  </div>`;
+                        }
                     });
 
                     var totalCount = res[0].totalCount;
                     document.getElementById("commentCnt").innerHTML = totalCount;
+                    document.getElementById("commentCnt2").innerHTML ="댓글 " + totalCount;
                     $("#commentBox").html(s);
                     // } else {
                     //     let html = "<div class='mb-2'>";
@@ -433,10 +484,6 @@
         const _this = $(this);
         //const cid = reComment.find("#commentId").val();
         const abc_ref = $(this).siblings('input').val();
-        //
-        // console.log(fbc_ref);
-
-        //replyList(fbc_ref);
 
         _this.siblings('.reCommentDiv').show();
         _this.hide();
@@ -454,7 +501,7 @@
                     html += `
                             <div class='replyBox' data-index="\${idx}" style="margin-bottom: 30px;">
                             <input type="hidden" name="abc_idx" value="\${ele.abc_idx}">
-                            <b style='margin-left: 10px;'>`;
+                            <b style='margin-left: 10px; cursor:pointer;' onclick=message("\${ele.nickname}")>`;
 
                     if (ele.m_photo === null || ele.m_photo === 'no') {
                         html += `<i class="bi bi-arrow-return-right" style="color: #94969B"></i>&nbsp;<img src="/photo/profile.jpg" style="width:20px; height: 20px; border:1px solid black; border-radius:100px;">`;
@@ -529,7 +576,7 @@
             dataType : "json",
             success: function (response) {
 
-                let html = `<form name='replyupdate'> <input style='width: 90%; margin-bottom: 30px;' id='reComment_`+abc_ref+`' class='reComment' name='abc_content' value="\${response.fbc_content}" type='text'>`;
+                let html = `<form name='replyupdate'> <input style='width: 90%; margin-bottom: 30px;' id='reComment_`+abc_ref+`' class='reComment' name='abc_content' value="\${response.abc_content}" type='text'>`;
 
                 html += `<button type='button' class='btn btn-primary btn-sm reCommentSubmit' id="updatereply">수정</button></form>`;
 
@@ -578,9 +625,9 @@
     function checkAddRpBefore() {
         <!-- 변수값에 따라 각 id가 부여된 버튼에 클래스 추가(이미 눌려있다는 색상 표시) -->
         if (isAlreadyAddGoodRp == true) {
-            $("#add-goodRp-btn").addClass("already-added");
+            $("#add-goodRp-btn .icon_thumbup").css("background-position","-159px -486px");
         } else if (isAlreadyAddBadRp == true) {
-            $("#add-badRp-btn").addClass("already-added");
+            $("#add-badRp-btn .icon_thumbdown").css("background-position","-395px -486px");
         } else {
             return;
         }
@@ -589,8 +636,45 @@
         });
     };
 
+    $.ajax({
+        type: "post",
+        url: "./bestPostsForBanner",
+        dataType: "json",
+        success: function (response) {
+            let s = "";
+            $.each(response, function (index, item) {
+                s +=
+                    `
+                    <li>
+                    <a href="../freeboard/freeboarddetail?fb_idx=\${item.fb_idx}&currentPage=1">
+                    <div class="name">
+                    <div class="num"><div style="width: 3px;height: 3px; border-radius: 50%; background-color: red; display: inline-block"></div><span style="vertical-align: middle; margin-left: 10px;">\${item.fb_subject}</span></div>
+                    </div>
+                    </a>
+                    </li>
+                    `
+            });
+            s +=
+                `
+               <!-- <button type="button" onclick="window.scrollTo({top:0});">
+                <i class="bi bi-arrow-up-square-fill"></i>
+                </button>-->
+
+                <li class="view_all_li">
+                    <a href="../freeboard/list">
+                        <span class="view_all">전체보기</span>
+                    </a>
+                </li>
+                `;
+            $(".quickmenu ul").append(s);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Error: " + textStatus + " - " + errorThrown);
+        }
+    });
+
+    // 쪽지보내기 메서드.
+    function message(nickname) {
+        window.open("other_profile?other_nick=" + nickname, 'newwindow', 'width=700,height=700');
+    }
 </script>
-
-</body>
-</html>
-

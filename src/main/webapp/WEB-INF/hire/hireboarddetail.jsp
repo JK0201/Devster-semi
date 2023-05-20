@@ -123,7 +123,7 @@
             </div>
 
             <div class="content_txt">
-                ${dto.hb_content}<br>
+                <pre>${dto.hb_content}</pre>
             </div>
 
             <div class="util_btns">
@@ -139,9 +139,6 @@
                         onclick="location.href='./list?currentPage=${currentPage}'">목록
                 </button>
             </div>
-
-
-
         </div>
 
     </div>

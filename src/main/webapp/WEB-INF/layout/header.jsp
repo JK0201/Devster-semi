@@ -14,6 +14,12 @@
 
 <c:set var="root" value="<%=request.getContextPath()%>" />
 
+<script>
+    $(document).ready(function (){
+        getCount();
+    });
+</script>
+
 <div class="black_bar"></div>
 <div class="wrap clear">
     <div class="logo">
@@ -37,14 +43,16 @@
                </c:if>
                >학원별게시판</a></li>
         <li><a id="review" href="${root}/review/list">회사후기</a></li>
-        <li><a id="notice" href="${root}/noticeboard/list">공지사항</a></li>
-        <li><a href="${root}/message/list">메세지함</a></li>
+        <%--<li><a id="notice" href="${root}/noticeboard/list">공지사항</a></li>--%>
     </ul>
     <c:choose>
         <c:when test="${sessionScope.logstat == 'yes'}">
             <ul class="clear util_menu">
                 <li><button type="button" class="btn btnsignup" onclick="location.href='/mypage/'">마이페이지</button></li>
                 <li><button type="button" class="btn btnsignin" onclick="location.href='/member/outtest'">로그아웃</button></li>
+                <li class="message_box">
+                </li>
+
             </ul>
         </c:when>
         <c:otherwise>
@@ -69,6 +77,34 @@
             }
         });
     });
+
+        //메세지 갯수 확인 ---------------------------------------------
+
+    function getCount(){
+        $.ajax({
+            type : "post",
+            url : "/messagecount",
+            dataType : "json",
+            success :function (res){
+                let s = "";
+                if(res == 0 ) {
+                    s+=`<div class="message_count_alarm"></div>
+                    <div class="message_count_text">0</div>
+                    <a href="${root}/message/list">
+                        <i class="bi bi-envelope"></i>
+                    </a>`;
+                } else {
+                    s+= `<div class="message_count_alarm" style = "background-color : red;"></div>
+                    <div class="message_count_text">\${res}</div>
+                    <a href="${root}/message/list">
+                        <i class="bi bi-envelope"></i>
+                    </a>`;
+                }
+                $(".message_box").html(s);
+            }
+
+        });
+    }
 
         // 회원권한관리------------------------------------------------
         // 비로그인 상태 (sessionScope.logstat != yes)
