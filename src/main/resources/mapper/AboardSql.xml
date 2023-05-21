@@ -28,4 +28,13 @@
     <update id="updateAnswer" parameterType="AboardDto">
         update aboard set ab_content=#{ab_content} ,ab_photo=#{ab_photo} where ab_idx=#{ab_idx}
     </update>
+
+    <select id="bestqboardPosts" resultType="QboardDto">
+        SELECT *
+        FROM qboard
+        WHERE qb_writeday >= DATE_SUB(NOW(), INTERVAL 1 DAY)
+          AND <![CDATA[ qboard.qb_dislike < 20 ]]>
+        ORDER BY qb_like DESC
+        limit 5
+    </select>
 </mapper>

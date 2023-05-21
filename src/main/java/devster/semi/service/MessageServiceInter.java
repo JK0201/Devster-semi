@@ -16,6 +16,9 @@ public interface MessageServiceInter {
 
     public Map<String,Object> getMessagesWithOtherUser(MessageDto dto);
 
+    public int getAllUnreadCount(String nickname);
+
+
 
    /* public String getOtherProfile(MessageDto dto);
 

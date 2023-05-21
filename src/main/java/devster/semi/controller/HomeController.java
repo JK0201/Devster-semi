@@ -4,6 +4,7 @@ import devster.semi.dto.*;
 import devster.semi.mapper.HireMapper;
 import devster.semi.service.*;
 import naver.cloud.NcpObjectStorageService;
+import net.nurigo.java_sdk.api.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,9 @@ import java.util.List;
 
 @Controller
 public class HomeController {
+
+	@Autowired
+	private MessageService messageService;
 
 	@Autowired
 	private FreeBoardService freeBoardService;
@@ -142,6 +146,7 @@ public class HomeController {
 
 		return "/sub";//tiles.xml 에 이 이름으로 정의된 definition 이 적용됨
 
+
 	}
 
 	//실시간 인기글
@@ -150,6 +155,12 @@ public class HomeController {
 	public List<FreeBoardDto> bestPosts() {
 		List<FreeBoardDto> list = freeBoardService.bestfreeboardPosts();
 		return list;
+	}
+
+	@PostMapping("/messagecount")
+	@ResponseBody
+	public int messageCount(HttpSession session) {
+		return messageService.getAllUnreadCount((String)session.getAttribute("memnick"));
 	}
 
 

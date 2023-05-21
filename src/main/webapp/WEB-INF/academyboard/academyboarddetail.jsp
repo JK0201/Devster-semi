@@ -226,13 +226,13 @@
 
         <div class="article_view_content">
             <div class="content_txt">
-                ${dto.ab_content}<br>
+                <pre>${dto.ab_content}</pre>
             </div>
 
             <div class="ab_detail_img">
                 <c:forEach items="${list}" var="images">
                     <c:if test="${dto.ab_photo!='n'}">
-                        <img src="http://${imageUrl}/freeboard/${images}" style="float: left">
+                        <img src="http://${imageUrl}/academyboard/${images}" style="float: left">
                         <br style="clear: both;"><br>
                     </c:if>
                 </c:forEach>
@@ -255,7 +255,7 @@
                     <c:if test="${dto.m_idx == sessionScope.memidx}">
                         <button type="button" onclick="del(${dto.ab_idx})" class="btn btn-sm btn-outline-secondary"><i class="bi bi-trash"></i>&nbsp;삭제</button>
                         <button type="button" onclick="location.href='./list?currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-card-list"></i>&nbsp;목록</button>
-                        <button type="button" onclick="location.href='./freeupdateform?ab_idx=${dto.ab_idx}&currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil-square"></i>&nbsp;수정</button>
+                        <button type="button" onclick="location.href='./academyupdateform?ab_idx=${dto.ab_idx}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil-square"></i>&nbsp;수정</button>
                     </c:if>
                     <c:if test="${sessionScope.memstate == 100}">
 

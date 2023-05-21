@@ -125,28 +125,18 @@
 
                                         s += '<div class="mainbox">';
 
-                                        s += `<h3 class="ab_subject"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}"><b>\${dto.ab_subject}</b></a></h3>`;
-
                                         if (dto.ab_photo == 'n') {
-                                            s += `<h5 class="ab_content" style="width: 90%"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}" style="color: #000;"><span>\${dto.ab_content.substring(0, 120)}</span></a>`;
-                                            if (dto.ab_content.length >= 120) {
-                                                s += '.....';
-                                            }
-                                            s += '</h5>';
+                                            s += `<h3 class="ab_subject text-block-subject-2-nophoto"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}"><b>\${dto.ab_subject}</b></a></h3>`;
+                                            s += `<h5 class="ab_content text-block-content-2-nophoto"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}" style="color: #000;"><span>\${dto.ab_content}</span></a></h5>`;
                                         }
-
                                         if (dto.ab_photo != 'n') {
-                                            s += `<h5 class="ab_content" style="width: 80%;"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}" style="color: #000;"><span class="photocontent">\${dto.ab_content.substring(0, 80)}</span></a>`;
-                                            if (dto.ab_content.length >= 80) {
-                                                s += '.....';
-                                            }
-                                            s += '</h5>';
-
+                                            s += `<h5 class="ab_content text-block-content-2-photo"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}" style="color: #000;"><span>\${dto.ab_content}</span></a></h5>`;
+                                            s += `<h3 class="ab_subject text-block-subject-2-photo"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}"><b>\${dto.ab_subject}</b></a></h3>`;
                                             s += `<div style="position:relative; right:0; top: -80px;"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}"><span class="ab_photo"><img src="http://${imageUrl}/academyboard/\${dto.ab_photo.split(",")[0]}" id="ab_photo"></span></a></div>`;
                                         }
 
                                         s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.ab_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.ab_dislike}</div>`;
-                                        s += `<div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;\${dto.commentCnt}</div></div></div></div>`;
+                                        s += `<div class="hr_tag_2" style="margin-left: 3px;"><i class="bi bi-chat"></i>&nbsp;\${dto.commentCnt}</div></div></div></div>`;
                                     })
 
                                     $(".listbox").append(s);
@@ -180,7 +170,7 @@
             <select id="searchOption" class="form-select">
                 <option id="all" value="all">전체검색</option>
                 <option id="searchnickname" value="m_nickname">작성자 검색</option>
-                <option id="searchsubject" value="fb_subject">제목 검색</option>
+                <option id="searchsubject" value="ab_subject">제목 검색</option>
             </select>
             <input id="searchinput" name="keyword" type="search" placeholder="관심있는 내용을 검색해보세요!" autocomplete="off"
                    class="searchbar">
@@ -275,29 +265,17 @@
                                         s += `<span class="nickName" style="cursor:pointer;" onclick=message("\${dto.nickName}")><img src="\${dto.m_photo}" class="memberimg">&nbsp;\${dto.nickName}</span>`;
 
                                         s += '<div class="mainbox">';
-
-                                        s += `<h3 class="ab_subject"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}"><b>\${dto.ab_subject}</b></a></h3>`;
-
                                         if (dto.ab_photo == 'n') {
-                                            s += `<h5 class="ab_content" style="width: 90%"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}" style="color: #000;"><span>\${dto.ab_content.substring(0, 120)}</span></a>`;
-                                            if (dto.ab_content.length >= 120) {
-                                                s += '.....';
-                                            }
-                                            s += '</h5>';
+                                            s += `<h3 class="ab_subject text-block-subject-2-nophoto"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}"><b>\${dto.ab_subject}</b></a></h3>`;
+                                            s += `<h5 class="ab_content text-block-content-2-nophoto"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}" style="color: #000;"><span>\${dto.ab_content}</span></a></h5>`;
                                         }
-
                                         if (dto.ab_photo != 'n') {
-                                            s += `<h5 class="ab_content" style="width: 80%;"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}" style="color: #000;"><span class="photocontent">\${dto.ab_content.substring(0, 80)}</span></a>`;
-                                            if (dto.ab_content.length >= 80) {
-                                                s += '.....';
-                                            }
-                                            s += '</h5>';
-
+                                            s += `<h3 class="ab_subject text-block-subject-2-photo"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}"><b>\${dto.ab_subject}</b></a></h3>`;
+                                            s += `<h5 class="ab_content text-block-content-2-photo"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}" style="color: #000;"><span>\${dto.ab_content}</span></a></h5>`;
                                             s += `<div style="position:relative; right:0; top: -80px;"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}"><span class="ab_photo"><img src="http://${imageUrl}/academyboard/\${dto.ab_photo.split(",")[0]}" id="ab_photo"></span></a></div>`;
                                         }
-
                                         s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.ab_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.ab_dislike}</div>`;
-                                        s += `<div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;\${dto.commentCnt}</div></div></div></div>`;
+                                        s += `<div class="hr_tag_2" style="margin-left: 3px;"><i class="bi bi-chat"></i>&nbsp;\${dto.commentCnt}</div></div></div></div>`;
                                     })
                                     s += ``;
 
@@ -367,29 +345,18 @@
                                                         s += `<span class="nickName" style="cursor:pointer;" onclick=message("\${dto.nickName}")><img src="\${dto.m_photo}" class="memberimg">&nbsp;\${dto.nickName}</span>`;
 
                                                         s += '<div class="mainbox">';
-
-                                                        s += `<h3 class="ab_subject"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}"><b>\${dto.ab_subject}</b></a></h3>`;
-
                                                         if (dto.ab_photo == 'n') {
-                                                            s += `<h5 class="ab_content" style="width: 90%"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}" style="color: #000;"><span>\${dto.ab_content.substring(0, 120)}</span></a>`;
-                                                            if (dto.ab_content.length >= 120) {
-                                                                s += '.....';
-                                                            }
-                                                            s += '</h5>';
+                                                            s += `<h3 class="ab_subject text-block-subject-2-nophoto"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}"><b>\${dto.ab_subject}</b></a></h3>`;
+                                                            s += `<h5 class="ab_content text-block-content-2-nophoto"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}" style="color: #000;"><span>\${dto.ab_content}</span></a></h5>`;
                                                         }
-
                                                         if (dto.ab_photo != 'n') {
-                                                            s += `<h5 class="ab_content" style="width: 80%;"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}" style="color: #000;"><span class="photocontent">\${dto.ab_content.substring(0, 80)}</span></a>`;
-                                                            if (dto.ab_content.length >= 80) {
-                                                                s += '.....';
-                                                            }
-                                                            s += '</h5>';
-
+                                                            s += `<h5 class="ab_content text-block-content-2-photo"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}" style="color: #000;"><span>\${dto.ab_content}</span></a></h5>`;
+                                                            s += `<h3 class="ab_subject text-block-subject-2-photo"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}"><b>\${dto.ab_subject}</b></a></h3>`;
                                                             s += `<div style="position:relative; right:0; top: -80px;"><a href="academyboarddetail?ab_idx=\${dto.ab_idx}"><span class="ab_photo"><img src="http://${imageUrl}/academyboard/\${dto.ab_photo.split(",")[0]}" id="ab_photo"></span></a></div>`;
                                                         }
 
                                                         s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.ab_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.ab_dislike}</div>`;
-                                                        s += `<div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;\${dto.commentCnt}</div></div></div></div>`;
+                                                        s += `<div class="hr_tag_2" style="margin-left: 3px;"><i class="bi bi-chat"></i>&nbsp;\${dto.commentCnt}</div></div></div></div>`;
                                                     })
                                                     s += ``;
 
@@ -442,32 +409,28 @@
                                         class="memberimg">&nbsp;${dto.nickName}</span>
 
             <div class="mainbox">
-                <h3 class="ab_subject">
-                    <a href="academyboarddetail?ab_idx=${dto.ab_idx}"><b>${dto.ab_subject}</b></a>
-                </h3>
                 <c:if test="${dto.ab_photo=='n'}">
-                    <h5 class="ab_content" style="width: 90%">
+                    <h3 class="ab_subject text-block-subject-2-nophoto">
+                        <a href="academyboarddetail?ab_idx=${dto.ab_idx}"><b>${dto.ab_subject}</b></a>
+                    </h3>
+                    <h5 class="ab_content text-block-content-2-nophoto" >
                         <a href="academyboarddetail?ab_idx=${dto.ab_idx}"
                            style="color: #000;">
                                 <span>
-                                    <c:set var="length" value="${fn:length(dto.ab_content)}"/>
-                                    ${fn:substring(dto.ab_content, 0, 120)}
-
-                                    <c:if test="${length>=120}">
-                                        .....
-                                    </c:if>
-                                </span></a>
+                                    ${dtp.ab_content}
+                                </span>
+                        </a>
                     </h5>
                 </c:if>
                 <c:if test="${dto.ab_photo!='n'}">
-                    <h5 class="ab_content" style="width: 80%;">
+                    <h3 class="ab_subject text-block-subject-2-photo">
+                        <a href="academyboarddetail?ab_idx=${dto.ab_idx}"><b>${dto.ab_subject}</b></a>
+                    </h3>
+                    <h5 class="ab_content text-block-subject-2-photo">
                         <a href="academyboarddetail?ab_idx=${dto.ab_idx}" style="color: #000;">
                             <span class="photocontent">
-                                <c:set var="length" value="${fn:length(dto.ab_content)}"/>${fn:substring(dto.ab_content, 0, 80)}
-                                <c:if test="${length>=80}">
-                                    .....
-                                </c:if>
-                           </span>
+                                    ${dtp.ab_content}
+                            </span>
                         </a>
                     </h5>
                     <div style="position:relative; right:0; top: -80px;">
@@ -502,40 +465,35 @@
                                                 class="memberimg">&nbsp;${dto.nickName}</span>
 
                     <div class="mainbox">
-                        <h3 class="ab_subject">
-                            <a href="academyboarddetail?ab_idx=${dto.ab_idx}"><b>${dto.ab_subject}</b></a>
-                        </h3>
                         <c:if test="${dto.ab_photo=='n'}">
-                            <h5 class="ab_content" style="width: 90%">
+                            <h3 class="ab_subject text-block-subject-2-nophoto">
+                                <a href="academyboarddetail?ab_idx=${dto.ab_idx}"><b>${dto.ab_subject}</b></a>
+                            </h3>
+                            <h5 class="ab_content text-block-content-2-nophoto" >
                                 <a href="academyboarddetail?ab_idx=${dto.ab_idx}"
                                    style="color: #000;">
                                 <span>
-                                    <c:set var="length" value="${fn:length(dto.ab_content)}"/>
-                                    ${fn:substring(dto.ab_content, 0, 120)}
-
-                                    <c:if test="${length>=120}">
-                                        .....
-                                    </c:if>
-                                   </span></a>
+                                        ${dto.ab_content}
+                                </span>
+                                </a>
                             </h5>
                         </c:if>
                         <c:if test="${dto.ab_photo!='n'}">
-                            <h5 class="ab_content" style="width: 80%;">
+                            <h3 class="ab_subject text-block-subject-2-photo">
+                                <a href="academyboarddetail?ab_idx=${dto.ab_idx}"><b>${dto.ab_subject}</b></a>
+                            </h3>
+                            <h5 class="ab_content text-block-content-2-photo" >
                                 <a href="academyboarddetail?ab_idx=${dto.ab_idx}"
                                    style="color: #000;">
-                                    <span class="photocontent">
-                                        <c:set var="length" value="${fn:length(dto.ab_content)}"/>
-                                        ${fn:substring(dto.ab_content, 0, 80)}
-                                        <c:if test="${length>=80}">
-                                            .....
-                                        </c:if>
-                                   </span>
+                                <span>
+                                        ${dto.ab_content}
+                                </span>
                                 </a>
                             </h5>
                             <div style="position:relative; right:0; top: -80px;">
                                 <a href="academyboarddetail?ab_idx=${dto.ab_idx}">
                                         <span class="ab_photo">
-                                            <img src="http://${imageUrl}/aboard/${dto.ab_photo.split(",")[0]}"
+                                            <img src="http://${imageUrl}/academyboard/${dto.ab_photo.split(",")[0]}"
                                                  id="ab_photo">
                                         </span>
                                 </a>

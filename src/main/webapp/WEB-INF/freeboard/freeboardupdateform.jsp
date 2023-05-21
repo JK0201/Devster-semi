@@ -338,16 +338,18 @@
                 <textarea id="text-input" name="fb_content" class="content" cols="47"
                           rows="7" required>${dto.fb_content}</textarea>
 
-                <script>
-                    // 텍스트를 가져옵니다.
-                    let text = $('#text-input').val();
 
-                    // 줄바꿈 문자(\n)를 <br>로 바꿉니다.
-                    let formattedText = text.replace(/\n/g, '<br>');
+<%--                출력부 pre 태그로 변경으로 인한, 해당 로직 삭제 요망.--%>
+<%--                <script>--%>
+<%--                    // 텍스트를 가져옵니다.--%>
+<%--                    let text = $('#text-input').val();--%>
 
-                    // 출력합니다.
-                    $('#text-input').html(formattedText);
-                </script>
+<%--                    // 줄바꿈 문자(\n)를 <br>로 바꿉니다.--%>
+<%--                    let formattedText = text.replace(/\n/g, '<br>');--%>
+
+<%--                    // 출력합니다.--%>
+<%--                    $('#text-input').html(formattedText);--%>
+<%--                </script>--%>
 
             </div>
             <div class="input-group fileupload">

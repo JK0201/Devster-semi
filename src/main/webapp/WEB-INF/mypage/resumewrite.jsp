@@ -14,30 +14,8 @@
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <style>
-        body, body * {
-            font-family: 'Jua'
-        }
-
-        div.quanbu {
-            padding: 50px;
-        }
-
-        span {
-            display: inline-block;
-            border-radius: 20%;
-            background-color: skyblue;
-        }
-
-        #car-start-date {
-            width: 120px;
-        }
-
-        #car-end-date {
-            width: 120px;
-        }
-
-
         /*토글*/
+
 
         .toggle_box {
             display: flex;
@@ -52,8 +30,9 @@
 
         #uptoggle + label.toggle_btn_label {
             position: relative;
-            width: 12rem;
-            height: 3rem;
+            width: 8rem;
+            height: 2.9rem; /* 높이를 10px 줄임 */
+            margin-left: 600px;
         }
 
         #uptoggle + label.toggle_btn_label > span {
@@ -64,16 +43,15 @@
             right: 0;
             bottom: 0;
             border-radius: 40px;
-            background-color: #ccc;
+            background-color:#F1DCF5;
 
             transition: all .4s;
-
         }
 
         #uptoggle + label.toggle_btn_label > span:before {
             display: flex;
             position: absolute;
-            height: 2.5rem;
+            height: 2.4rem; /* 높이를 10px 줄임 */
             width: fit-content;
             padding: 0 1rem;
             left: 0.25rem;
@@ -91,13 +69,13 @@
         }
 
         #uptoggle:checked + label.toggle_btn_label > span {
-            background-color: black;
+            background-color: #EE64F5;
         }
 
         #uptoggle:checked + label.toggle_btn_label > span:before {
-            -webkit-transform: translateX(calc(11.5rem - 100%));
-            -ms-transform: translateX(calc(11.5rem - 100%));
-            transform: translateX(calc(11.5rem - 100%));
+            -webkit-transform: translateX(calc(7.5rem - 100%)); /* 가로를 3분의 2로 줄임 */
+            -ms-transform: translateX(calc(7.5rem - 100%));
+            transform: translateX(calc(7.5rem - 100%));
             right: 0.25rem;
             bottom: 0.25rem;
             content: "공개";
@@ -107,6 +85,63 @@
             display: none;
         }
 
+        div.quanbu {
+            width: 1000px;
+            margin: 10px auto;
+            padding-top: 10px;
+            padding-right: 50px;
+        }
+
+        .rena {
+            font-size: 40px;
+            line-height: 55px;
+        }
+
+        .rein {
+            font-size: 20px;
+            color: #4c4c4c;
+        }
+        .reemail {
+            font-size: 20px;
+            line-height: 40px;
+        }
+        .main2 {
+            width: 1100px;
+            /* border: 1px solid black;*/
+        }
+        .repoint{
+            font-size: 30px;
+            font-weight: bold;
+        }
+        #result span{
+            display: inline-block;
+            border: #E9D4F0 solid 1px; /* 테두리 색상과 초기 두께 설정 */
+            background-color: #E9D4F0;
+            border-radius: 70%;
+            padding: 10px;
+            font-size: 24px;
+        }
+        .main2 hr {
+            border: none; /* 기본 선 제거 */
+            height: 3px; /* 선의 두께 */
+            background-color: black; /* 선의 색상 */
+            width: 750px;
+        }
+        input{
+            border: none;
+            background-color: #EEEBF0;
+            width: 800px;
+            height: 45px;
+            font-size: 22px;
+        }
+        textarea{
+            border: none;
+            background-color: #EEEBF0;
+            width: 800px;
+            height: 200px;
+            font-size: 22px;
+            border-radius: 20px;
+        }
 
     </style>
 </head>
@@ -114,243 +149,232 @@
 <div class="quanbu">
     <form action="resumeinsert" enctype="multipart/form-data" method="post">
 
+        <span class="rena"><B>${mdto.m_name}</B></span><br>
+        <i class="bi bi-envelope reemail"></i> &nbsp;&nbsp; <span class="rein">${mdto.m_email}</span><br>
+        <i class="bi bi-telephone reemail"></i> &nbsp;&nbsp; <span class="rein">${mdto.m_tele}</span>
         <div class="toggle_box">
             <input type="checkbox" id="uptoggle" name="r_status" value="${dto.r_status}" onchange="updateToggleValue()"></input>
             <label for="uptoggle" class="toggle_btn_label">
                 <span></span>
             </label>
         </div>
-        <script>
-            function updateToggleValue() {
-                var toggle = document.getElementById("uptoggle");
-                if (toggle.checked) {
-                    toggle.value = "1";
-                } else {
-                    toggle.value = "0";
-                }
-            }
-        </script>
 
         <!--hidden-->
         <input type="hidden" name="r_idx" value="${r_idx}">
         <input type="hidden" name="m_idx" value="${sessionScope.memidx}">
-        <div id="r_intro" style="width: 800px;">
-            <div style="font-size: 20px">간단 소개줄</div>
+
+        <div id="r_pos" style="width: 800px; height: 200px;">
+            <div  class="repoint">개발 직무</div>
             <HR>
-            <div style="background-color: #FFF2FE;">
-                * 본인의 업무 경험을 기반으로 핵심역량과업무 스킬을 간단히 작성해주세요.<br>
-                * 3~5줄로 요약하여 작성하는 것을 추천합니다.
-            </div>
-
             <br>
-            <textarea style="width: 800px;height: 150px;border: none " name="r_self"
-                      placeholder="간단한 자기소개를 통해 이력서를 돋보이게 만들어보세요,(3~5줄 권장)"></textarea>
-
+            <input type="text" name="r_pos" placeholder="직무를 작성해주세요">
         </div>
 
-        <div id="r_car" style="width: 800px; height: 300px;">
-            <div style="font-size: 20px">경력</div>
+        <div id="r_skills" style="width: 800px; height: 200px;">
+            <div  class="repoint">기술 스택 &nbsp;<span style="font-size: 20px">(업무 툴/스킬)</span></div>
             <HR>
-            <div style="background-color: #FFF2FE; font-size: 15px">
-                * 담당하신 업무 중 우선순위가 높은 업무를 선별하여 최신순으로 작성해주세요.<br>
-                * 신입의 경우, 직무와 관련된 대외활동, 인턴, 계약직 경력 등이 있다면 작성해주세요.<br>
-                * 업무 또는 활동 시 담당했던 역할과 과정, 성과에 대해 자세히 작성해주세요.<br>
-                * 업무 성과는 되도록 구체적인 숫자 혹은 [%]로 표현해주세요.<br>
-            </div>
             <br>
-            <div id="form-car">
-                <div class="form-group" style="width: 800px;">
-                    <input type="date"  class="r_carstartdate" name="r_carstartdate" id="car-start-date">
-                    <input type="date" class="r_carenddate" name="r_carenddate" id="car-end-date">
-                    <input type="text" class="r_company" name="r_company" placeholder="회사명">
-                    <input type="text" class="r_department" name="r_department" placeholder="부서">
-                    <input type="text" class="r_position" name="r_position" placeholder="직책">
-                </div>
-            </div>
-            <i class="bi bi-plus-square" id="car-add"></i>
+            <input type="text" id="skillinput" placeholder="사용가능한 툴 ex:java">
+        </div>
+        <input type="hidden" id="r_skill" name="r_skill">
+        <div id="result" ></div>
+
+  <%--링크--%>
+        <div class="repoint"  style="width: 800px; height: 180px;">링크 업로드
+        <HR>
+            <i class="bi bi-link-45deg" style="font-size: 30px"></i>
+        <input type="text" name="r_link" placeholder="http://,https://를 포함해 작성해주세요." style="width: 750px">
         </div>
 
-
-        <div id="r_pos" style="width: 800px; height: 300px;">
-            <div style="font-size: 20px">포지션</div>
-            <HR>
-            <div style="background-color: #FFF2FE; font-size: 15px">
-                * 지원하는 포지션을 작성해주세요.<br>
-            </div>
-            <br>
-            <input type="text" name="r_pos" placeholder="포지션" style="width: 300px">
-        </div>
-
-        <div id="r_deg" style="width: 800px; height: 300px;">
-            <div style="font-size: 20px">학력</div>
+<%-- 학력--%>
+        <div id="r_deg"style="width: 800px; height: 200px;" >
+            <div  class="repoint">학력<span style="font-size: 20px">(최종학력)</span></div>
             <hr>
-            <div style="background-color: #FFF2FE; font-size: 15px">
-                * 최종학력으로 작성해주세요.<br>
-            </div>
             <br>
             <div class="form-group-grade" style="width: 800px;">
-                <input type="date" name="r_gradestart" class="r_gradestart" id="grade-start-date">
-                <input type="date" name="r_gradeend" class="r_gradeend" id="grade-end-date">
-                <input type="text" class="r_gradecom" name="r_gradecom" placeholder="학교명">
-                <select class="grade-staus" name="r_sta">
+                <input type="date" name="r_gradestart" class="r_gradestart" id="grade-start-date"
+                       style="width: 175px; height: 45px;">
+                <input type="date" name="r_gradeend" class="r_gradeend" id="grade-end-date"
+                       style="width: 175px; height: 45px;">
+                <input type="text" class="r_gradecom" name="r_gradecom" placeholder="학교명"
+                       style="width: 280px; height: 45px;">
+                <select class="grade-staus" name="r_sta" style="width: 150px; height: 45px;">
                     <option value="재학">재학</option>
                     <option value="졸업">졸업</option>
                 </select>
             </div>
         </div>
 
-                <div id="r_skills" style="width: 800px; height: 300px;">
-                    <div style="font-size: 20px">스킬</div>
-                    <HR>
-                    <div style="background-color: #FFF2FE; font-size: 15px">
-                        * 개발스택,디자인 툴, 마케팅 툴등 가지고 있는 직무와 관련된 스킬을 추가해보세요.<br>
-                        * 데이터분석 툴이나 협업 툴 등의 사용해본 경험이 있으신 툴들고 추가해보세요.
-                    </div>
-                    <br>
-                    <input type="text" id="skillinput" placeholder="사용가능한 툴 ex:java" style="width: 300px">
-                </div>
-        <input type="hidden" id="r_skill" name="r_skill">
-                <div id="result" ></div>
 
-
-                <div id="r_lic" style="width: 800px; height: 300px;">
-                    <div style="font-size: 20px">자격증</div>
-                    <hr>
-                    <div style="background-color: #FFF2FE; font-size: 15px">
-                        * 자격증을 보유한 경우 작성해주세요.<br>
-                    </div>
-                    <br>
-                    <div id="form-lic">
-                        <div class="form-group-lic" style="width: 800px;">
-                            <input type="date" name="r_licdate" id="lic-end-date">
-                            <input type="text" name="r_licname" placeholder="자격증" style="width: 300px">
-                        </div>
-                    </div>
-                    <i class="bi bi-plus-square" id="lic-add"></i>
-                </div>
-
-
-
-        <div id="r_file" style="width: 800px; height: 300px;">
-            <div style="font-size: 20px">첨부파일 업로드</div>
+    <%--경력--%>
+        <div id="r_car" style="width: 800px; height: auto;">
+            <div class="repoint">경력</div>
             <HR>
-            <div style="background-color: #FFF2FE; font-size: 15px">
-                * 자격증 파일을 업로드 해주세요.<br>
-                * 하나의 pdf 로 업로드 해주세요.
+            <br>
+            <div id="form-car">
+                <div class="form-group" style="width: 800px;">
+                    <input type="date"  class="r_carstartdate" name="r_carstartdate" id="car-start-date"
+                           style="width: 280px; height: 45px;">
+                    <input type="date" class="r_carenddate" name="r_carenddate" id="car-end-date"
+                           style="width: 280px; height: 45px;">
+                    <br><br>
+                    <input type="text" class="r_company" name="r_company" placeholder="회사명" style="width: 250px; height: 45px;">
+                    <input type="text" class="r_department" name="r_department" placeholder="부서" style="width: 250px; height: 45px;">
+                    <input type="text" class="r_position" name="r_position" placeholder="직책" style="width: 250px; height: 45px;">
+                </div>
             </div>
+            <i class="bi bi-plus-square" id="car-add"></i>
+        </div>
+
+        <%-- 자격증--%>
+        <br><br>
+        <div id="r_deg"style="width: 800px; height: auto;" >
+            <div  class="repoint">자격증</div>
+            <hr>
+            <br>
+            <div id="form-lic">
+                <div class="form-group-lic" style="width: 800px;height: auto">
+                    <input type="date" name="r_licdate" id="lic-end-date" style="width: 250px; height: 40px;">&nbsp;&nbsp;
+                    <input type="text" name="r_licname" placeholder="자격증" style="width: 520px; height: 40px;">
+                </div>
+            </div>
+            <i class="bi bi-plus-square" id="lic-add"></i>
+        </div>
+
+        <%-- 간단 소개줄 --%>
+        <br><br>
+        <div id="r_deg"style="width: 800px; height: auto;" >
+            <div  class="repoint">간단 소개줄</div>
+            <hr>
+            <br>
+            <textarea name="r_self"
+                      placeholder="   간단한 자기소개를 통해 이력서를 돋보이게 만들어보세요,(3~5줄 권장)"></textarea>
+        </div>
+
+        <br><br><br>
+
+        <div id="r_deg" style="width: 800px; height: auto;" >
+            <div  class="repoint">첨부파일 업로드<span style="font-size: 15px">(자격증,포트폴리오)</span></div>
+            <hr>
             <br>
             <input type="file" name="upload_r" class="r_file">
-            <br><br>
-            <div style="font-size: 20px">이력서 업로드</div>
-            <HR>
-            <div style="background-color: #FFF2FE; font-size: 15px" class="">
-                * 이력서 파일을 업로드 해주세요.<br>
-            </div>
+        </div>
+
+        <br><br>
+
+        <div id="r_deg" style="width: 800px; height: auto;" >
+            <div  class="repoint">이력서 업로드</div>
+            <hr>
             <br>
             <input type="file" name="upload_re" class="r_refile">
-            <br><br>
-            <div style="font-size: 20px">링크 업로드</div>
-            <HR>
-            <div style="background-color: #FFF2FE; font-size: 15px">
-                * 깃허브, 깃랩, 블로그 주소를 입력해주세요.<br>
-            </div>
-            <input type="text" style="width: 300px" name="r_link">
-            <br><br><br>
-            <button type="submit">게시글등록</button>
         </div>
+
+        <br><br>
+        <div style="text-align: right;">
+            <button type="submit"  class="btn btn-outline-dark">게시글등록   </button>
+        </div>
+        <DIV STYLE="height: 60PX"></DIV>
+
     </form>
 </div>
 <script>
+    //토글 이벤트
+    function updateToggleValue() {
+        var toggle = document.getElementById("uptoggle");
+        if (toggle.checked) {
+            toggle.value = "1";
+        } else {
+            toggle.value = "0";
+        }
+    }
+
     //skill ajax 이벤트
 
-        document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function () {
         const input = document.getElementById("skillinput");
         const result = document.getElementById("result");
         let r_text = "";
 
         input.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-        event.preventDefault(); // Prevent the default form submission behavior
-        const values = input.value.split(","); // Split the input value into an array of values
+            if (event.key === "Enter") {
+                event.preventDefault(); // Prevent the default form submission behavior
+                const values = input.value.split(","); // Split the input value into an array of values
 
-        values.forEach(function (value) {
-        if (value.trim() !== "") { // Ignore empty values
-        const span = document.createElement("span");
-        span.textContent = value.trim();
+                values.forEach(function (value) {
+                    if (value.trim() !== "") { // Ignore empty values
+                        const span = document.createElement("span");
+                        span.textContent = value.trim();
 
-        const deleteButton = document.createElement("button"); // Create delete button
-            deleteButton.textContent = "X";
-            deleteButton.addEventListener("click", function () {
-        result.removeChild(span); // Remove the span element
-        result.removeChild(deleteButton); // Remove the delete button
-        r_text = r_text.replace(span.textContent + ",", ""); // Remove the value from the r_text variable
-        $("#r_skill").val(r_text); // Update the hidden input value
+                        const deleteButton = document.createElement("button"); // Create delete button
+                        deleteButton.textContent = "X";
+                        deleteButton.addEventListener("click", function () {
+                            result.removeChild(span); // Remove the span element
+                            result.removeChild(deleteButton); // Remove the delete button
+                            r_text = r_text.replace(span.textContent + ",", ""); // Remove the value from the r_text variable
+                            $("#r_skill").val(r_text); // Update the hidden input value
+                        });
+
+                        result.appendChild(span);
+                        result.appendChild(deleteButton);
+                        result.appendChild(document.createTextNode('\u00A0')); // &nbsp;
+
+                        r_text += span.textContent + ',';
+                    }
+                });
+
+                $("#r_skill").val(r_text);
+                input.value = ""; // Clear the input field
+            }
+        });
     });
 
-        result.appendChild(span);
-        result.appendChild(deleteButton);
-        result.appendChild(document.createTextNode('\u00A0')); // &nbsp;
 
-        r_text += span.textContent + ',';
-    }
-    });
-
-        $("#r_skill").val(r_text);
-        input.value = ""; // Clear the input field
-    }
-    });
-    });
-
-
-    //경력 + 이벤트
+    // 경력 + 이벤트
     const addInputButton = document.getElementById("car-add");
     const form = document.getElementById("form-car");
-    let inputCount = 1;
+    let inputCount = document.querySelectorAll('.r_carstartdate').length;
 
     addInputButton.addEventListener("click", function () {
         inputCount++;
         const newInputGroup = document.createElement("div");
         newInputGroup.classList.add("form-group");
+
         newInputGroup.innerHTML = `
-        <input type="date" name="r_carstartdate" class="car-start-date" >
-        <input type="date" name="r_carenddate" class="car-end-date">
-        <input type="text" name="r_company" placeholder="회사명">
-        <input type="text" name="r_department" placeholder="부서">
-        <input type="text" name="r_position" placeholder="직책">
-    `;
+<br>
+    <input type="date" class="r_carstartdate" name="r_carstartdate" id="car-start-date-${inputCount}"
+        style="width: 280px; height: 45px;">
+    <input type="date" class="r_carenddate" name="r_carenddate" id="car-end-date-${inputCount}"
+        style="width: 280px; height: 45px;">
+    <br><br>
+    <input type="text" class="r_company" name="r_company" placeholder="회사명" style="width: 250px; height: 45px;">
+    <input type="text" class="r_department" name="r_department" placeholder="부서" style="width: 250px; height: 45px;">
+    <input type="text" class="r_position" name="r_position" placeholder="직책" style="width: 250px; height: 45px;">`;
+
         form.appendChild(newInputGroup);
 
-        // Get the input elements for the dates
-        const startDateInputs = document.querySelectorAll('.car-start-date');
-        const endDateInputs = document.querySelectorAll('.car-end-date');
+        const startDateInput = document.getElementById(`car-start-date-${inputCount}`);
+        const endDateInput = document.getElementById(`car-end-date-${inputCount}`);
 
-        // Loop through each input element and apply date restrictions
-        startDateInputs.forEach(function (input) {
-            const currentDate = new Date().toISOString().split('T')[0];
-            input.setAttribute('max', currentDate);
+        const currentDate = new Date().toISOString().split('T')[0];
+        startDateInput.setAttribute('max', currentDate);
+        endDateInput.setAttribute('max', currentDate);
 
-            input.addEventListener('change', function () {
-                const selectedDate = input.value;
-                if (selectedDate > currentDate) {
-                    alert('오늘 이후의 날짜는 선택할 수 없습니다.');
-                    input.value = currentDate;
-                }
-            });
+        startDateInput.addEventListener('change', function () {
+            const selectedDate = startDateInput.value;
+            if (selectedDate > endDateInput.value) {
+                endDateInput.value = selectedDate;
+            }
         });
 
-        endDateInputs.forEach(function (input) {
-            const currentDate = new Date().toISOString().split('T')[0];
-            input.setAttribute('max', currentDate);
-
-            input.addEventListener('change', function () {
-                const selectedDate = input.value;
-                if (selectedDate > currentDate) {
-                    alert('오늘 이후의 날짜는 선택할 수 없습니다.');
-                    input.value = currentDate;
-                }
-            });
+        endDateInput.addEventListener('change', function () {
+            const selectedDate = endDateInput.value;
+            if (selectedDate < startDateInput.value) {
+                startDateInput.value = selectedDate;
+                alert("시작일 이전은 선택할 수 없습니다.");
+            }
         });
     });
+
 
     //자격증 + 이벤트
     const addInputlic = document.getElementById("lic-add");
@@ -362,9 +386,10 @@
         const newInputGroup = document.createElement("div");
         newInputGroup.classList.add("form-group-lic");
         newInputGroup.innerHTML = `
-        <input type="date" class="lic-date" name="r_licdate">
-        <input type="text" placeholder="자격증" style="width: 300px" name="r_licname">
-    `;
+        <br>
+    <input type="date" name="r_licdate" class="lic-date" id="lic-end-date-${inputCountlic}" style="width: 250px; height: 40px;">
+    <input type="text" name="r_licname" placeholder="자격증" style="width: 520px; height: 40px;"><br>
+  `;
         licform.appendChild(newInputGroup);
 
         // Get the input element for the date

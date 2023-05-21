@@ -16,6 +16,13 @@
     <script>
 <%--        버튼 상태 관련 이벤트  --%>
         $(document).ready(function() {
+
+            var currentPosition = parseInt($(".quickmenu").css("top"));
+            $(window).scroll(function () {
+                var position = $(window).scrollTop();
+                /*$(".quickmenu").stop().animate({"top": position + currentPosition + "px"}, 700);*/
+                $(".quickmenu").css("transform", "translateY(" + position + "px)");
+            });
             <!-- jsp 실행 이전의 리액션 여부 체크 및 버튼 색상 표현 -->
                 checkAddRpBefore();
                 answer();
@@ -39,8 +46,9 @@
                             "m_idx" : ${sessionScope.memidx}
                         },
                         success : function(goodReactionPoint) {
-                            $("#add-goodRp-btn").addClass("already-added");
-                            $(".add-goodRp").html(goodReactionPoint);
+                            // $("#add-goodRp-btn").addClass("already-added");
+                            $("#add-goodRp-btn .icon_thumbup").css("background-position","-159px -486px");
+                            // $(".add-goodRp").html(goodReactionPoint);
                             isAlreadyAddGoodRp = true;
                         },
                         error : function() {
@@ -58,8 +66,9 @@
                             "m_idx" : ${sessionScope.memidx}
                         },
                         success : function(goodReactionPoint) {
-                            $("#add-goodRp-btn").removeClass("already-added");
-                            $(".add-goodRp").html(goodReactionPoint);
+                            // $("#add-goodRp-btn").removeClass("already-added");
+                            // $(".add-goodRp").html(goodReactionPoint);
+                            $("#add-goodRp-btn .icon_thumbup").css("background-position","-130px -486px");
                             isAlreadyAddGoodRp = false;
                         },
                         error : function() {
@@ -90,8 +99,9 @@
                             "m_idx" : ${sessionScope.memidx}
                         },
                         success : function(badReactionPoint) {
-                            $("#add-badRp-btn").addClass("already-added");
-                            $(".add-badRp").html(badReactionPoint);
+                            // $("#add-badRp-btn").addClass("already-added");
+                            // $(".add-badRp").html(badReactionPoint);
+                            $("#add-badRp-btn .icon_thumbdown").css("background-position","-395px -486px");
                             isAlreadyAddBadRp = true;
                         },
                         error : function() {
@@ -109,8 +119,9 @@
                             "m_idx" : ${sessionScope.memidx}
                         },
                         success : function(badReactionPoint) {
-                            $("#add-badRp-btn").removeClass("already-added");
-                            $(".add-badRp").html(badReactionPoint);
+                            // $("#add-badRp-btn").removeClass("already-added");
+                            // $(".add-badRp").html(badReactionPoint);
+                            $("#add-badRp-btn .icon_thumbdown").css("background-position","-424px -486px");
                             isAlreadyAddBadRp = false;
                         },
                         error : function() {
@@ -134,7 +145,7 @@
             <a href="/">홈</a>
             <a href="./list?currentPage=${currentPage}" class="qboard_link">질문게시판</a>
             <h2>${dto.qb_subject}</h2>
-            <b style="font-size: 15px; color: black;" margin-bottom: 10px;>
+            <b style="font-size: 15px; cursor:pointer; color: black;" margin-bottom: 10px; onclick=message("${nickname}")>
                 <img src="${profilePhoto}" class="memberimg" width="50px">&nbsp;
                 ${nickname}
             </b>
@@ -159,7 +170,7 @@
                 <p class="blind" style="color: red; font-size: 30px; cursor: pointer">블라인드 처리된 게시글 입니다.</p>
                 <div class="content" hidden="hidden">
                     <div class="content_txt">
-                            ${dto.qb_content}<br>
+                        <pre>${dto.qb_content}</pre>
                     </div>
                     <c:choose>
                         <c:when test="${list[0] == 'n' || list[0] == 'no'}">
@@ -179,7 +190,7 @@
 
             <c:if test="${dto.qb_dislike < 20}">
                 <div class="content_txt">
-                        ${dto.qb_content}<br>
+                    <pre>${dto.qb_content}</pre>
                 </div>
                 <c:choose>
                     <c:when test="${list[0] == 'n' || list[0] == 'no'}">
@@ -198,31 +209,37 @@
             <div class="clear" style="margin-top: 40px;border-bottom: 1px solid #eee; padding-bottom: 40px;">
                 <%-- 좋아요 / 싫어요 버튼--%>
                 <div class="footbox">
-                    <span id="add-goodRp-btn" class="btn btn-outline" >
-                          <div class="icon_thumbup"></div>
-                          <span class="add-goodRp ml-2">좋아요</span>
-                        </span>
-                    <span id="add-badRp-btn" class="ml-5 btn btn-outline">
-                          <div class="icon_thumbdown"></div>
-                          <span class="add-badRp ml-2">별로에요</span>
+                    <span id="add-goodRp-btn" class="clear" style="display: inline-block; cursor: pointer">
+                        <div class="icon_thumbup"></div>
+                        <span class="add-goodRp ml-2">좋아요</span>
+                    </span>
+                    <span id="add-badRp-btn" class="clear" style="display: inline-block; cursor: pointer; margin-left: 10px;">
+                        <div class="icon_thumbdown"></div>
+                        <span class="add-badRp ml-2">별로에요</span>
                     </span>
                 </div>
                 <div class="util_btns">
                     <c:if test="${dto.m_idx == sessionScope.memidx}">
-                        <button class="btn btn-outline-dark" type="button"
-                                onclick="deletePost(${dto.qb_idx})">
-                            삭제
-                        </button>
-                        <button class="btn btn-outline-dark" type="button"
-                                onclick="location.href='updateform?qb_idx=${dto.qb_idx}&currentPage=${currentPage}'">
-                            수정
-                        </button>
+<%--                        <button class="btn btn-outline-dark" type="button"--%>
+<%--                                onclick="deletePost(${dto.qb_idx})">--%>
+<%--                            삭제--%>
+<%--                        </button>--%>
+<%--                        <button class="btn btn-outline-dark" type="button"--%>
+<%--                                onclick="location.href='updateform?qb_idx=${dto.qb_idx}&currentPage=${currentPage}'">--%>
+<%--                            수정--%>
+<%--                        </button>--%>
+                        <button type="button" onclick="deletePost(${dto.qb_idx})" class="btn btn-sm btn-outline-secondary"><i class="bi bi-trash"></i>&nbsp;삭제</button>
+                        <button type="button" onclick="location.href='./list?currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-card-list"></i>&nbsp;목록</button>
+                        <button type="button" onclick="location.href='updateform?qb_idx=${dto.qb_idx}&currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil-square"></i>&nbsp;수정</button>
+
                     </c:if>
                     <c:if test="${sessionScope.memstate == 100}">
-                        <button class="btn btn-outline-dark" type="button"
-                                onclick="deletePost(${dto.qb_idx})">
-                            삭제
-                        </button>
+<%--                        <button class="btn btn-outline-dark" type="button"--%>
+<%--                                onclick="deletePost(${dto.qb_idx})">--%>
+<%--                            삭제--%>
+<%--                        </button>--%>
+                        <button type="button" onclick="deletePost(${dto.qb_idx})" class="btn btn-sm btn-outline-secondary"><i class="bi bi-trash"></i>&nbsp;삭제</button>
+                        <button type="button" onclick="location.href='./list?currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-card-list"></i>&nbsp;목록</button>
                     </c:if>
                 </div>
             </div>
@@ -268,9 +285,11 @@
     function checkAddRpBefore() {
         <!-- 변수값에 따라 각 id가 부여된 버튼에 클래스 추가(이미 눌려있다는 색상 표시) -->
         if (isAlreadyAddGoodRp == true) {
-            $("#add-goodRp-btn").addClass("already-added");
+            // $("#add-goodRp-btn").addClass("already-added");
+            $("#add-goodRp-btn .icon_thumbup").css("background-position","-159px -486px");
         } else if (isAlreadyAddBadRp == true) {
-            $("#add-badRp-btn").addClass("already-added");
+            // $("#add-badRp-btn").addClass("already-added");
+            $("#add-badRp-btn .icon_thumbdown").css("background-position","-395px -486px");
         } else {
             return;
         }
@@ -304,14 +323,13 @@
                     s += `
                             <p style="cursor:pointer;" onclick=message("\${item.nickname}")>\${item.nickname}</p></h4>
                             <h2 style="margin-top: 10px;font-size: 16px;">\${item.ab_content}</h2>
-                            <div class="icon_time"></div><h6 style="color: #94969b;font-size: 12px;display: inline">\${item.ab_writeday}</h6>
                         `;
-
                     $.each(item.photo, function (index2, photos) {
                         if (${photos == no}) {
                             s += `<img src="http://${imageUrl}/aboard/\${photos}" style="width:400px;"><br>`;
                         };
                     });
+                    s += `<div class="icon_time"></div><h6 style="color: #94969b;font-size: 12px;display: inline">\${item.ab_writeday}</h6>`;
                     if (item.m_idx == ${sessionScope.memidx}) {
                         s += `
     <button class="btn btn-outline-dark btn-sm" type="button" onclick="deleteComment(\${item.ab_idx})" style="float:right; margin-left: 3px;">
@@ -362,6 +380,8 @@
             contentType: false, // 필수: FormData를 사용할 때는 contentType을 false로 설정해야 함
             success: function (response) {
                 alert("답글이 작성되었습니다.");
+                $("#qb_commentCnt").text("댓글 " + response);
+                $("#commentCnt").html("<div class='icon_comment'></div>" +response);
                 answer();
 
             },
@@ -379,6 +399,8 @@
                 data: {"ab_idx":ab_idx},
                 success: function (response) {
                     alert("답글이 삭제되었습니다.");
+                    $("#qb_commentCnt").text("댓글 " + response);
+                    $("#commentCnt").html("<div class='icon_comment'></div>" +response);
                     answer();
                 },
                 error: function (xhr, status, error) {
@@ -458,5 +480,38 @@
         $("#aboardContent").val("");
         $('#aboardPhoto').val('');
     })
+
+$.ajax({
+    type: "post",
+    url: "./bestPostsForBanner",
+    dataType: "json",
+    success: function (response) {
+        let s = "";
+        $.each(response, function (index, item) {
+            s +=
+                `
+                    <li>
+                    <a href="../qboard/detail?qb_idx=\${item.qb_idx}&currentPage=1">
+                    <div class="name">
+                    <div class="num"><div style="width: 3px;height: 3px; border-radius: 50%; background-color: red; display: inline-block"></div><span style="vertical-align: middle; margin-left: 10px;">\${item.qb_subject}</span></div>
+                    </div>
+                    </a>
+                    </li>
+                    `
+        });
+        s +=
+            `
+                <li class="view_all_li">
+                    <a href="/qboard/list">
+                        <span class="view_all">전체보기</span>
+                    </a>
+                </li>
+                `;
+        $(".quickmenu ul").append(s);
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+        console.log("Error: " + textStatus + " - " + errorThrown);
+    }
+});
 </script>
 

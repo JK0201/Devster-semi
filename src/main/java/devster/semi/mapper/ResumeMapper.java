@@ -33,4 +33,7 @@ public interface ResumeMapper {
     public String selectPhotoOfm_idx(int m_idx);
     public int getTotalCount();
     public List<ResumeDto> getPagingList(Map<String,Integer> map);
+    public String selectnameOfm_idx(int m_idx);
+    public String selectteleOfm_idx(int m_idx);
+    public String selectemailOfm_idx(int m_idx);
 }

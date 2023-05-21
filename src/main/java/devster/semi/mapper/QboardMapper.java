@@ -24,6 +24,8 @@ public interface QboardMapper {
     public void increaseDislikeCount(int qb_idx);
     public List<FreeBoardDto> bestfreeboardPosts();
     public int countComment(int qb_idx);
+    public List<QboardDto> bestQboardPosts();
+
     //좋아요 / 싫어요 관련 메서드들
     public void increaseGoodRp(int qb_idx);
     public void increaseBadRp(int qb_idx);
@@ -37,8 +39,10 @@ public interface QboardMapper {
     public void deleteBadRpInfo(Map<String,Integer> map);
     public Integer getRpInfoBym_idx(Map<String,Integer> map);
 
+
     // 검색
     public List<QboardDto> searchlist(Map<String, Object> map);
     public int countsearch(Map<String, Object> map);
+
 
 }

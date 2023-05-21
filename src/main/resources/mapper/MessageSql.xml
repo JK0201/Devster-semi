@@ -28,6 +28,12 @@
         where recv_nick=#{nick} and read_chk=0 and room=#{room}
     </select>
 
+    <!--  전체 안읽은 메세지 갯수 가져오기 -->
+    <select id="getAllUnreadCount" parameterType="String" resultType="int">
+        select count(mes_idx) from message
+        where recv_nick=#{nick} and read_chk=0
+    </select>
+
     <!-- 메세지 내용 가져오기 -->
     <select id="getRoomContentList" parameterType="MessageDto" resultType="MessageDto">
         select msg.mes_idx, msg.room, msg.send_nick, msg.recv_nick, date_format(msg.send_time, '%Y-%m-%d %H:%i') send_time, msg.read_time, msg.content, msg.read_chk, m.m_photo
@@ -94,6 +100,8 @@
         where (send_nick=#{nick} and recv_nick=#{other_nick}) or (send_nick=#{other_nick} and recv_nick=#{nick})
         order by mes_idx asc
     </select>
+
+
 
 
 </mapper>

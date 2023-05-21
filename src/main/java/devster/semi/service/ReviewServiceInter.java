@@ -12,6 +12,8 @@ public interface ReviewServiceInter {
     public List<ReviewDto>GetAllReview();
     public int getTotalcount();
     public String selectnicnameofmidx(int rb_idx);
+
+    public String selectPhotoOfMidx(int rb_idx);
     public List<ReviewDto> getPagingList(int start,int perPage);
     public void deletereview(int rb_idx);
     public void updatereview(ReviewDto dto);

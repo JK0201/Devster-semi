@@ -1,9 +1,6 @@
 package devster.semi.controller;
 
-import devster.semi.dto.CompanyinfoDto;
-import devster.semi.dto.FreeBoardDto;
-import devster.semi.dto.NoticeBoardDto;
-import devster.semi.dto.ReviewDto;
+import devster.semi.dto.*;
 import devster.semi.service.ReviewService;
 import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,29 +34,14 @@ public class ReviewBoardController {
     //버켓 이름
     private String bucketName = "devster-bucket";//각자 자기 버켓이름
 
-    @GetMapping("/list")
-    public String list(@RequestParam(defaultValue = "1") int currentPage, Model model,HttpSession session) {
-
-
+    @GetMapping("/listajax")
+    @ResponseBody
+    public List<Map<String,Object>> listAjax(int currentPage, HttpSession session)
+    {
         int totalCount = reviewService.getTotalcount();
-        int totalPage; // 총 페이지 수
         int perPage = 7; // 한 페이지당 보여줄 글 갯수
-        int perBlock = 5; // 한 블록당 보여질 페이지의 갯수
         int startNum; // 각 페이지에서 보여질 글의 시작번호
-        int startPage; // 각 블록에서 보여질 시작 페이지 번호
-        int endPage; // 각 블록에서 보여질 끝 페이지 번호
         int no; // 글 출력시 출력할 시작번호
-
-        // 총 페이지 수
-        totalPage = totalCount / perPage + (totalCount % perPage == 0 ? 0 : 1);
-        // 시작 페이지
-        startPage = (currentPage - 1) / perBlock * perBlock + 1;
-        // 끝 페이지
-        endPage = startPage + perBlock - 1;
-
-        // endPage가 totalPage 보다 큰 경우
-        if (endPage > totalPage)
-            endPage = totalPage;
 
         // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
         startNum = (currentPage - 1) * perPage;
@@ -71,15 +53,20 @@ public class ReviewBoardController {
         // 각 페이지에 필요한 게시글 db에서 가져오기
         List<ReviewDto> list = reviewService.getPagingList(startNum, perPage);
 
-        List<Map<String, Object>> fulllList = new ArrayList<>();
+        List<Map<String,Object>> fulllList =new ArrayList<>();
 
 
-        for (ReviewDto dto : list) {
-            Map<String, Object> map = new HashMap<>();
+
+
+
+        for(ReviewDto dto : list) {
+            Map<String,Object> map = new HashMap<>();
+
             // 버튼 상태에 대한 정보를 디테일 페이지로 보내줌.
             boolean isAlreadyAddGoodRp = reviewService.isAlreadyAddGoodRp(dto.getRb_idx(),(int)session.getAttribute("memidx"));
             boolean isAlreadyAddBadRp = reviewService.isAlreadyAddBadRp(dto.getRb_idx(), (int)session.getAttribute("memidx"));
-
+            System.out.println("isAlreadyGood : " + isAlreadyAddGoodRp);
+            System.out.println("isAlreadyBad : " + isAlreadyAddBadRp);
             map.put("rb_idx", String.valueOf(dto.getRb_idx()));
             map.put("m_idx", String.valueOf(dto.getM_idx()));
             map.put("rb_like", dto.getRb_like());
@@ -87,12 +74,18 @@ public class ReviewBoardController {
             map.put("rb_type", dto.getRb_type());
             map.put("rb_star", dto.getRb_star());
             map.put("nickName", reviewService.selectnicnameofmidx(dto.getM_idx()));
+            String m_photo = reviewService.selectPhotoOfMidx(dto.getRb_idx());
+            if(m_photo.equals("no")) {
+                m_photo = "/photo/profile.jpg";
+            } else {
+                m_photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+m_photo;
+            }
+            map.put("m_photo",m_photo);
             map.put("rb_content", dto.getRb_content());
             String currentTimestampToString = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(dto.getRb_writeday());
             map.put("rb_writeday", currentTimestampToString);
             map.put("isAlreadyAddGoodRp",isAlreadyAddGoodRp);
             map.put("isAlreadyAddBadRp",isAlreadyAddBadRp);
-
 
             List<CompanyinfoDto> ciDtoList = reviewService.getDataciinfo(dto.getCi_idx());
             if (ciDtoList != null && !ciDtoList.isEmpty()) {
@@ -106,7 +99,98 @@ public class ReviewBoardController {
                 map.put("ci_star", ciDto.getCi_star());
                 map.put("ci_idx", ciDto.getCi_idx());
             }
+//            map.put("list",list);
+            map.put("currentPage",currentPage);
+            map.put("totalCount", totalCount);
+            map.put("no", no);
             fulllList.add(map);
+
+        }
+        System.out.println(fulllList);
+        return fulllList;
+    }
+
+    @GetMapping("/list")
+    public String list(@RequestParam(defaultValue = "1") int currentPage, Model model,HttpSession session) {
+
+
+        int totalCount = reviewService.getTotalcount();
+//        int totalPage; // 총 페이지 수
+        int perPage = 7; // 한 페이지당 보여줄 글 갯수
+//        int perBlock = 5; // 한 블록당 보여질 페이지의 갯수
+        int startNum; // 각 페이지에서 보여질 글의 시작번호
+//        int startPage; // 각 블록에서 보여질 시작 페이지 번호
+//        int endPage; // 각 블록에서 보여질 끝 페이지 번호
+        int no; // 글 출력시 출력할 시작번호
+
+//        // 총 페이지 수
+//        totalPage = totalCount / perPage + (totalCount % perPage == 0 ? 0 : 1);
+//        // 시작 페이지
+//        startPage = (currentPage - 1) / perBlock * perBlock + 1;
+//        // 끝 페이지
+//        endPage = startPage + perBlock - 1;
+//
+//        // endPage가 totalPage 보다 큰 경우
+//        if (endPage > totalPage)
+//            endPage = totalPage;
+
+        // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
+        startNum = (currentPage - 1) * perPage;
+
+        // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
+        // no = totalCount - (currentPage - 1) * perPage;
+        no = totalCount - startNum;
+
+        // 각 페이지에 필요한 게시글 db에서 가져오기
+        List<ReviewDto> list = reviewService.getPagingList(startNum, perPage);
+
+
+        List<Map<String, Object>> fulllList = new ArrayList<>();
+
+
+        for (ReviewDto dto : list) {
+            Map<String, Object> map = new HashMap<>();
+            // 버튼 상태에 대한 정보를 디테일 페이지로 보내줌.
+            boolean isAlreadyAddGoodRp = reviewService.isAlreadyAddGoodRp(dto.getRb_idx(),(int)session.getAttribute("memidx"));
+            boolean isAlreadyAddBadRp = reviewService.isAlreadyAddBadRp(dto.getRb_idx(), (int)session.getAttribute("memidx"));
+            System.out.println("isAlreadyGood : " + isAlreadyAddGoodRp);
+            System.out.println("isAlreadyBad : " + isAlreadyAddBadRp);
+
+            map.put("rb_idx", String.valueOf(dto.getRb_idx()));
+            map.put("m_idx", String.valueOf(dto.getM_idx()));
+            map.put("rb_like", dto.getRb_like());
+            map.put("rb_dislike", dto.getRb_dislike());
+            map.put("rb_type", dto.getRb_type());
+            map.put("rb_star", dto.getRb_star());
+            map.put("nickName", reviewService.selectnicnameofmidx(dto.getM_idx()));
+            String m_photo = reviewService.selectPhotoOfMidx(dto.getRb_idx());
+            if(m_photo.equals("no")) {
+                m_photo = "/photo/profile.jpg";
+            } else {
+                m_photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+m_photo;
+            }
+            map.put("m_photo",m_photo);
+            map.put("rb_content", dto.getRb_content());
+            String currentTimestampToString = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(dto.getRb_writeday());
+            map.put("rb_writeday", currentTimestampToString);
+            map.put("isAlreadyAddGoodRp",isAlreadyAddGoodRp);
+            map.put("isAlreadyAddBadRp",isAlreadyAddBadRp);
+
+
+            List<CompanyinfoDto> ciDtoList = reviewService.getDataciinfo(dto.getCi_idx());
+            if (ciDtoList != null && !ciDtoList.isEmpty()) {
+            CompanyinfoDto ciDto = ciDtoList.get(0);
+            map.put("ci_name", ciDto.getCi_name());
+            map.put("ci_ppl", ciDto.getCi_ppl());
+            DecimalFormat decimalFormat = new DecimalFormat("#,###");
+            map.put("ci_sale", ciDto.getCi_sale());
+            map.put("ci_sal", decimalFormat.format(ciDto.getCi_sal()) + "원");
+            map.put("ci_photo", ciDto.getCi_photo());
+            map.put("ci_star", ciDto.getCi_star());
+            map.put("ci_idx", ciDto.getCi_idx());
+            }
+            fulllList.add(map);
+
         }
 
 
@@ -115,15 +199,13 @@ public class ReviewBoardController {
 
         // 출력시 필요한 변수들 model에 전부 저장
         model.addAttribute("totalCount", totalCount);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-        model.addAttribute("totalPage", totalPage);
+//        model.addAttribute("startPage", startPage);
+//        model.addAttribute("endPage", endPage);
+//        model.addAttribute("totalPage", totalPage);
         model.addAttribute("no", no);
         model.addAttribute("currentPage", currentPage);
 
-
-        model.addAttribute("totalCount", totalCount);
-
+        System.out.println(fulllList);
         return "/main/review/reviewlist";
     }
 
@@ -150,7 +232,7 @@ public class ReviewBoardController {
     @PostMapping("/insert")
     @ResponseBody
 
-    public boolean insertreview(@RequestParam int rb_type, String rb_content, int rb_star, int m_idx, Integer
+    public boolean insertreview(@RequestParam int rb_type, String rb_content, int rb_star, int m_idx, int
             ci_idx) {
 
         ReviewDto dto = new ReviewDto();
