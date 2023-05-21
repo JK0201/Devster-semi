@@ -7,7 +7,7 @@
     <style>
         #quanbu{
             width: 1100px;
-            margin: 32px auto;
+            margin: 42px auto;
             /*background-color: palegreen;*/
             /*position: relative;*/
             font-family: 'Noto Sans KR', sans-serif;
@@ -400,12 +400,12 @@
 
         <div class="headbox">
             <h4 class="boardname">
-                <div class="yellowbar">&nbsp;</div>&nbsp;&nbsp;리뷰게시판
+                <div class="yellowbar" style="margin-right: 10px;">&nbsp;</div>리뷰게시판
             </h4>
 
             <!-- 검색창 -->
             <div class="searchdiv">
-                <select id="searchOption" class="form-select">
+                <select id="searchOption" class="form-select form-select-sm">
                     <option id="all" value="all">전체검색</option>
                     <option id="searchnickname" value="m_nickname">작성자 검색</option>
                     <option id="searchsubject" value="rb_subject">제목 검색</option>
@@ -425,14 +425,14 @@
                 <c:if test="${NoticeBoardTotalCount>0}">
                     <c:forEach var="dto" items="${nblist}">
 
-                        <li>
-                            <b class="noticetitle">Devster 공지사항</b>
+                        <li style="display: flex;">
+                            <b class="noticetitle">공지</b>
                             <a href="../noticeboard/noticeboarddetail?nb_idx=${dto.nb_idx}&currentPage=${currentPage}">
                                     ${dto.nb_subject}
-                                <c:if test="${dto.nb_photo!='n'}">
-                                    &nbsp; <i class="bi bi-images"></i>
-                                </c:if>
                             </a>
+                            <c:if test="${dto.nb_photo!='n'}">
+                                &nbsp; <div class="icon_img"><img></div>
+                            </c:if>
                         </li>
                     </c:forEach>
                 </c:if>
@@ -872,8 +872,8 @@
 
     <%--무한스크롤--%>
 
-    <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
-        <button id="myWriteBtn" type="button" onclick="location.href='./reviewriterform'">글쓰기</button>
+    <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="bi bi-caret-up-fill"></i></button>
+        <button id="myWriteBtn" type="button" onclick="location.href='./reviewriterform'"><i class="bi bi-pencil-square"></button>
     <%--로딩이미지--%>
     <div id="loading"
              style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999;">
