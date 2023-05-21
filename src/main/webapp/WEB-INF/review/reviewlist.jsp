@@ -1009,20 +1009,12 @@
 
     $(document).on('click', '.add-goodRp-btn', function() {
         let rb_idx = this.id.replace('add-goodRp-btn', '');
-        alert("변수 없는지??? " + (dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] == null && dynamicVars[`isAlreadyAddBadRp\${rb_idx}`] == null));
 
         if(dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] == null && dynamicVars[`isAlreadyAddBadRp\${rb_idx}`] == null) {
-            alert("변수 없음(좋아요 눌림상태) : " + dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`])
-            alert("변수 없음(싫어요 눌림상태) : " + dynamicVars[`isAlreadyAddBadRp\${rb_idx}`])
             dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] = $(this).data('isalreadyaddgoodrp');
             dynamicVars[`isAlreadyAddBadRp\${rb_idx}`] = $(this).data('isalreadyaddbadrp');
             likebuttonCheck(dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`], dynamicVars[`isAlreadyAddBadRp\${rb_idx}`], rb_idx);
         } else {
-            alert("게시글 번호 : " + rb_idx);
-            alert("좋아요 변수 없는지? : " + (dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] == null))
-            alert("싫어요 변수 없는지? : " + (dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] == null))
-            alert("변수 있음(좋아요 눌림상태) : " + dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`])
-            alert("변수 있음(싫어요 눌림상태) : " + dynamicVars[`isAlreadyAddBadRp\${rb_idx}`])
             likebuttonCheck(dynamicVars[`isAlreadyAddGoodRp${rb_idx}`], dynamicVars[`isAlreadyAddBadRp\${rb_idx}`], rb_idx);
         }
 
@@ -1030,20 +1022,12 @@
     });
     $(document).on('click', '.add-badRp-btn', function() {
         let rb_idx = this.id.replace('add-badRp-btn', '');
-        alert("변수 없는지??? " + (dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] == null && dynamicVars[`isAlreadyAddBadRp\${rb_idx}`] == null));
 
         if(dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] == null && dynamicVars[`isAlreadyAddBadRp\${rb_idx}`] == null) {
-            alert("변수 없음(좋아요 눌림상태) : " + dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`])
-            alert("변수 없음(싫어요 눌림상태) : " + dynamicVars[`isAlreadyAddBadRp\${rb_idx}`])
             dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] = $(this).data('isalreadyaddgoodrp');
             dynamicVars[`isAlreadyAddBadRp\${rb_idx}`] = $(this).data('isalreadyaddbadrp');
             dislikebuttonCheck(dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`], dynamicVars[`isAlreadyAddBadRp\${rb_idx}`], rb_idx);
         } else {
-            alert("게시글 번호 : " + rb_idx);
-            alert("좋아요 변수 없는지? : " + (dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] == null))
-            alert("싫어요 변수 없는지? : " + (dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] == null))
-            alert("변수 있음(좋아요 눌림상태) : " + dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`])
-            alert("변수 있음(싫어요 눌림상태) : " + dynamicVars[`isAlreadyAddBadRp\${rb_idx}`])
             dislikebuttonCheck(dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`], dynamicVars[`isAlreadyAddBadRp\${rb_idx}`], rb_idx);
         }
 
