@@ -160,7 +160,7 @@
 
 
         .review {
-            width: 775px;
+            width: 100%;
             height: auto;
             border-top: 1px solid lightgray;
             border-radius: 0px;
