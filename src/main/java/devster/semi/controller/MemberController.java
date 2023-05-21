@@ -538,7 +538,7 @@ public class MemberController {
 
     @GetMapping("/passfinder")
     public String passFinder() {
-        return "/main/member/passfinder";
+        return "/memmain/member/passfinder";
     }
 
     @GetMapping("/caccfinder")
@@ -648,21 +648,20 @@ public class MemberController {
     @GetMapping("/findaccinfo")
     @ResponseBody
     public void pFindAccInfo(String m_email, String m_name, HttpSession session) {
-        session.setMaxInactiveInterval(60);
         session.setAttribute("m_email", m_email);
         session.setAttribute("m_name", m_name);
     }
 
     @GetMapping("/update")
     public String pUpdate(HttpSession session, Model model) {
-//        String m_email = (String) session.getAttribute("m_email");
-//        String m_name = (String) session.getAttribute("m_name");
-//
-//        session.removeAttribute("m_email");
-//        session.removeAttribute("m_name");
-//
-//        model.addAttribute("m_email", m_email);
-//        model.addAttribute("m_name", m_name);
+        String m_email = (String) session.getAttribute("m_email");
+        String m_name = (String) session.getAttribute("m_name");
+
+        session.removeAttribute("m_email");
+        session.removeAttribute("m_name");
+
+        model.addAttribute("m_email", m_email);
+        model.addAttribute("m_name", m_name);
         return "/main/member/passupdate";
     }
 
@@ -706,7 +705,6 @@ public class MemberController {
     @GetMapping("/cfindaccinfo")
     @ResponseBody
     public void CPFindAccInfo(String cm_email, String cm_name, HttpSession session) {
-        session.setMaxInactiveInterval(60);
         session.setAttribute("cm_email", cm_email);
         session.setAttribute("cm_name", cm_name);
     }
