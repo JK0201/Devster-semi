@@ -472,6 +472,12 @@
                                   <div class='mx-4 reCommentDiv' id='reCommentDiv_' data-index="\${idx}"></div>
 
                                   </div>`;
+                        } else {
+                            s += `<div style="" class="clear">
+                                  <button class="btn btn-outline-dark btn-sm" type="button" onclick="deleteComment(\${ele.fbc_idx})" style="float: right; margin-left: 3px; visibility: hidden;">삭제</button>
+                                  <button class="btn btn-outline-dark btn-sm" type="button" data-fbcidx="\${ele.fbc_idx}" onclick="updateCommentForm(\${ele.fbc_idx},\${idx})" style="float: right; visibility: hidden;">수정</button></div>
+
+                                  <div class='mx-4 reCommentDiv' id='reCommentDiv_' data-index="\${idx}"></div>`;
                         }
                     });
 
