@@ -199,6 +199,7 @@
             <!-- 전체검색(페이징) -->
             <when test="searchOption=='all'">
                 WHERE rb.rb_content LIKE CONCAT('%', #{keyword}, '%')
+                OR rb.rb_type LIKE CONCAT('%', #{keyword}, '%')
                 OR m.m_nickname LIKE CONCAT('%', #{keyword}, '%')
             </when>
             <!-- 전체검색 아닐경우 -->
