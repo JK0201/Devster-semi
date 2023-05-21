@@ -2,6 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <div class="wrap clear">
     <div class="container">
         <div class="searchdiv">
@@ -11,8 +12,7 @@
                 <option id="freesearch" value="freeboard">일반게시판</option>
                 <option id="qnasearch" value="qboard">질문게시판</option>
                 <option id="hiresearch" value="hireboard">채용정보</option>
-                <%--<option id="academysearch" value="">학원별게시판</option>--%>
-                <option id="reviewsearch" value="reviewboard">회사후기</option>
+                <%--<option id="reviewsearch" value="reviewboard">회사후기</option>--%>
             </select>
         </div>
         <script>
@@ -57,6 +57,7 @@
 
             });
 
+
         </script>
 
 
@@ -92,6 +93,7 @@
                             </td>
 
 
+
                         </tr>
                     </c:forEach>
                 </c:if>
@@ -123,9 +125,9 @@
 
                                  <td>${dto.m_idx}(번호)</td>--%>
 
-                            <td class="fb_subject clear">
+                            <td class="fb_subject clear" >
                                 <a href="freeboard/freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}"
-                                   style="color: #000;">
+                                   style="color: #000; " >
                                         ${dto.fb_subject}
                                     <c:if test="${dto.fb_photo!='n'}">
                                         &nbsp; <%--<i class="bi bi-images"></i>--%>

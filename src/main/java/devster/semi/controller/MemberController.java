@@ -471,6 +471,7 @@ public class MemberController {
         session.removeAttribute("acaidx");
         session.removeAttribute("cmidx");
         session.removeAttribute("cmname");
+        session.removeAttribute("memacademy");
 
         return "redirect:/";
     }

@@ -204,6 +204,7 @@
                 // null 값 검색시 -> 아무일도 안일어남
                 if (keyword == '') {
                     alert("검색하실 내용을 입력해주세요.")
+                    isSearch = false;
                     return
                 } else { // 검색 내용 있을때
                     // 기본 출력
@@ -224,6 +225,7 @@
 
                             if (res.length == 0) {
                                 alert("검색 결과가 없습니다.");
+                                isSearch = false;
                                 noMoreData = true;
                                 $("#loading").hide();
                             } else {
@@ -409,7 +411,7 @@
                                 <h3 class="fb_subject text-block-subject-2-nophoto">
                                     <a href="freeboarddetail?fb_idx=${dto.fb_idx}">
                                         <b>
-                                                ${dto.fb_content}
+                                                ${dto.fb_subject}
                                         </b>
                                     </a>
                                 </h3>
@@ -425,7 +427,7 @@
                                 <h3 class="fb_subject text-block-subject-2-photo">
                                     <a href="freeboarddetail?fb_idx=${dto.fb_idx}">
                                         <b>
-                                                ${dto.fb_content}
+                                                ${dto.fb_subject}
                                         </b>
                                     </a>
                                 </h3>
@@ -484,7 +486,8 @@
                                 <h3 class="fb_subject text-block-subject-2-nophoto">
                                     <a href="freeboarddetail?fb_idx=${dto.fb_idx}">
                                         <b>
-                                                ${dto.fb_content}
+                                                ${dto.fb_subject}
+
                                         </b>
                                     </a>
                                 </h3>
@@ -500,7 +503,7 @@
                                 <h3 class="fb_subject text-block-subject-2-photo">
                                     <a href="freeboarddetail?fb_idx=${dto.fb_idx}">
                                         <b>
-                                                ${dto.fb_content}
+                                                ${dto.fb_subject}
                                         </b>
                                     </a>
                                 </h3>

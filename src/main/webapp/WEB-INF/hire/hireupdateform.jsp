@@ -141,12 +141,12 @@
 
             <div class="input-group">
                 <%--<label>Question</label>--%>
-                <input class="subject" type="text" name="hb_subject"  value="${dto.hb_subject}" required>
+                <input class="subject" type="text" name="hb_subject"  value="${dto.hb_subject}" required maxlength="200">
             </div>
             <div class="input-group message">
                 <label>토픽에 맞지 않는 글로 판단되어 다른 유저로부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 블라인드처리 될 수 있습니다.</label>
                 <textarea name="hb_content" class="content" cols="47"
-                          rows="7" required>${dto.hb_content}</textarea>
+                          rows="7" required maxlength="10000">${dto.hb_content}</textarea>
             </div>
             <div class="input-group fileupload">
                 <input class="file_select" id="fileInput" type="file" name="upload" style="padding-top: 10px;" multiple>

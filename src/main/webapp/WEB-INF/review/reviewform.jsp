@@ -235,7 +235,7 @@
                 <label>토픽에 맞지 않는 글로 판단되어 다른 유저로부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 블라인드처리 될 수 있습니다.</label>
                 <textarea name="rb_content" class="content rb_content"
                           placeholder="후기를 입력해주세요." cols="47"
-                          rows="7" required></textarea>
+                          rows="7" required maxlength="1000"></textarea>
             </div>
 
             <!--별점-->
