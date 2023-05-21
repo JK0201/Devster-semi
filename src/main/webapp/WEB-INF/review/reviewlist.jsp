@@ -66,8 +66,7 @@
             width: 5em;
             float: left;
             padding-left: 180px;
-
-            margin-top: -25px;
+            margin-top: -40px;
 
         }
 
@@ -273,13 +272,13 @@
                     <label for="rating${i}" class="star" \${(i <= ele.ci_star) ? 'style="color: orange;"' : 'style="color: #ccc;"'}>★</label>`;
                     }
                     s += `
-                                  <pre>
+                                  <pre style="width: 100%">
                                     회사이름: \${ele.ci_name}
                                     사원수: \${ele.ci_ppl} 명
                                     매출액: \${ele.ci_sale}
                                     평균연봉: \${ciSalFormatted}
                                     Devster 평균별점:
-                                    <span class="star-ci_star_list" style="float: left;">
+                                    <span class="star-ci_star_list" style="float: left; width: 100%">
                                       \${stars}
                                     </span>
                                   </pre>
@@ -682,9 +681,9 @@
     </div>
 
         <!-- 폼 레이어  -->
-    <div class="popupLayer">
+    <div class="popupLayer" >
         <div onClick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</div>
-        <div class="alist" style="float: left; margin-right: 150px ;margin-left:30px;">
+        <div class="alist" style="float: left; margin-right: -30px ; margin-left:70px">
     </div>
 
 </div>
