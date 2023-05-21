@@ -3,17 +3,12 @@
   <component name="WebContextManager">
     <option name="state">
       <map>
-<<<<<<< HEAD
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member/finderselect.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member/grats.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/member" />
-=======
-
           <!--  <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/mypage/resumedetail.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/mypage" />-->
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/academyboard/academyboarddetail.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/academyboard" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/freeboard/freeboardlist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/freeboard" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/review/reviewlist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/review" />
-
->>>>>>> 57db7bb26949dbccd94392bf7b216011999ed24b
       </map>
     </option>
   </component>
