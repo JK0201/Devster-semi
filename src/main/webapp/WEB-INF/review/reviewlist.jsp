@@ -221,8 +221,8 @@
     </style>
 
 <script>
-    let dynamicVars = {};
 
+    let dynamicVars = {};
 
     function showCompanyInfo(ci_idx) {
         $.ajax({
@@ -885,11 +885,7 @@
         <!-- 폼 레이어  -->
     <div class="popupLayer" >
         <div onClick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</div>
-<<<<<<< HEAD
-        <div class="alist" style="float: left; margin-right: -30px ; margin-left:70px">
-=======
         <div class="alist" style="float: left; margin-right: 150px ;margin-left:0px; ">
->>>>>>> main
     </div>
 
 </div>
@@ -901,6 +897,7 @@
 
 <%--무한스크롤--%>
 <script>
+
     $(document).ready(function () {
 
         $(document).on('click', '.imgSelect', function() {
@@ -971,15 +968,15 @@
                                             s += `<div class="fncbtn" style="text-align:right;">`;
 
                                             if (dto.isAlreadyAddGoodRp==true){
-                                                s += `&nbsp;<span class="btn btn-outline add-goodRp-btn already-added yetadded" id="add-goodRp-btn\${dto.rb_idx}"  style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👍도움이 돼요( <span class="add-goodRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px">\${dto.rb_like}</span>&nbsp;)</span>`;
-                                                s += `&nbsp;<span class="ml-5 btn btn-outline add-badRp-btn yetadded" id="add-badRp-btn\${dto.rb_idx}" style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👎불필요해요( <span class="add-badRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px" >\${dto.rb_dislike}</span>&nbsp;)</span>`;
+                                                s += `&nbsp;<span class="btn btn-outline add-goodRp-btn already-added yetadded" id="add-goodRp-btn\${dto.rb_idx}"  style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrp = "\${dto.isAlreadyAddBadRp}">👍도움이 돼요( <span class="add-goodRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px">\${dto.rb_like}</span>&nbsp;)</span>`;
+                                                s += `&nbsp;<span class="ml-5 btn btn-outline add-badRp-btn yetadded" id="add-badRp-btn\${dto.rb_idx}" style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrp = "\${dto.isAlreadyAddBadRp}">👎불필요해요( <span class="add-badRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px" >\${dto.rb_dislike}</span>&nbsp;)</span>`;
 
                                             }else if(dto.isAlreadyAddBadRp==true){
-                                                s += `&nbsp;<span class="btn btn-outline add-goodRp-btn yetadded" id="add-goodRp-btn\${dto.rb_idx}"  style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👍도움이 돼요( <span class="add-goodRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px">\${dto.rb_like}</span>&nbsp;)</span>`;
-                                                s += `&nbsp;<span class="ml-5 btn btn-outline add-badRp-btn already-added yetadded" id="add-badRp-btn\${dto.rb_idx}" style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👎불필요해요( <span class="add-badRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px" >\${dto.rb_dislike}</span>&nbsp;)</span>`;
+                                                s += `&nbsp;<span class="btn btn-outline add-goodRp-btn yetadded" id="add-goodRp-btn\${dto.rb_idx}"  style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrp = "\${dto.isAlreadyAddBadRp}">👍도움이 돼요( <span class="add-goodRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px">\${dto.rb_like}</span>&nbsp;)</span>`;
+                                                s += `&nbsp;<span class="ml-5 btn btn-outline add-badRp-btn already-added yetadded" id="add-badRp-btn\${dto.rb_idx}" style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrp = "\${dto.isAlreadyAddBadRp}">👎불필요해요( <span class="add-badRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px" >\${dto.rb_dislike}</span>&nbsp;)</span>`;
                                             }else{
-                                                s += `&nbsp;<span class="btn btn-outline add-goodRp-btn yetadded" id="add-goodRp-btn\${dto.rb_idx}"  style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👍도움이 돼요( <span class="add-goodRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px">\${dto.rb_like}</span>&nbsp;)</span>`;
-                                                s += `&nbsp;<span class="ml-5 btn btn-outline add-badRp-btn yetadded" id="add-badRp-btn\${dto.rb_idx}" style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👎불필요해요( <span class="add-badRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px" >\${dto.rb_dislike}</span>&nbsp;)</span>`;
+                                                s += `&nbsp;<span class="btn btn-outline add-goodRp-btn yetadded" id="add-goodRp-btn\${dto.rb_idx}"  style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrp = "\${dto.isAlreadyAddBadRp}">👍도움이 돼요( <span class="add-goodRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px">\${dto.rb_like}</span>&nbsp;)</span>`;
+                                                s += `&nbsp;<span class="ml-5 btn btn-outline add-badRp-btn yetadded" id="add-badRp-btn\${dto.rb_idx}" style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrp = "\${dto.isAlreadyAddBadRp}">👎불필요해요( <span class="add-badRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px" >\${dto.rb_dislike}</span>&nbsp;)</span>`;
                                             }
                                             if (dto.m_idx == m_idx) {
                                                 s += `&nbsp;<button type="button" class="btn btn-sm btn-outline-primary custom-btn" onclick="location.href='./updateform?rb_idx=\${dto.rb_idx}'" style="margin-bottom: 10px">글 수정</button>`;
@@ -1009,29 +1006,43 @@
     });
 
 
-
-
     $(document).on('click', '.add-goodRp-btn', function() {
         let rb_idx = this.id.replace('add-goodRp-btn', '');
+        alert("변수 없는지??? " + (dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] == null && dynamicVars[`isAlreadyAddBadRp\${rb_idx}`] == null));
 
         if(dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] == null && dynamicVars[`isAlreadyAddBadRp\${rb_idx}`] == null) {
+            alert("변수 없음(좋아요 눌림상태) : " + dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`])
+            alert("변수 없음(싫어요 눌림상태) : " + dynamicVars[`isAlreadyAddBadRp\${rb_idx}`])
             dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] = $(this).data('isalreadyaddgoodrp');
-            dynamicVars[`isAlreadyAddBadRp\${rb_idx}`] = $(this).data('isalreadyaddbadrsp');
+            dynamicVars[`isAlreadyAddBadRp\${rb_idx}`] = $(this).data('isalreadyaddbadrp');
             likebuttonCheck(dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`], dynamicVars[`isAlreadyAddBadRp\${rb_idx}`], rb_idx);
         } else {
-            likebuttonCheck(dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`], dynamicVars[`isAlreadyAddBadRp\${rb_idx}`], rb_idx);
+            alert("게시글 번호 : " + rb_idx);
+            alert("좋아요 변수 없는지? : " + (dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] == null))
+            alert("싫어요 변수 없는지? : " + (dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] == null))
+            alert("변수 있음(좋아요 눌림상태) : " + dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`])
+            alert("변수 있음(싫어요 눌림상태) : " + dynamicVars[`isAlreadyAddBadRp\${rb_idx}`])
+            likebuttonCheck(dynamicVars[`isAlreadyAddGoodRp${rb_idx}`], dynamicVars[`isAlreadyAddBadRp\${rb_idx}`], rb_idx);
         }
 
 
     });
     $(document).on('click', '.add-badRp-btn', function() {
         let rb_idx = this.id.replace('add-badRp-btn', '');
+        alert("변수 없는지??? " + (dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] == null && dynamicVars[`isAlreadyAddBadRp\${rb_idx}`] == null));
 
         if(dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] == null && dynamicVars[`isAlreadyAddBadRp\${rb_idx}`] == null) {
+            alert("변수 없음(좋아요 눌림상태) : " + dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`])
+            alert("변수 없음(싫어요 눌림상태) : " + dynamicVars[`isAlreadyAddBadRp\${rb_idx}`])
             dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] = $(this).data('isalreadyaddgoodrp');
-            dynamicVars[`isAlreadyAddBadRp\${rb_idx}`] = $(this).data('isalreadyaddbadrsp');
+            dynamicVars[`isAlreadyAddBadRp\${rb_idx}`] = $(this).data('isalreadyaddbadrp');
             dislikebuttonCheck(dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`], dynamicVars[`isAlreadyAddBadRp\${rb_idx}`], rb_idx);
         } else {
+            alert("게시글 번호 : " + rb_idx);
+            alert("좋아요 변수 없는지? : " + (dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] == null))
+            alert("싫어요 변수 없는지? : " + (dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] == null))
+            alert("변수 있음(좋아요 눌림상태) : " + dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`])
+            alert("변수 있음(싫어요 눌림상태) : " + dynamicVars[`isAlreadyAddBadRp\${rb_idx}`])
             dislikebuttonCheck(dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`], dynamicVars[`isAlreadyAddBadRp\${rb_idx}`], rb_idx);
         }
 
@@ -1061,7 +1072,8 @@
 
 
     function likebuttonCheck(isAlreadyAddGoodRp,isAlreadyAddBadRp,rb_idx) {
-
+        alert("good" + isAlreadyAddGoodRp);
+        alert("bad" + isAlreadyAddBadRp);
 
         if (isAlreadyAddBadRp == true) {
             alert('이미 싫어요를 누르셨습니다.');
@@ -1079,9 +1091,9 @@
 
                     $("#add-goodRp-btn"+rb_idx).addClass('already-added');
                     $(".add-goodRp"+ rb_idx).html(goodReactionPoint);
+                    alert(" : " + dynamicVars[`isAlreadyAddGoodRp${rb_idx}`])
                     dynamicVars[`isAlreadyAddGoodRp${rb_idx}`] = true;
-
-
+                    alert("after : " + dynamicVars[`isAlreadyAddGoodRp${rb_idx}`])
 
                 },
                 error: function () {
@@ -1099,8 +1111,9 @@
                 success : function(goodReactionPoint) {
                     $("#add-goodRp-btn"+rb_idx).removeClass('already-added');
                     $(".add-goodRp"+ rb_idx).html(goodReactionPoint);
+                    alert("before : " + dynamicVars[`isAlreadyAddGoodRp${rb_idx}`])
                     dynamicVars[`isAlreadyAddGoodRp${rb_idx}`] = false;
-
+                    alert("after : " + dynamicVars[`isAlreadyAddGoodRp${rb_idx}`])
 
                 },
                 error : function() {
@@ -1132,7 +1145,10 @@
                 success: function (badReactionPoint) {
                     $("#add-badRp-btn"+rb_idx).addClass('already-added');
                     $(".add-badRp"+ rb_idx).html(badReactionPoint);
+                    alert("before : " + dynamicVars[`isAlreadyAddGBadRp${rb_idx}`])
                     dynamicVars[`isAlreadyAddBadRp${rb_idx}`] = true;
+                    alert("after : " + dynamicVars[`isAlreadyAddGBadRp${rb_idx}`])
+
                 },
                 error: function () {
                     alert('서버 에러, 다시 시도해주세요.');
@@ -1149,7 +1165,9 @@
                 success : function(badReactionPoint) {
                     $("#add-badRp-btn"+rb_idx).removeClass('already-added');
                     $(".add-badRp"+ rb_idx).html(badReactionPoint);
+                    alert("before : " + dynamicVars[`isAlreadyAddGBadRp${rb_idx}`])
                     dynamicVars[`isAlreadyAddBadRp${rb_idx}`] = false;
+                    alert("after : " + dynamicVars[`isAlreadyAddGBadRp${rb_idx}`])
                 },
                 error : function() {
                     alert('서버 에러, 다시 시도해주세요.');
@@ -1160,9 +1178,4 @@
         };
     };
 
-
-
-
 </script>
-
-git 
