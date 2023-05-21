@@ -193,10 +193,10 @@
             color: #0f132a;
             opacity: 0.6;
             font-weight: bold;
-            transition:.2s linear;
+            transition: .2s linear;
         }
 
-        #signin span{
+        #signin span {
             text-decoration: underline;
         }
 
