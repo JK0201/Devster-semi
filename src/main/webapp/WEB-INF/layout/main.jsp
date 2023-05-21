@@ -2,6 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <div class="wrap clear">
     <div class="container">
         <div class="searchdiv">
@@ -56,6 +57,7 @@
 
             });
 
+
         </script>
 
 
@@ -95,6 +97,7 @@
                             </td>
 
 
+
                         </tr>
                     </c:forEach>
                 </c:if>
@@ -126,9 +129,11 @@
 
                                  <td>${dto.m_idx}(번호)</td>--%>
 
+
                             <td class="fb_subject clear" style="display: flex;">
+
                                 <a href="freeboard/freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}"
-                                   style="color: #000;">
+                                   style="color: #000; " >
                                         ${dto.fb_subject}
                                    <%-- <c:if test="${dto.fb_photo!='n'}">
                                         &nbsp; &lt;%&ndash;<i class="bi bi-images"></i>&ndash;%&gt;
