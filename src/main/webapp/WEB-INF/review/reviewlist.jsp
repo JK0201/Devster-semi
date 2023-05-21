@@ -64,10 +64,10 @@
             /*  padding: 0 .2em;*/
             /*      text-align: center;*/
             width: 5em;
-            float: left;
+            /*float: left;*/
             padding-left: 180px;
 
-            margin-top: -25px;
+            margin-top: -15px;
 
         }
 
@@ -684,7 +684,7 @@
         <!-- 폼 레이어  -->
     <div class="popupLayer">
         <div onClick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</div>
-        <div class="alist" style="float: left; margin-right: 150px ;margin-left:30px;">
+        <div class="alist" style="float: left; margin-right: 150px ;margin-left:30px; height: 500px; width: 700px ;">
     </div>
 
 </div>
