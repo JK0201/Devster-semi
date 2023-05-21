@@ -51,6 +51,15 @@
         border-color: #5c0579;
     }
 
+    .headbox .searchdiv_aca #searchinput {
+        z-index: 1;
+        position: relative;
+        font-size: 14px;
+        padding: 0 0 0 142px;
+        height: 48px;
+        border: 1px solid #bbb;
+    }
+
 
 </style>
 <script>
