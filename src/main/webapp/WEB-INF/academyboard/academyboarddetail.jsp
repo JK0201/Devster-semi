@@ -4,9 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../commonvar.jsp" %>
     <style>
-        body, body * {
-            font-family: 'Gowun Batang'
-        }
 
         img{
             width: 100px;
