@@ -21,5 +21,6 @@ public class CompanyMemberDto {
     private String salt;
     private int cm_new; //가입완료 + 요청:0, 완료:1
     private Timestamp cm_date;
+    private String cm_reg;
 }
 

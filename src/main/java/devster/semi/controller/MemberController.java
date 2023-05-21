@@ -75,7 +75,7 @@ public class MemberController {
 //        m.addAttribute("m_email", m_email);
 //        m.addAttribute("m_pass", m_pass);
 
-        return "/main/member/apisignup";
+        return "/memmain/member/apisignup";
     }
 
     @GetMapping("/navercallback")
@@ -155,7 +155,7 @@ public class MemberController {
     @GetMapping("/apiaccinfo")
     @ResponseBody
     public void apiAccInfo(String m_email, String m_pass, HttpSession session) {
-        session.setMaxInactiveInterval(60);
+        session.setMaxInactiveInterval(60 * 10);
         session.setAttribute("m_email", m_email);
         session.setAttribute("m_pass", m_pass);
     }
@@ -346,7 +346,7 @@ public class MemberController {
 
     @PostMapping("/signupform")
     @ResponseBody
-    public void signUpForm(MemberDto dto, String ai_name, MultipartFile upload) {
+    public void signUpForm(MemberDto dto, String ai_name, List<MultipartFile> upload) {
         String salt = SHA256Util.generateSalt();
         String m_pass = dto.getM_pass();
         m_pass = SHA256Util.getEncrypt(m_pass, salt);
@@ -356,33 +356,48 @@ public class MemberController {
         tokens = phoneNoHyphen.split("\\s");
         String m_tele = String.join("", tokens);
 
-        if (dto.getAi_name() == null) {
-            dto.setAi_name("no");
-        } //학원 보류
-
         String m_photo = "";
+        StringBuilder m_photoBuiler = new StringBuilder();
 
-        if (upload == null) {
-            m_photo = "no";
+        if (upload != null) {
+            for (MultipartFile file : upload) {
+                String photo = storageService.uploadFile(bucketName, "member", file) + ",";
+                m_photoBuiler.append(photo);
+            }
+            m_photo = m_photoBuiler.toString();
+            m_photo = m_photo.substring(0, m_photo.length() - 1);
+            System.out.println(m_photo);
         } else {
-            m_photo = storageService.uploadFile(bucketName, "member", upload);
-        } //업로드 어떻게 할지 생각하기
+            m_photo = "no";
+        }
 
+        String acaname = dto.getAi_name();
+        if (memberService.chkAcademyIdx(acaname) != 0) {
+            dto.setAi_name(acaname);
+            dto.setAi_idx(memberService.getAcademyIdx(acaname));
+        } else {
+            dto.setAi_name("no");
+            dto.setAi_idx(0);
+        }
 
-        dto.setAi_name(ai_name); // 학원 보류
-
+        dto.setM_email(dto.getM_email().trim());
         dto.setSalt(salt);
         dto.setM_pass(m_pass);
         dto.setM_photo(m_photo);
         dto.setM_tele(m_tele);
-        dto.setAi_idx(memberService.getAcademyIdx(dto.getAi_name()));
+
 
         memberService.addNewMember(dto);
     }
 
     @PostMapping("cmsignupform")
     @ResponseBody
-    public void cmSignUpForm(CompanyMemberDto dto, MultipartFile upload) {
+    public void cmSignUpForm(CompanyMemberDto dto, List<MultipartFile> upload) {
+        String[] tokens = dto.getCm_reg().split("-");
+        String regNoHyphen = String.join("", tokens);
+        tokens = regNoHyphen.split("\\s");
+        String cm_reg = String.join("", tokens);
+
         String salt = SHA256Util.generateSalt();
         String cm_pass = dto.getCm_pass();
         cm_pass = SHA256Util.getEncrypt(cm_pass, salt);
@@ -398,14 +413,22 @@ public class MemberController {
         String cm_cp = String.join("", tokensCp);
 
         String cm_photo = "";
+        StringBuilder cm_photoBuiler = new StringBuilder();
 
-        if (upload == null) {
-            cm_photo = "no";
+        if (upload != null) {
+            for (MultipartFile file : upload) {
+                String photo = storageService.uploadFile(bucketName, "member", file) + ",";
+                cm_photoBuiler.append(photo);
+            }
+            cm_photo = cm_photoBuiler.toString();
+            cm_photo = cm_photo.substring(0, cm_photo.length() - 1);
+            System.out.println(cm_photo);
         } else {
-            cm_photo = storageService.uploadFile(bucketName, "company_member", upload);
-        } //업로드 어떻게 할지 생각하기
+            cm_photo = "no";
+        }
 
-
+        dto.setCm_reg(cm_reg);
+        dto.setCm_email(dto.getCm_email().trim());
         dto.setSalt(salt);
         dto.setCm_pass(cm_pass);
         dto.setCm_tele(cm_tele);
@@ -419,7 +442,7 @@ public class MemberController {
 
     @PostMapping("/apisignupform")
     @ResponseBody
-    public void apiSignUpForm(MemberDto dto, String ai_name, MultipartFile upload) {
+    public void apiSignUpForm(MemberDto dto, String ai_name, List<MultipartFile> upload) {
         String salt = SHA256Util.generateSalt();
         String m_pass = dto.getM_pass();
         m_pass = SHA256Util.getEncrypt(m_pass, salt);
@@ -429,24 +452,36 @@ public class MemberController {
         tokens = phoneNoHyphen.split("\\s");
         String m_tele = String.join("", tokens);
 
-        if (dto.getAi_name() == null) {
-            dto.setAi_name("no");
-        } //학원 보류
-
         String m_photo = "";
-        if (upload == null) {
-            m_photo = "no";
+        StringBuilder m_photoBuiler = new StringBuilder();
+
+        if (upload != null) {
+            for (MultipartFile file : upload) {
+                String photo = storageService.uploadFile(bucketName, "member", file) + ",";
+                m_photoBuiler.append(photo);
+            }
+            m_photo = m_photoBuiler.toString();
+            m_photo = m_photo.substring(0, m_photo.length() - 1);
+            System.out.println(m_photo);
         } else {
-            m_photo = storageService.uploadFile(bucketName, "member", upload);
+            m_photo = "no";
         }
 
-        dto.setAi_name(ai_name);
+        ai_name = dto.getAi_name();
+        if (memberService.chkAcademyIdx(ai_name) != 0) {
+            dto.setAi_name(ai_name);
+            dto.setAi_idx(memberService.getAcademyIdx(ai_name));
+        } else {
+            dto.setAi_name("no");
+            dto.setAi_idx(0);
+        }
 
+        dto.setM_email(dto.getM_email().trim());
         dto.setSalt(salt);
         dto.setM_pass(m_pass);
         dto.setM_photo(m_photo);
         dto.setM_tele(m_tele);
-        dto.setAi_idx(memberService.getAcademyIdx(dto.getAi_name()));
+
 
         memberService.addNewMember(dto);
     }
@@ -492,7 +527,7 @@ public class MemberController {
 
     @GetMapping("/finder")
     public String finder() {
-        return "/main/member/finderselect";
+        return "/memmain/member/finderselect";
     }
 
     @GetMapping("/accfinder")

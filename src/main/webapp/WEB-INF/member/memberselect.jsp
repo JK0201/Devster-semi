@@ -53,7 +53,7 @@
 
         .links li {
             display: inline-block;
-            font-size: 4vh;
+            font-size: 3vh;
             border-top: 2px solid transparent;
         }
 
@@ -189,17 +189,18 @@
             font-size: 2vh;
         }
 
-        #signin, #finder {
+        #signin span, #finder {
             color: #0f132a;
             opacity: 0.6;
             font-weight: bold;
+            transition:.2s linear;
         }
 
-        #signin {
+        #signin span{
             text-decoration: underline;
         }
 
-        #signin:hover {
+        #signin span:hover {
             opacity: 1;
             color: #8007AD;
         }
@@ -250,7 +251,7 @@
         <section>
             <p>
                 <a id="finder">이미 계정이 있나요?</a>
-                <a href="signin" id="signin">로그인</a>
+                <a href="signin" id="signin"><span>로그인</span></a>
             </p>
         </section>
     </div>

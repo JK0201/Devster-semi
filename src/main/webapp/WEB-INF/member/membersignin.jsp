@@ -76,7 +76,7 @@
             max-width: 680px;
             margin: 40px auto 10px;
             box-shadow: 4px 4px 14px 7px #bdbebd;
-            padding-top:5vh;
+            padding-top: 5vh;
             padding-bottom: 5vh;
         }
 
@@ -276,16 +276,17 @@
             font-size: 2vh;
         }
 
-        #selmember, #finder {
+        #selmember span, #finder span {
             text-decoration: none;
             color: #0f132a;
             opacity: 0.6;
             font-weight: bold;
+            transition: .2s linear;
         }
 
-        #selmember:hover, #finder:hover {
+        #selmember span:hover,#finder span:hover {
+            color:#8007AD;
             opacity: 1;
-            color: #8007AD;
         }
 
         .inputdelbtn {
@@ -410,9 +411,9 @@
         </div>
         <section>
             <p>
-                <a href="selmember" id="selmember">회원가입</a>
+                <a href="selmember" id="selmember"><span>회원가입</span></a>
                 <strong style="color:#0f132a; opacity: 0.6;">|</strong>
-                <a href="finder" id="finder">아이디/비밀번호 찾기</a>
+                <a href="finder" id="finder"><span>아이디/비밀번호 찾기</span></a>
             </p>
         </section>
     </div>
