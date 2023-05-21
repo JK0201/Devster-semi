@@ -6,27 +6,6 @@
 
 
     <style>
-        /*#ai_name {
-            cursor: default;
-        }
-
-        #acaname {
-            cursor: pointer;
-        }
-
-        #acaname:hover {
-            color: red;
-        }
-
-        #reseticon {
-            display: none;
-            cursor: pointer;
-        }
-
-        .emailreg {
-            display: none;
-        }*/
-
         .user_info_update{
             padding: 0 30px;
         }
@@ -79,6 +58,8 @@
         .user_info_update .user_informations .buttons{
             margin-left: 100px;
             margin-top: 10px;
+            position: absolute;
+            right: 277px;
         }
     </style>
 
@@ -119,14 +100,14 @@
                 <input type="tel" id="m_tele" required value="${dto.m_tele}">
                 <span id="telechkicon"></span>
             </div>
-            <div>
+            <div style="position: relative;">
                 <strong>사진</strong>
                 <input type="file" id="m_photo">
 
                 <div class="buttons">
-                    <button onclick="setDefaultProfile()">기본 프로필사진으로 변경</button>
+                    <button onclick="setDefaultProfile()" class="btn btn-sm btn-outline-secondary">기본 프로필사진으로 변경</button>&nbsp;
 
-                    <button type="button" id="submitbtn" disabled>수정하기</button>
+                    <button type="button" id="submitbtn" class="btn btn-sm btn-outline-secondary" disabled>수정하기</button>
                 </div>
 
                 <img id="showimg" src="" style="width: 400px">

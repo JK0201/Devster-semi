@@ -4,20 +4,81 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../commonvar.jsp" %>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
-    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap"
-          rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-    <style>
-    </style>
-</head>
+<style>
+    .gaip_check{
+        padding: 0 30px;
+    }
+
+    .gaip_check .title{
+        font-weight: 700;
+        font-size: 30px;
+        color: #222;
+    }
+
+    .gaip_check .wrapper{
+        width: 820px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        justify-items: center;
+        border-top: 1px solid #000;
+        margin-top: 20px;
+        padding-top: 40px;
+        grid-row-gap: 36px;
+    }
+
+    .gaip_check .wrapper h3{
+        margin-top: 6px;
+        /*overflow: hidden;
+        text-overflow: ellipsis;*/
+        width: 250px;
+        font-size: 17px;
+        font-weight: 500;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /*기업 정보 텍스트들*/
+
+    .companyUser_check_contents{
+        color: gray;
+        font-size: 12px;
+    }
+
+    .gaip_check .wrapper h4{
+        /*margin-top: 6px;*/
+        /*overflow: hidden;
+        text-overflow: ellipsis;*/
+        width: 250px;
+        font-size: 15px;
+        font-weight: 500;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #222;
+    }
+
+    .gaip_check .wrapper h6{
+        font-size: 14px;
+        color: rgb(68, 68, 68);
+        margin-top: 12px;
+    }
+
+    .gaip_check img{
+        cursor: pointer;
+    }
+
+    .gaip_check #printBox h1{
+        font-weight: 700;
+        font-size: 30px;
+        color: #222;
+    }
+
+
+</style>
+
 <script>
     $(document).ready(function (){
         if(${iscomp==1}) {
@@ -27,9 +88,41 @@
         }
     })
 </script>
-<body>
-<div id="printBox"></div>
-</body>
+
+<!--============================= 이미지 클릭시 모달 ==========================-->
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title" style="font-weight: bold;">가입 승인 이미지</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" style="margin: 0 auto; apdd">
+                <img src="http://${imageUrl}/member_academy/" style="width: 400px;">
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="gaip_check">
+    <div id="printBox"></div>
+</div>
+
+
 
 
 <script>
@@ -41,20 +134,29 @@
             success : function (res) {
                 let s = "";
                 if(res.length == 0) {
-                    s+= "<h1 style='width: 800px; margin-left: 400px;'>회원가입 승인을 요청한 회원이 없습니다.</h1>";
+                    s+= `<h1 class="title">일반회원 가입 승인</h1>`;
+                    s+= `<div class="wrapper">`;
+                    s+= "<h1 style='width: 800px;font-size: 24px;'>회원가입 승인을 요청한 회원이 없습니다.</h1>";
                 } else {
+
+                    s+= `<h1 class="title">일반회원 가입 승인</h1>`;
+                    s+= `<div class="wrapper">`;
                     $.each(res,function (idx,dto) {
                         s+=
                             `
-                            <div style="border: 3px solid black; width: 800px; margin-left: 400px; text-align: center">
-                                <img src="http://${imageUrl}/member_academy/\${dto.m_filename}" style="width: 600px; border: 3px solid black">
-                                <h3>학원명 : \${dto.ai_name}</h3>
-                                <h3>이름 : \${dto.m_name}</h3>
-                                <button type="button" class="btn btn-outline-success" onclick="normalUpgradeState(\${dto.m_idx})">승인</button>
-                                <button type="button" class="btn btn-outline-danger" onclick="normalRejectUpgrade(\${dto.m_idx})">반려</button>
+                            <div style="width: 250px;">
+                                <img src="http://${imageUrl}/member_academy/\${dto.m_filename}" style="width: 250px; border: 1px solid rgba(0, 0, 0, 0.1);"
+                                data-bs-toggle="modal" data-bs-target="#myModal" onclick="showModalImage('http://${imageUrl}/member_academy/\${dto.m_filename}')">
+                                <h6>\${dto.m_name}</h6>
+                                <h3>\${dto.ai_name}</h3>
+                                <div>
+                                <button type="button" class="btn btn-outline-success btn-sm" onclick="normalUpgradeState(\${dto.m_idx})">승인</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm" onclick="normalRejectUpgrade(\${dto.m_idx})">반려</button>
+                                </div>
                             </div>
                         `;
                     })
+                    s+= `</div>`;
                 }
                 $("#printBox").html(s);
             }
@@ -95,23 +197,35 @@
             success : function (res) {
                 let s = "";
                 if(res.length == 0) {
-                    s+= "<h1 style='width: 800px; margin-left: 400px;'>회원가입 승인을 요청한 기업 회원이 없습니다.</h1>";
+                    s+= `<h1 class="title">기업회원 가입 승인</h1>`;
+                    s+= `<div class="wrapper">`;
+                    s+= "<h1 style='width: 800px; font-size: 24px;'>회원가입 승인을 요청한 기업 회원이 없습니다.</h1></div>";
                 } else {
+
+                    s+= `<h1 class="title">기업회원 가입 승인</h1>`;
+                    s+= `<div class="wrapper">`;
+
                     $.each(res,function (idx,dto) {
                         s+=
                             `
-                            <div style="border: 3px solid black; width: 800px; margin-left: 400px; text-align: center">
-                                <img src="http://${imageUrl}/company_member/\${dto.cm_filename}" style="width: 600px; border: 3px solid black">
-                                <h3>기업명 : \${dto.cm_compname}</h3>
-                                <h3>기업 주소 : \${dto.cm_addr}</h3>
-                                <h3>기업 연락처 : \${dto.cm_tele}</h3>
-                                <h3>담당자 이름 : \${dto.cm_name}</h3>
-                                <h3>담당자 연락처 : \${dto.cm_cp}</h3>
-                                <button type="button" class="btn btn-outline-success" onclick="compUpgradeState(\${dto.cm_idx})">승인</button>
-                                <button type="button" class="btn btn-outline-danger" onclick="compRejectUpgrade(\${dto.cm_idx})">반려</button>
+                            <div style="width: 250px;" class='companyUser_check_contents'>
+                                <img src="http://${imageUrl}/company_member/\${dto.cm_filename}" style="width: 250px; border: 1px solid rgba(0, 0, 0, 0.1);"
+                                data-bs-toggle="modal" data-bs-target="#myModal" onclick="showModalImage('http://${imageUrl}/company_member/\${dto.cm_filename}')">
+                                <div style='margin-top: 12px;'>기업명<h4>\${dto.cm_compname}</h4></div>
+                                <div>기업 주소<h4>\${dto.cm_addr}</h4></div>
+                                <div>기업 연락처<h4>\${dto.cm_tele}</h4></div>
+                                <div>담당자 이름<h4>\${dto.cm_name}</h4></div>
+                                <div>담당자 연락처<h4>\${dto.cm_cp}</h4></div>
+                                <button type="button" class="btn btn-outline-success btn-sm" onclick="compUpgradeState(\${dto.cm_idx})">승인</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm" onclick="compRejectUpgrade(\${dto.cm_idx})">반려</button>
                             </div>
+
                         `;
-                    })
+
+                    });
+                    s+= `</div>`;
+
+
                 }
                 $("#printBox").html(s);
             }
@@ -144,5 +258,10 @@
         })
     }
 
+    function showModalImage(imageSrc) {
+        $('#myModal .modal-body img').attr('src', imageSrc);
+    }
+
+
 </script>
-</html>
+

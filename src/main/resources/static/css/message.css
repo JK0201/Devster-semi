@@ -168,17 +168,20 @@
 .received_withd_msg{
     position: relative;
 /*    width: max-content;*/
+    width: auto;
     max-width: 50%;
     min-width: 4em;
     margin-top: 0.5em;
+    margin-right: 20px;
     padding: 0.3em 0.7em;
     border-radius: 1em;
     background-color: #EDEDED;
     transform-origin: bottom left;
     animation: intro 0.4s ease-in-out;
-    display: flex;
+    display: inline-block;
     justify-content: center;
     align-items: center;
+    font-family: "Noto Sans KR";
 }
 .mesgs{
     float: left;
@@ -198,7 +201,7 @@
 /*    width: max-content;*/
     max-width:90%;
     min-width: 4em;
-    margin-top: 0.5em;
+   /* margin-top: 0.5em;*/
     padding: 0.5em 0.9em;
     border-radius: 1.5em;
     background-color: #EBCEEA;
@@ -208,12 +211,14 @@
     font-size: 18px;
     text-align: left;
     font-family: "Noto Sans KR";
+    /*보낸메세지 날짜 수정*/
+    margin-bottom: -8px;
 
 }
 
 .outgoing_msg{
     overflow: hidden;
-    margin: 26px 0 26px;
+  margin: 26px 0 26px;
 }
 
 

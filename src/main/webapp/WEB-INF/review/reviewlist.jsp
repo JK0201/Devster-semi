@@ -87,7 +87,6 @@
             float: left;
             margin-top: -15px;
 
-
         }
 
         .star-ci_star_list input {
@@ -160,7 +159,7 @@
 
 
         .review {
-            width: 775px;
+            width: 100%;
             height: auto;
             border-top: 1px solid lightgray;
             border-radius: 0px;
@@ -246,6 +245,7 @@
                     <label for="rating${i}" class="star" \${(i <= ele.ci_star) ? 'style="color: orange;"' : 'style="color: #ccc;"'}>★</label>`;
                     }
                     s += `
+
                                   <pre style="font-family: 'Noto Sans KR', sans-serif;float:left;width:300px;padding-left:30px;">
                                     회사이름: \${ele.ci_name}
                                     사원수: \${ele.ci_ppl} 명
@@ -884,9 +884,13 @@
     </div>
 
         <!-- 폼 레이어  -->
-    <div class="popupLayer">
+    <div class="popupLayer" >
         <div onClick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</div>
+<<<<<<< HEAD
+        <div class="alist" style="float: left; margin-right: -30px ; margin-left:70px">
+=======
         <div class="alist" style="float: left; margin-right: 150px ;margin-left:0px; ">
+>>>>>>> main
     </div>
 
 </div>
@@ -1159,3 +1163,4 @@
 
 </script>
 
+git 

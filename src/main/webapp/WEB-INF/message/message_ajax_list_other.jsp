@@ -163,13 +163,17 @@
         .incoming_msg_img{
             display: inline-block;
             width: 6%;
+
+
         }
         .received_msg{
             margin-right: 20px;
             display: inline-block;
             padding: 0 0 0 10px;
             vertical-align: top;
-            width: 60%;
+            width: auto;
+            min-width: 4em;
+            max-width: 80%;
         }
         .received_withd_msg pre{
             background: #f4f4f4 none repeat scroll 0 0;
@@ -222,7 +226,7 @@
         }
         .outgoing_msg{
             overflow: hidden;
-            /*margin: 26px 0 26px;*/
+            margin: 26px 0 26px;
         }
         .sent_msg{
             float: right;
@@ -254,7 +258,7 @@
             right: 0;
             top: 11px;
             width: 33px;
-            margin-right: 37px;
+           /* margin-right: 37px;*/
         }
 
         .msg_send_btn:hover{
@@ -268,7 +272,6 @@
             overflow-y: auto;
             background-color: #E6E6E6;
             border-radius: 20px;
-
         }
     </style>
 </head>
@@ -299,7 +302,8 @@
                                     <div class="incoming_msg">
 
                                         <div class="incoming_msg_img">
-                                            <img src="http://${imageUrl}/member/${tmp.profile}" width="50px">
+                                            <img src="http://${imageUrl}/member/${tmp.profile}" width="50px"
+                                            >
                                         </div>
 
                                         <div class="received_msg">
@@ -331,7 +335,7 @@
                                     <!--받은 메세지 -->
                                     <div class="incoming_msg">
                                         <div class="incoming_msg_img">
-                                            <img src="http://${imageUrl}/member/${tmp.profile}" width="50px">
+                                            <img src="http://${imageUrl}/member/${tmp.profile}" width="50px" >
                                         </div>
                                         <div class="received_msg">
                                             <div class="received_withd_msg">

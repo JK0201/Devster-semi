@@ -20,6 +20,7 @@ header.header .wrap{
     /* background-color: red;
     opacity: 0.5; */
     margin: 0 auto;
+    overflow: hidden;
 }
 
 header.header .wrap li{float: left;}
@@ -118,7 +119,7 @@ header.header .wrap .util_menu li.message_box{
 header.header .wrap .util_menu li.message_box i{
     font-size: 24px;
     color: #ccc;
-    margin-right: 10px;
+    margin-right: 13px;
 }
 
 header.header .wrap .util_menu li.message_box .message_count_alarm{

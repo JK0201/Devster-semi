@@ -7,7 +7,7 @@
     <style>
         .my_page_myinfo{
             padding: 0 30px;
-            height: 500px;
+            height: 450px;
         }
 
         .my_page_myinfo .title{

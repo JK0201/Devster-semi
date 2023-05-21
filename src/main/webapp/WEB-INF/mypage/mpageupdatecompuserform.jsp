@@ -4,79 +4,137 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../commonvar.jsp" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
-    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap"
-          rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
     <style>
-        #reseticon {
-            display: none;
-            cursor: pointer;
+        .companyUser_info_update{
+            padding: 0 30px;
         }
 
-        .emailreg {
-            display: none;
+        .companyUser_info_update .title{
+            font-weight: 700;
+            font-size: 30px;
+            color: #222;
+        }
+
+        .companyUser_info_update .wrapped{
+            margin-top: 24px;
+        }
+
+        .companyUser_info_update .companyUser_informations{
+            border-top: 1px solid rgb(34, 34, 34);
+            padding-top: 40px;
+            padding-left: 40px;
+        }
+
+        .companyUser_info_update .companyUser_informations strong{
+            font-weight: 400;
+            font-size: 15px;
+            color: rgb(34, 34, 34);
+            width: 100px;
+            display: inline-block;
+        }
+
+        .companyUser_info_update .companyUser_informations input{
+            width: 400px;
+            padding: 12px 16px;
+            border-radius: 4px;
+            box-sizing: border-box;
+            border: 1px solid rgb(212, 212, 212);
+        }
+
+        .companyUser_info_update .companyUser_informations input#cm_post{
+            width: 100px;
+            padding: 12px 16px;
+            border-radius: 4px;
+            box-sizing: border-box;
+            border: 1px solid rgb(212, 212, 212);
+            margin-left: 3px;
+        }
+
+        #addr_box{
+            display: flex;
+            margin-left: 100px;
+        }
+
+        .companyUser_info_update .companyUser_informations>div{
+            margin-bottom: 24px;
+        }
+
+        .companyUser_info_update .companyUser_informations button{
+            float: right;
+            margin-right: 277px;
         }
     </style>
-</head>
-<body>
-<div style="width : 500px;">
-    <div>
-        <strong>이메일</strong>
-        <input type="email" id="cm_email" required placeholder="${dto.cm_email}" disabled>
-        <span id="emailchkicon"></span>
 
-    </div>
-    <div>
-        <strong>비밀번호</strong>
-        <input type="password" id="cm_pass" required placeholder="8~16자리/영문 대소문자, 숫자, 특수문자 조합">
-        <span id="passokicon"></span><br>
-        <b>비밀번호확인</b>
-        <input type="password" id="passchk" placeholder="8~16자리/영문 대소문자, 숫자, 특수문자 조합">
-        <span id="passchkicon"></span>
-    </div>
-    <div>
-        <strong>회사명</strong>
-        <input type="text" id="cm_compname" required value="${dto.cm_name}">
-        <span id="compnamechkicon"></span>
-    </div>
-    <div>
-        <div class="input-group">
-            <strong>우편번호</strong>
-            <input type="text" id="cm_post" readonly required value="${dto.cm_post}">
-            <button type="button" id="postbtn">우편번호 찾기</button>
+<div class="companyUser_info_update">
+
+    <h1 class="title">계정 설정</h1>
+
+    <div class="wrapped">
+        <div class="companyUser_informations">
+            <div>
+                <strong>이메일</strong>
+                <input type="email" id="cm_email" required placeholder="${dto.cm_email}" disabled>
+                <span id="emailchkicon"></span>
+
+            </div>
+            <div>
+                <strong>비밀번호</strong>
+                <input type="password" id="cm_pass" required placeholder="8~16자리/영문 대소문자, 숫자, 특수문자 조합">
+                <span id="passokicon"></span><br>
+
+            </div>
+            <div>
+                <strong>비밀번호확인</strong>
+                <input type="password" id="passchk" placeholder="8~16자리/영문 대소문자, 숫자, 특수문자 조합">
+                <span id="passchkicon"></span>
+            </div>
+            <div>
+                <strong>회사명</strong>
+                <input type="text" id="cm_compname" required value="${dto.cm_compname}">
+                <span id="compnamechkicon"></span>
+            </div>
+            <div>
+                <div class="input-group">
+                    <strong>우편번호</strong>
+                    <input type="text" id="cm_post" readonly required value="${dto.cm_post}">
+                    <button type="button" id="postbtn" class="btn btn-sm btn-outline-secondary" style="margin-left: 4px;">우편번호 찾기</button>
+                </div>
+                <div id="addr_box" style="margin-top: 6px;">
+                    <div style="display: flex">
+                        <%--<h6>주소</h6>--%>
+                        <input type="text" id="addr" readonly required value="${cm_addr1}" style="width: 200px; float:left;margin-left: 3px;">
+                    </div>
+                    <div style="display: flex; margin-left: 5px;">
+                        <%--<h6>상세주소</h6>--%>
+                        <input type="text" id="addrinfo" required value="${cm_addr2}" style="width: 195px; float:left;">
+                        <span id="addrchkicon"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <strong>전화번호</strong>
+                <input type="tel" id="cm_tele" required value="${dto.cm_tele}">
+                <span id="cpchkicon"></span>
+            </div>
+            <div>
+                <strong>담당자</strong>
+                <input type="text" id="cm_name" required value="${dto.cm_name}">
+                <span id="namechkicon"></span>
+            </div>
+            <div>
+                <strong>휴대폰</strong>
+                <input type="tel" id="cm_cp" required value="${dto.cm_cp}">
+                <span id="cmchkicon"></span>
+            </div>
+            <div>
+                <button type="button" id="submitbtn" disabled class="btn btn-sm btn-outline-secondary">수정하기</button>
+            </div>
         </div>
-        <strong>주소</strong>
-        <input type="text" id="addr" readonly required value="${cm_addr1}">
-        <strong>상세주소</strong>
-        <input type="text" id="addrinfo" required value="${cm_addr2}">
-        <span id="addrchkicon"></span>
     </div>
-    <div>
-        <strong>전화번호</strong>
-        <input type="tel" id="cm_tele" required value="${dto.cm_tele}">
-        <span id="cpchkicon"></span>
-    </div>
-    <div>
-        <strong>담당자</strong>
-        <input type="text" id="cm_name" required value="${dto.cm_name}">
-        <span id="namechkicon"></span>
-    </div>
-    <div>
-        <strong>휴대폰</strong>
-        <input type="tel" id="cm_cp" required value="${dto.cm_cp}">
-        <span id="cmchkicon"></span>
-    </div>
-    <div>
-        <button type="button" id="submitbtn" disabled> 수정하기</button>
-    </div>
+
 </div>
 <script>
     let passvalid = false;
@@ -99,8 +157,8 @@
                 "<span>사용 가능한 비밀번호에요</span>");
             passvalid = true;
         } else {
-            $("#passokicon").html("<i class='bi bi-x' style='color:red;'></i>" +
-                "<span>8~16자리 영문 대소문자, 숫자, 특수문자의 조합으로 만들어주세요</span>");
+            $("#passokicon").html("<div style='display: flex; margin-left: 100px;'><i class='bi bi-x' style='color:red;'></i>" +
+                "<span style='font-size: 12px;'>8~16자리 영문 대소문자, 숫자, 특수문자의 조합으로 만들어주세요</span></div>");
             passvalid = false;
         }
 
@@ -320,6 +378,5 @@
         }
     });
 </script>
-</body>
-</html>
+
 

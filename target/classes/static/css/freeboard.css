@@ -817,3 +817,7 @@ section.main .fb_detail_wrap .fb_detail_content .commentwrite button#writepost{
     overflow: hidden;
     width: 530px;
 }
+
+.replyBox{
+    background-color: #f8f8f8;
+}

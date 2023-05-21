@@ -405,7 +405,16 @@ section.main .hb_detail_wrap .hb_aside .quickmenu .view_all:after {
     margin-left: 2px;
 }
 
+/*북마크 아이콘*/
 
-
+section.main .hb_detail_wrap .hb_detail_content .wrap_info .icon_bookmark{
+    margin-top: 10px;
+    /*height: 30px;*/
+    background: url(../photo/devster_icon_2.png) no-repeat;
+    background-size: 600px 900px;
+    background-position: -116px -652px;
+    width: 24px;
+    height: 24px;
+}
 
 

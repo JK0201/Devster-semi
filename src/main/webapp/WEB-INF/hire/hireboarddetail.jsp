@@ -47,7 +47,8 @@
                         "hb_idx": ${dto.hb_idx}
                     },
                     success: function (goodReactionPoint) {
-                        $("#add-bkmk-btn").addClass("already-added");
+                        //$("#add-bkmk-btn").addClass("already-added");
+                        $("#add-bkmk-btn .icon_bookmark").css("background-position","-142px -652px");
                         // $(".add-bookMark").html(goodReactionPoint);
                         isAlreadyAddBkmk = true;
                     },
@@ -66,7 +67,8 @@
                         "hb_idx": ${dto.hb_idx}
                     },
                     success: function (goodReactionPoint) {
-                        $("#add-bkmk-btn").removeClass("already-added");
+                        //$("#add-bkmk-btn").removeClass("already-added");
+                        $("#add-bkmk-btn .icon_bookmark").css("background-position","-116px -652px");
                         // $(".add-bookMark").html(goodReactionPoint);
                         isAlreadyAddBkmk = false;
                     },
@@ -102,7 +104,7 @@
                 <div class="icon_time"></div><div style="display: inline-block; color: #94969b;"><fmt:formatDate value="${dto.fb_writeday}" pattern="MM/dd"/></div>
                 <span class="readCnt"><div class="icon_read"></div>${dto.hb_readcount}</span>
                 <c:if test="${sessionScope.memstate!=null}">
-                <span id="add-bkmk-btn" class="btn btn-outline">북마크</span>
+                    <span id="add-bkmk-btn"><div class="icon_bookmark"></div></span>
                 </c:if>
             </div>
 
@@ -173,7 +175,8 @@
     function checkAddBkmkBefore() {
         <!-- 변수값에 따라 각 id가 부여된 버튼에 클래스 추가(이미 눌려있다는 색상 표시) -->
         if (isAlreadyAddBkmk == true) {
-            $("#add-bkmk-btn").addClass("already-added");
+            //$("#add-bkmk-btn").addClass("already-added");
+            $("#add-bkmk-btn .icon_bookmark").css("background-position","-142px -652px");
         } else {
             return;
         }
