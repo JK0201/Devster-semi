@@ -574,6 +574,7 @@
                                         },
                                         complete: function () {
                                             isLoading = false;
+                                            isLoading = false;
                                         },
                                         success: function (res) {
                                             console.log(currentpage);
@@ -1058,7 +1059,6 @@
 
     function likebuttonCheck(isAlreadyAddGoodRp,isAlreadyAddBadRp,rb_idx) {
 
-
         if (isAlreadyAddBadRp == true) {
             alert('이미 싫어요를 누르셨습니다.');
             return;
@@ -1075,16 +1075,14 @@
 
                     $("#add-goodRp-btn"+rb_idx).addClass('already-added');
                     $(".add-goodRp"+ rb_idx).html(goodReactionPoint);
-                    dynamicVars[`isAlreadyAddGoodRp${rb_idx}`] = true;
-
-
+                    dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] = true;
 
                 },
                 error: function () {
                     alert('서버 에러, 다시 시도해주세요.');
                 }
             });
-        }else if (isAlreadyAddGoodRp == true){
+        }else if (isAlreadyAddGoodRp == true) {
             $.ajax({
                 url : "/review/decreaseGoodRp",
                 type : "POST",
@@ -1095,7 +1093,7 @@
                 success : function(goodReactionPoint) {
                     $("#add-goodRp-btn"+rb_idx).removeClass('already-added');
                     $(".add-goodRp"+ rb_idx).html(goodReactionPoint);
-                    dynamicVars[`isAlreadyAddGoodRp${rb_idx}`] = false;
+                    dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] = false;
 
 
                 },
@@ -1128,7 +1126,7 @@
                 success: function (badReactionPoint) {
                     $("#add-badRp-btn"+rb_idx).addClass('already-added');
                     $(".add-badRp"+ rb_idx).html(badReactionPoint);
-                    dynamicVars[`isAlreadyAddBadRp${rb_idx}`] = true;
+                    dynamicVars[`isAlreadyAddBadRp\${rb_idx}`] = true;
                 },
                 error: function () {
                     alert('서버 에러, 다시 시도해주세요.');
@@ -1145,7 +1143,7 @@
                 success : function(badReactionPoint) {
                     $("#add-badRp-btn"+rb_idx).removeClass('already-added');
                     $(".add-badRp"+ rb_idx).html(badReactionPoint);
-                    dynamicVars[`isAlreadyAddBadRp${rb_idx}`] = false;
+                    dynamicVars[`isAlreadyAddBadRp\${rb_idx}`] = false;
                 },
                 error : function() {
                     alert('서버 에러, 다시 시도해주세요.');
