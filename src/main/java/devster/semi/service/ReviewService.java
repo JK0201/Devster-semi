@@ -38,6 +38,12 @@ public class ReviewService implements ReviewServiceInter{
     }
 
     @Override
+    public String selectPhotoOfMidx(int rb_idx) {
+        return reviewMapper.selectPhotoOfMidx(rb_idx);
+    }
+
+
+    @Override
     public List<ReviewDto> getPagingList(int start,int perPage) {
 
         Map<String,Integer> map=new HashMap<>();

@@ -100,7 +100,7 @@
 <%--            <div>${cm_name}</div>--%>
             <div class="wrap_info clear">
                 <div class="icon_time"></div><div style="display: inline-block; color: #94969b;"><fmt:formatDate value="${dto.fb_writeday}" pattern="MM/dd"/></div>
-                <span><div class="icon_read"></div>${dto.hb_readcount}</span>
+                <span class="readCnt"><div class="icon_read"></div>${dto.hb_readcount}</span>
                 <c:if test="${sessionScope.memstate!=null}">
                 <span id="add-bkmk-btn" class="btn btn-outline">북마크</span>
                 </c:if>
@@ -117,7 +117,7 @@
 
             <div class="hr_detail_img">
                 <c:forEach items="${list}" var="images">
-                    <img src="http://${imageUrl}/hire/${images}" style="float: left">
+                    <img src="http://${imageUrl}/hire/${images}" style="float: left; max-width: 700px">
                     <br style="clear: both;"><br>
                 </c:forEach>
             </div>
@@ -220,19 +220,6 @@
             console.log("Error: " + textStatus + " - " + errorThrown);
         }
     });
-
-    // When the user scrolls down 20px from the top of the document, show the button
-    window.onscroll = function () {
-        scrollFunction()
-    };
-
-    function scrollFunction() {
-        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-            document.getElementById("myBtn").style.display = "block";
-        } else {
-            document.getElementById("myBtn").style.display = "none";
-        }
-    }
 
 </script>
 

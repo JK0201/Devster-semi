@@ -89,25 +89,18 @@
                                             }
                                         }
                                         s += `<span class="qb_writeday">\${dto.qb_writeday}</span>`
-                                        s += `<span class="qb_readcount"><div class="icon_read"></div>\${dto.qb_readcount}</span><br><br>`;
-                                        s += `<span class="nickName" style="cursor: pointer" onclick=message(\${dto.nickName})><img src="\${dto.photo}" class="memberimg">&nbsp;\${dto.nickName}</span>`;
+                                        s += `<span class="qb_readcount" style="margin-left: 5px"><div class="icon_read"></div>\${dto.qb_readcount}</span><br><br>`;
+                                        s += `<span class="nickName" style="cursor: pointer" onclick=message("\${dto.nickName}")><img src="\${dto.photo}" class="memberimg">&nbsp;\${dto.nickName}</span>`;
                                         s += `<div class="mainbox">`
-                                        s += `<h3 class="qb_subject"><a href="detail?qb_idx=\${dto.qb_idx}"><b>\${dto.qb_subject}</b></a></h3>`;
                                         if (dto.qb_photo == 'n') {
-                                            var content = dto.qb_content.substring(0, 120);
-                                            if (dto.qb_content.length >= 120) {
-                                                content += ".....";
-                                            }
-                                            s += `<h5 class="qb_content" style="width: 90%"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span>\${content}</span></a></h5>`;
+                                            s += `<h3 class="qb_subject text-block-subject-2-nophoto"><a href="detail?qb_idx=\${dto.qb_idx}"><b>\${dto.qb_subject}</b></a></h3>`;
+                                            s += `<h5 class="qb_content text-block-content-2-nophoto"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span>\${dto.qb_content}</span></a></h5>`;
                                         } else {
-                                            var content = dto.qb_content.substring(0, 80);
-                                            if (dto.qb_content.length >= 80) {
-                                                content += ".....";
-                                            }
-                                            s += `<h5 class="qb_content" style="width:80%"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span class="photocontent">\${content}</span></a></h5>`;
+                                            s += `<h3 class="qb_subject text-block-subject-2-photo"><a href="detail?qb_idx=\${dto.qb_idx}"><b>\${dto.qb_subject}</b></a></h3>`;
+                                            s += `<h5 class="qb_content text-block-content-2-photo" style="width:80%"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span class="photocontent">\${dto.qb_content}</span></a></h5>`;
                                             s += `<div style="position:relative; right:0; top: -80px;"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span class="qb_photo"><img src="http://${imageUrl}/qboard/\${dto.qb_photo.split(",")[0]}" id="qb_photo"></span></a></div>`;
                                         }
-                                        s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.qb_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.qb_dislike}</div><div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;\${dto.count}</div></div>`;
+                                        s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.qb_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.qb_dislike}</div><div class="hr_tag_2" style="margin-left: 3px"><i class="bi bi-chat"></i>&nbsp;\${dto.count}</div></div>`;
                                         s += `</div>`;
                                         s += `</div>`;
                                     })
@@ -242,25 +235,18 @@
                                                 }
                                             }
                                             s += `<span class="qb_writeday">\${dto.qb_writeday}</span>`
-                                            s += `<span class="qb_readcount"><div class="icon_read"></div>\${dto.qb_readcount}</span><br><br>`;
-                                            s += `<span class="nickName" style="cursor: pointer" onclick=message(\${dto.nickName})><img src="http://${imageUrl}/member/\${dto.m_photo}" class="memberimg" style="width: 20px; height: 20px; border-radius: 100px;">&nbsp;\${dto.nickName}</span>`;
+                                            s += `<span class="qb_readcount" style="margin-left: 5px"><div class="icon_read"></div>\${dto.qb_readcount}</span><br><br>`;
+                                            s += `<span class="nickName" style="cursor: pointer" onclick=message("\${dto.nickName}")><img src="\${dto.photo}" class="memberimg">&nbsp;\${dto.nickName}</span>`;
                                             s += `<div class="mainbox">`
-                                            s += `<h3 class="qb_subject"><a href="detail?qb_idx=\${dto.qb_idx}"><b>\${dto.qb_subject}</b></a></h3>`;
                                             if (dto.qb_photo == 'n') {
-                                                var content = dto.qb_content.substring(0, 120);
-                                                if (dto.qb_content.length >= 120) {
-                                                    content += ".....";
-                                                }
-                                                s += `<h5 class="qb_content" style="width: 90%"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span>\${content}</span></a></h5>`;
+                                                s += `<h3 class="qb_subject text-block-subject-2-nophoto"><a href="detail?qb_idx=\${dto.qb_idx}"><b>\${dto.qb_subject}</b></a></h3>`;
+                                                s += `<h5 class="qb_content text-block-content-2-nophoto"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span>\${dto.qb_content}</span></a></h5>`;
                                             } else {
-                                                var content = dto.qb_content.substring(0, 80);
-                                                if (dto.qb_content.length >= 80) {
-                                                    content += ".....";
-                                                }
-                                                s += `<h5 class="qb_content" style="width:80%"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span class="photocontent">\${content}</span></a></h5>`;
+                                                s += `<h3 class="qb_subject text-block-subject-2-photo"><a href="detail?qb_idx=\${dto.qb_idx}"><b>\${dto.qb_subject}</b></a></h3>`;
+                                                s += `<h5 class="qb_content text-block-content-2-photo" style="width:80%"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span class="photocontent">\${dto.qb_content}</span></a></h5>`;
                                                 s += `<div style="position:relative; right:0; top: -80px;"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span class="qb_photo"><img src="http://${imageUrl}/qboard/\${dto.qb_photo.split(",")[0]}" id="qb_photo"></span></a></div>`;
                                             }
-                                            s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.qb_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.qb_dislike}</div><div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;\${dto.count}</div></div>`;
+                                            s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.qb_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.qb_dislike}</div><div class="hr_tag_2" style="margin-left: 3px"><i class="bi bi-chat"></i>&nbsp;\${dto.commentCnt}</div></div>`;
                                             s += `</div>`;
                                             s += `</div>`;
                                         })
@@ -326,25 +312,18 @@
                                                             }
                                                         }
                                                         s += `<span class="qb_writeday">\${dto.qb_writeday}</span>`
-                                                        s += `<span class="qb_readcount"><div class="icon_read"></div>\${dto.qb_readcount}</span><br><br>`;
-                                                        s += `<span class="nickName" style="cursor: pointer" onclick=message(\${dto.nickName})><img src="http://${imageUrl}/member/\${dto.m_photo}" class="memberimg" style="width: 20px; height: 20px; border-radius: 100px;">&nbsp;\${dto.nickName}</span>`;
+                                                        s += `<span class="qb_readcount" style="margin-left: 5px"><div class="icon_read"></div>\${dto.qb_readcount}</span><br><br>`;
+                                                        s += `<span class="nickName" style="cursor: pointer" onclick=message("\${dto.nickName}")><img src="\${dto.photo}" class="memberimg">&nbsp;\${dto.nickName}</span>`;
                                                         s += `<div class="mainbox">`
-                                                        s += `<h3 class="qb_subject"><a href="detail?qb_idx=\${dto.qb_idx}"><b>\${dto.qb_subject}</b></a></h3>`;
                                                         if (dto.qb_photo == 'n') {
-                                                            var content = dto.qb_content.substring(0, 120);
-                                                            if (dto.qb_content.length >= 120) {
-                                                                content += ".....";
-                                                            }
-                                                            s += `<h5 class="qb_content" style="width: 90%"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span>\${content}</span></a></h5>`;
+                                                            s += `<h3 class="qb_subject text-block-subject-2-nophoto"><a href="detail?qb_idx=\${dto.qb_idx}"><b>\${dto.qb_subject}</b></a></h3>`;
+                                                            s += `<h5 class="qb_content text-block-content-2-nophoto"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span>\${dto.qb_content}</span></a></h5>`;
                                                         } else {
-                                                            var content = dto.qb_content.substring(0, 80);
-                                                            if (dto.qb_content.length >= 80) {
-                                                                content += ".....";
-                                                            }
-                                                            s += `<h5 class="qb_content" style="width:80%"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span class="photocontent">\${content}</span></a></h5>`;
+                                                            s += `<h3 class="qb_subject text-block-subject-2-photo"><a href="detail?qb_idx=\${dto.qb_idx}"><b>\${dto.qb_subject}</b></a></h3>`;
+                                                            s += `<h5 class="qb_content text-block-content-2-photo" style="width:80%"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span class="photocontent">\${dto.qb_content}</span></a></h5>`;
                                                             s += `<div style="position:relative; right:0; top: -80px;"><a href="detail?qb_idx=\${dto.qb_idx}" style="color: #000;"><span class="qb_photo"><img src="http://${imageUrl}/qboard/\${dto.qb_photo.split(",")[0]}" id="qb_photo"></span></a></div>`;
                                                         }
-                                                        s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.qb_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.qb_dislike}</div><div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;\${dto.count}</div></div>`;
+                                                        s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.qb_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.qb_dislike}</div><div class="hr_tag_2" style="margin-left: 3px"><i class="bi bi-chat"></i>&nbsp;\${dto.commentCnt}</div></div>`;
                                                         s += `</div>`;
                                                         s += `</div>`;
                                                     })
@@ -398,34 +377,29 @@
                         <span class="nickName"><img src="${dto.photo}" class="memberimg">&nbsp;${dto.nickName}</span>
 
                         <div class="mainbox">
-                            <h3 class="qb_subject">
-                                <a href="detail?qb_idx=${dto.qb_idx}"><b>${dto.qb_subject}</b></a>
-                            </h3>
                             <c:if test="${dto.qb_photo=='n'}">
-                                <h5 class="qb_content" style="width: 90%">
+                                <h3 class="qb_subject text-block-subject-2-nophoto">
+                                    <a href="detail?qb_idx=${dto.qb_idx}"><b>${dto.qb_subject}</b></a>
+                                </h3>
+                                <h5 class="qb_content text-block-content-2-nophoto">
                                     <a href="detail?qb_idx=${dto.qb_idx}"
                                        style="color: #000;">
-                                <span>
-                                    <c:set var="length" value="${fn:length(dto.qb_content)}"/>
-                                    ${fn:substring(dto.qb_content, 0, 120)}
-
-                                    <c:if test="${length>=120}">
-                                        .....
-                                    </c:if>
-                                   </span></a>
+                                        <span>
+                                        ${dto.qb_content}
+                                       </span>
+                                    </a>
                                 </h5>
                             </c:if>
                             <c:if test="${dto.qb_photo!='n'}">
-                                <h5 class="qb_content" style="width: 80%;">
+                                <h3 class="qb_subject text-block-subject-2-photo">
+                                    <a href="detail?qb_idx=${dto.qb_idx}"><b>${dto.qb_subject}</b></a>
+                                </h3>
+                                <h5 class="qb_content text-block-content-2-photo" style="width: 80%;">
                                     <a href="detail?qb_idx=${dto.qb_idx}"
                                        style="color: #000;">
-                                    <span class="photocontent">
-                                        <c:set var="length" value="${fn:length(dto.qb_content)}"/>
-                                        ${fn:substring(dto.qb_content, 0, 80)}
-                                        <c:if test="${length>=80}">
-                                            .....
-                                        </c:if>
-                                   </span>
+                                        <span class="photocontent">
+                                            ${dto.qb_content}
+                                        </span>
                                     </a>
                                 </h5>
                                 <div style="position:relative; right:0; top: -80px;">
@@ -463,36 +437,31 @@
                         <span class="nickName" style="cursor:pointer;" onclick=message("${dto.nickName}")><img src="${dto.photo}"
                                                     class="memberimg">&nbsp;${dto.nickName}</span>
                         <div class="mainbox">
-                            <h3 class="qb_subject">
-                                <a href="detail?qb_idx=${dto.qb_idx}"><b>${dto.qb_subject}</b></a>
-                            </h3>
                             <c:if test="${dto.qb_photo=='n'}">
-                                <h5 class="qb_content" style="width: 90%">
+                                <h3 class="qb_subject text-block-subject-2-nophoto">
+                                    <a href="detail?qb_idx=${dto.qb_idx}"><b>${dto.qb_subject}</b></a>
+                                </h3>
+                                <h5 class="qb_content text-block-content-2-nophoto">
                                     <a href="detail?qb_idx=${dto.qb_idx}"
                                        style="color: #000;">
-                                <span>
-                                    <c:set var="length" value="${fn:length(dto.qb_content)}"/>
-                                    ${fn:substring(dto.qb_content, 0, 120)}
-
-                                    <c:if test="${length>=120}">
-                                        .....
-                                    </c:if>
-                                   </span></a>
+                                        <span>
+                                                ${dto.qb_content}
+                                        </span>
+                                    </a>
                                 </h5>
                             </c:if>
                             <c:if test="${dto.qb_photo!='n'}">
-                                    <h5 class="qb_content" style="width: 80%;">
-                                        <a href="detail?qb_idx=${dto.qb_idx}"
-                                           style="color: #000;">
-                                    <span class="photocontent">
-                                        <c:set var="length" value="${fn:length(dto.qb_content)}"/>
-                                        ${fn:substring(dto.qb_content, 0, 80)}
-                                        <c:if test="${length>=80}">
-                                            .....
-                                        </c:if>
-                                   </span>
-                                        </a>
-                                    </h5>
+                                <h3 class="qb_subject text-block-subject-2-photo">
+                                    <a href="detail?qb_idx=${dto.qb_idx}"><b>${dto.qb_subject}</b></a>
+                                </h3>
+                                <h5 class="qb_content text-block-content-2-photo" style="width: 80%;">
+                                    <a href="detail?qb_idx=${dto.qb_idx}"
+                                       style="color: #000;">
+                                        <span class="photocontent">
+                                                ${dto.qb_content}
+                                        </span>
+                                    </a>
+                                </h5>
                                 <div style="position:relative; right:0; top: -80px;">
                                     <a href="detail?qb_idx=${dto.qb_idx}">
                                         <span class="qb_photo">

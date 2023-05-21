@@ -25,6 +25,12 @@
         ORDER BY re.rb_idx desc
            LIMIT 1
     </select>
+    <select id="selectPhotoOfMidx" parameterType="int" resultType="String">
+        SELECT m.m_photo
+        FROM reviewboard rb
+                 JOIN member m ON rb.m_idx = m.m_idx
+        WHERE rb.rb_idx = #{rb_idx};
+    </select>
     <delete id="deletereview" parameterType="int">
         delete from reviewboard where rb_idx=#{rb_idx}
     </delete>

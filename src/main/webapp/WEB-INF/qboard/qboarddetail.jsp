@@ -46,8 +46,9 @@
                             "m_idx" : ${sessionScope.memidx}
                         },
                         success : function(goodReactionPoint) {
-                            $("#add-goodRp-btn").addClass("already-added");
-                            $(".add-goodRp").html(goodReactionPoint);
+                            // $("#add-goodRp-btn").addClass("already-added");
+                            $("#add-goodRp-btn .icon_thumbup").css("background-position","-159px -486px");
+                            // $(".add-goodRp").html(goodReactionPoint);
                             isAlreadyAddGoodRp = true;
                         },
                         error : function() {
@@ -65,8 +66,9 @@
                             "m_idx" : ${sessionScope.memidx}
                         },
                         success : function(goodReactionPoint) {
-                            $("#add-goodRp-btn").removeClass("already-added");
-                            $(".add-goodRp").html(goodReactionPoint);
+                            // $("#add-goodRp-btn").removeClass("already-added");
+                            // $(".add-goodRp").html(goodReactionPoint);
+                            $("#add-goodRp-btn .icon_thumbup").css("background-position","-130px -486px");
                             isAlreadyAddGoodRp = false;
                         },
                         error : function() {
@@ -97,8 +99,9 @@
                             "m_idx" : ${sessionScope.memidx}
                         },
                         success : function(badReactionPoint) {
-                            $("#add-badRp-btn").addClass("already-added");
-                            $(".add-badRp").html(badReactionPoint);
+                            // $("#add-badRp-btn").addClass("already-added");
+                            // $(".add-badRp").html(badReactionPoint);
+                            $("#add-badRp-btn .icon_thumbdown").css("background-position","-395px -486px");
                             isAlreadyAddBadRp = true;
                         },
                         error : function() {
@@ -116,8 +119,9 @@
                             "m_idx" : ${sessionScope.memidx}
                         },
                         success : function(badReactionPoint) {
-                            $("#add-badRp-btn").removeClass("already-added");
-                            $(".add-badRp").html(badReactionPoint);
+                            // $("#add-badRp-btn").removeClass("already-added");
+                            // $(".add-badRp").html(badReactionPoint);
+                            $("#add-badRp-btn .icon_thumbdown").css("background-position","-424px -486px");
                             isAlreadyAddBadRp = false;
                         },
                         error : function() {
@@ -205,31 +209,37 @@
             <div class="clear" style="margin-top: 40px;border-bottom: 1px solid #eee; padding-bottom: 40px;">
                 <%-- 좋아요 / 싫어요 버튼--%>
                 <div class="footbox">
-                    <span id="add-goodRp-btn" class="btn btn-outline" >
-                          <div class="icon_thumbup"></div>
-                          <span class="add-goodRp ml-2">좋아요</span>
-                        </span>
-                    <span id="add-badRp-btn" class="ml-5 btn btn-outline">
-                          <div class="icon_thumbdown"></div>
-                          <span class="add-badRp ml-2">별로에요</span>
+                    <span id="add-goodRp-btn" class="clear" style="display: inline-block; cursor: pointer">
+                        <div class="icon_thumbup"></div>
+                        <span class="add-goodRp ml-2">좋아요</span>
+                    </span>
+                    <span id="add-badRp-btn" class="clear" style="display: inline-block; cursor: pointer; margin-left: 10px;">
+                        <div class="icon_thumbdown"></div>
+                        <span class="add-badRp ml-2">별로에요</span>
                     </span>
                 </div>
                 <div class="util_btns">
                     <c:if test="${dto.m_idx == sessionScope.memidx}">
-                        <button class="btn btn-outline-dark" type="button"
-                                onclick="deletePost(${dto.qb_idx})">
-                            삭제
-                        </button>
-                        <button class="btn btn-outline-dark" type="button"
-                                onclick="location.href='updateform?qb_idx=${dto.qb_idx}&currentPage=${currentPage}'">
-                            수정
-                        </button>
+<%--                        <button class="btn btn-outline-dark" type="button"--%>
+<%--                                onclick="deletePost(${dto.qb_idx})">--%>
+<%--                            삭제--%>
+<%--                        </button>--%>
+<%--                        <button class="btn btn-outline-dark" type="button"--%>
+<%--                                onclick="location.href='updateform?qb_idx=${dto.qb_idx}&currentPage=${currentPage}'">--%>
+<%--                            수정--%>
+<%--                        </button>--%>
+                        <button type="button" onclick="deletePost(${dto.qb_idx})" class="btn btn-sm btn-outline-secondary"><i class="bi bi-trash"></i>&nbsp;삭제</button>
+                        <button type="button" onclick="location.href='./list?currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-card-list"></i>&nbsp;목록</button>
+                        <button type="button" onclick="location.href='updateform?qb_idx=${dto.qb_idx}&currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil-square"></i>&nbsp;수정</button>
+
                     </c:if>
                     <c:if test="${sessionScope.memstate == 100}">
-                        <button class="btn btn-outline-dark" type="button"
-                                onclick="deletePost(${dto.qb_idx})">
-                            삭제
-                        </button>
+<%--                        <button class="btn btn-outline-dark" type="button"--%>
+<%--                                onclick="deletePost(${dto.qb_idx})">--%>
+<%--                            삭제--%>
+<%--                        </button>--%>
+                        <button type="button" onclick="deletePost(${dto.qb_idx})" class="btn btn-sm btn-outline-secondary"><i class="bi bi-trash"></i>&nbsp;삭제</button>
+                        <button type="button" onclick="location.href='./list?currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-card-list"></i>&nbsp;목록</button>
                     </c:if>
                 </div>
             </div>
@@ -275,9 +285,11 @@
     function checkAddRpBefore() {
         <!-- 변수값에 따라 각 id가 부여된 버튼에 클래스 추가(이미 눌려있다는 색상 표시) -->
         if (isAlreadyAddGoodRp == true) {
-            $("#add-goodRp-btn").addClass("already-added");
+            // $("#add-goodRp-btn").addClass("already-added");
+            $("#add-goodRp-btn .icon_thumbup").css("background-position","-159px -486px");
         } else if (isAlreadyAddBadRp == true) {
-            $("#add-badRp-btn").addClass("already-added");
+            // $("#add-badRp-btn").addClass("already-added");
+            $("#add-badRp-btn .icon_thumbdown").css("background-position","-395px -486px");
         } else {
             return;
         }
@@ -311,14 +323,13 @@
                     s += `
                             <p style="cursor:pointer;" onclick=message("\${item.nickname}")>\${item.nickname}</p></h4>
                             <h2 style="margin-top: 10px;font-size: 16px;">\${item.ab_content}</h2>
-                            <div class="icon_time"></div><h6 style="color: #94969b;font-size: 12px;display: inline">\${item.ab_writeday}</h6>
                         `;
-
                     $.each(item.photo, function (index2, photos) {
                         if (${photos == no}) {
                             s += `<img src="http://${imageUrl}/aboard/\${photos}" style="width:400px;"><br>`;
                         };
                     });
+                    s += `<div class="icon_time"></div><h6 style="color: #94969b;font-size: 12px;display: inline">\${item.ab_writeday}</h6>`;
                     if (item.m_idx == ${sessionScope.memidx}) {
                         s += `
     <button class="btn btn-outline-dark btn-sm" type="button" onclick="deleteComment(\${item.ab_idx})" style="float:right; margin-left: 3px;">

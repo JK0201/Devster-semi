@@ -79,4 +79,22 @@
         select * from resume where r_status=1 order by m_idx desc limit #{start},#{perpage}
 
     </select>
+    <select id="selectnameOfm_idx" parameterType="int" resultType="String">
+        SELECT m.m_name
+        FROM resume rs
+                 JOIN member m ON rs.m_idx = m.m_idx
+        WHERE rs.m_idx = #{m_idx}
+    </select>
+    <select id="selectteleOfm_idx" parameterType="int" resultType="String">
+        SELECT m.m_tele
+        FROM resume rs
+                 JOIN member m ON rs.m_idx = m.m_idx
+        WHERE rs.m_idx = #{m_idx}
+    </select>
+    <select id="selectemailOfm_idx" parameterType="int" resultType="String">
+        SELECT m.m_email
+        FROM resume rs
+                 JOIN member m ON rs.m_idx = m.m_idx
+        WHERE rs.m_idx = #{m_idx}
+    </select>
 </mapper>
