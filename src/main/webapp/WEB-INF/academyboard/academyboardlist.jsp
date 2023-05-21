@@ -12,7 +12,6 @@
         width: 900px;
     }
 
-
     /* 서치바 */
     .searchdiv_aca{
         /*position: absolute;*/
@@ -40,6 +39,18 @@
         z-index: 1;
         position: relative;
     }
+
+    h2.noPosts {
+        position: relative;
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 1rem;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+        color: #fff;
+        background-color: #5c0579;
+        border-color: #5c0579;
+    }
+
 
 </style>
 <script>
@@ -386,12 +397,12 @@
 
     <!--=============================================================================-->
     <!-- listbox -->
-    <div class="listbox">
         <c:if test="${totalCount==0}">
-        <h2 class="alert alert-outline-secondary">${sessionScope.memacademy}게시판엔 등록된 게시글이 없습니다..</h2>
+            <div class="listbox" style="text-align: center">
+            <h2 class="noPosts">${sessionScope.memacademy} 게시판엔 등록된 게시글이 없습니다..</h2>
         </c:if>
-
         <c:if test="${totalCount>0}">
+        <div class="listbox">
         <c:forEach var="dto" items="${list}" varStatus="i">
         <!-- blurbox-->
         <c:if test="${dto.ab_dislike>19}">

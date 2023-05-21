@@ -90,7 +90,7 @@
     <div class="hb_detail_content">
         <div class="article_view_head">
             <a href="/">홈</a>
-            <a href="./list?currentPage=${currentPage}" class="hireboard_link">회사후기</a>
+            <a href="./list?currentPage=${currentPage}" class="hireboard_link">채용정보</a>
             <div class="show_tag">
                 <span class="tag_dday">마감 D-23</span>
                 <span class="tag_career">경력무관</span>
