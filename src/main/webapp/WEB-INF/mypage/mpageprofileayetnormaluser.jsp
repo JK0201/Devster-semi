@@ -5,41 +5,67 @@
 <%@ include file="../commonvar.jsp" %>
 
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
-    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap"
-          rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <style>
+
+        .yet_normalUser_check{
+            padding-left: 30px;
+            height: 440px;
+        }
+
+        .yet_normalUser_check .title{
+            font-weight: 700;
+            font-size: 30px;
+            color: #222;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgb(34, 34, 34);
+        }
+
+        .yet_normalUser_check .wrapped{
+            /*border-top: 1px solid rgb(34, 34, 34);*/
+           /* margin-top: 20px;*/
+            padding-top: 40px;
+            /*padding: 40px 60px;*/
+            padding-left: 40px;
+        }
+        #checkAcaPhoto{
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 36px;
+        }
+
+        .yet_normalUser_check .wrapped h1{
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 36px;
+        }
+
     </style>
+
     <script>
         $(document).ready(function () {
             checkAcaPhoto();
         })
     </script>
-</head>
-<body>
-    <div style="border: 3px solid black; width: 600px; margin-left: 400px">
-        <h1> 학원 인증을 완료하시지 않으면 자유 게시판의 읽기만 가능합니다.<br> 다른 기능을 이용하고 싶으시다면, 학원 인증을 완료해주세요!
-        </h1>
-        <form name="photoUpload">
-            <input type="file" id="upload" name="upload">
-            <button type="button" name="btnPhoto" onclick="updatePhoto()">사진 업로드</button>
-        </form>
 
+    <div class="yet_normalUser_check">
 
+        <h1 class="title">학원 인증 받기</h1>
+
+        <div class="wrapped">
+
+            <h1> 학원 인증을 완료하시지 않으면 자유 게시판의 읽기만 가능합니다.<br> 다른 기능을 이용하고 싶으시다면, 학원 인증을 완료해주세요</h1>
+
+            <form name="photoUpload" style="display: flex;">
+                <input type="file" id="upload" name="upload" class="form-control" style="width: 454px; margin-right: 6px;">
+                <button type="button" name="btnPhoto" onclick="updatePhoto()"
+                        class="btn btn-sm btn-outline-secondary">사진 업로드</button>
+            </form>
+
+        </div>
+
+        <h1 id="checkAcaPhoto"></h1>
 
     </div>
-    <br>
-    <h1 id="checkAcaPhoto">
-
-    </h1>
-</body>
 <script>
 
     function updatePhoto(){
@@ -77,9 +103,11 @@
             dataType : "text",
             success: function (response) {
                 if(response == "true") {
-                    $("#checkAcaPhoto").text("학원 인증 사진이 업로드 되어있습니다. 운영진이 확인 후 승인이 되면 활동이 가능합니다.").css("color","green");
+                    $(".yet_normalUser_check .wrapped").css("display","none");
+                    $("#checkAcaPhoto").text("학원 인증 사진이 업로드 되어있습니다. 운영진이 확인 후 승인이 되면 활동이 가능합니다.");
                 } else {
-                    $("#checkAcaPhoto").text("아직 학원 인증 사진이 업로드 되지않았습니다.").css("color","red");
+                    $(".yet_normalUser_check .wrapped").css("display","block");
+                    //$("#checkAcaPhoto").text("아직 학원 인증 사진이 업로드 되지않았습니다.").css("color","red");
                 }
             },
             error: function (xhr, status, error) {
@@ -88,4 +116,4 @@
         })
     }
 </script>
-</html>
+

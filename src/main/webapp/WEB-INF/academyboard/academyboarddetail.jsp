@@ -4,9 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../commonvar.jsp" %>
     <style>
-        body, body * {
-            font-family: 'Gowun Batang'
-        }
 
         img{
             width: 100px;
@@ -232,7 +229,7 @@
             <div class="ab_detail_img">
                 <c:forEach items="${list}" var="images">
                     <c:if test="${dto.ab_photo!='n'}">
-                        <img src="http://${imageUrl}/freeboard/${images}" style="float: left">
+                        <img src="http://${imageUrl}/academyboard/${images}" style="float: left">
                         <br style="clear: both;"><br>
                     </c:if>
                 </c:forEach>

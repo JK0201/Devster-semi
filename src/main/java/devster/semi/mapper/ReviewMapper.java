@@ -17,6 +17,7 @@ public interface ReviewMapper {
     public int getTotalcount();
     public ReviewDto Getmidx (int rb_idx);
     public String selectnicnameofmidx(int rb_idx);
+    public String selectPhotoOfMidx(int rb_idx);
     public List<ReviewDto> getPagingList(Map<String,Integer> map);
     public void deletereview(int rb_idx);
     public void updatereview(ReviewDto dto);

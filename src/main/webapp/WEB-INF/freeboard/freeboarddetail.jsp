@@ -238,7 +238,7 @@
             <a href="./list?currentPage=${currentPage}" class="freeboard_link">일반게시판</a>
 
             <h2>${dto.fb_subject}</h2>
-            <b style="font-size: 15px; color: black;" margin-bottom: 10px;>
+            <b style="font-size: 15px; color: black; cursor:pointer;" onclick=message("${nickname}") margin-bottom: 10px;>
                 <img src="${m_photo}" class="memberimg">&nbsp;
                 ${nickname}
             </b>
@@ -291,15 +291,14 @@
                 <div class="util_btns">
                     <%--    <c:if test="${sessionScope.memdix==dto.hb_idx}">--%>
                     <c:if test="${dto.m_idx == sessionScope.memidx}">
-                        <button type="button" onclick="del(${dto.fb_idx})" class="btn btn-sm btn-outline-secondary"><i class="bi bi-trash"></i>&nbsp;삭제</button>
-                        <button type="button" onclick="location.href='./list?currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-card-list"></i>&nbsp;목록</button>
                         <button type="button" onclick="location.href='./freeupdateform?fb_idx=${dto.fb_idx}&currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil-square"></i>&nbsp;수정</button>
+                        <button type="button" onclick="del(${dto.fb_idx})" class="btn btn-sm btn-outline-secondary"><i class="bi bi-trash"></i>&nbsp;삭제</button>
                     </c:if>
                     <c:if test="${dto.m_idx != sessionScope.memidx && sessionScope.memstate == 100}">
-
                         <button type="button" onclick="del(${dto.fb_idx})" class="btn btn-sm btn-outline-secondary"><i class="bi bi-trash"></i>&nbsp;삭제</button>
-                        <button type="button" onclick="location.href='./list?currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-card-list"></i>&nbsp;목록</button>
                     </c:if>
+                        <button type="button" onclick="location.href='./list?currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-card-list"></i>&nbsp;목록</button>
+
 
                 </div>
             </div>
@@ -432,7 +431,7 @@
                     $.each(res, function (idx, ele) {
                         s += `
                             <div class='answerBox' data-index="\${idx}"><input type="hidden" name="fbc_idx" value="\${ele.fbc_idx}">
-                            <b style=';' class="fb_nickname">`;
+                            <b style='cursor:pointer;;' class="fb_nickname" onclick=message("\${ele.nickname}")>`;
 
                         if (ele.m_photo === null || ele.m_photo === 'no') {
                             s += `<img src="/photo/profile.jpg" style="width:20px; height: 20px; border:1px solid black; border-radius:100px;">`;
@@ -473,6 +472,12 @@
                                   <div class='mx-4 reCommentDiv' id='reCommentDiv_' data-index="\${idx}"></div>
 
                                   </div>`;
+                        } else {
+                            s += `<div style="" class="clear">
+                                  <button class="btn btn-outline-dark btn-sm" type="button" onclick="deleteComment(\${ele.fbc_idx})" style="float: right; margin-left: 3px; visibility: hidden;">삭제</button>
+                                  <button class="btn btn-outline-dark btn-sm" type="button" data-fbcidx="\${ele.fbc_idx}" onclick="updateCommentForm(\${ele.fbc_idx},\${idx})" style="float: right; visibility: hidden;">수정</button></div>
+
+                                  <div class='mx-4 reCommentDiv' id='reCommentDiv_' data-index="\${idx}"></div>`;
                         }
                     });
 
@@ -652,31 +657,33 @@
                 let html = "";
                 $.each(res, function (idx, ele) {
                     html += `
-                            <div class='replyBox' data-index="\${idx}" style="margin-bottom: 30px;">
+                            <div class='replyBox' data-index="\${idx}" style="border-bottom: 1px solid #eee;padding: 25px 20px 16px 17px; position: relative;">
                             <input type="hidden" name="fbc_idx" value="\${ele.fbc_idx}">
-                            <b style='margin-left: 10px;'>`;
+                            <b style='margin-left: 10px; cursor:pointer;color: #94969b;font-size: 12px;' onclick=message("\${ele.nickname}")>`;
 
                     if (ele.m_photo === null || ele.m_photo === 'no') {
-                        html += `<i class="bi bi-arrow-return-right" style="color: #94969B"></i>&nbsp;<img src="/photo/profile.jpg" style="width:20px; height: 20px; border:1px solid black; border-radius:100px;">`;
+                        html += `<!--<i class="bi bi-arrow-return-right" style="color: #94969B"></i>&nbsp;--><img src="/photo/profile.jpg" style="width:20px; height: 20px; border:1px solid black; border-radius:100px;">`;
                     } else {
-                        html += `<i class="bi bi-arrow-return-right" style="color: #94969B"></i>&nbsp;<img src="http://${imageUrl}/member/\${ele.m_photo}" style="width:20px; height: 20px; border:1px solid black; border-radius:100px;">`;
+                        html += `<img src="http://${imageUrl}/member/\${ele.m_photo}" style="width:20px; height: 20px; border:1px solid black; border-radius:100px;">`;
                     }
 
-                    html+=`&nbsp;\${ele.nickname}</b><br><br>
-                            <b style="color: #999; float:right; font-size: 15px; font-weight: lighter; margin-right: 15px;" align='right'>\${ele.fbc_writeday}</b>
-                            <h5 style='display: inline; margin-left: 10px; font-size: 18px;'>\${ele.fbc_content}</h5>
-                            <br><br>`;
+                    html+=`&nbsp;\${ele.nickname}</b><br>
+                            <b style="color: #94969b; float:right; font-size: 12px; font-weight: lighter; margin-right: 15px;" align='right'>\${ele.fbc_writeday}</b>
+                            <h5 style='display: inline; margin-left: 10px; font-size: 16px;margin-top: 5px; line-height: 40px;'>\${ele.fbc_content}</h5><br>
+                            `;
 
                     if (ele.m_idx == ${sessionScope.memidx}) {
-                        html += `<button class="btn btn-outline-dark btn-sm" type="button" onclick="deleteComment(\${ele.fbc_idx})" style="margin-left: 10px;">답글삭제</button>
-                                <button class="btn btn-outline-dark btn-sm" type="button" data-fbcidx="\${ele.fbc_idx}" onclick="updateReplyForm(\${ele.fbc_idx},\${idx})">답글수정</button>`;
+                        html += `<div style="height: 30px;"></div>
+                                <div style="position: absolute; top: 88px; right: 30px;">
+                                <button class="btn btn-outline-dark btn-sm" type="button" onclick="deleteComment(\${ele.fbc_idx})" style="margin-left: 10px;">삭제</button>
+                                <button class="btn btn-outline-dark btn-sm" type="button" data-fbcidx="\${ele.fbc_idx}" onclick="updateReplyForm(\${ele.fbc_idx},\${idx})">수정</button></div>`;
                     }
-                    html+= "<hr></div>";
+                    html+= "<!--<hr style='1px solid #eee; margin: 0;'>--></div>";
                 });
 
 
-                html += "<input style='width: 90%; margin-bottom: 30px;' id='reComment_"+fbc_ref+"' class='reComment' name='reComment' placeholder='댓글을 입력해 주세요' type='text'>";
-                html += `<button type='button' class='btn btn-primary btn-sm reCommentSubmit' onclick='insertReply(\${fbc_ref})'>등록</button>`;
+                html += "<div style='display: flex;'><input class='form-control' style='width: 90%; margin-top: 10px;margin-bottom: 30px; height: 63px;font-size: 16px;padding-left: 20px;' id='reComment_"+fbc_ref+"' class='reComment' name='reComment' placeholder='댓글을 남겨주세요' type='text'>";
+                html += `<button type='button' class='btn btn-secondary btn-sm reCommentSubmit' style="height: 63px;margin-top: 10px;margin-left: 5px; width: 94px;" onclick='insertReply(\${fbc_ref})'>댓글쓰기</button></div>`;
 
                 _this.siblings(".reCommentDiv").html(html);
 
@@ -842,6 +849,10 @@
         } else {
             document.getElementById("myBtn").style.display = "none";
         }
+    }
+
+    function message(nickname) {
+        window.open("other_profile?other_nick=" + nickname, 'newwindow', 'width=700,height=700');
     }
 
 

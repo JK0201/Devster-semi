@@ -26,4 +26,7 @@ public interface Resumserviceinter {
     public String selectPhotoOfm_idx(int m_idx);
     public int getTotalCount();
     public List<ResumeDto> getPagingList(int start,int perpage);
+    public String selectnameOfm_idx(int m_idx);
+    public String selectteleOfm_idx(int m_idx);
+    public String selectemailOfm_idx(int m_idx);
 }

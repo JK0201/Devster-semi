@@ -47,7 +47,8 @@
                         "hb_idx": ${dto.hb_idx}
                     },
                     success: function (goodReactionPoint) {
-                        $("#add-bkmk-btn").addClass("already-added");
+                        //$("#add-bkmk-btn").addClass("already-added");
+                        $("#add-bkmk-btn .icon_bookmark").css("background-position","-142px -652px");
                         // $(".add-bookMark").html(goodReactionPoint);
                         isAlreadyAddBkmk = true;
                     },
@@ -66,7 +67,8 @@
                         "hb_idx": ${dto.hb_idx}
                     },
                     success: function (goodReactionPoint) {
-                        $("#add-bkmk-btn").removeClass("already-added");
+                        //$("#add-bkmk-btn").removeClass("already-added");
+                        $("#add-bkmk-btn .icon_bookmark").css("background-position","-116px -652px");
                         // $(".add-bookMark").html(goodReactionPoint);
                         isAlreadyAddBkmk = false;
                     },
@@ -90,7 +92,7 @@
     <div class="hb_detail_content">
         <div class="article_view_head">
             <a href="/">홈</a>
-            <a href="./list?currentPage=${currentPage}" class="hireboard_link">회사후기</a>
+            <a href="./list?currentPage=${currentPage}" class="hireboard_link">채용정보</a>
             <div class="show_tag">
                 <span class="tag_dday">마감 D-23</span>
                 <span class="tag_career">경력무관</span>
@@ -100,9 +102,9 @@
 <%--            <div>${cm_name}</div>--%>
             <div class="wrap_info clear">
                 <div class="icon_time"></div><div style="display: inline-block; color: #94969b;"><fmt:formatDate value="${dto.fb_writeday}" pattern="MM/dd"/></div>
-                <span><div class="icon_read"></div>${dto.hb_readcount}</span>
+                <span class="readCnt"><div class="icon_read"></div>${dto.hb_readcount}</span>
                 <c:if test="${sessionScope.memstate!=null}">
-                <span id="add-bkmk-btn" class="btn btn-outline">북마크</span>
+                    <span id="add-bkmk-btn"><div class="icon_bookmark"></div></span>
                 </c:if>
             </div>
 
@@ -117,7 +119,7 @@
 
             <div class="hr_detail_img">
                 <c:forEach items="${list}" var="images">
-                    <img src="http://${imageUrl}/hire/${images}" style="float: left">
+                    <img src="http://${imageUrl}/hire/${images}" style="float: left; max-width: 700px">
                     <br style="clear: both;"><br>
                 </c:forEach>
             </div>
@@ -173,7 +175,8 @@
     function checkAddBkmkBefore() {
         <!-- 변수값에 따라 각 id가 부여된 버튼에 클래스 추가(이미 눌려있다는 색상 표시) -->
         if (isAlreadyAddBkmk == true) {
-            $("#add-bkmk-btn").addClass("already-added");
+            //$("#add-bkmk-btn").addClass("already-added");
+            $("#add-bkmk-btn .icon_bookmark").css("background-position","-142px -652px");
         } else {
             return;
         }
@@ -220,19 +223,6 @@
             console.log("Error: " + textStatus + " - " + errorThrown);
         }
     });
-
-    // When the user scrolls down 20px from the top of the document, show the button
-    window.onscroll = function () {
-        scrollFunction()
-    };
-
-    function scrollFunction() {
-        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-            document.getElementById("myBtn").style.display = "block";
-        } else {
-            document.getElementById("myBtn").style.display = "none";
-        }
-    }
 
 </script>
 

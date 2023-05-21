@@ -22,7 +22,7 @@
 
                         <div class="received_msg">
                             <div class="received_withd_msg">
-                                <p>${tmp.content}</p>
+                                <pre>${tmp.content}</pre>
                                 <span class="time_date">${tmp.send_time}</span>
                             </div>
                         </div>
@@ -34,7 +34,7 @@
                     <!-- 보낸 메세지 -->
                     <div class="outgoing_msg">
                         <div class="sent_msg">
-                            <p>${tmp.content}</p>
+                            <pre>${tmp.content}</pre>
                             <span class="time_date">${tmp.send_time}</span>
                         </div>
                     </div>
@@ -49,11 +49,12 @@
                         <div class="incoming_msg_img">
                                 <img src="http://${imageUrl}/member/${tmp.m_photo}" width="50px">
                         </div>
+                        &nbsp;
                         <div class="received_msg">
                             <div class="received_withd_msg">
-                                <p>${tmp.content}</p>
-                                <span class="time_date">${tmp.send_time}</span>
+                                <pre>${tmp.content}</pre>
                             </div>
+                            <span class="time_date">${tmp.send_time}</span>
                         </div>
 
                     </div>
@@ -63,7 +64,7 @@
                     <!-- 보낸 메세지 -->
                     <div class="outgoing_msg">
                         <div class="sent_msg">
-                            <p>${tmp.content}</p>
+                            <pre>${tmp.content}</pre>
                             <span class="time_date">${tmp.send_time}</span>
                         </div>
                     </div>
