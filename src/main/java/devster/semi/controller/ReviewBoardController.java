@@ -1,9 +1,12 @@
 package devster.semi.controller;
 
 import devster.semi.dto.*;
+import devster.semi.service.NoticeBoardService;
 import devster.semi.service.ReviewService;
 import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
+import devster.semi.service.NoticeBoardService;
+import devster.semi.dto.NoticeBoardDto;
 import org.springframework.boot.convert.PeriodUnit;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +33,8 @@ public class ReviewBoardController {
     private ReviewDto reviewDto;
     @Autowired
     private CompanyinfoDto campanyinfoDto;
+    @Autowired
+    private NoticeBoardService noticeBoardService;
 
     //버켓 이름
     private String bucketName = "devster-bucket";//각자 자기 버켓이름
@@ -205,7 +210,14 @@ public class ReviewBoardController {
         model.addAttribute("no", no);
         model.addAttribute("currentPage", currentPage);
 
-        System.out.println(fulllList);
+        //===========================공지사항===============================//
+
+        int NoticeBoardTotalCount = noticeBoardService.getTotalCount();
+        List<NoticeBoardDto> nblist = noticeBoardService.getTopThree();
+
+        model.addAttribute("nblist", nblist);
+        model.addAttribute("NoticeBoardTotalCount", NoticeBoardTotalCount);
+
         return "/main/review/reviewlist";
     }
 
@@ -357,15 +369,15 @@ public class ReviewBoardController {
     // 검색
     @PostMapping("/reviewboardsearchlist")
     @ResponseBody
-    public List<Map<String, Object>> searchlist(@RequestParam(defaultValue = "1") int currentPage,
+    public List<Map<String, Object>> searchlist(@RequestParam(defaultValue = "1") int currentpage,
                                                 @RequestParam(defaultValue = "") String keyword,
                                                 @RequestParam(defaultValue = "all") String searchOption,
-                                                Model model){
+                                               HttpSession session){
 
 
         int searchCount = reviewService.countsearch(searchOption,keyword);
         int totalPage; // 총 페이지 수
-        int perPage = 20; // 한 페이지당 보여줄 글 갯수
+        int perPage = 7; // 한 페이지당 보여줄 글 갯수
         int perBlock = 10; // 한 블록당 보여질 페이지의 갯수
         int startNum; // 각 페이지에서 보여질 글의 시작번호
         int startPage; // 각 블록에서 보여질 시작 페이지 번호
@@ -375,7 +387,7 @@ public class ReviewBoardController {
         // 총 페이지 수
         totalPage = searchCount / perPage + (searchCount % perPage == 0 ? 0 : 1);
         // 시작 페이지
-        startPage = (currentPage - 1) / perBlock * perBlock + 1;
+        startPage = (currentpage - 1) / perBlock * perBlock + 1;
         // 끝 페이지
         endPage = startPage + perBlock - 1;
 
@@ -384,7 +396,7 @@ public class ReviewBoardController {
             endPage = totalPage;
 
         // 각 페이지의 시작번호 (1페이지: 0, 2페이지 : 3, 3페이지 6 ....)
-        startNum = (currentPage - 1) * perPage;
+        startNum = (currentpage - 1) * perPage;
 
         // 각 글마다 출력할 글 번호 (예 : 10개일 경우 1페이지 10, 2페이지 7...)
         // no = totalCount - (currentPage - 1) * perPage;
@@ -397,33 +409,56 @@ public class ReviewBoardController {
 
         for(ReviewDto dto : list) {
             Map<String,Object> map = new HashMap<>();
-            map.put("rb_idx",String.valueOf(dto.getRb_idx()));
-            map.put("m_nickname",reviewService.selectnicnameofmidx(dto.getRb_idx()));
 
+            // 버튼 상태에 대한 정보를 디테일 페이지로 보내줌.
+            boolean isAlreadyAddGoodRp = reviewService.isAlreadyAddGoodRp(dto.getRb_idx(),(int)session.getAttribute("memidx"));
+            boolean isAlreadyAddBadRp = reviewService.isAlreadyAddBadRp(dto.getRb_idx(), (int)session.getAttribute("memidx"));
+            System.out.println("isAlreadyGood : " + isAlreadyAddGoodRp);
+            System.out.println("isAlreadyBad : " + isAlreadyAddBadRp);
+            map.put("rb_idx", String.valueOf(dto.getRb_idx()));
+            map.put("m_idx", String.valueOf(dto.getM_idx()));
+            map.put("rb_like", dto.getRb_like());
+            map.put("rb_dislike", dto.getRb_dislike());
+            map.put("rb_type", dto.getRb_type());
+            map.put("rb_star", dto.getRb_star());
+            map.put("nickName", reviewService.selectnicnameofmidx(dto.getM_idx()));
+            String m_photo = reviewService.selectPhotoOfMidx(dto.getRb_idx());
+            if(m_photo.equals("no")) {
+                m_photo = "/photo/profile.jpg";
+            } else {
+                m_photo = "http://kr.object.ncloudstorage.com/devster-bucket/member/"+m_photo;
+            }
+            map.put("m_photo",m_photo);
+            map.put("rb_content", dto.getRb_content());
+            String currentTimestampToString = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(dto.getRb_writeday());
+            map.put("rb_writeday", currentTimestampToString);
+            map.put("isAlreadyAddGoodRp",isAlreadyAddGoodRp);
+            map.put("isAlreadyAddBadRp",isAlreadyAddBadRp);
 
-            map.put("rb_content",dto.getRb_content());
-            map.put("rb_like",dto.getRb_like());
-            map.put("rb_dislike",dto.getRb_dislike());
-            map.put("rb_type",dto.getRb_type());
-            map.put("rb_star",dto.getRb_star());
-
-            map.put("rb_writeday", dto.getRb_writeday());
-
-            map.put("searchOption", searchOption);
+            List<CompanyinfoDto> ciDtoList = reviewService.getDataciinfo(dto.getCi_idx());
+            if (ciDtoList != null && !ciDtoList.isEmpty()) {
+                CompanyinfoDto ciDto = ciDtoList.get(0);
+                map.put("ci_name", ciDto.getCi_name());
+                map.put("ci_ppl", ciDto.getCi_ppl());
+                DecimalFormat decimalFormat = new DecimalFormat("#,###");
+                map.put("ci_sale", ciDto.getCi_sale());
+                map.put("ci_sal", decimalFormat.format(ciDto.getCi_sal()) + "원");
+                map.put("ci_photo", ciDto.getCi_photo());
+                map.put("ci_star", ciDto.getCi_star());
+                map.put("ci_idx", ciDto.getCi_idx());
+            }
+//            map.put("list",list);
+            map.put("currentpage",currentpage);
+            map.put("searchCount", searchCount);
             map.put("keyword", keyword);
-
-            // 출력시 필요한 변수들 model에 전부 저장
-            model.addAttribute("searchCount", searchCount);
-            model.addAttribute("startPage", startPage);
-            model.addAttribute("endPage", endPage);
-            model.addAttribute("totalPage", totalPage);
-            model.addAttribute("no", no);
-            model.addAttribute("currentPage", currentPage);
-
+            map.put("searchOption", searchOption);
+            map.put("no", no);
 
             fulllList.add(map);
-        }
 
+        }
+        System.out.println("fulllist 사이즈 : "+ fulllList.size());
+        System.out.println("searchcount : "+ searchCount);
         return fulllList;
     }
 
