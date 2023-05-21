@@ -51,6 +51,15 @@
         border-color: #5c0579;
     }
 
+    .headbox .searchdiv_aca #searchinput {
+        z-index: 1;
+        position: relative;
+        font-size: 14px;
+        padding: 0 0 0 142px;
+        height: 48px;
+        border: 1px solid #bbb;
+    }
+
 
 </style>
 <script>
@@ -172,13 +181,13 @@
     <!--===============================Headbox==============================================-->
 
     <div class="headbox">
-        <h4 class="boardname_aca">
-            <div class="yellowbar">&nbsp;</div>&nbsp;&nbsp;${sessionScope.memacademy}게시판
+        <h4 class="boardname_aca" style="line-height: 40px;">
+            <div class="yellowbar" style="margin-right: 10px;">&nbsp;</div>${sessionScope.memacademy}게시판
         </h4>
 
         <!-- 검색창 -->
         <div class="searchdiv_aca">
-            <select id="searchOption" class="form-select">
+            <select id="searchOption" class="form-select form-select-sm">
                 <option id="all" value="all">전체검색</option>
                 <option id="searchnickname" value="m_nickname">작성자 검색</option>
                 <option id="searchsubject" value="ab_subject">제목 검색</option>
@@ -198,14 +207,14 @@
                 <c:forEach var="dto" items="${nblist}">
 
 
-                    <li>
-                        <b class="noticetitle">Devster 공지사항</b>
+                    <li style="display: flex;">
+                        <b class="noticetitle">공지</b>
                         <a href="../noticeboard/noticeboarddetail?nb_idx=${dto.nb_idx}&currentPage=${currentPage}">
                                 ${dto.nb_subject}
-                            <c:if test="${dto.nb_photo!='n'}">
-                                &nbsp; <i class="bi bi-images"></i>
-                            </c:if>
                         </a>
+                        <c:if test="${dto.nb_photo!='n'}">
+                            &nbsp; <div class="icon_img"><img></div>
+                        </c:if>
                     </li>
                 </c:forEach>
             </c:if>
@@ -532,9 +541,9 @@
     </div>
 </div>
 
-<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+<button onclick="topFunction()" id="myBtn" title="Go to top"><i class="bi bi-caret-up-fill"></i></button>
 <br>
-<button id="myWriteBtn" type="button" onclick="location.href='./academywriteform'">글쓰기</button>
+<button id="myWriteBtn" type="button" onclick="location.href='./academywriteform'"><i class="bi bi-pencil-square"></button>
 <script>
             // When the user scrolls down 20px from the top of the document, show the button
             window.onscroll = function () {

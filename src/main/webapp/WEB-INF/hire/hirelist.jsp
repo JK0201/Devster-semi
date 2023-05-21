@@ -19,8 +19,8 @@
         </h4>
 
         <!-- 검색창 -->
-        <div class="searchdiv">
-            <select id="searchOption" class="form-select" disabled>
+        <div class="searchdiv" style="margin-left: 532px;">
+            <select id="searchOption" class="form-select form-select-sm" disabled style="color: #aaa;">
                 <option id="all" value="all" selected>전체검색</option>
             </select>
             <input id="searchinput" name="keyword" type="search" placeholder="관심있는 내용을 검색해보세요!" autocomplete="off"
@@ -238,7 +238,7 @@
             </div>
         </c:forEach>
     </div>
-    <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+    <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="bi bi-caret-up-fill"></i></button>
     <div id="loading" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999;">
         <img src="${root}/photo/loading.gif" alt="Loading..." style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"> <!-- 로딩 이미지의 경로를 설정하세요 -->
     </div>
