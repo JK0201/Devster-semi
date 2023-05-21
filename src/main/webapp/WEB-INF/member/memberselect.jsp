@@ -53,18 +53,19 @@
 
         .links li {
             display: inline-block;
-            font-size: 4vh;
+            font-size: 3vh;
             border-top: 2px solid transparent;
+        }
+
+        .links li:hover {
+            border-color: #8007AD;
+            transition: .5s linear;
         }
 
         .links li span:hover {
             color: #8007AD;
-            border-top: 2px solid #8007AD;
             opacity: 1 !important;
-        }
-
-        .links li:nth-child(1):hover {
-            opacity: 1;
+            transition: .5s linear;
         }
 
         .links li span {
@@ -83,6 +84,9 @@
             width: 100%;
             max-width: 680px;
             margin: 40px auto 10px;
+            box-shadow: 4px 4px 14px 7px #bdbebd;
+            padding-top: 5vh;
+            padding-bottom: 5vh;
         }
 
         .separator {
@@ -156,15 +160,19 @@
             box-shadow: 0 0 0 rgba(37, 40, 45, 0);
         }
 
-        footer p {
+        section p {
             margin-top: 4vh;
             text-align: center;
         }
 
-        footer p a {
+        section p a {
             text-decoration: none;
             font-size: 17px;
             margin: 0 5px;
+        }
+
+        .memberlayout footer {
+            margin-top: 200px;
         }
 
         #kakao-signin {
@@ -181,17 +189,18 @@
             font-size: 2vh;
         }
 
-        #signin, #finder {
+        #signin span, #finder {
             color: #0f132a;
             opacity: 0.6;
             font-weight: bold;
+            transition: .2s linear;
         }
 
-        #signin {
+        #signin span {
             text-decoration: underline;
         }
 
-        #signin:hover {
+        #signin span:hover {
             opacity: 1;
             color: #8007AD;
         }
@@ -207,16 +216,16 @@
         <div style="color:#0f132a; opacity: 0.6; font-weight: bold">회&nbsp;원&nbsp;가&nbsp;입</div>
     </div>
 
-    <!-- Links -->
-    <ul class="links">
-        <li>
-            <a href="signup" id="normmember"><span>일반회원</span></a>
-        </li>
-        <li>
-            <a href="compsignup" id="compmember"><span>기업회원</span></a>
-        </li>
-    </ul>
     <div class="inputdiv">
+        <!-- Links -->
+        <ul class="links">
+            <li>
+                <a href="signup" id="normmember"><span>일반회원</span></a>
+            </li>
+            <li>
+                <a href="compsignup" id="compmember"><span>기업회원</span></a>
+            </li>
+        </ul>
         <div>
             <!-- separator -->
             <div class="separator">
@@ -239,13 +248,13 @@
                 </div>
             </div>
         </div>
+        <section>
+            <p>
+                <a id="finder">이미 계정이 있나요?</a>
+                <a href="signin" id="signin"><span>로그인</span></a>
+            </p>
+        </section>
     </div>
-    <footer>
-        <p>
-            <a id="finder">이미 계정이 있나요?</a>
-            <a href="signin" id="signin">로그인</a>
-        </p>
-    </footer>
 </div>
 <div id="naver_id_login" style="display: none;"></div>
 <script>

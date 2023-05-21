@@ -17,12 +17,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <style>
     </style>
+    <tiles:insertAttribute name="css"/>
 </head>
+
 <body>
 <div class="memberlayout">
     <section>
         <tiles:insertAttribute name="main"/>
     </section>
+    <footer class="footer">
+        <tiles:insertAttribute name="footer"/>
+    </footer>
 </div>
 </body>
 </html>

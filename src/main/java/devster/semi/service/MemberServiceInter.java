@@ -28,11 +28,13 @@ public interface MemberServiceInter {
 
     public int getAcademyIdx(String ai_name);
 
+    public int chkAcademyIdx(String ai_name);
+
     public void addNewMember(MemberDto dto);
 
     public void addNewCMemeber(CompanyMemberDto dto);
-    public void addDummyCMember(CompanyMemberDto dto);
 
+    public void addDummyCMember(CompanyMemberDto dto);
 
     public String getSaltById(String m_email);
 
@@ -43,7 +45,9 @@ public interface MemberServiceInter {
     public int compNameChk(String cm_compname);
 
     public int cmEmailPassChk(String cm_email, String cm_pass);
+
     public MemberDto getOneDataByM_idx(int m_idx);
+
     public String getAcaNameByAi_idx(int ai_idx);
 
     public int NPCheck(String m_name, String m_tele);
@@ -65,6 +69,7 @@ public interface MemberServiceInter {
     public void CUpdatePass(String cm_email, String cm_name, String cm_pass, String salt);
 
     public int CEFindCheck(String cm_email, String cm_name);
+
     public int compRegChk(String cm_reg);
 
     public void testupdate(String m_photo);

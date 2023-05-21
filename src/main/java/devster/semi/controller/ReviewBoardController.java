@@ -111,7 +111,7 @@ public class ReviewBoardController {
             fulllList.add(map);
 
         }
-        System.out.println(fulllList);
+
         return fulllList;
     }
 

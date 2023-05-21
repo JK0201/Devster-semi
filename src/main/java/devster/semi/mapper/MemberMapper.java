@@ -35,6 +35,8 @@ public interface MemberMapper {
 
     public int getAcademyIdx(String ai_name);
 
+    public int chkAcademyIdx(String ai_name);
+
     public void addNewMember(MemberDto dto);
 
     public void addNewCMemeber(CompanyMemberDto dto);
