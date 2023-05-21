@@ -42,6 +42,9 @@
             width: 100%;
             max-width: 680px;
             margin: 40px auto 10px;
+            box-shadow: 4px 4px 14px 7px #bdbebd;
+            padding-top: 5vh;
+            padding-bottom: 5vh;
         }
 
         .inputdiv .input__block {
@@ -73,6 +76,15 @@
             color: rgba(15, 19, 42, 1);
         }
 
+        .inputdiv .input__block b {
+            margin-left: 40px;
+        }
+
+        .inputdiv .input__block span {
+            margin-left: 40px;
+            color: #808080;
+        }
+
         .inputdiv .signin__btn {
             background: #8007AD;
             color: white;
@@ -95,15 +107,8 @@
             box-shadow: 0 0 0 rgba(233, 30, 99, 0);
         }
 
-        footer p {
-            margin-top: 4vh;
-            text-align: center;
-        }
-
-        footer p a {
-            text-decoration: none;
-            font-size: 17px;
-            margin: 0 5px;
+        .memberlayout footer {
+            margin-top: 200px;
         }
 
         .inputdiv .membermail {
@@ -129,6 +134,15 @@
             transition: .2s linear;
         }
 
+        .inputdiv .membermail b {
+            margin-left: 40px;
+        }
+
+        .inputdiv .membermail span {
+            margin-left: 40px;
+            color: #808080;
+        }
+
         .inputdiv .membermail input:focus,
         .inputdiv .membermail input:active {
             outline: none;
@@ -148,6 +162,12 @@
             font-size: 2vh;
             font-family: 'Noto Sans KR', 'Roboto';
             font-weight: bold;
+            opacity: 0.85;
+            transition: .2s linear;
+        }
+
+        .inputdiv .memberbtn:hover {
+            opacity: 1;
         }
 
         #timer {
@@ -187,14 +207,14 @@
             text-decoration: underline #8007AD;
         }
 
-        .emailreg{
+        .emailreg {
             display: none;
         }
 
         /*upload*/
         #uploadpopupbox {
             color: #bdbebd;
-            font-size: 20px;
+            font-size: 2.5vh;
             font-weight: bold;
             width: 90%;
             margin: 0 auto;
@@ -238,6 +258,7 @@
             margin-left: 15px;
             font-weight: bold;
             color: #bdbebd;
+            cursor: pointer;
         }
 
         .btnupload {
@@ -268,21 +289,18 @@
 
         #preview {
             margin: 0 auto;
-            width: 100%;
-            height: 300px;
+            width: 50%;
+            height: 50%;
             text-align: center;
         }
 
         #divimgbox {
             margin: 0 auto;
-            width: 750px;
         }
 
         .imgpreview {
-            width: 140px;
-            height: 140px;
-            margin-right: 10px;
-            margin-bottom: 10px;
+            width: 35vw;
+            height: 35vh;
         }
 
         .previewdelbtn {
@@ -291,8 +309,8 @@
             opacity: 60%;
             font-size: 90px;
             position: absolute;
-            left: 47%;
-            top: 47%;
+            left: 50%;
+            top: 50%;
             transform: translate(-50%, -50%);
             display: none;
         }
@@ -316,7 +334,6 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: #fefefe;
-            padding: 20px;
             border: 1px solid #888;
             width: 50%;
         }
@@ -358,7 +375,8 @@
             border-radius: 10px;
             font-weight: bold;
             cursor: pointer;
-            border: 1px solid gray
+            border: 1px solid #bdbebd;
+            transition: 0.2s linear;
         }
 
         #uploadbtn:hover {
@@ -410,7 +428,7 @@
                 <input type="email" placeholder="email@example.com" id="m_email">
                 <button class="memberbtn" id="sendemail" disabled>인&nbsp;증&nbsp;요&nbsp;청</button>
             </div>
-            <span id="emailchkicon">여기에다 멘트 띄울예정</span>
+            <span id="emailchkicon">　　</span>
         </div>
         <div class="membermail">
             <div class="emailreg">
@@ -426,108 +444,98 @@
         <div class="input__block">
             <b>비&nbsp;밀&nbsp;번&nbsp;호</b>
             <input type="password" placeholder="Password" class="input" id="m_pass" required/>
-            <span id="passokicon">여기에다 멘트 띄울예정</span>
+            <span id="passokicon">　　</span>
         </div>
         <div class="input__block">
             <b>비&nbsp;밀&nbsp;번&nbsp;호&nbsp;확&nbsp;인</b>
             <input type="password" placeholder="Password" class="input" id="passchk" required/>
-            <span id="passchkicon">여기에다 멘트 띄울예정</span>
+            <span id="passchkicon">　　</span>
         </div>
         <div class="input__block">
             <b>이&nbsp;름</b>
             <input type="text" placeholder="Name" class="input" id="m_name" required/>
-            <span id="namechkicon">여기에다 멘트 띄울예정</span>
+            <span id="namechkicon">　　</span>
         </div>
         <div class="input__block">
             <b>핸&nbsp;드&nbsp;폰</b>
             <input type="tel" placeholder="Cellphone" class="input" id="m_tele" required/>
-            <span id="telechkicon">여기에다 멘트 띄울예정</span>
+            <span id="telechkicon">　　</span>
         </div>
         <div class="input__block">
             <b>닉&nbsp;네&nbsp;임</b>
             <input type="text" placeholder="Nickname" class="input" id="m_nickname" required/>
-            <span id="nicknamechkicon">여기에다 멘트 띄울예정</span>
+            <span id="nicknamechkicon">　　</span>
         </div>
         <div class="input__block">
             <b>학&nbsp;원</b>
             <input type="text" placeholder="" class="input" id="ai_name" readonly required/>
-            <span>여기에다 멘트 띄울예정</span>
+            <span>　　</span>
         </div>
         <div class="input__block">
             <b>프&nbsp;로&nbsp;필&nbsp;사&nbsp;진&nbsp;(선&nbsp;택)</b>
-
             <!-- upload -->
-            <div class="input__block">
-                <div id="uploadpopupbox">사진 등록하기</div>
-                <section id="dropbox" style="margin:0 auto; display: none;">
-                    <div class="uploadbox">
-                        <input type="file" accept=".jpg, .jpeg, .png" id="filebtn">
-                        <div style="width:100%; height:70px; line-height: 60px;">
-                            <span id="sizetxt" style="height:45px;"><span id="mbsize">0.0</span> / 50Mb</span>
-                            <i class="bi bi-recycle alldelbtn" style="height:45px;"></i>
-                            <i class="bi bi-plus-circle btnupload" style="height:45px;"></i>
-                        </div>
-                        <div id="preview">
-                            <div id="divimgbox" style="margin:0 auto; width:100%;">
-                                <div style="padding-top:40px;">
-                                    <i class="bi bi-cloud-upload" style="color:#bdbebd; font-size: 55px;"></i>
-                                    <div style="color:#bdbebd; font-size: 20px; font-weight: bold; margin-bottom: 25px;">
-                                        나만의 멋진 프로필 사진을 올려보세요!
-                                    </div>
-                                    <div id="dndtext">Drag & Drop</div>
+            <div id="uploadpopupbox">사진 등록하기&nbsp;<i class="bi bi-plus-circle"></i></div>
+            <section id="dropbox" style="margin:0 auto; display: none;">
+                <div class="uploadbox">
+                    <input type="file" accept=".jpg, .jpeg, .png" id="filebtn" class="btn-file d-none">
+                    <div style="width:100%; height:70px; line-height: 60px;">
+                            <span id="sizetxt" style="height:45px; font-size:2.5vh; margin-left:38%;">사진 등록하기&nbsp;<i
+                                    class="bi bi-dash-circle"></i></span>
+                        <i class="bi bi-recycle alldelbtn" style="height:45px;"></i>
+                        <i class="bi bi-plus-circle btnupload" style="height:45px;"></i>
+                    </div>
+                    <div id="preview">
+                        <div id="divimgbox" style="margin:0 auto; width:100%;">
+                            <div style="padding-top:40px;">
+                                <i class="bi bi-cloud-upload" style="color:#bdbebd; font-size: 55px;"></i>
+                                <div style="color:#bdbebd; font-size: 20px; font-weight: bold; margin-bottom: 25px;">
+                                    나만의 멋진 프로필<br>사진을 올려보세요!
                                 </div>
-                            </div>
-                        </div>
-                        <div style="width:100%; height:60px; padding-top:15px;">
-                            <div class="progress">
-                                <div class="bar progress-bar-striped progress-bar-animated"></div>
-                                <div class="percent">0%</div>
+                                <div id="dndtext">Drag & Drop</div>
                             </div>
                         </div>
                     </div>
-                    <div style="width:100%; height:60px; padding-top: 15px; text-align:center;">
-                        <button type=button id="uploadbtn">확인</button>
+                    <div style="width:100%; height:60px; padding-top:15px;">
+                        <div class="progress">
+                            <div class="bar progress-bar-striped progress-bar-animated"></div>
+                            <div class="percent">0%</div>
+                        </div>
                     </div>
-                </section>
-            </div>
+                </div>
+            </section>
         </div>
-
         <div class="input__block">
-            <b>학&nbsp;원</b>
-            <input type="text" placeholder="" class="input" id="" readonly required/>
-            <span>여기에다 멘트 띄울예정</span>
+            <b>동의</b>
         </div>
-
-        <!-- Academy Modal -->
-        <div id="myUploadModal" class="modal">
-            <div class="modal-content">
-                <div class="inputdiv">
-                    <div style="width:35px; margin:0 auto; width: 100%; text-align: center; padding-bottom: 10px;">
-                        <i class="bi bi-x-circle close"></i>
-                        <div class="membermail">
-                            <b>이&nbsp;메&nbsp;일</b>
-                            <div class="input-group" style="width:90%; margin:0 auto">
-                                <input type="text" placeholder="검색 하실 학원명을 입력해주세요" id="modalname">
-                                <button class="memberbtn" id="acanamebtn">등&nbsp;록</button>
-                            </div>
-                            <div style="margin: 0 auto; width: 76%; text-align: left; font-size: 1.5vh; color:#bdbebd; margin-bottom: 1vh">
-                                <sapn>tip.찾으시는 학원명이 없으시다면 학원명 입력후 등록을 눌러주세요!</sapn>
-                            </div>
-                            <div class="searchbox">
-                                <div id="searchbox"></div>
-                                <div id="loadingbox"
-                                     style="display: inline-block; margin-top: 30%;font-size: 3vh; color:#8007AD; opacity: .8;"></div>
-                            </div>
-                            <div id="countbox"></div>
+        <div style="width:100%; height:60px; padding-top: 15px; text-align:center;">
+            <button type=button id="uploadbtn">확인</button>
+        </div>
+    </div>
+    <!-- Academy Modal -->
+    <div id="myUploadModal" class="modal">
+        <div class="modal-content">
+            <div class="inputdiv" style="box-shadow: none; padding-bottom: 0; padding-top:0;">
+                <div style="width:35px; margin:0 auto; width: 100%; text-align: center; padding-bottom: 10px;">
+                    <i class="bi bi-x-circle close"></i>
+                    <div class="membermail">
+                        <b style="float: left; margint-left:40px; padding-left: 35px;">학&nbsp;원&nbsp;검&nbsp;색</b>
+                        <div class="input-group" style="width:90%; margin:0 auto">
+                            <input type="text" placeholder="검색 하실 학원명을 입력해주세요" id="modalname">
+                            <button class="memberbtn" id="acanamebtn">등&nbsp;록</button>
                         </div>
+                        <div style="margin: 0 auto; width: 76%; text-align: left; font-size: 1.5vh; color:#bdbebd; margin-bottom: 1vh">
+                            <sapn>tip.찾으시는 학원명이 없으시다면 학원명 입력후 등록을 눌러주세요!</sapn>
+                        </div>
+                        <div class="searchbox">
+                            <div id="searchbox"></div>
+                            <div id="loadingbox"
+                                 style="display: inline-block; margin-top: 30%;font-size: 3vh; color:#8007AD; opacity: .8;"></div>
+                        </div>
+                        <div id="countbox"></div>
                     </div>
                 </div>
             </div>
         </div>
-        <footer>
-            <p>
-            </p>
-        </footer>
     </div>
 </div>
 <script>
@@ -554,9 +562,15 @@
             $("#myUploadModal").fadeOut();
         });
 
-        $("#uploadpopupbox").click(function(){
+        $("#uploadpopupbox").click(function () {
             $(this).hide();
             $("#dropbox").slideDown();
+        });
+
+        $("#sizetxt").click(function () {
+            $("#dropbox").slideUp(function () {
+                $("#uploadpopupbox").show();
+            });
         });
     });
 
@@ -569,13 +583,14 @@
     let nickname = false;
     let namevalid = false;
     let phonevalid = false;
+    let acacheck = false;
 
     //emailcheck
     $("#m_email").keyup(function () {
         let m_email = $(this).val();
         if (!validEmail(m_email)) {
             $("#emailchkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
-                "<span>옳바른 이메일 형식을 써주세요</span>");
+                "옳바른 이메일 형식을 써주세요");
             emailvalid = false;
         } else {
             $.ajax({
@@ -586,11 +601,11 @@
                 success: function (res) {
                     if (res.result == "yes") {
                         $("#emailchkicon").html("<i class='bi bi-check' style='color:green;'></i>" +
-                            "<span>사용가능한 E-mail입니다</span>");
+                            "사용가능한 E-mail입니다");
                         emailcheck = true;
                     } else {
                         $("#emailchkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
-                            "<span>이미 사용중인 E-mail입니다</span>");
+                            "이미 사용중인 E-mail입니다");
                         $("#sendemail").prop("disabled", true);
                         emailcheck = false;
                     }
@@ -799,21 +814,21 @@
 
         if (valid) {
             $("#passokicon").html("<i class='bi bi-check' style='color:green;'></i>" +
-                "<span>사용 가능한 비밀번호에요</span>");
+                "사용 가능한 비밀번호에요");
             passvalid = true;
         } else {
             $("#passokicon").html("<i class='bi bi-x' style='color:red;'></i>" +
-                "<span>8~16자리 영문 대소문자, 숫자, 특수문자의 조합으로 만들어주세요</span>");
+                "8~16자리 영문 대소문자, 숫자, 특수문자의 조합으로 만들어주세요");
             passvalid = false;
         }
 
         if (pass != passMatch) {
             $("#passchkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
-                "<span>비밀번호와 일치하지 않아요</span>");
+                "비밀번호와 일치하지 않아요");
             passcheck = false;
         } else {
             $("#passchkicon").html("<i class='bi bi-check' style='color:green;'></i>" +
-                "<span>비밀번호와 일치해요</span>");
+                "비밀번호와 일치해요");
             passcheck = true;
         }
 
@@ -841,7 +856,7 @@
 
         if (!validNickname(m_nickname)) {
             $("#nicknamechkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
-                "<span>2~10자의 한글,영문과 숫자만 사용해주세요</span>");
+                "2~10자의 한글,영문과 숫자만 사용해주세요");
             nickvalid = false;
         } else {
             $.ajax({
@@ -852,11 +867,11 @@
                 success: function (res) {
                     if (res.result == "no") {
                         $("#nicknamechkicon").html("<i class='bi bi-check' style='color:green;'></i>" +
-                            "<span>사용가능한 ID입니다</span>");
+                            "사용가능한 ID입니다");
                         nickname = true;
                     } else {
                         $("#nicknamechkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
-                            "<span>이미 사용중인 ID입니다</span>");
+                            "이미 사용중인 ID입니다");
                         nickname = false;
                     }
                 }
@@ -875,7 +890,7 @@
         let m_name = $(this).val();
         if (!validName(m_name)) {
             $("#namechkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
-                "<span>옳바른 이름을 입력해주세요</span>");
+                "옳바른 이름을 입력해주세요");
             namevalid = false;
         } else {
             $("#namechkicon").html("<i class='bi bi-check' style='color:green;'></i>");
@@ -893,7 +908,7 @@
         let phonenum = $("#m_tele").val();
         if (!validPhone(phonenum)) {
             $("#telechkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
-                "<span>옳바른 번호를 입력해주세요</span>");
+                "옳바른 번호를 입력해주세요");
             phonevalid = false;
         } else {
             $("#telechkicon").html("<i class='bi bi-check' style='color:green;'></i>");
@@ -960,17 +975,27 @@
         let txt = $(this).text();
         $("#modalname").val(txt);
         $("#ai_name").val(txt);
+        if ($("#ai_name").val() != "") {
+            acacheck = true;
+        } else {
+            acacheck = false;
+        }
     });
 
     $(document).on("click", "#acanamebtn", function () {
         let txt = $("#modalname").val();
         $("#ai_name").val(txt);
         $("#myUploadModal").fadeOut();
+        if ($("#ai_name").val() != "") {
+            acacheck = true;
+        } else {
+            acacheck = false;
+        }
     });
 
     //trigger function
     $(document).on("mouseover keyup", function () {
-        if (emailcheck && emailvalid && emailcode && passcheck && passvalid && nickname && nickvalid && namevalid && phonevalid) {
+        if (emailcheck && emailvalid && emailcode && passcheck && passvalid && nickname && nickvalid && namevalid && phonevalid && acacheck) {
             console.log("true");
         } else {
             $("#submitbtn").prop("disabled", true);
@@ -996,7 +1021,6 @@
             imgpreview(file);
             filesarr = filesarr.concat(file);
             console.log(filesarr.length);
-            updatetotalsize();
         }
 
         //유효성
@@ -1011,7 +1035,7 @@
 
             //클릭 업로드 개수
             if (filesarr.length + cnt > 1) {
-                filesarr=[];
+                filesarr = [];
             }
 
             //파일의 사이즈는 20MB
@@ -1068,7 +1092,6 @@
             imgpreview(file);
             filesarr = filesarr.concat(file);
             console.log(filesarr.length);
-            updatetotalsize();
         }
     });
 
@@ -1134,10 +1157,9 @@
                 $("#divimgbox").html('<div style="padding-top:40px;">' +
                     '<i class="bi bi-cloud-upload" style="color:#bdbebd; font-size: 55px;"></i>' +
                     '<div style="color:#bdbebd; font-size: 20px; font-weight: bold; margin-bottom: 25px;">' +
-                    '나만의 멋진 프로필 사진을 올려보세요!</div>' +
+                    '나만의 멋진 프로필<br>사진을 올려보세요!</div>' +
                     '<div id="dndtext">Drag & Drop</div></div>').hide().fadeIn("fast");
             }
-            updatetotalsize();
         });
     }
 
@@ -1153,10 +1175,9 @@
             $("#divimgbox").html('<div style="padding-top:40px;">' +
                 '<i class="bi bi-cloud-upload" style="color:#bdbebd; font-size: 55px;"></i>' +
                 '<div style="color:#bdbebd; font-size: 20px; font-weight: bold; margin-bottom: 25px;">' +
-                '나만의 멋진 프로필 사진을 올려보세요!</div>' +
+                '나만의 멋진 프로필<br>사진을 올려보세요!</div>' +
                 '<div id="dndtext">Drag & Drop</div></div>').hide().fadeIn("fast");
         }
-        updatetotalsize();
     });
 
     //유효성 검사
@@ -1175,7 +1196,7 @@
 
         //파일개수 최대 1개 (filesarr reset)
         if (filesarr.length + data.files.length > 1) {
-            filesarr=[];
+            filesarr = [];
         }
 
         //파일의 사이즈는 총 20MB
@@ -1195,13 +1216,6 @@
             totalsize += files[i].size;
         }
         return totalsize
-    }
-
-    //update total size
-    function updatetotalsize() {
-        let totalsize = filestotalsize(filesarr);
-        let mbsize = (totalsize / (1024 * 1024)).toFixed(1);
-        $("#mbsize").html(mbsize);
     }
 
     //submit (json)
@@ -1281,6 +1295,8 @@
             }
         });
     });
+
+
 </script>
 </body>
 </html>

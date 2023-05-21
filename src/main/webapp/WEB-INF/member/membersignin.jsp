@@ -75,6 +75,9 @@
             width: 100%;
             max-width: 680px;
             margin: 40px auto 10px;
+            box-shadow: 4px 4px 14px 7px #bdbebd;
+            padding-top:5vh;
+            padding-bottom: 5vh;
         }
 
         .inputdiv .input__block {
@@ -234,15 +237,19 @@
             box-shadow: 0 0 0 rgba(37, 40, 45, 0);
         }
 
-        footer p {
+        section p {
             margin-top: 4vh;
             text-align: center;
         }
 
-        footer p a {
+        section p a {
             text-decoration: none;
             font-size: 17px;
             margin: 0 5px;
+        }
+
+        .memberlayout footer {
+            margin-top: 200px;
         }
 
         #chkyes {
@@ -325,16 +332,17 @@
         <div style="color:#0f132a; opacity: 0.6; font-weight: bold">로&nbsp;그&nbsp;인</div>
     </div>
 
-    <!-- Links -->
-    <ul class="links">
-        <li>
-            <a href="#" id="normmember"><span>일반회원</span></a>
-        </li>
-        <li>
-            <a href="#" id="compmember"><span>기업회원</span></a>
-        </li>
-    </ul>
     <div class="inputdiv">
+        <!-- Links -->
+        <ul class="links">
+            <li>
+                <a href="#" id="normmember"><span>일반회원</span></a>
+            </li>
+            <li>
+                <a href="#" id="compmember"><span>기업회원</span></a>
+            </li>
+        </ul>
+
         <!-- email input -->
         <div id="normmode">
             <div class="first-input input__block first-input__block">
@@ -400,13 +408,13 @@
                 <button class="signin__btn" id="csigninbtn">로&nbsp;그&nbsp;인</button>
             </div>
         </div>
-        <footer>
+        <section>
             <p>
                 <a href="selmember" id="selmember">회원가입</a>
                 <strong style="color:#0f132a; opacity: 0.6;">|</strong>
                 <a href="finder" id="finder">아이디/비밀번호 찾기</a>
             </p>
-        </footer>
+        </section>
     </div>
 </div>
 <div id="naver_id_login" style="display: none;"></div>

@@ -533,6 +533,9 @@
         } else if (!phonevalid) {
             alert("핸드폰 인증");
             return false;
+        } else if (!acacheck){
+            alert("학원");
+            return false;
         } else {
             alert("잘했어");
             let formData = new FormData();
