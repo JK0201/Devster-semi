@@ -232,6 +232,7 @@
                 // null 값 검색시 -> 아무일도 안일어남
                 if (keyword == '') {
                     alert("검색하실 내용을 입력해주세요.")
+                    isSearch = false;
                     return
                 } else {
                     //alert("검색결과출력.");
@@ -251,6 +252,7 @@
 
                             if (res.length == 0) {
                                 alert("검색 결과가 없습니다.");
+                                isSearch = false;
                                 noMoreData = true;
                                 $("#loading").hide();
                             } else {

@@ -5,7 +5,27 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
     <style>
-
+        #quanbu{
+            width: 1100px;
+            margin: 32px auto;
+            /*background-color: palegreen;*/
+            /*position: relative;*/
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .headbox{
+            margin-top: 30px;
+        }
+        .review_box {
+            width: 1100px;
+            height: 220px;
+            border-radius: 0px;
+            float: left;
+            /*margin-right: 30px;*/
+            /*padding-left: 20px;*/
+            padding-top: 24px;
+            padding-right: 20px;
+        }
+        sec
         /*리뷰 별점 css*/
         .star-rb_star {
             /*   border: solid 1px #ccc;*/
@@ -65,9 +85,8 @@
             /*      text-align: center;*/
             width: 5em;
             float: left;
-            padding-left: 180px;
+            margin-top: -15px;
 
-            margin-top: -25px;
 
         }
 
@@ -116,8 +135,8 @@
             display: none;
             background-color: #ffffff;
             border: solid 2px #d0d0d0;
-            width: 350px;
-            height: 150px;
+            width: 340px;
+            height: 140px;
             padding: 10px;
 
 
@@ -139,36 +158,6 @@
             margin-left: 15px;
         }
 
-        #quanbu {
-            width: 1400px;
-            padding-left: 230px;
-        }
-
-        /* 서치바 */
-        .searchdiv {
-            /*position: absolute;*/
-            position: relative;
-        }
-
-        .searchbar {
-            width: 736px;
-            height: 60px;
-            padding: 0 10px 0 62px;
-            border: 2px solid #222;
-            border-radius: 30px;
-            font-size: 18px;
-            box-sizing: border-box;
-        }
-
-        .bi-search {
-            position: absolute;
-            right: 5px; /* 아이콘과 입력란 사이의 공간을 조절합니다. */
-            top: 31px;
-            left: 27px;
-            transform: translateY(-50%); /* 아이콘을 입력란의 정중앙에 배치합니다. */
-            pointer-events: none; /* 입력란 위에서 클릭이나 기타 동작이 가능하게 합니다. */
-            font-size: 24px;
-        }
 
         .review {
             width: 775px;
@@ -205,6 +194,7 @@
             font-size: 12px;
             border-radius: 0%;
             line-height:0.8;
+
         }
         .yetadded:hover{
             background-color: gray;
@@ -216,32 +206,15 @@
             margin-left: 220px;
         }
 
-        #myBtn {
-            display: none; /* Hidden by default */
-            position: fixed; /* Fixed/sticky position */
-            bottom: 20px; /* Place the button at the bottom of the page */
-            right: 30px; /* Place the button 30px from the right */
-            z-index: 99; /* Make sure it does not overlap */
-            border: none; /* Remove borders */
-            outline: none; /* Remove outline */
-            background-color: #7f07ac; /* Set a background color */
-            color: white; /* Text color */
-            cursor: pointer; /* Add a mouse pointer on hover */
-            padding: 15px; /* Some padding */
-            border-radius: 10px; /* Rounded corners */
-            font-size: 18px; /* Increase font size */
-        }
-
-        #myBtn:hover {
-            background-color: #530871; /* Add a dark-grey background on hover */
-        }
-
-
 
         .memberimg{
             width: 20px;
             height: 20px;
             border-radius: 100px;
+        }
+
+        .alist{
+            font-family: 'Noto Sans KR', sans-serif ;
         }
 
 
@@ -273,13 +246,13 @@
                     <label for="rating${i}" class="star" \${(i <= ele.ci_star) ? 'style="color: orange;"' : 'style="color: #ccc;"'}>★</label>`;
                     }
                     s += `
-                                  <pre>
+                                  <pre style="font-family: 'Noto Sans KR', sans-serif;float:left;width:300px;padding-left:30px;">
                                     회사이름: \${ele.ci_name}
                                     사원수: \${ele.ci_ppl} 명
                                     매출액: \${ele.ci_sale}
                                     평균연봉: \${ciSalFormatted}
                                     Devster 평균별점:
-                                    <span class="star-ci_star_list" style="float: left;">
+                                    <span class="star-ci_star_list" style="float: left;margin-left:100px;font-size:16px;padding-left:40px;">
                                       \${stars}
                                     </span>
                                   </pre>
@@ -419,44 +392,271 @@
 </script>
 
 
-<!-- 검색창 -->
-<div class="searchdiv">
-    <input id="searchinput" name="keyword" type="search" placeholder="관심있는 내용을 검색해보세요!" autocomplete="off"
-           class="searchbar">
-    <i class="bi bi-search"></i>
-
-    <select id="searchOption">
-        <option id="all" value="all">전체검색</option>
-        <option id="searchnickname" value="m_nickname">작성자 검색</option>
-        <option id="searchsubject" value="rb_content">내용 검색</option>
-    </select>
-</div>
-<br><br>
-
-
 
 <div id="quanbu">
 
     <div class="rb_listmain clear">
+        <!--===============================Headbox==============================================-->
+
         <div class="headbox">
-            <h4 style="color: black; font-weight: bold;"><i class="bi bi-journal-code" style="font-size: 25px;"></i>&nbsp;리뷰게시판
-                <button class="btn btn-secondary" type="button"
-                        style="float: right; margin-right: 150px; "
-                        onclick="location.href='./reviewriterform'"><i class="bi bi-pen"></i>&nbsp;글쓰기
-                </button>
+            <h4 class="boardname">
+                <div class="yellowbar">&nbsp;</div>&nbsp;&nbsp;리뷰게시판
             </h4>
-            <b>총 ${totalCount}개의 게시글</b><br>
+
+            <!-- 검색창 -->
+            <div class="searchdiv">
+                <select id="searchOption" class="form-select">
+                    <option id="all" value="all">전체검색</option>
+                    <option id="searchnickname" value="m_nickname">작성자 검색</option>
+                    <option id="searchsubject" value="rb_subject">제목 검색</option>
+                    <option id="searchtype" value="rb_type">(면접/코딩/합격)</option>
+                </select>
+                <input id="searchinput" name="keyword" type="search" placeholder="관심있는 내용을 검색해보세요!" autocomplete="off"
+                       class="searchbar">
+            </div>
         </div>
+
+        <!--=============================================================================-->
+
+        <!--=============================================================================-->
+
+        <div class="noticeboard_part">
+            <ul class="clear noticelist">
+                <c:if test="${NoticeBoardTotalCount>0}">
+                    <c:forEach var="dto" items="${nblist}">
+
+                        <li>
+                            <b class="noticetitle">Devster 공지사항</b>
+                            <a href="../noticeboard/noticeboarddetail?nb_idx=${dto.nb_idx}&currentPage=${currentPage}">
+                                    ${dto.nb_subject}
+                                <c:if test="${dto.nb_photo!='n'}">
+                                    &nbsp; <i class="bi bi-images"></i>
+                                </c:if>
+                            </a>
+                        </li>
+                    </c:forEach>
+                </c:if>
+            </ul>
+        </div>
+
+        <!--=============================================================================-->
+        <%--검색--%>
+
+        <script>
+            // 검색 여부 전역변수
+            var isSearch = false;
+
+
+            $("#searchinput").keydown(function (e) {
+
+
+                if (e.keyCode == 13) {
+
+                    isSearch = true;
+
+                    // 검색내용
+                    var keyword = $(this).val();
+                    var searchOption = $("#searchOption").val();
+
+                    // 타입 select시 값 변환 (전체에서도 검색할수있어서 일단 어쩔수없음)
+                    if(keyword == "면접"){
+                        keyword = 1;
+                    } else if (keyword == "코딩"){
+                        keyword = 2;
+                    } else if (keyword == "합격"){
+                        keyword = 3;
+                    }
+
+
+
+                    var currentpage = 1;
+                    var isLoading = false;
+                    var noMoreData = false;
+
+
+                    // null 값 검색시 -> 아무일도 안일어남
+                    if (keyword == '') {
+                        alert("검색하실 내용을 입력해주세요.")
+                        isSearch = false;
+                        return
+                    } else {
+                       // 기본출력
+                        $.ajax({
+                            type: "post",
+                            url: "./reviewboardsearchlist",
+                            data: {"keyword": keyword, "searchOption": searchOption, "currentpage": currentpage},
+                            dataType: "json",
+                            beforeSend: function () {
+                                $("#loading").show();
+                            },
+                            complete: function () {
+                                isLoading = false;
+                            },
+                            success: function (res) {
+
+
+                                if (res.length == 0) {
+                                    alert("검색 결과가 없습니다.");
+                                    isSearch = false;
+                                    noMoreData = true;
+                                    $("#loading").hide();
+                                } else {
+                                    setTimeout(function () {
+                                        currentpage++;
+                                        var s = '';
+                                        $.each(res, function (idx, dto) {
+                                            s += `<div class="review" data-type="\${dto.rb_type}">`;
+                                            s += `<div class="rb_listc">`;
+                                            s += `<p><img class="imgSelect" src="\${dto.ci_photo}" data-ci-idx="\${dto.ci_idx}" onclick="showCompanyInfo('\${dto.ci_idx}')"/></p>`;
+                                            s += `<div class="star_listc">&nbsp;<span> 별점 : \${dto.rb_star} . 0 </span>`;
+                                            s += `<div class="star-rb_star">`;
+                                            for (let i = 1; i <= 5; i++) {
+                                                s += `<input type="radio" id="rating${i}" name="rating" value="${i}" \${i == dto.rb_star ? 'checked="checked"' : ''} />`;
+                                                s += `<label for="rating${i}" class="star" \${i <= dto.rb_star ? 'style="color: orange;"' : ''}>★</label>`;
+                                            }
+                                            s += `</div></div></div>`;
+                                            s += `<div class="rb_listm">`;
+                                            s += `<br><h5>리뷰 종류 : \${dto.rb_type == 1 ? "면접" : dto.rb_type == 2 ? "코딩테스트": dto.rb_type == 3 ? "합격후기" : ""}</h5>`;
+                                            s += `<p style="color:darkgrey"><img src="\${dto.m_photo}" class="memberimg">&nbsp;  <span style="cursor:pointer;" onclick=message("\${dto.nickName}")>\${dto.nickName}</span> &nbsp;&nbsp; 작성시간 : \${dto.rb_writeday}</p>`;
+                                            s += `<h5>내용 : <br></h5>`;
+                                            s += `<p><pre>\${dto.rb_content}</pre></p>`;
+                                            // sessionScope.memidx에 해당하는 값 필요
+                                            let m_idx = "${sessionScope.memidx}";
+                                            s += `<div class="fncbtn" style="text-align:right;">`;
+
+                                            if (dto.isAlreadyAddGoodRp==true){
+                                                s += `&nbsp;<span class="btn btn-outline add-goodRp-btn already-added yetadded" id="add-goodRp-btn\${dto.rb_idx}"  style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👍도움이 돼요( <span class="add-goodRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px">\${dto.rb_like}</span>&nbsp;)</span>`;
+                                                s += `&nbsp;<span class="ml-5 btn btn-outline add-badRp-btn yetadded" id="add-badRp-btn\${dto.rb_idx}" style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👎불필요해요( <span class="add-badRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px" >\${dto.rb_dislike}</span>&nbsp;)</span>`;
+
+                                            }else if(dto.isAlreadyAddBadRp==true){
+                                                s += `&nbsp;<span class="btn btn-outline add-goodRp-btn yetadded" id="add-goodRp-btn\${dto.rb_idx}"  style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👍도움이 돼요( <span class="add-goodRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px">\${dto.rb_like}</span>&nbsp;)</span>`;
+                                                s += `&nbsp;<span class="ml-5 btn btn-outline add-badRp-btn already-added yetadded" id="add-badRp-btn\${dto.rb_idx}" style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👎불필요해요( <span class="add-badRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px" >\${dto.rb_dislike}</span>&nbsp;)</span>`;
+                                            }else{
+                                                s += `&nbsp;<span class="btn btn-outline add-goodRp-btn yetadded" id="add-goodRp-btn\${dto.rb_idx}"  style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👍도움이 돼요( <span class="add-goodRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px">\${dto.rb_like}</span>&nbsp;)</span>`;
+                                                s += `&nbsp;<span class="ml-5 btn btn-outline add-badRp-btn yetadded" id="add-badRp-btn\${dto.rb_idx}" style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👎불필요해요( <span class="add-badRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px" >\${dto.rb_dislike}</span>&nbsp;)</span>`;
+                                            }
+                                            if (dto.m_idx == m_idx) {
+                                                s += `&nbsp;<button type="button" class="btn btn-sm btn-outline-primary custom-btn" onclick="location.href='./updateform?rb_idx=\${dto.rb_idx}'" style="margin-bottom: 10px">글 수정</button>`;
+                                                s += `&nbsp;<button type="button" class="btn btn-sm btn-outline-primary custom-btn" onclick="delreview(\${dto.rb_idx})" style="margin-bottom: 10px">글 삭제</button>`;
+                                            }
+                                            s += `</div><br></div></div>`;
+                                        })
+
+                                        $(".review_box").html(s);
+                                        $("#loading").hide();
+
+                                    }, 1000);  // 1초 후에 실행
+                                }
+
+                            },
+
+                            error: function (xhr, status, error) {
+                                // 요청이 실패했을 때의 처리 로직
+                                console.log("Error:", error);
+                            }
+                        });
+
+                        // 추가 리스트 출력 (스크롤)
+                        $(window).scroll(function () {
+
+                            if (Math.floor($(window).scrollTop()) == $(document).height() - $(window).height()) {
+
+                                if (!isLoading && !noMoreData) {
+                                    isLoading = true;
+                                    let nextPage = currentpage;
+                                    $.ajax({
+                                        type: "post",
+                                        url: "./reviewboardsearchlist",
+                                        data: {"keyword": keyword, "searchOption": searchOption, "currentpage": nextPage},
+                                        dataType: "json",
+                                        beforeSend: function () {
+                                            $("#loading").show();
+                                        },
+                                        complete: function () {
+                                            isLoading = false;
+                                        },
+                                        success: function (res) {
+                                            console.log(currentpage);
+                                            console.log(noMoreData);
+                                            console.log(res.length);
+                                           /* alert("추가리스트 출력.");*/
+                                            if (res.searchCount == 0) {
+                                                noMoreData = true;
+                                                $("#loading").hide();
+                                            } else {
+                                                if (res.length == 0) {
+                                                    noMoreData = true;
+                                                    $("#loading").hide();
+                                                } else {
+                                                    setTimeout(function () {
+                                                        currentpage++;
+                                                        var s = '';
+                                                        $.each(res, function (idx, dto) {
+                                                            s += `<div class="review" data-type="\${dto.rb_type}">`;
+                                                            s += `<div class="rb_listc">`;
+                                                            s += `<p><img class="imgSelect" src="\${dto.ci_photo}" data-ci-idx="\${dto.ci_idx}" onclick="showCompanyInfo('\${dto.ci_idx}')"/></p>`;
+                                                            s += `<div class="star_listc">&nbsp;<span> 별점 : \${dto.rb_star} . 0 </span>`;
+                                                            s += `<div class="star-rb_star">`;
+                                                            for (let i = 1; i <= 5; i++) {
+                                                                s += `<input type="radio" id="rating${i}" name="rating" value="${i}" \${i == dto.rb_star ? 'checked="checked"' : ''} />`;
+                                                                s += `<label for="rating${i}" class="star" \${i <= dto.rb_star ? 'style="color: orange;"' : ''}>★</label>`;
+                                                            }
+                                                            s += `</div></div></div>`;
+                                                            s += `<div class="rb_listm">`;
+                                                            s += `<br><h5>리뷰 종류 : \${dto.rb_type == 1 ? "면접" : dto.rb_type == 2 ? "코딩테스트": dto.rb_type == 3 ? "합격후기" : ""}</h5>`;
+                                                            s += `<p style="color:darkgrey"><img src="\${dto.m_photo}" class="memberimg">&nbsp;  <span style="cursor:pointer;" onclick=message("\${dto.nickName}")>\${dto.nickName}</span> &nbsp;&nbsp; 작성시간 : \${dto.rb_writeday}</p>`;
+                                                            s += `<h5>내용 : <br></h5>`;
+                                                            s += `<p><pre>\${dto.rb_content}</pre></p>`;
+                                                            // sessionScope.memidx에 해당하는 값 필요
+                                                            let m_idx = "${sessionScope.memidx}";
+                                                            s += `<div class="fncbtn" style="text-align:right;">`;
+
+                                                            if (dto.isAlreadyAddGoodRp==true){
+                                                                s += `&nbsp;<span class="btn btn-outline add-goodRp-btn already-added yetadded" id="add-goodRp-btn\${dto.rb_idx}"  style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👍도움이 돼요( <span class="add-goodRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px">\${dto.rb_like}</span>&nbsp;)</span>`;
+                                                                s += `&nbsp;<span class="ml-5 btn btn-outline add-badRp-btn yetadded" id="add-badRp-btn\${dto.rb_idx}" style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👎불필요해요( <span class="add-badRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px" >\${dto.rb_dislike}</span>&nbsp;)</span>`;
+
+                                                            }else if(dto.isAlreadyAddBadRp==true){
+                                                                s += `&nbsp;<span class="btn btn-outline add-goodRp-btn yetadded" id="add-goodRp-btn\${dto.rb_idx}"  style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👍도움이 돼요( <span class="add-goodRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px">\${dto.rb_like}</span>&nbsp;)</span>`;
+                                                                s += `&nbsp;<span class="ml-5 btn btn-outline add-badRp-btn already-added yetadded" id="add-badRp-btn\${dto.rb_idx}" style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👎불필요해요( <span class="add-badRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px" >\${dto.rb_dislike}</span>&nbsp;)</span>`;
+                                                            }else{
+                                                                s += `&nbsp;<span class="btn btn-outline add-goodRp-btn yetadded" id="add-goodRp-btn\${dto.rb_idx}"  style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👍도움이 돼요( <span class="add-goodRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px">\${dto.rb_like}</span>&nbsp;)</span>`;
+                                                                s += `&nbsp;<span class="ml-5 btn btn-outline add-badRp-btn yetadded" id="add-badRp-btn\${dto.rb_idx}" style="margin-bottom: 10px" data-isalreadyaddgoodrp = "\${dto.isAlreadyAddGoodRp}" data-isalreadyaddbadrsp = "\${dto.isAlreadyAddBadRp}">👎불필요해요( <span class="add-badRp\${dto.rb_idx} ml-2" style="margin-bottom: 10px" >\${dto.rb_dislike}</span>&nbsp;)</span>`;
+                                                            }
+                                                            if (dto.m_idx == m_idx) {
+                                                                s += `&nbsp;<button type="button" class="btn btn-sm btn-outline-primary custom-btn" onclick="location.href='./updateform?rb_idx=\${dto.rb_idx}'" style="margin-bottom: 10px">글 수정</button>`;
+                                                                s += `&nbsp;<button type="button" class="btn btn-sm btn-outline-primary custom-btn" onclick="delreview(\${dto.rb_idx})" style="margin-bottom: 10px">글 삭제</button>`;
+                                                            }
+                                                            s += `</div><br></div></div>`;
+
+                                                        })
+
+                                                        $(".review_box").append(s);
+                                                        $("#loading").hide();
+
+                                                    }, 1000);  // 1초 후에 실행
+                                                }
+                                            }
+                                        },
+
+                                        error: function (xhr, status, error) {
+                                            // 요청이 실패했을 때의 처리 로직
+                                            console.log("Error:", error);
+                                        }
+                                    });
+                                }
+                            }
+                        })
+                    }
+                }
+            });
+
+        </script>
 <%--        <select id="rb_typelist" onchange="rb_typelist()">--%>
 <%--            <option value="0">전체보기</option>--%>
 <%--            <option value="1">면접</option>--%>
 <%--            <option value="2">코딩테스트</option>--%>
 <%--            <option value="3">합격후기</option>--%>
 <%--        </select>--%>
-        <br>
-        <br>
-
-
 
         <div class="review_box">
 
@@ -554,8 +754,7 @@
             </div>
 
             <script>
-                console.log("isAlreadyAddGoodRp : " + ${dto.isAlreadyAddGoodRp});
-                console.log("isAlreadyAddBadRp : " + ${dto.isAlreadyAddBadRp});
+
 
             var isAlreadyAddGoodRp${dto.rb_idx} = ${dto.isAlreadyAddGoodRp};
             var isAlreadyAddBadRp${dto.rb_idx} = ${dto.isAlreadyAddBadRp};
@@ -672,7 +871,9 @@
 
 
     <%--무한스크롤--%>
+
     <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+        <button id="myWriteBtn" type="button" onclick="location.href='./reviewriterform'">글쓰기</button>
     <%--로딩이미지--%>
     <div id="loading"
              style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999;">
@@ -684,71 +885,12 @@
         <!-- 폼 레이어  -->
     <div class="popupLayer">
         <div onClick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</div>
-        <div class="alist" style="float: left; margin-right: 150px ;margin-left:30px;">
+        <div class="alist" style="float: left; margin-right: 150px ;margin-left:0px; ">
     </div>
 
 </div>
 
 
-
-
-<script>
-
-    $("#searchinput").keydown(function (e) {
-
-        // 일단은 엔터 눌러야 검색되는걸로 -> 나중에 뭐 클릭해도 검색되게 바꿔도될듯?
-        if (e.keyCode == 13) {
-            // 검색내용
-            var keyword = $(this).val();
-            var searchOption = $("#searchOption").val();
-            console.log(keyword);
-            console.log(searchOption);
-
-            // null 값 검색시 -> 아무일도 안일어남
-            if (keyword == '') {
-                alert("검색하실 내용을 입력해주세요.")
-                return
-            } else {
-                //alert("검색결과출력.");
-
-                $.ajax({
-                    type: "post",
-                    url: "./reviewboardsearchlist",
-                    data: {"keyword": keyword, "searchOption": searchOption},
-                    dataType: "json",
-                    success: function (res) {
-                        let s = '';
-
-                        $.each(res, function (idx, ele) {
-
-                            s += `번호 : \${ele.rb_idx}<br>`;
-                            s += `작성자 : \${ele.m_nickname}<br>`;
-                            s += `ci_idx : \${ele.ci_idx}<br>`;
-
-                            s += `내용 : \${ele.rb_content}<br>`;
-                            s += `타입 : \${ele.rb_type}<br>`;
-                            s += `검색한내용 : \${ele.keyword}<br>`;
-                            s += `검색 카테고리 : \${ele.searchOption}<br>`;
-                            s += `작성일 : \${ele.rb_writeday}<br>`;
-
-                            s += `좋아요 : \${ele.rb_like}<br>`;
-                            s += `싫어요 : \${ele.rb_dislike}<br>`;
-                            s += `별점 : \${ele.rb_star}<br><hr>`;
-
-
-                        })
-                        $("#quanbu").html(s);
-                    },
-                    error: function (xhr, status, error) {
-                        // 요청이 실패했을 때의 처리 로직
-                        console.log("Error:", error);
-                    }
-                });
-            }
-        }
-    });
-
-</script>
 
 
 
@@ -775,7 +917,7 @@
 
             // 무한스크롤
             if (Math.floor($(window).scrollTop()) == $(document).height() - $(window).height()) {
-                if (!isLoading && !noMoreData) {
+                if (!isLoading && !noMoreData && !isSearch) {
                     isLoading = true;
                     var nextPage = currentpage + 1;
 
@@ -804,7 +946,7 @@
                                         currentpage++;
                                         let s = '';
                                         $.each(res, function (idx, dto) {
-                                            console.log(dto);
+                                            /*console.log(dto);*/
                                             s += `<div class="review" data-type="\${dto.rb_type}">`;
                                             s += `<div class="rb_listc">`;
                                             s += `<p><img class="imgSelect" src="\${dto.ci_photo}" data-ci-idx="\${dto.ci_idx}" onclick="showCompanyInfo('\${dto.ci_idx}')"/></p>`;
