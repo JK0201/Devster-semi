@@ -75,6 +75,9 @@
             width: 100%;
             max-width: 680px;
             margin: 40px auto 10px;
+            box-shadow: 4px 4px 14px 7px #bdbebd;
+            padding-top: 5vh;
+            padding-bottom: 5vh;
         }
 
         .inputdiv .input__block {
@@ -234,15 +237,19 @@
             box-shadow: 0 0 0 rgba(37, 40, 45, 0);
         }
 
-        footer p {
+        section p {
             margin-top: 4vh;
             text-align: center;
         }
 
-        footer p a {
+        section p a {
             text-decoration: none;
             font-size: 17px;
             margin: 0 5px;
+        }
+
+        .memberlayout footer {
+            margin-top: 200px;
         }
 
         #chkyes {
@@ -269,26 +276,25 @@
             font-size: 2vh;
         }
 
-        #selmember, #finder {
+        #selmember span, #finder span {
             text-decoration: none;
             color: #0f132a;
             opacity: 0.6;
             font-weight: bold;
+            transition: .2s linear;
         }
 
-        #selmember:hover, #finder:hover {
+        #selmember span:hover,#finder span:hover {
+            color:#8007AD;
             opacity: 1;
-            color: #8007AD;
         }
 
         .inputdelbtn {
             opacity: 0.3;
-            font-size: 2vh;
+            font-size: 19px;
             position: absolute;
-            left: 50%;
-            top: 50%;
-            margin-left: 37%;
-            margin-top: -2%;
+            right: 65px;
+            top: 11px;
             cursor: pointer;
             display: none;
         }
@@ -327,16 +333,17 @@
         <div style="color:#0f132a; opacity: 0.6; font-weight: bold">로&nbsp;그&nbsp;인</div>
     </div>
 
-    <!-- Links -->
-    <ul class="links">
-        <li>
-            <a href="#" id="normmember"><span>일반회원</span></a>
-        </li>
-        <li>
-            <a href="#" id="compmember"><span>기업회원</span></a>
-        </li>
-    </ul>
     <div class="inputdiv">
+        <!-- Links -->
+        <ul class="links">
+            <li>
+                <a href="#" id="normmember"><span>일반회원</span></a>
+            </li>
+            <li>
+                <a href="#" id="compmember"><span>기업회원</span></a>
+            </li>
+        </ul>
+
         <!-- email input -->
         <div id="normmode">
             <div class="first-input input__block first-input__block">
@@ -402,13 +409,13 @@
                 <button class="signin__btn" id="csigninbtn">로&nbsp;그&nbsp;인</button>
             </div>
         </div>
-        <footer>
+        <section>
             <p>
-                <a href="selmember" id="selmember">회원가입</a>
+                <a href="selmember" id="selmember"><span>회원가입</span></a>
                 <strong style="color:#0f132a; opacity: 0.6;">|</strong>
-                <a href="finder" id="finder">아이디/비밀번호 찾기</a>
+                <a href="finder" id="finder"><span>아이디/비밀번호 찾기</span></a>
             </p>
-        </footer>
+        </section>
     </div>
 </div>
 <div id="naver_id_login" style="display: none;"></div>
@@ -639,7 +646,6 @@
                             data: {"cm_email": cm_email, "cm_pass": cm_pass},
                             success: function (res) {
                                 if (res.result == "yes") {
-                                    alert("ㅎㅇ 출석포인트 +10점");
                                     if (compchkbtn) {
                                         localStorage.setItem("compchk", "yes");
                                         localStorage.setItem("cm_email", cm_email);

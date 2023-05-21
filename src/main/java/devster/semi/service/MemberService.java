@@ -239,4 +239,9 @@ public class MemberService implements MemberServiceInter {
     public String getphoto(int m_idx) {
         return memberMapper.getphoto(m_idx);
     }
+
+    @Override
+    public int chkAcademyIdx(String ai_name) {
+        return memberMapper.chkAcademyIdx(ai_name);
+    }
 }

@@ -27,10 +27,12 @@
         <put-attribute name="memberheader" value="/WEB-INF/layout/memberheader.jsp"/>
         <put-attribute name="main" value="/WEB-INF/layout/membermain.jsp"/>
         <put-attribute name="css" value="/WEB-INF/layout/css.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/layout/footer.jsp"/>
     </definition>
     <definition name="memberLayoutMain" template="/WEB-INF/layout/memberlayoutmain.jsp">
         <put-attribute name="main" value="/WEB-INF/layout/membermain.jsp"/>
         <put-attribute name="css" value="/WEB-INF/layout/css.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/layout/footer.jsp"/>
     </definition>
 
     <!-- main 페이지는 따로 설정해도 됨 -->
