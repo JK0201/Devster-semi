@@ -52,7 +52,7 @@
             <c:when test="${sessionScope.cmidx != null && sessionScope.memidx == null}">
                 <h2 id="name">${sessionScope.cmname}님</h2>
                 <ul>
-                    <li><a href="/mypage/" class="selected">나의 정보</a></li>
+                    <li><a href="/mypage/" class="selected">회사 정보</a></li>
                     <li><a href="/mypage/updateuserform">계정 설정</a></li>
                     <li><a href="/mypage/deleteuserform">계정 탈퇴</a></li>
                     <hr/>
@@ -86,7 +86,7 @@
                     <c:when test="${sessionScope.memstate == 100}">
                         <h2 id="name">관리자 님</h2>
                         <ul>
-                            <li><a href="/mypage/list">공지사항</a></li>
+                            <li><a href="/mypage/list" class="selected">공지사항 등록</a></li>
                             <li><a href="/mypage/approvelist?iscomp=0">일반 회원 가입 승인</a></li>
                             <li><a href="/mypage/approvelist?iscomp=1">기업 회원 가입 승인</a></li>
                         </ul>
@@ -96,7 +96,7 @@
                     <c:when test="${sessionScope.memstate == 0}">
                         <h2 id="name">${sessionScope.memnick} 님</h2>
                         <ul>
-                            <li><a href="/mypage/">학원 인증 사진 업로드</a></li>
+                            <li><a href="/mypage/" class="selected">학원 인증 받기</a></li>
                             <li><a href="/mypage/deleteuserform">계정 탈퇴</a></li>
                         </ul>
 

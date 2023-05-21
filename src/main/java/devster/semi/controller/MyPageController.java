@@ -59,7 +59,7 @@ public class MyPageController {
             } else if((int)session.getAttribute("memstate") == 0) {
                 return "/mypage/mypage/mpageprofileayetnormaluser";
             } else {
-                return "/mypage/mypage/mpageprofileadminuser";
+                return "redirect:list";
             }
         } else {
             return "에러났숑 여기 왔으면 틀려먹은거임 다시하셈";

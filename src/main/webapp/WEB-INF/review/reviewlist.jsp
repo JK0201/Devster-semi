@@ -10,6 +10,7 @@
             margin: 32px auto;
             /*background-color: palegreen;*/
             /*position: relative;*/
+            font-family: 'Noto Sans KR', sans-serif;
         }
         .headbox{
             margin-top: 30px;
@@ -84,8 +85,7 @@
             /*      text-align: center;*/
             width: 5em;
             float: left;
-            padding-left: 180px;
-            margin-top: -40px;
+            margin-top: -15px;
 
         }
 
@@ -134,8 +134,8 @@
             display: none;
             background-color: #ffffff;
             border: solid 2px #d0d0d0;
-            width: 350px;
-            height: 150px;
+            width: 340px;
+            height: 140px;
             padding: 10px;
 
 
@@ -159,7 +159,7 @@
 
 
         .review {
-            width: 775px;
+            width: 100%;
             height: auto;
             border-top: 1px solid lightgray;
             border-radius: 0px;
@@ -193,6 +193,7 @@
             font-size: 12px;
             border-radius: 0%;
             line-height:0.8;
+
         }
         .yetadded:hover{
             background-color: gray;
@@ -209,6 +210,10 @@
             width: 20px;
             height: 20px;
             border-radius: 100px;
+        }
+
+        .alist{
+            font-family: 'Noto Sans KR', sans-serif ;
         }
 
 
@@ -240,13 +245,14 @@
                     <label for="rating${i}" class="star" \${(i <= ele.ci_star) ? 'style="color: orange;"' : 'style="color: #ccc;"'}>★</label>`;
                     }
                     s += `
-                                  <pre style="width: 100%">
+
+                                  <pre style="font-family: 'Noto Sans KR', sans-serif;float:left;width:300px;padding-left:30px;">
                                     회사이름: \${ele.ci_name}
                                     사원수: \${ele.ci_ppl} 명
                                     매출액: \${ele.ci_sale}
                                     평균연봉: \${ciSalFormatted}
                                     Devster 평균별점:
-                                    <span class="star-ci_star_list" style="float: left; width: 100%">
+                                    <span class="star-ci_star_list" style="float: left;margin-left:100px;font-size:16px;padding-left:40px;">
                                       \${stars}
                                     </span>
                                   </pre>
@@ -461,8 +467,7 @@
                         keyword = 3;
                     }
 
-                    console.log(keyword);
-                    console.log(searchOption);
+
 
                     var currentpage = 1;
                     var isLoading = false;
@@ -488,8 +493,7 @@
                                 isLoading = false;
                             },
                             success: function (res) {
-                                console.log(currentpage);
-                                console.log(noMoreData);
+
 
                                 if (res.length == 0) {
                                     alert("검색 결과가 없습니다.");
@@ -750,8 +754,7 @@
             </div>
 
             <script>
-                console.log("isAlreadyAddGoodRp : " + ${dto.isAlreadyAddGoodRp});
-                console.log("isAlreadyAddBadRp : " + ${dto.isAlreadyAddBadRp});
+
 
             var isAlreadyAddGoodRp${dto.rb_idx} = ${dto.isAlreadyAddGoodRp};
             var isAlreadyAddBadRp${dto.rb_idx} = ${dto.isAlreadyAddBadRp};
@@ -882,7 +885,11 @@
         <!-- 폼 레이어  -->
     <div class="popupLayer" >
         <div onClick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</div>
+<<<<<<< HEAD
         <div class="alist" style="float: left; margin-right: -30px ; margin-left:70px">
+=======
+        <div class="alist" style="float: left; margin-right: 150px ;margin-left:0px; ">
+>>>>>>> main
     </div>
 
 </div>
@@ -1158,3 +1165,4 @@
 
 </script>
 
+git 
