@@ -47,7 +47,7 @@
 
 <div class="my_page_companyUser_info" style="">
 
-    <h1 class="title">나의 정보</h1>
+    <h1 class="title">회사 정보</h1>
 
     <div class="information_box clear">
 
