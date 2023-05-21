@@ -291,15 +291,14 @@
                 <div class="util_btns">
                     <%--    <c:if test="${sessionScope.memdix==dto.hb_idx}">--%>
                     <c:if test="${dto.m_idx == sessionScope.memidx}">
-                        <button type="button" onclick="del(${dto.fb_idx})" class="btn btn-sm btn-outline-secondary"><i class="bi bi-trash"></i>&nbsp;삭제</button>
-                        <button type="button" onclick="location.href='./list?currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-card-list"></i>&nbsp;목록</button>
                         <button type="button" onclick="location.href='./freeupdateform?fb_idx=${dto.fb_idx}&currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil-square"></i>&nbsp;수정</button>
+                        <button type="button" onclick="del(${dto.fb_idx})" class="btn btn-sm btn-outline-secondary"><i class="bi bi-trash"></i>&nbsp;삭제</button>
                     </c:if>
                     <c:if test="${dto.m_idx != sessionScope.memidx && sessionScope.memstate == 100}">
-
                         <button type="button" onclick="del(${dto.fb_idx})" class="btn btn-sm btn-outline-secondary"><i class="bi bi-trash"></i>&nbsp;삭제</button>
-                        <button type="button" onclick="location.href='./list?currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-card-list"></i>&nbsp;목록</button>
                     </c:if>
+                        <button type="button" onclick="location.href='./list?currentPage=${currentPage}'" class="btn btn-sm btn-outline-secondary"><i class="bi bi-card-list"></i>&nbsp;목록</button>
+
 
                 </div>
             </div>
@@ -473,6 +472,12 @@
                                   <div class='mx-4 reCommentDiv' id='reCommentDiv_' data-index="\${idx}"></div>
 
                                   </div>`;
+                        } else {
+                            s += `<div style="" class="clear">
+                                  <button class="btn btn-outline-dark btn-sm" type="button" onclick="deleteComment(\${ele.fbc_idx})" style="float: right; margin-left: 3px; visibility: hidden;">삭제</button>
+                                  <button class="btn btn-outline-dark btn-sm" type="button" data-fbcidx="\${ele.fbc_idx}" onclick="updateCommentForm(\${ele.fbc_idx},\${idx})" style="float: right; visibility: hidden;">수정</button></div>
+
+                                  <div class='mx-4 reCommentDiv' id='reCommentDiv_' data-index="\${idx}"></div>`;
                         }
                     });
 

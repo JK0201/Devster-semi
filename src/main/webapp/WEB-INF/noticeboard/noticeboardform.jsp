@@ -322,13 +322,13 @@
 
             <div class="input-group">
                 <%--<label>Question</label>--%>
-                <input class="subject" type="text" name="nb_subject" value="" placeholder="제목을 입력해주세요." required>
+                <input class="subject" type="text" name="nb_subject" value="" placeholder="제목을 입력해주세요." required maxlength="200">
             </div>
             <div class="input-group message">
                 <label>토픽에 맞지 않는 글로 판단되어 다른 유저로부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 블라인드처리 될 수 있습니다.</label>
                 <textarea name="nb_content" class="content"
                           placeholder="공지 내용을 입력해주세요." cols="47"
-                          rows="7" required></textarea>
+                          rows="7" required maxlength="10000"></textarea>
             </div>
             <div class="input-group fileupload">
                 <label class="custom-button">

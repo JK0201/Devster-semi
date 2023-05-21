@@ -411,7 +411,7 @@
                                 <h3 class="fb_subject text-block-subject-2-nophoto">
                                     <a href="freeboarddetail?fb_idx=${dto.fb_idx}">
                                         <b>
-                                                ${dto.fb_content}
+                                                ${dto.fb_subject}
                                         </b>
                                     </a>
                                 </h3>
@@ -427,7 +427,7 @@
                                 <h3 class="fb_subject text-block-subject-2-photo">
                                     <a href="freeboarddetail?fb_idx=${dto.fb_idx}">
                                         <b>
-                                                ${dto.fb_content}
+                                                ${dto.fb_subject}
                                         </b>
                                     </a>
                                 </h3>
@@ -486,7 +486,8 @@
                                 <h3 class="fb_subject text-block-subject-2-nophoto">
                                     <a href="freeboarddetail?fb_idx=${dto.fb_idx}">
                                         <b>
-                                                ${dto.fb_content}
+                                                ${dto.fb_subject}
+
                                         </b>
                                     </a>
                                 </h3>
@@ -502,7 +503,7 @@
                                 <h3 class="fb_subject text-block-subject-2-photo">
                                     <a href="freeboarddetail?fb_idx=${dto.fb_idx}">
                                         <b>
-                                                ${dto.fb_content}
+                                                ${dto.fb_subject}
                                         </b>
                                     </a>
                                 </h3>
