@@ -141,26 +141,19 @@
                                                     }
                                                 }
                                                 s += `<span class="fb_writeday">\${dto.fb_writeday}</span>`
-                                                s += `<span class="fb_readcount"><div class="icon_read"></div>\${dto.fb_readcount}</span><br><br>`;
+                                                s += `<span class="fb_readcount" style="margin-left: 5px"><div class="icon_read"></div>\${dto.fb_readcount}</span><br><br>`;
                                                 s += `<span class="nickName" style="cursor:pointer;" onclick=message("\${dto.nickName}")><img src="\${dto.m_photo}" class="memberimg">&nbsp;
 \${dto.nickName}</span>`;
                                                 s += `<div class="mainbox">`
-                                                s += `<h3 class="fb_subject"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}"><b>\${dto.fb_subject}</b></a></h3>`;
                                                 if (dto.fb_photo == 'n') {
-                                                    var content = dto.fb_content.substring(0, 120);
-                                                    if (dto.fb_content.length >= 120) {
-                                                        content += ".....";
-                                                    }
-                                                    s += `<h5 class="fb_content" style="width: 90%"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span>\${content}</span></a></h5>`;
+                                                    s += `<h3 class="fb_subject text-block-subject-2-nophoto"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}"><b>\${dto.fb_subject}</b></a></h3>`;
+                                                    s += `<h5 class="fb_content text-block-content-2-nophoto"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span>\${dto.fb_content}</span></a></h5>`;
                                                 } else {
-                                                    var content = dto.fb_content.substring(0, 80);
-                                                    if (dto.fb_content.length >= 80) {
-                                                        content += ".....";
-                                                    }
-                                                    s += `<h5 class="fb_content" style="width:80%"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span class="photocontent">\${content}</span></a></h5>`;
+                                                    s += `<h3 class="fb_subject text-block-subject-2-photo"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}"><b>\${dto.fb_subject}</b></a></h3>`;
+                                                    s += `<h5 class="fb_content text-block-content-2-photo"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span class="photocontent">\${dto.fb_content}</span></a></h5>`;
                                                     s += `<div style="position:relative; right:0; top: -80px;"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span class="fb_photo"><img src="http://${imageUrl}/freeboard/\${dto.fb_photo.split(",")[0]}" id="fb_photo"></span></a></div>`;
                                                 }
-                                                s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.fb_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.fb_dislike}</div><div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;\${dto.commentCnt}</div></div>`;
+                                                s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.fb_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.fb_dislike}</div><div class="hr_tag_2" style="margin-left: 3px"><i class="bi bi-chat"></i>&nbsp;\${dto.commentCnt}</div></div>`;
                                                 s += `</div>`;
                                                 s += `</div>`;
                                             })
@@ -252,26 +245,20 @@
                                             }
                                         }
                                         s += `<span class="fb_writeday">\${dto.fb_writeday}</span>`
-                                        s += `<span class="fb_readcount"><div class="icon_read"></div>\${dto.fb_readcount}</span><br><br>`;
-                                        s += `<span class="m_nickname"style="cursor:pointer;" onclick=message("\${dto.nickName}")><img src="\${dto.m_photo}" class="memberimg" style="width: 20px; height: 20px; border-radius: 100px;">&nbsp;
+                                        s += `<span class="fb_readcount" style="margin-left: 5px"><div class="icon_read"></div>\${dto.fb_readcount}</span><br><br>`;
+                                        s += `<span class="m_nickname" style="cursor:pointer;" onclick=message("\${dto.nickName}")><img src="\${dto.m_photo}" class="memberimg" style="width: 20px; height: 20px; border-radius: 100px;">&nbsp;
 \${dto.nickName}</span>`;
                                         s += `<div class="mainbox">`
-                                        s += `<h3 class="fb_subject"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}"><b>\${dto.fb_subject}</b></a></h3>`;
                                         if (dto.fb_photo == 'n') {
-                                            var content = dto.fb_content.substring(0, 120);
-                                            if (dto.fb_content.length >= 120) {
-                                                content += ".....";
-                                            }
-                                            s += `<h5 class="fb_content" style="width: 90%"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span>\${content}</span></a></h5>`;
+                                            s += `<h3 class="fb_subject text-block-subject-2-nophoto"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}"><b>\${dto.fb_subject}</b></a></h3>`;
+
+                                            s += `<h5 class="fb_content text-block-content-2-nophoto"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span>\${dto.fb_content}</span></a></h5>`;
                                         } else {
-                                            var content = dto.fb_content.substring(0, 80);
-                                            if (dto.fb_content.length >= 80) {
-                                                content += ".....";
-                                            }
-                                            s += `<h5 class="fb_content" style="width:80%"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span class="photocontent">\${content}</span></a></h5>`;
+                                            s += `<h3 class="fb_subject text-block-subject-2-photo"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}"><b>\${dto.fb_subject}</b></a></h3>`;
+                                            s += `<h5 class="fb_content text-block-content-2-photo" ><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span class="photocontent">\${dto.fb_content}</span></a></h5>`;
                                             s += `<div style="position:relative; right:0; top: -80px;"><a href="freeboarddetail?fb_idx=\${dto.fb_idx}" style="color: #000;"><span class="fb_photo"><img src="http://${imageUrl}/freeboard/\${dto.fb_photo.split(",")[0]}" id="fb_photo"></span></a></div>`;
                                         }
-                                        s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.fb_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.fb_dislike}</div><div class="hr_tag_2"><i class="bi bi-chat"></i>&nbsp;\${dto.commentCnt}</div></div>`;
+                                        s += `<div class="hr_tag"><div class="hr_tag_1"><i class="bi bi-hand-thumbs-up"></i>&nbsp;\${dto.fb_like}&nbsp;&nbsp;<i class="bi bi-hand-thumbs-down"></i>&nbsp;\${dto.fb_dislike}</div><div class="hr_tag_2" style="margin-left: 3px"><i class="bi bi-chat"></i>&nbsp;\${dto.commentCnt}</div></div>`;
                                         s += `</div>`;
                                         s += `</div>`;
                                     })
@@ -417,44 +404,36 @@
                                 class="memberimg">&nbsp;&nbsp;${dto.nickName}</span>
 
                         <div class="mainbox">
-                            <h3 class="fb_subject">
-                                <a href="freeboarddetail?fb_idx=${dto.fb_idx}">
-                                    <b>
-                                        <c:set var="length" value="${fn:length(dto.fb_subject)}"/>
-                                            ${fn:substring(dto.fb_subject, 0, 30)}
-
-                                        <c:if test="${length>=30}">
-                                            .....
-                                        </c:if>
-                                    </b>
-                                </a>
-                            </h3>
 
                             <c:if test="${dto.fb_photo=='n'}">
-                                <h5 class="fb_content" style="width: 90%">
+                                <h3 class="fb_subject text-block-subject-2-nophoto">
+                                    <a href="freeboarddetail?fb_idx=${dto.fb_idx}">
+                                        <b>
+                                                ${dto.fb_content}
+                                        </b>
+                                    </a>
+                                </h3>
+                                <h5 class="fb_content text-block-content-2-nophoto">
                                     <a href="freeboarddetail?fb_idx=${dto.fb_idx}"
                                        style="color: #000;">
                                 <span>
-                                    <c:set var="length" value="${fn:length(dto.fb_content)}"/>
-                                    ${fn:substring(dto.fb_content, 0, 110)}
-
-                                    <c:if test="${length>=110}">
-                                        .....
-                                    </c:if>
+                                    ${dto.fb_content}
                                    </span></a>
                                 </h5>
                             </c:if>
                             <c:if test="${dto.fb_photo!='n'}">
-                                <h5 class="fb_content" style="width: 80%;">
+                                <h3 class="fb_subject text-block-subject-2-photo">
+                                    <a href="freeboarddetail?fb_idx=${dto.fb_idx}">
+                                        <b>
+                                                ${dto.fb_content}
+                                        </b>
+                                    </a>
+                                </h3>
+                                <h5 class="fb_content text-block-content-2-photo">
                                     <a href="freeboarddetail?fb_idx=${dto.fb_idx}"
                                        style="color: #000;">
                                 <span class="photocontent">
-                                    <c:set var="length" value="${fn:length(dto.fb_content)}"/>
-                                    ${fn:substring(dto.fb_content, 0, 80)}
-
-                                    <c:if test="${length>=80}">
-                                        .....
-                                    </c:if>
+                                    ${dto.fb_content}
                                    </span>
                                     </a>
                                 </h5>
@@ -501,45 +480,36 @@
                                 class="memberimg">&nbsp;${dto.nickName}</span>
 
                         <div class="mainbox">
-                            <h3 class="fb_subject">
-                                <a href="freeboarddetail?fb_idx=${dto.fb_idx}">
-                                    <b>
-                                        <c:set var="length" value="${fn:length(dto.fb_subject)}"/>
-                                            ${fn:substring(dto.fb_subject, 0, 30)}
-
-                                        <c:if test="${length>=30}">
-                                            .....
-                                        </c:if>
-                                    </b>
-                                </a>
-                            </h3>
-
                             <c:if test="${dto.fb_photo=='n'}">
-                                <h5 class="fb_content" style="width: 90%">
+                                <h3 class="fb_subject text-block-subject-2-nophoto">
+                                    <a href="freeboarddetail?fb_idx=${dto.fb_idx}">
+                                        <b>
+                                                ${dto.fb_content}
+                                        </b>
+                                    </a>
+                                </h3>
+                                <h5 class="fb_content text-block-content-2-nophoto">
                                     <a href="freeboarddetail?fb_idx=${dto.fb_idx}"
                                        style="color: #000;">
                                 <span>
-                                    <c:set var="length" value="${fn:length(dto.fb_content)}"/>
-                                    ${fn:substring(dto.fb_content, 0, 110)}
-
-                                    <c:if test="${length>=110}">
-                                        .....
-                                    </c:if>
-                                   </span></a>
+                                        ${dto.fb_content}
+                                </span></a>
                                 </h5>
                             </c:if>
                             <c:if test="${dto.fb_photo!='n'}">
-                                <h5 class="fb_content" style="width: 80%">
+                                <h3 class="fb_subject text-block-subject-2-photo">
+                                    <a href="freeboarddetail?fb_idx=${dto.fb_idx}">
+                                        <b>
+                                                ${dto.fb_content}
+                                        </b>
+                                    </a>
+                                </h3>
+                                <h5 class="fb_content text-block-content-2-photo">
                                     <a href="freeboarddetail?fb_idx=${dto.fb_idx}"
                                        style="color: #000;">
                                 <span class="photocontent">
-                                    <c:set var="length" value="${fn:length(dto.fb_content)}"/>
-                                    ${fn:substring(dto.fb_content, 0, 80)}
-
-                                    <c:if test="${length>=80}">
-                                        .....
-                                    </c:if>
-                                   </span>
+                                        ${dto.fb_content}
+                                </span>
                                     </a>
                                 </h5>
                                 <div style="position:relative; right:0; top: -80px;">
@@ -637,4 +607,4 @@
         }
 
     </script>
-
+</div>

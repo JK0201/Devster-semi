@@ -79,10 +79,9 @@ section.main .qb_wrap .box .nickName img{
 section.main .qb_wrap .box .qb_content{
     font-size: 13px;
     margin-top: 10px;
-    height: 50px;
+    height: 49px;
 }
-section.main .qb_wrap .box .qb_content #photocontent{
-    width: 60%;
+section.main .qb_wrap .box .qb_content .photocontent{
     display: inline-block;
 }
 
@@ -147,10 +146,9 @@ section.main .qb_wrap .blurbox .nickName img{
 section.main .qb_wrap .blurbox .qb_content{
     font-size: 13px;
     margin-top: 10px;
-    height: 50px;
+    height: 49px;
 }
 section.main .qb_wrap .blurbox .qb_content .photocontent{
-    width: 60%;
     display: inline-block;
 }
 section.main .qb_wrap .blurbox span.qb_photo_blur{

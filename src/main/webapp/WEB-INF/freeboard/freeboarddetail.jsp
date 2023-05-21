@@ -238,7 +238,7 @@
             <a href="./list?currentPage=${currentPage}" class="freeboard_link">일반게시판</a>
 
             <h2>${dto.fb_subject}</h2>
-            <b style="font-size: 15px; color: black;" margin-bottom: 10px;>
+            <b style="font-size: 15px; color: black; cursor:pointer;" onclick=message("${nickname}") margin-bottom: 10px;>
                 <img src="${m_photo}" class="memberimg">&nbsp;
                 ${nickname}
             </b>
@@ -432,7 +432,7 @@
                     $.each(res, function (idx, ele) {
                         s += `
                             <div class='answerBox' data-index="\${idx}"><input type="hidden" name="fbc_idx" value="\${ele.fbc_idx}">
-                            <b style=';' class="fb_nickname">`;
+                            <b style='cursor:pointer;;' class="fb_nickname" onclick=message("\${ele.nickname}")>`;
 
                         if (ele.m_photo === null || ele.m_photo === 'no') {
                             s += `<img src="/photo/profile.jpg" style="width:20px; height: 20px; border:1px solid black; border-radius:100px;">`;
@@ -654,7 +654,7 @@
                     html += `
                             <div class='replyBox' data-index="\${idx}" style="margin-bottom: 30px;">
                             <input type="hidden" name="fbc_idx" value="\${ele.fbc_idx}">
-                            <b style='margin-left: 10px;'>`;
+                            <b style='margin-left: 10px; cursor:pointer;' onclick=message("\${ele.nickname}")>`;
 
                     if (ele.m_photo === null || ele.m_photo === 'no') {
                         html += `<i class="bi bi-arrow-return-right" style="color: #94969B"></i>&nbsp;<img src="/photo/profile.jpg" style="width:20px; height: 20px; border:1px solid black; border-radius:100px;">`;
@@ -842,6 +842,10 @@
         } else {
             document.getElementById("myBtn").style.display = "none";
         }
+    }
+
+    function message(nickname) {
+        window.open("other_profile?other_nick=" + nickname, 'newwindow', 'width=700,height=700');
     }
 
 

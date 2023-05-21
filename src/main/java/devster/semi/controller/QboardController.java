@@ -400,7 +400,7 @@ public class QboardController {
             map.put("qb_like", dto.getQb_like());
             map.put("qb_dislike", dto.getQb_dislike());
             map.put("qb_readcount", dto.getQb_readcount());
-            map.put("qb_writeday", dto.getQb_writeday());
+            map.put("qb_writeday", timeForToday(dto.getQb_writeday()));
 
             map.put("searchOption", searchOption);
             map.put("keyword", keyword);
@@ -490,7 +490,7 @@ public class QboardController {
             map.put("qb_like", dto.getQb_like());
             map.put("qb_dislike", dto.getQb_dislike());
             map.put("qb_readcount", dto.getQb_readcount());
-            map.put("qb_writeday", dto.getQb_writeday());
+            map.put("qb_writeday",timeForToday(dto.getQb_writeday()));
 
 
             // 사진이 들어있으면

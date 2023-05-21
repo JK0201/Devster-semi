@@ -93,7 +93,11 @@ public class HireBoardController {
         hb_photo=hb_photo.substring(0,hb_photo.length()-1);
         dto.setHb_photo(hb_photo);
         //db insert
-        dto.setCm_idx((int)session.getAttribute("cmidx"));
+        if(session.getAttribute("cmidx") == null && (int)session.getAttribute("memstate") == 100) {
+            dto.setCm_idx(0);
+        } else {
+            dto.setCm_idx((int)session.getAttribute("cmidx"));
+        }
         hireMapper.insertHireBoard(dto);
         return "redirect:list";
     }
