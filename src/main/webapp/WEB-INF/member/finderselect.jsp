@@ -278,6 +278,36 @@
             color: #8007AD;
             opacity: 1;
         }
+
+        .agreementbox {
+            display: block;
+            width: 90%;
+            max-width: 680px;
+            height: 100%;
+            margin: 0 auto;
+            border-radius: 8px;
+            background: rgba(15, 19, 42, .1);
+            color: rgba(15, 19, 42, .5);
+            padding: 0 0 0 15px;
+            font-size: 18px;
+            font-family: 'Noto Sans KR', 'Roboto';
+            transition: .2s linear;
+        }
+
+        .finderoption {
+            width: 50%;
+            height: 50px;
+            line-height: 50px;
+            margin: 0 auto;
+            cursor: pointer;
+            text-align: center;
+            transition: .2s linear;
+        }
+
+        .finderoption:hover {
+            color: #8007AD;
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -303,11 +333,19 @@
 
         <div id="normmode">
             <div class="first-input input__block first-input__block">
-                <input type="email" placeholder="Email" class="input" id="m_email" required/>
+                <div class="agreementbox">
+                    <div class="finderoption" id="accfinder">
+                        <strong>아&nbsp;이&nbsp;디&nbsp;찾&nbsp;기</strong>
+                    </div>
+                </div>
             </div>
             <!-- password input -->
             <div class="input__block">
-                <input type="password" placeholder="Password" class="input" id="m_pass" required/>
+                <div class="agreementbox">
+                    <div class="finderoption" id="passfinder">
+                        <strong>비&nbsp;밀&nbsp;번&nbsp;호&nbsp;찾&nbsp;기</strong>
+                    </div>
+                </div>
             </div>
             <div>
                 <!-- separator -->
@@ -316,6 +354,9 @@
                 </div>
                 <!-- kakao button -->
                 <div style="background-color: pink; width:50%;">
+                    <div>
+                        <strong>카카오</strong>
+                    </div>
                     <a id="kakao-account-btn"
                        href="https://accounts.kakao.com/weblogin/find_account?app_type=web&continue=https%3A%2F%2Faccounts.kakao.com%2Fweblogin%2Faccount%2Finfo&lang=ko"
                        class="kakao__btn" target="_blank">
@@ -337,6 +378,9 @@
                 </div>
                 <!-- naver button -->
                 <div style="background-color: blue; width:50%;">
+                    <div>
+                        <strong>네이버</strong>
+                    </div>
                     <div class="naver__btn">
                         <div id="naver-signin">
                             <a href="https://nid.naver.com/user2/help/idInquiry.nhn?menu=idinquiry" target="_blank">
@@ -361,10 +405,18 @@
         <!-- Comp member -->
         <div id="compmode">
             <div class="first-input input__block first-input__block">
-                <input type="email" placeholder="Email" class="input repeat__password" id="cm_email"/>
+                <div class="agreementbox">
+                    <div class="finderoption" id="caccfinder">
+                        <strong>아&nbsp;이&nbsp;디&nbsp;찾&nbsp;기</strong>
+                    </div>
+                </div>
             </div>
             <div class="input__block">
-                <input type="password" placeholder="Password" class="input repeat__password" id="cm_pass"/>
+                <div class="agreementbox">
+                    <div class="finderoption" id="cpassfinder">
+                        <strong>비&nbsp;밀&nbsp;번&nbsp;호&nbsp;찾&nbsp;기</strong>
+                    </div>
+                </div>
             </div>
         </div>
         <section>

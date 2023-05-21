@@ -326,7 +326,6 @@
             margin: 0 auto;
             border-radius: 8px;
             border: 2px solid rgba(15, 19, 42, .2);
-            background: rgba(15, 19, 42, .1);
             color: rgba(15, 19, 42, .5);
             padding: 0 0 0 15px;
             font-size: 18px;
@@ -437,10 +436,12 @@
         #agreementall, #chkbtnone, #chkbtntwo {
             cursor: pointer;
             width: 55%;
+            margin-left: 20px;
         }
 
         #acceptall, #acceptone, #accepttwo {
             display: none;
+            color: #8007AD;
         }
 
         #detailone, #detailtwo {
@@ -578,6 +579,7 @@
                         </div>
                     </div>
                 </section>
+                <span>　　</span>
             </div>
             <div class="input__block">
                 <b>약&nbsp;관</b>
