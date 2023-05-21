@@ -87,7 +87,6 @@
             float: left;
             margin-top: -15px;
 
-
         }
 
         .star-ci_star_list input {
@@ -246,6 +245,7 @@
                     <label for="rating${i}" class="star" \${(i <= ele.ci_star) ? 'style="color: orange;"' : 'style="color: #ccc;"'}>★</label>`;
                     }
                     s += `
+
                                   <pre style="font-family: 'Noto Sans KR', sans-serif;float:left;width:300px;padding-left:30px;">
                                     회사이름: \${ele.ci_name}
                                     사원수: \${ele.ci_ppl} 명
@@ -574,6 +574,7 @@
                                         },
                                         complete: function () {
                                             isLoading = false;
+                                            isLoading = false;
                                         },
                                         success: function (res) {
                                             console.log(currentpage);
@@ -883,9 +884,13 @@
     </div>
 
         <!-- 폼 레이어  -->
-    <div class="popupLayer">
+    <div class="popupLayer" >
         <div onClick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</div>
+<<<<<<< HEAD
+        <div class="alist" style="float: left; margin-right: -30px ; margin-left:70px">
+=======
         <div class="alist" style="float: left; margin-right: 150px ;margin-left:0px; ">
+>>>>>>> main
     </div>
 
 </div>
@@ -1058,7 +1063,6 @@
 
     function likebuttonCheck(isAlreadyAddGoodRp,isAlreadyAddBadRp,rb_idx) {
 
-
         if (isAlreadyAddBadRp == true) {
             alert('이미 싫어요를 누르셨습니다.');
             return;
@@ -1075,16 +1079,14 @@
 
                     $("#add-goodRp-btn"+rb_idx).addClass('already-added');
                     $(".add-goodRp"+ rb_idx).html(goodReactionPoint);
-                    dynamicVars[`isAlreadyAddGoodRp${rb_idx}`] = true;
-
-
+                    dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] = true;
 
                 },
                 error: function () {
                     alert('서버 에러, 다시 시도해주세요.');
                 }
             });
-        }else if (isAlreadyAddGoodRp == true){
+        }else if (isAlreadyAddGoodRp == true) {
             $.ajax({
                 url : "/review/decreaseGoodRp",
                 type : "POST",
@@ -1095,7 +1097,7 @@
                 success : function(goodReactionPoint) {
                     $("#add-goodRp-btn"+rb_idx).removeClass('already-added');
                     $(".add-goodRp"+ rb_idx).html(goodReactionPoint);
-                    dynamicVars[`isAlreadyAddGoodRp${rb_idx}`] = false;
+                    dynamicVars[`isAlreadyAddGoodRp\${rb_idx}`] = false;
 
 
                 },
@@ -1128,7 +1130,7 @@
                 success: function (badReactionPoint) {
                     $("#add-badRp-btn"+rb_idx).addClass('already-added');
                     $(".add-badRp"+ rb_idx).html(badReactionPoint);
-                    dynamicVars[`isAlreadyAddBadRp${rb_idx}`] = true;
+                    dynamicVars[`isAlreadyAddBadRp\${rb_idx}`] = true;
                 },
                 error: function () {
                     alert('서버 에러, 다시 시도해주세요.');
@@ -1145,7 +1147,7 @@
                 success : function(badReactionPoint) {
                     $("#add-badRp-btn"+rb_idx).removeClass('already-added');
                     $(".add-badRp"+ rb_idx).html(badReactionPoint);
-                    dynamicVars[`isAlreadyAddBadRp${rb_idx}`] = false;
+                    dynamicVars[`isAlreadyAddBadRp\${rb_idx}`] = false;
                 },
                 error : function() {
                     alert('서버 에러, 다시 시도해주세요.');
@@ -1161,3 +1163,4 @@
 
 </script>
 
+git 
