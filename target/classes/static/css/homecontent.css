@@ -99,15 +99,17 @@ section.main .wrap .container table.noticeboard_table td.nb_subject a{
     float: left;
 }
 
-section.main .wrap .container table.noticeboard_table td.nb_subject a .icon_img{
+section.main .wrap .container table.noticeboard_table .icon_img{
     background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
     background-size: 590px 907px;
     background-position: -163px -600px;
     content: '';
     width: 18px;
     height: 24px;
-    float: right;
-    margin-left: 10px;
+    /*float: right;
+    margin-left: 10px;*/
+    display: inline-block;
+    margin-left: 4px;
 }
 
 
@@ -151,7 +153,7 @@ section.main .wrap .container table.noticeboard_table tr{
 
 section.main .wrap .container table.noticeboard_table .nb_subject{
     font-size: 15px;
-    width: 85%;
+    /*width: 85%;*/
 
 }
 section.main .wrap .container table.noticeboard_table .nb_subject a{
@@ -177,14 +179,15 @@ section.main .wrap .container table.freeboard_table td.fb_subject a{
     float: left;
 }
 
-section.main .wrap .container table.freeboard_table td.fb_subject a .icon_img{
+section.main .wrap .container table.freeboard_table .icon_img{
     background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
     background-size: 590px 907px;
     background-position: -163px -600px;
     content: '';
     width: 18px;
     height: 24px;
-    float: right;
+    /*float: right;*/
+    display: inline-block;
 }
 /*조회수 아이콘*/
 section.main .wrap .container table.freeboard_table td.fb_readcount .icon_read{
@@ -257,7 +260,7 @@ section.main .wrap .container table.freeboard_table tr{
 
 section.main .wrap .container table.freeboard_table .fb_subject{
     font-size: 15px;
-    width: 80%;
+    /*width: 80%;*/
 
 }
 section.main .wrap .container table.freeboard_table .fb_subject a{
@@ -283,7 +286,7 @@ section.main .wrap .container table.qboard_table td.qb_subject a{
     float: left;
 }
 
-section.main .wrap .container table.qboard_table td.qb_subject a .icon_img{
+section.main .wrap .container table .icon_img{
     background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
     background-size: 590px 907px;
     background-position: -163px -600px;
@@ -363,7 +366,7 @@ section.main .wrap .container table.qboard_table tr{
 
 section.main .wrap .container table.qboard_table .qb_subject{
     font-size: 15px;
-    width: 80%;
+    /*width: 80%;*/
 
 }
 section.main .wrap .container table.qboard_table .qb_subject a{
@@ -462,7 +465,7 @@ section.main .wrap .container table.hireboard_table tr{
 
 section.main .wrap .container table.hireboard_table .hb_subject{
     font-size: 15px;
-    width: 85%;
+    /*width: 85%;*/
 
 }
 section.main .wrap .container table.hireboard_table .hb_subject a{
@@ -472,7 +475,7 @@ section.main .wrap .container table.hireboard_table .hb_subject a{
 section.main .wrap .container table.hireboard_table .hb_readcount{
     font-size: 12px;
     color: #94969B;
-    width: 12%;
+    width: 14%;
 
 }
 /*section.main table.hireboard_table .qb_like{
@@ -496,7 +499,7 @@ section.main .wrap .container table.academyboard_table td.ab_subject a{
 
 
 
-section.main .wrap .container table.academyboard_table td.ab_subject div.icon_img{
+section.main .wrap .container table.academyboard_table div.icon_img{
     background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
     background-size: 590px 907px;
     background-position: -163px -600px;
@@ -563,7 +566,7 @@ section.main .wrap .container table.academyboard_table tr{
 
 section.main .wrap .container table.academyboard_table .ab_subject{
     font-size: 15px;
-    width: 85%;
+    /*width: 85%;*/
 
 }
 section.main .wrap .container table.academyboard_table .ab_subject a{
@@ -573,7 +576,7 @@ section.main .wrap .container table.academyboard_table .ab_subject a{
 section.main .wrap .container table.academyboard_table .ab_readcount{
     font-size: 12px;
     color: #94969B;
-    width: 12%;
+    width: 14%;
 
 }
 /*section.main table.hireboard_table .qb_like{
@@ -698,4 +701,20 @@ section.main .wrap .aside .aside_content_2 .quickmenu ul li a>div>div:after {
     width: 16px;
     height: 16px;
     transform: translateY(-50%);
+}
+
+section.main .wrap .container table.noticeboard_table td.nb_subject a{
+    float: left;
+    max-width: 690px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+section.main .wrap .container table.freeboard_table td.fb_subject a,
+section.main .wrap .container table.qboard_table td.qb_subject a{
+    /*float: left;*/
+    max-width: 540px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }

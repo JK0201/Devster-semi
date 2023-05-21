@@ -657,31 +657,33 @@
                 let html = "";
                 $.each(res, function (idx, ele) {
                     html += `
-                            <div class='replyBox' data-index="\${idx}" style="margin-bottom: 30px;">
+                            <div class='replyBox' data-index="\${idx}" style="border-bottom: 1px solid #eee;padding: 25px 20px 16px 17px; position: relative;">
                             <input type="hidden" name="fbc_idx" value="\${ele.fbc_idx}">
-                            <b style='margin-left: 10px; cursor:pointer;' onclick=message("\${ele.nickname}")>`;
+                            <b style='margin-left: 10px; cursor:pointer;color: #94969b;font-size: 12px;' onclick=message("\${ele.nickname}")>`;
 
                     if (ele.m_photo === null || ele.m_photo === 'no') {
-                        html += `<i class="bi bi-arrow-return-right" style="color: #94969B"></i>&nbsp;<img src="/photo/profile.jpg" style="width:20px; height: 20px; border:1px solid black; border-radius:100px;">`;
+                        html += `<!--<i class="bi bi-arrow-return-right" style="color: #94969B"></i>&nbsp;--><img src="/photo/profile.jpg" style="width:20px; height: 20px; border:1px solid black; border-radius:100px;">`;
                     } else {
-                        html += `<i class="bi bi-arrow-return-right" style="color: #94969B"></i>&nbsp;<img src="http://${imageUrl}/member/\${ele.m_photo}" style="width:20px; height: 20px; border:1px solid black; border-radius:100px;">`;
+                        html += `<img src="http://${imageUrl}/member/\${ele.m_photo}" style="width:20px; height: 20px; border:1px solid black; border-radius:100px;">`;
                     }
 
-                    html+=`&nbsp;\${ele.nickname}</b><br><br>
-                            <b style="color: #999; float:right; font-size: 15px; font-weight: lighter; margin-right: 15px;" align='right'>\${ele.fbc_writeday}</b>
-                            <h5 style='display: inline; margin-left: 10px; font-size: 18px;'>\${ele.fbc_content}</h5>
-                            <br><br>`;
+                    html+=`&nbsp;\${ele.nickname}</b><br>
+                            <b style="color: #94969b; float:right; font-size: 12px; font-weight: lighter; margin-right: 15px;" align='right'>\${ele.fbc_writeday}</b>
+                            <h5 style='display: inline; margin-left: 10px; font-size: 16px;margin-top: 5px; line-height: 40px;'>\${ele.fbc_content}</h5><br>
+                            `;
 
                     if (ele.m_idx == ${sessionScope.memidx}) {
-                        html += `<button class="btn btn-outline-dark btn-sm" type="button" onclick="deleteComment(\${ele.fbc_idx})" style="margin-left: 10px;">답글삭제</button>
-                                <button class="btn btn-outline-dark btn-sm" type="button" data-fbcidx="\${ele.fbc_idx}" onclick="updateReplyForm(\${ele.fbc_idx},\${idx})">답글수정</button>`;
+                        html += `<div style="height: 30px;"></div>
+                                <div style="position: absolute; top: 88px; right: 30px;">
+                                <button class="btn btn-outline-dark btn-sm" type="button" onclick="deleteComment(\${ele.fbc_idx})" style="margin-left: 10px;">삭제</button>
+                                <button class="btn btn-outline-dark btn-sm" type="button" data-fbcidx="\${ele.fbc_idx}" onclick="updateReplyForm(\${ele.fbc_idx},\${idx})">수정</button></div>`;
                     }
-                    html+= "<hr></div>";
+                    html+= "<!--<hr style='1px solid #eee; margin: 0;'>--></div>";
                 });
 
 
-                html += "<input style='width: 90%; margin-bottom: 30px;' id='reComment_"+fbc_ref+"' class='reComment' name='reComment' placeholder='댓글을 입력해 주세요' type='text'>";
-                html += `<button type='button' class='btn btn-primary btn-sm reCommentSubmit' onclick='insertReply(\${fbc_ref})'>등록</button>`;
+                html += "<div style='display: flex;'><input class='form-control' style='width: 90%; margin-top: 10px;margin-bottom: 30px; height: 63px;font-size: 16px;padding-left: 20px;' id='reComment_"+fbc_ref+"' class='reComment' name='reComment' placeholder='댓글을 남겨주세요' type='text'>";
+                html += `<button type='button' class='btn btn-secondary btn-sm reCommentSubmit' style="height: 63px;margin-top: 10px;margin-left: 5px; width: 94px;" onclick='insertReply(\${fbc_ref})'>댓글쓰기</button></div>`;
 
                 _this.siblings(".reCommentDiv").html(html);
 
