@@ -140,10 +140,11 @@ public class MemberService implements MemberServiceInter {
     }
 
     @Override
-    public int cNPCheck(String cm_name, String cm_cp) {
+    public int cNPCheck(String cm_name, String cm_cp, String cm_reg) {
         Map<String, String> map = new HashMap<>();
         map.put("cm_name", cm_name);
         map.put("cm_cp", cm_cp);
+        map.put("cm_reg",cm_reg);
         int chk = memberMapper.cNPCheck(map);
 
         return chk;

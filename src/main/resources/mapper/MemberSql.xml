@@ -141,6 +141,7 @@
         from companymember
         where cm_name = #{cm_name}
           and cm_cp = #{cm_cp}
+          and cm_reg = #{cm_reg}
     </select>
 
 

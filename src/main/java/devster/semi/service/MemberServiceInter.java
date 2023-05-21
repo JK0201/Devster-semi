@@ -54,7 +54,7 @@ public interface MemberServiceInter {
 
     public List<MemberDto> NPGetList(String m_name, String m_tele);
 
-    public int cNPCheck(String cm_name, String cm_cp);
+    public int cNPCheck(String cm_name, String cm_cp, String cm_reg);
 
     public List<CompanyMemberDto> cNPGetList(String cm_name, String cm_cp);
 
