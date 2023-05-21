@@ -2,6 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <div class="wrap clear">
     <div class="container">
         <div class="searchdiv">
@@ -11,8 +12,7 @@
                 <option id="freesearch" value="freeboard">일반게시판</option>
                 <option id="qnasearch" value="qboard">질문게시판</option>
                 <option id="hiresearch" value="hireboard">채용정보</option>
-                <%--<option id="academysearch" value="">학원별게시판</option>--%>
-                <option id="reviewsearch" value="reviewboard">회사후기</option>
+                <%--<option id="reviewsearch" value="reviewboard">회사후기</option>--%>
             </select>
         </div>
         <script>
@@ -57,6 +57,7 @@
 
             });
 
+
         </script>
 
 
@@ -64,7 +65,7 @@
 
             <!-- ========================= 공지사항 ===========================-->
 
-            <table class="noticeboard_table">
+            <table class="noticeboard_table" style="margin-top: 24px;">
 
                 <caption align="top" class="clear">
                     <h2>
@@ -81,15 +82,20 @@
                 <c:if test="${NoticeBoardTotalCount>0}">
                     <c:forEach var="dto" items="${nblist}">
                         <tr>
-                            <td class="nb_subject clear">
+                            <td class="nb_subject clear" style="display: flex;">
                                 <a href="noticeboard/noticeboarddetail?nb_idx=${dto.nb_idx}&currentPage=${currentPage}"
                                    style="color: #000;"><div class="notice_box">공지</div>
                                         ${dto.nb_subject}
-                                    <c:if test="${dto.nb_photo!='n'}">
+                                    <%--<c:if test="${dto.nb_photo!='n'}">
                                         <div class="icon_img"><img></div>
-                                    </c:if>
+                                    </c:if>--%>
                                 </a>
+
+                                <c:if test="${dto.nb_photo!='n'}">
+                                    <div class="icon_img"><img></div>
+                                </c:if>
                             </td>
+
 
 
                         </tr>
@@ -123,15 +129,21 @@
 
                                  <td>${dto.m_idx}(번호)</td>--%>
 
-                            <td class="fb_subject clear">
+
+                            <td class="fb_subject clear" style="display: flex;">
+
                                 <a href="freeboard/freeboarddetail?fb_idx=${dto.fb_idx}&currentPage=${currentPage}"
-                                   style="color: #000;">
+                                   style="color: #000; " >
                                         ${dto.fb_subject}
-                                    <c:if test="${dto.fb_photo!='n'}">
-                                        &nbsp; <%--<i class="bi bi-images"></i>--%>
+                                   <%-- <c:if test="${dto.fb_photo!='n'}">
+                                        &nbsp; &lt;%&ndash;<i class="bi bi-images"></i>&ndash;%&gt;
                                         <div class="icon_img"><img></div>
-                                    </c:if>
+                                    </c:if>--%>
                                 </a>
+                                <c:if test="${dto.fb_photo!='n'}">
+                                    &nbsp; <%--<i class="bi bi-images"></i>--%>
+                                    <div class="icon_img"><img></div>
+                                </c:if>
                             </td>
                             <td class="fb_readcount clear">
                                 <div class="icon_read"><img></div>
@@ -181,15 +193,19 @@
                 <c:if test="${qboardTotalCount>0}">
                     <c:forEach var="dto" items="${qblist}">
                         <tr>
-                            <td class="qb_subject clear">
+                            <td class="qb_subject clear" style="display: flex;">
                                 <a href="qboard/detail?qb_idx=${dto.qb_idx}&currentPage=${currentPage}"
                                    style="color: #000;">
                                         ${dto.qb_subject}
-                                    <c:if test="${dto.qb_photo!='n'}">
-                                        &nbsp; <%--<i class="bi bi-images"></i>--%>
+                                   <%-- <c:if test="${dto.qb_photo!='n'}">
+                                        &nbsp; &lt;%&ndash;<i class="bi bi-images"></i>&ndash;%&gt;
                                         <div class="icon_img"><img></div>
-                                    </c:if>
+                                    </c:if>--%>
                                 </a>
+                                <c:if test="${dto.qb_photo!='n'}">
+                                    &nbsp; <%--<i class="bi bi-images"></i>--%>
+                                    <div class="icon_img"><img></div>
+                                </c:if>
                             </td>
 
                             <td class="qb_readcount clear">
@@ -230,10 +246,11 @@
                 <c:if test="${hireboardtotalCount>0}">
                     <c:forEach var="dto" items="${hirelist}">
                         <tr>
-                            <td class="hb_subject clear">
+                            <td class="hb_subject clear" style="display: flex;">
                                 <a href="hire/hireboarddetail?hb_idx=${dto.hb_idx}&currentPage=${currentPage}"
                                    style="color: #000;">
-                                        ${dto.hb_subject}</a>
+                                        ${dto.hb_subject}
+                                </a>
                                     <c:if test="${dto.hb_photo!='n'}">
                                         &nbsp; <%--<i class="bi bi-images"></i>--%>
                                         <div class="icon_img"><img></div>
@@ -279,16 +296,19 @@
                         <c:if test="${academyboardTotalCount>0}">
                             <c:forEach var="dto" items="${ablist}">
                                 <tr>
-                                    <td class="ab_subject clear">
+                                    <td class="ab_subject clear" style="display: flex;">
                                         <a href="academyboard/academyboarddetail?ab_idx=${dto.ab_idx}&currentPage=${currentPage}"
                                            style="color: #000;">
-                                                ${dto.ab_subject}</a>
+                                                ${dto.ab_subject}
+                                        </a>
                                         <c:if test="${dto.ab_photo!='n'}">
                                             &nbsp; <%--<i class="bi bi-images"></i>--%>
                                             <div class="icon_img"><img></div>
                                         </c:if>
 
                                     </td>
+
+
 
                                     <td class="ab_readcount clear">
                                         <div class="icon_read"><img></div>
@@ -351,6 +371,13 @@
             location.href='../member/signin';
             return false;
         });
+
+        $(".academyboard_table a").click(function (){
+            alert("로그인 후 이용가능한 기능입니다.");
+            location.href='../member/signin';
+            return false;
+        });
+
         $("#searchinput").click(function (){
             alert("로그인 후 이용가능한 기능입니다.");
             location.href='../member/signin';
@@ -382,6 +409,14 @@
 
     }
 
+    $(document).on("click",".bestposts",function () {
+        if(${sessionScope.logstat!='yes'}) {
+            alert("로그인 후 이용가능한 기능입니다.");
+            location.href='../member/signin';
+            return false;
+        }
+    })
+
     //실시간 인기 글 ajax
     $.ajax({
         type: "post",
@@ -393,7 +428,7 @@
                 s +=
                     `
                     <li>
-                        <a href="../freeboard/freeboarddetail?fb_idx=\${item.fb_idx}&currentPage=1">
+                        <a href="../freeboard/freeboarddetail?fb_idx=\${item.fb_idx}&currentPage=1" class="bestposts" >
                             <div class="name">
                                 <div class="num"><span style="color: #94969b">\${index+1}</span> \${item.fb_subject}</div>
                             </div>
@@ -435,6 +470,12 @@
         document.body.scrollTop = 0; // For Safari
         document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
     }*/
+
+    function checkLogin() {
+        if(${sessionScope.logstat!='yes'}) {
+
+        }
+    }
 
 
 </script>

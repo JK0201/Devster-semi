@@ -30,7 +30,7 @@
         border-top: 1px solid #000;
         margin-top: 20px;
         padding-top: 40px;
-        grid-row-gap: 36px;
+                grid-row-gap: 36px;
     }
 
     .hb_bookmark_list .hb_bookmark_list_wrap .box{

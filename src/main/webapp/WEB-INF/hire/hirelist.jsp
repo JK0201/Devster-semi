@@ -55,6 +55,7 @@
                 // null 값 검색시 -> 아무일도 안일어남
                 if (keyword == '') {
                     alert("검색하실 내용을 입력해주세요.")
+                    isSearch = false;
                     return
                 } else { // 검색 내용 있을때
                     // 기본 출력
@@ -75,6 +76,7 @@
 
                             if (res.length == 0) {
                                 alert("검색 결과가 없습니다.");
+                                isSearch = false;
                                 noMoreData = true;
                                 $("#loading").hide();
                             } else {
@@ -82,14 +84,19 @@
                                     currentpage++;
                                     var s = '';
                                     $.each(res, function (idx, ele) {
-                                        var date = new Date(ele.fb_writeday);
+                                        var date = new Date(ele.hb_writeday);
                                         var formattedDate = date.toLocaleDateString("en-US", {month: '2-digit', day: '2-digit'});
-                                        s += `<div class="box">`;
+                                        s += `<div class="box"`;
+                                        if(idx % 2 == 1) {
+                                            s+= `style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">`;
+                                        } else {
+                                            s+= `>`;
+                                        }
                                         s += `<span class="hb_writeday">\${formattedDate}</span>`;
-                                        s += `<span class="hb_readcount"><div class="icon_read"></div>\${ele.hb_readcount}</span>`;
+                                        s += `<span class="hb_readcount" style="margin-left: 5px"><div class="icon_read"></div>\${ele.hb_readcount}</span>`;
                                         s += `<span class="hb_photo"><a href="hireboarddetail?hb_idx=\${ele.hb_idx}"><img src="http://${imageUrl}/hire/\${ele.hb_photo.split(",")[0]}" id="photo"></a></span>`;
-                                        s += `<h3 class="hb_subject"><a href="hireboarddetail?hb_idx=\${ele.hb_idx}"><b>\${ele.hb_subject}</b></a></h3>`;
-                                        s += `<div class="hr_tag"><div class="hr_tag_1">이직시200만원</div><div class="hr_tag_2">유연근무</div></div>`;
+                                        s += `<h3 class="hb_subject text-block-content-2-photo"><a href="hireboarddetail?hb_idx=\${ele.hb_idx}"><b>\${ele.hb_subject}</b></a></h3>`;
+                                        s += `<div class="hr_tag"><div class="hr_tag_1">이직시200만원</div><div class="hr_tag_2" style="margin-left: 3px">유연근무</div></div>`;
                                         s += `</div>`;
                                     })
                                     s += ``;
@@ -144,14 +151,19 @@
                                                     var s = '';
 
                                                     $.each(res, function (idx, ele) {
-                                                        var date = new Date(ele.fb_writeday);
+                                                        var date = new Date(${ele.hb_writeday});
                                                         var formattedDate = date.toLocaleDateString("en-US", {month: '2-digit', day: '2-digit'});
-                                                        s += `<div class="box">`;
+                                                        s += `<div class="box"`;
+                                                        if(idx % 2 == 1) {
+                                                            s+= `style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">`;
+                                                        } else {
+                                                            s+= `>`;
+                                                        }
                                                         s += `<span class="hb_writeday">\${formattedDate}</span>`;
-                                                        s += `<span class="hb_readcount"><div class="icon_read"></div>\${ele.hb_readcount}</span>`;
+                                                        s += `<span class="hb_readcount" style="margin-left: 5px;><div class="icon_read"></div>\${ele.hb_readcount}</span>`;
                                                         s += `<span class="hb_photo"><a href="hireboarddetail?hb_idx=\${ele.hb_idx}"><img src="http://${imageUrl}/hire/\${ele.hb_photo.split(",")[0]}" id="photo"></a></span>`;
-                                                        s += `<h3 class="hb_subject"><a href="hireboarddetail?hb_idx=\${ele.hb_idx}"><b>\${ele.hb_subject}</b></a></h3>`;
-                                                        s += `<div class="hr_tag"><div class="hr_tag_1">이직시200만원</div><div class="hr_tag_2">유연근무</div></div>`;
+                                                        s += `<h3 class="hb_subject text-block-content-2-photo"><a href="hireboarddetail?hb_idx=\${ele.hb_idx}"><b>\${ele.hb_subject}</b></a></h3>`;
+                                                        s += `<div class="hr_tag"><div class="hr_tag_1">이직시200만원</div><div class="hr_tag_2" style="margin-left: 3px;">유연근무</div></div>`;
                                                         s += `</div>`;
                                                     })
                                                     s += ``;
@@ -216,7 +228,7 @@
                     <img src="http://${imageUrl}/hire/${dto.hb_photo.split(",")[0]}" id="photo">
                 </a>
             </span>
-                <h3 class="hb_subject">
+                <h3 class="hb_subject text-block-content-2-photo">
                     <a href="hireboarddetail?hb_idx=${dto.hb_idx}&currentPage=${currentPage}"><b>${dto.hb_subject}</b></a>
                 </h3>
                 <div class="hr_tag">
@@ -226,11 +238,6 @@
             </div>
         </c:forEach>
     </div>
-    <c:if test="${sessionScope.cmidx!=null || sessionScope.memstate==100}">
-        <button type="button" class="btn btn-sm btn-outline-success hb_write_btn"
-                onclick="location.href='form'" style="margin-bottom: 10px">글쓰기
-        </button>
-    </c:if>
     <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
     <div id="loading" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999;">
         <img src="${root}/photo/loading.gif" alt="Loading..." style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"> <!-- 로딩 이미지의 경로를 설정하세요 -->
@@ -272,12 +279,17 @@
                                         $.each(res.list, function (idx, ele) {
                                             var date = new Date(ele.fb_writeday);
                                             var formattedDate = date.toLocaleDateString("en-US", {month: '2-digit', day: '2-digit'});
-                                            s += `<div class="box">`;
+                                            s += `<div class="box"`;
+                                            if(idx % 2 == 1) {
+                                                s+= `style="border-left: 1px solid #eee;padding-right: 0px;padding-left: 20px;">`;
+                                            } else {
+                                                s+= `>`;
+                                            }
                                             s += `<span class="hb_writeday">\${formattedDate}</span>`;
-                                            s += `<span class="hb_readcount"><div class="icon_read"></div>\${ele.hb_readcount}</span>`;
+                                            s += `<span class="hb_readcount" style="margin-left: 5px;"><div class="icon_read"></div>\${ele.hb_readcount}</span>`;
                                             s += `<span class="hb_photo"><a href="hireboarddetail?hb_idx=\${ele.hb_idx}"><img src="http://${imageUrl}/hire/\${ele.hb_photo.split(",")[0]}" id="photo"></a></span>`;
                                             s += `<h3 class="hb_subject"><a href="hireboarddetail?hb_idx=\${ele.hb_idx}"><b>\${ele.hb_subject}</b></a></h3>`;
-                                            s += `<div class="hr_tag"><div class="hr_tag_1">이직시200만원</div><div class="hr_tag_2">유연근무</div></div>`;
+                                            s += `<div class="hr_tag"><div class="hr_tag_1">이직시200만원</div><div class="hr_tag_2" style="margin-left: 3px">유연근무</div></div>`;
                                             s += `</div>`;
                                         })
                                         $(".listbox").append(s);

@@ -331,23 +331,25 @@
 
             <div class="input-group">
                 <%--<label>Question</label>--%>
-                <input class="subject" type="text" name="fb_subject" value="${dto.fb_subject}" required>
+                <input class="subject" type="text" name="fb_subject" value="${dto.fb_subject}" required maxlength="200">
             </div>
             <div class="input-group message">
                 <label>토픽에 맞지 않는 글로 판단되어 다른 유저로부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 블라인드처리 될 수 있습니다.</label>
                 <textarea id="text-input" name="fb_content" class="content" cols="47"
-                          rows="7" required>${dto.fb_content}</textarea>
+                          rows="7" required maxlength="10000">${dto.fb_content}</textarea>
 
-                <script>
-                    // 텍스트를 가져옵니다.
-                    let text = $('#text-input').val();
 
-                    // 줄바꿈 문자(\n)를 <br>로 바꿉니다.
-                    let formattedText = text.replace(/\n/g, '<br>');
+<%--                출력부 pre 태그로 변경으로 인한, 해당 로직 삭제 요망.--%>
+<%--                <script>--%>
+<%--                    // 텍스트를 가져옵니다.--%>
+<%--                    let text = $('#text-input').val();--%>
 
-                    // 출력합니다.
-                    $('#text-input').html(formattedText);
-                </script>
+<%--                    // 줄바꿈 문자(\n)를 <br>로 바꿉니다.--%>
+<%--                    let formattedText = text.replace(/\n/g, '<br>');--%>
+
+<%--                    // 출력합니다.--%>
+<%--                    $('#text-input').html(formattedText);--%>
+<%--                </script>--%>
 
             </div>
             <div class="input-group fileupload">

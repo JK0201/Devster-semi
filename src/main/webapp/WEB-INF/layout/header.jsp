@@ -88,15 +88,18 @@
             success :function (res){
                 let s = "";
                 if(res == 0 ) {
-                    s+=`<div class="message_count_alarm"></div>
-                    <div class="message_count_text">0</div>
+                    s+=`
                     <a href="${root}/message/list">
+                    <div class="message_count_alarm"></div>
+                    <div class="message_count_text">0</div>
                         <i class="bi bi-envelope"></i>
                     </a>`;
                 } else {
-                    s+= `<div class="message_count_alarm" style = "background-color : red;"></div>
+                    s+= `
                     <div class="message_count_text">\${res}</div>
                     <a href="${root}/message/list">
+                        <div class="message_count_alarm" style = "background-color : red;"></div>
+                        <div class="message_count_text">\${res}</div>
                         <i class="bi bi-envelope"></i>
                     </a>`;
                 }

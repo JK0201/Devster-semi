@@ -25,6 +25,12 @@
         ORDER BY re.rb_idx desc
            LIMIT 1
     </select>
+    <select id="selectPhotoOfMidx" parameterType="int" resultType="String">
+        SELECT m.m_photo
+        FROM reviewboard rb
+                 JOIN member m ON rb.m_idx = m.m_idx
+        WHERE rb.rb_idx = #{rb_idx};
+    </select>
     <delete id="deletereview" parameterType="int">
         delete from reviewboard where rb_idx=#{rb_idx}
     </delete>
@@ -199,6 +205,7 @@
             <!-- 전체검색(페이징) -->
             <when test="searchOption=='all'">
                 WHERE rb.rb_content LIKE CONCAT('%', #{keyword}, '%')
+                OR rb.rb_type LIKE CONCAT('%', #{keyword}, '%')
                 OR m.m_nickname LIKE CONCAT('%', #{keyword}, '%')
             </when>
             <!-- 전체검색 아닐경우 -->

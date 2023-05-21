@@ -84,10 +84,9 @@ section.main .fb_wrap .box .nickName img{
 section.main .fb_wrap .box .fb_content{
     font-size: 13px;
     margin-top: 10px;
-    height: 50px;
+    height: 49px;
 }
-section.main .fb_wrap .box .fb_content #photocontent{
-    width: 60%;
+section.main .fb_wrap .box .fb_content .photocontent{
     display: inline-block;
 }
 
@@ -158,10 +157,9 @@ section.main .fb_wrap .blurbox .nickName img{
 section.main .fb_wrap .blurbox .fb_content{
     font-size: 13px;
     margin-top: 10px;
-    height: 50px;
+    height: 49px;
 }
 section.main .fb_wrap .blurbox .fb_content .photocontent{
-    width: 60%;
     display: inline-block;
 }
 section.main .fb_wrap .blurbox span.fb_photo_blur{
@@ -629,6 +627,7 @@ section.main .fb_detail_wrap .fb_detail_content .commentwrite button#writepost{
     font-size: 16px;
 }
 
+
 /*댓글 아이콘*/
 /*
 .icon_comment{
@@ -784,4 +783,41 @@ section.main .fb_detail_wrap .fb_detail_content .commentwrite button#writepost{
 
 #myWriteBtn:hover {
     background-color: #530871; /* Add a dark-grey background on hover */
+}
+
+
+/* 제목 내용 길이 초과 ... 표시 */
+.text-block-subject-2-photo {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    width: 430px;
+}
+
+.text-block-content-2-photo {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    width: 430px;
+}
+
+.text-block-subject-2-nophoto {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    width: 530px;
+}
+.text-block-content-2-nophoto {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    width: 530px;
+}
+
+.replyBox{
+    background-color: #f8f8f8;
 }

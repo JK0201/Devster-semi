@@ -19,241 +19,266 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-<style>
+    <style>
 
-    .col-1{
-        margin-top: 10px;
-    }
+        .col-1{
+            margin-top: 10px;
+        }
 
-    .col-10 p{
-        color: #aaaaaa;
-        margin-left: 3px;
-    }
+        .col-10 p{
+            color: #aaaaaa;
+            margin-left: 3px;
+        }
 
-    .col-11{
-        height: 150px;
-    }
+        .col-11{
+            height: 150px;
+        }
 
-    .chat_list_box .chat_list .chat_people .chat_img img{
-        width: 50px;
-        height: 50px;
-        border: 0px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
-    .badge{
-        /*margin-left: 15px;*/
+        .chat_list_box .chat_list .chat_people .chat_img img{
+            width: 50px;
+            height: 50px;
+            border: 0px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .badge{
+            /*margin-left: 15px;*/
 
-    }
+        }
 
-    .msg-container{
-        /*max-width: 1140px;*/
-        margin: 0 auto;
-    }
+        .msg-container{
+            /*max-width: 1140px;*/
+            margin: 0 auto;
+        }
 
-    .inbox_people{
-        background: #f8f8f8 none repeat scroll 0 0;
-        float: left;
-        overflow: hidden;
-        width: 40%;
-        border-right: 1px solid #f7f7f7;
-    }
-    .inbox_msg{
-        border: 1px solid #f7f7f7;
-        border-radius: 15px;
-        clear: both;
-        overflow: hidden;
-    }
-    .top_spac{
-        margin: 20px 0 0;
-    }
+        .inbox_people{
+            background: #f8f8f8 none repeat scroll 0 0;
+            float: left;
+            overflow: hidden;
+            width: 40%;
+            border-right: 1px solid #f7f7f7;
+        }
+        .inbox_msg{
+            border: 1px solid #f7f7f7;
+            border-radius: 15px;
+            clear: both;
+            overflow: hidden;
+        }
+        .top_spac{
+            margin: 20px 0 0;
+        }
 
-    .recent_heading{
-        float: left;
-        width: 40%;
-    }
-    .srch_bar{
-        display: inline-block;
-        text-align: right;
-        width: 60%;
-        /*padding: ;*/
-    }
-    .headind_srch{
-        padding: 10px 29px 10px 20px;
-        overflow: hidden;
-        border-bottom: 1px solid #f7f7f7;
-    }
-    .recent_heading h4{
-        color: #5fcf80;
-        font-size: 30px;
-        margin: 0 auto;
-    }
-    .srch_bar input{
-        border: 1px solid #cdcdcd;
-        border-width: 0 0 1px 0;
-        width: 80%;
-        padding: 2px 0 4px 6px;
-        background: none;
-        font-size: 25px;
-    }
-    .srch_bar .input-group-addon button{
-        background:  rgba(0,0,0,0) none repeat scroll 0 0;
-        border: medium none;
-        padding: 0;
-        color: #707070;
-        font-size: 18px;
-    }
-    .srch_bar .input-group-addon{
-        margin: 0 0 0 -27px;
-    }
+        .recent_heading{
+            float: left;
+            width: 40%;
+        }
+        .srch_bar{
+            display: inline-block;
+            text-align: right;
+            width: 60%;
+            /*padding: ;*/
+        }
+        .headind_srch{
+            padding: 10px 29px 10px 20px;
+            overflow: hidden;
+            border-bottom: 1px solid #f7f7f7;
+        }
+        .recent_heading h4{
+            color: #5fcf80;
+            font-size: 30px;
+            margin: 0 auto;
+        }
+        .srch_bar input{
+            border: 1px solid #cdcdcd;
+            border-width: 0 0 1px 0;
+            width: 80%;
+            padding: 2px 0 4px 6px;
+            background: none;
+            font-size: 25px;
+        }
+        .srch_bar .input-group-addon button{
+            background:  rgba(0,0,0,0) none repeat scroll 0 0;
+            border: medium none;
+            padding: 0;
+            color: #707070;
+            font-size: 18px;
+        }
+        .srch_bar .input-group-addon{
+            margin: 0 0 0 -27px;
+        }
 
-    .chat_ib h5{
-        font-size: 20px;
-        color: #464646;
-        margin: 0 0 8px 0;
-        float: left;
-    }
-    .chat_ib h5 span{
-        font-size: 17px;
-        float: right;
-    }
-    .chat_ib p{
-        font-size: 14px;
-        color: #989898;
-        margin: auto;
-    }
-    .chat_img{
-        float: left;
-        /*width: 11%*/;
-    }
-    .chat_ib{
-        float: left;
-        /*padding: 0 0 0 15px;
-        width: 88%;*/
-        margin-left: 15px;
-        width: 80%;
-    }
+        .chat_ib h5{
+            font-size: 20px;
+            color: #464646;
+            margin: 0 0 8px 0;
+            float: left;
+        }
+        .chat_ib h5 span{
+            font-size: 17px;
+            float: right;
+        }
+        .chat_ib p{
+            font-size: 14px;
+            color: #989898;
+            margin: auto;
+        }
+        .chat_img{
+            float: left;
+            /*width: 11%*/;
+        }
+        .chat_ib{
+            float: left;
+            /*padding: 0 0 0 15px;
+            width: 88%;*/
+            margin-left: 15px;
+            width: 80%;
+        }
 
-    .chat_date{
-        /*margin-left: 10px;*/
-        float: right;
-    }
+        .chat_date{
+            /*margin-left: 10px;*/
+            float: right;
+        }
 
-    .chat_people{
-        /*overflow: hidden;*/
-        /*clear: both;*/
-    }
-    .chat_list{
-        border-bottom: 1px solid #f7f7f7;
-        margin: 0 auto;
-        padding: 18px 16px 10px;
-    }
+        .chat_people{
+            /*overflow: hidden;*/
+            /*clear: both;*/
+        }
+        .chat_list{
+            border-bottom: 1px solid #f7f7f7;
+            margin: 0 auto;
+            padding: 18px 16px 10px;
+        }
 
-   /* .chat_list_box :hover{
-        background-color: #d6ead0;
-    }*/
+        /* .chat_list_box :hover{
+             background-color: #d6ead0;
+         }*/
 
-    .inbox_chat{
-        height: 550px;
-        overflow-y: scroll;
-    }
-    .active_chat{
-        background: #ebebeb;
-    }
-    .incoming_msg_img{
-        display: inline-block;
-        width: 6%;
-    }
-    .received_msg{
-        display: inline-block;
-        padding: 0 0 0 10px;
-        vertical-align: top;
-        width: 92%;
-    }
-    .received_withd_msg p{
-        background: #f4f4f4 none repeat scroll 0 0;
-        border-radius: 7px;
-        color: #646464;
-        font-size: 14px;
-        margin: 0;
-        padding: 10px 10px 10px 12px;
-        width: 100%;
-    }
-    .time_date{
-        color: #747474;
-        display: block;
-        font-size: 12px;
-        margin: 5px 0 8px;
-    }
-    .received_withd_msg{
-        width: 57%;
-    }
-    .mesgs{
-        float: left;
-        padding: 30px 15px 0 25px;
-        width: 100%;
-    }
-    .sent_msg p {
-        background: #97df93 none repeat scroll 0 0;
-        border-radius: 7px;
-        font-size: 14px;
-        margin: 0;
-        color: #fff;
-        padding: 10px 10px 10px 12px;
-        width: 100%;
-    }
-    .outgoing_msg{
-        overflow: hidden;
-        /*margin: 26px 0 26px;*/
-    }
-    .sent_msg{
-        float: right;
-        width: 46%;
-    }
-    .input_msg_write input{
-        background: rgba(0,0,0,0) none repeat scroll 0 0;
-        border: medium none;
-        color: #4c4c4c;
-        font-size: 15px;
-        min-height: 48px;
-        width: 100%;
-    }
+        .inbox_chat{
+            height: 550px;
+            overflow-y: scroll;
+        }
+        .active_chat{
+            background: #ebebeb;
+        }
+        .incoming_msg_img{
+            display: inline-block;
+            width: 6%;
 
-    .type_msg{
-        border-top: 1px solid #dfdfdf;
-        position: relative;
-    }
-    .msg_send_btn{
-        background: #97df93 none repeat scroll 0 0;
-        border: medium none;
-        border-radius: 50%;
-        color: #fff;
-        cursor: pointer;
-        font-size: 17px;
-        height: 33px;
-        position: absolute;
-        right: 0;
-        top: 11px;
-        width: 33px;
 
-    }
+        }
+        .received_msg{
+            margin-right: 20px;
+            display: inline-block;
+            padding: 0 0 0 10px;
+            vertical-align: top;
+            width: auto;
+            min-width: 4em;
+            max-width: 80%;
+        }
+        .received_withd_msg pre{
+            background: #f4f4f4 none repeat scroll 0 0;
+            border-radius: 7px;
+            color: #646464;
+            font-size: 14px;
+            margin: 0;
+            padding: 10px 10px 10px 12px;
+            width: 100%;
+            /*자동 줄넘김*/
+            white-space: pre-wrap;
+            display: inline-block;
+            max-width: 90%;
+            min-width: 4em;
+        }
+        .time_date{
+            color: #747474;
+            display: block;
+            font-size: 12px;
+            margin: 5px 0 8px;
+        }
+        .received_withd_msg{
+            width: 57%;
+        }
+        .mesgs{
+            float: left;
+            padding: 30px 15px 0 25px;
+            width: 100%;
+        }
 
-    .msg_send_btn:hover{
-        background: #5fcd58 none repeat scroll 0 0;
-    }
-    .messaging{
-        padding: 0 0 50px 0;
-    }
-    .msg_history{
-        height: 516px;
-        overflow-y: auto;
-    }
-</style>
+        .sent_msg pre {
+            background: #EBCEEA none repeat scroll 0 0;
+            border-radius: 7px;
+            font-size: 14px;
+            margin: 10px;
+            color: #1F2E1E;
+            padding: 10px 10px 10px 12px;
+            /*width: 75%;*/
+            /*자동 줄넘김*/
+            white-space: pre-wrap;
+            /*글씨 크기에 따라 자동으로 줄이기*/
+            display: inline-block;
+            max-width: 90%;
+            min-width: 4em;
+        }
+        .sent_msg span {
+            display: block;
+            text-align: right;
+            margin-right: 10px;
+        }
+        .outgoing_msg{
+            overflow: hidden;
+            margin: 26px 0 26px;
+        }
+        .sent_msg{
+            float: right;
+            width: 46%;
+            text-align: right;
+        }
+        .input_msg_write input{
+            background: rgba(0,0,0,0) none repeat scroll 0 0;
+            border: medium none;
+            color: #4c4c4c;
+            font-size: 15px;
+            min-height: 48px;
+            width: 100%;
+        }
+
+        .type_msg{
+            border-top: 1px solid #dfdfdf;
+            position: relative;
+        }
+        .msg_send_btn_other{
+            background: #DDB2F5 none repeat scroll 0 0;
+            border: medium none;
+            border-radius: 50%;
+            color: #fff;
+            cursor: pointer;
+            font-size: 17px;
+            height: 33px;
+            position: absolute;
+            right: 0;
+            top: 11px;
+            width: 33px;
+           /* margin-right: 37px;*/
+        }
+
+        .msg_send_btn:hover{
+            background: #5fcd58 none repeat scroll 0 0;
+        }
+        .messaging{
+            padding: 0 0 50px 0;
+        }
+        .msg_history{
+            height: 516px;
+            overflow-y: auto;
+            background-color: #E6E6E6;
+            border-radius: 20px;
+        }
+    </style>
 </head>
 <body>
 
 
-<h1>프로필 사진에서 쪽지창 열기</h1>
+
 <%--<c:forEach var="tmp" items="${list}">
 </c:forEach>--%>
 
@@ -277,13 +302,14 @@
                                     <div class="incoming_msg">
 
                                         <div class="incoming_msg_img">
-                                                <img src="http://${imageUrl}/member/${tmp.profile}" width="50px">
+                                            <img src="http://${imageUrl}/member/${tmp.profile}" width="50px"
+                                            >
                                         </div>
 
                                         <div class="received_msg">
                                             <div class="received_withd_msg">
                                                 <span>${tmp.send_nick}</span>
-                                                <p>${tmp.content}</p>
+                                                <pre>${tmp.content}</pre>
                                                 <span class="time_date">${tmp.send_time}</span>
                                             </div>
                                         </div>
@@ -296,7 +322,7 @@
                                     <div class="outgoing_msg">
                                         <div class="sent_msg">
                                             <span>${tmp.send_nick}</span>
-                                            <p>${tmp.content}</p>
+                                            <pre>${tmp.content}</pre>
                                             <span class="time_date">${tmp.send_time}</span>
                                         </div>
                                     </div>
@@ -309,12 +335,12 @@
                                     <!--받은 메세지 -->
                                     <div class="incoming_msg">
                                         <div class="incoming_msg_img">
-                                                <img src="http://${imageUrl}/member/${tmp.profile}" width="50px">
+                                            <img src="http://${imageUrl}/member/${tmp.profile}" width="50px" >
                                         </div>
                                         <div class="received_msg">
                                             <div class="received_withd_msg">
                                                 <span>${tmp.send_nick}</span>
-                                                <p>${tmp.content}</p>
+                                                <pre>${tmp.content}</pre>
                                                 <span class="time_date">${tmp.send_time}</span>
                                             </div>
                                         </div>
@@ -327,7 +353,7 @@
                                     <div class="outgoing_msg">
                                         <div class="sent_msg">
                                             <span>${tmp.send_nick}</span>
-                                            <p>${tmp.content}</p>
+                                            <pre>${tmp.content}</pre>
                                             <span class="time_date">${tmp.send_time}</span>
                                         </div>
                                     </div>
@@ -338,16 +364,17 @@
                     </c:forEach>
 
                 </div>
+                <br>
                 <div class="send_message">
 
                     <div class='type_msg'>
                         <div class='input_msg_write row'>
-                           <div class='col-11'>
-                              <input type='text' class='write_msg form-control' placeholder='메세지를 입력...' />
-                           </div>
-                           <div class='col-1'>
-                               <button class='msg_send_btn_other' type='button'><i class='bi bi-send-fill'></i></button>
-                           </div>
+                            <div class="col-11">
+                                <textarea class="write_msg form-control" placeholder="메세지를 입력..."></textarea>
+                            </div>
+                            <div class='col-1'>
+                                <button class='msg_send_btn_other' type='button'><i class='bi bi-send-fill'></i></button>
+                            </div>
                         </div>
                     </div>
 
