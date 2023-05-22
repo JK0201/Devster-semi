@@ -9,7 +9,7 @@ section.main .fb_wrap{
     /*position: relative;*/
 }
 section.main .fb_wrap .headbox{
-    margin-top: 30px;
+    margin-top: 42px;
 }
 section.main .fb_wrap .box {
     width: 550px;
@@ -647,7 +647,8 @@ section.main .fb_detail_wrap .fb_detail_content .commentwrite button#writepost{
 
 /*notice*/
 .noticeboard_part {
-    margin-bottom: 10px;
+    margin-top: 16px;
+    margin-bottom: 12px;
 }
 
 .noticeboard_part ul {
@@ -655,32 +656,52 @@ section.main .fb_detail_wrap .fb_detail_content .commentwrite button#writepost{
     margin: 0 !important;
 }
 
+/*.noticelist{
+    margin-top: 10px
+}*/
+
 .noticeboard_part li .noticetitle {
-    background-color: #cdcdcd;
+    background-color: #d0d0d0;
     border-radius: 5px;
     margin-right: 20px;
-    width: 50px;
-    height: 13px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 7px;
-    padding-top: 7px;
+    /*width: 80px;*/
+    /*height: 13px;*/
+    /*padding: 3px 16px;*/
     font-weight: bold;
-    font-size: 13px;
+    font-size: 12px;
+    /*height: 24px;*/
+    padding: 0px 12px;
+    line-height: 30px;
+    height: 30px;
+    color: #747474;
 }
 
 .noticeboard_part li {
 
-    background-color: #e3e3e3;
-    border-radius: 5px;
+    background-color: #e5e5e5;
+    /*border-radius: 5px;*/
 
-    padding-top: 15px;
+    /*padding-top: 15px;
     padding-bottom: 15px;
-    padding-left: 20px;
+    padding-left: 20px;*/
 
     color: #000;
     margin-bottom: 5px;
     font-size: 16px;
+   /* height: 36px;*/
+    padding: 10px 0px;
+    padding-left: 20px;
+}
+
+.noticeboard_part .noticelist a{
+    max-width: 690px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    /*line-height: 36px;*/
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 3px;
 }
 
 
@@ -692,7 +713,7 @@ section.main .fb_detail_wrap .fb_detail_content .commentwrite button#writepost{
 
 .yellowbar {
     display: inline-block;
-    background-color: #e3da50;
+    background-color: #ffc420;
     width: 8px;
     height: 100%;
 }
@@ -701,6 +722,7 @@ section.main .fb_detail_wrap .fb_detail_content .commentwrite button#writepost{
     color: black;
     font-weight: bold;
     display: inline-block;
+    line-height: 40px;
 }
 
 
@@ -710,7 +732,7 @@ section.main .fb_detail_wrap .fb_detail_content .commentwrite button#writepost{
     position: relative;
     display: inline-block;
     float: right;
-    margin-left: 500px;
+    margin-left: 513px;
 }
 
 .searchbar {
@@ -735,40 +757,55 @@ section.main .fb_detail_wrap .fb_detail_content .commentwrite button#writepost{
     width: 110px;
     z-index: 100;
     /*border-color: #222;*/
-    height: 30px;
+    /*height: 22px;*/
 }
 
-.searchdiv #searchinput{
+.headbox .searchdiv #searchinput{
     z-index: 1;
     position: relative;
+    font-size: 14px;
+    padding: 0 0 0 142px;
+    height: 48px;
+    border: 1px solid #bbb;
 }
 
 #myBtn {
     display: none; /* Hidden by default */
     position: fixed; /* Fixed/sticky position */
-    bottom: 70px; /* Place the button at the bottom of the page */
-    right: 30px; /* Place the button 30px from the right */
+    bottom: 100px;
+    right: 34px;
     z-index: 99; /* Make sure it does not overlap */
     border: none; /* Remove borders */
     outline: none; /* Remove outline */
-    background-color: #7f07ac; /* Set a background color */
-    color: white; /* Text color */
+    /*background-color: #7f07ac; !* Set a background color *!
+    color: white; !* Text color *!*/
     cursor: pointer; /* Add a mouse pointer on hover */
-    padding: 15px; /* Some padding */
-    border-radius: 10px; /* Rounded corners */
+    /*padding: 15px;*/ /* Some padding */
+   /* border-radius: 10px;*/ /* Rounded corners */
     font-size: 18px; /* Increase font size */
-    margin-bottom: 20px;
+    /*margin-bottom: 20px;*/
+    background-color: #fff;
+    border: 1px solid #ccc;
+    width: 65px;
+    height: 65px;
+    /*border-radius: 100%;*/
+    color: #fff;
+}
+
+#myBtn i{
+    font-size: 21px;
+    color: #aaa;
 }
 
 #myBtn:hover {
-    background-color: #530871; /* Add a dark-grey background on hover */
+    background-color: #eee; /* Add a dark-grey background on hover */
 }
 
 #myWriteBtn {
     /*display: none; !* Hidden by default *!*/
     position: fixed; /* Fixed/sticky position */
-    bottom: 20px; /* Place the button at the bottom of the page */
-    right: 30px; /* Place the button 30px from the right */
+    bottom: 27px;
+    right: 34px;
     z-index: 99; /* Make sure it does not overlap */
     border: none; /* Remove borders */
     outline: none; /* Remove outline */
@@ -778,7 +815,20 @@ section.main .fb_detail_wrap .fb_detail_content .commentwrite button#writepost{
     padding: 15px; /* Some padding */
     border-radius: 10px; /* Rounded corners */
     font-size: 18px; /* Increase font size */
+    width: 65px;
+    height: 65px;
+    /*border-radius: 100%;*/
+    font-size: 12px;
+    border-radius: 0px;
 
+}
+#myWriteBtn i{
+    font-size: 24px;
+}
+
+#myWriteBtn span{
+    /*line-height: 65px;*/
+    font-size: 12px;
 }
 
 #myWriteBtn:hover {
@@ -820,4 +870,18 @@ section.main .fb_detail_wrap .fb_detail_content .commentwrite button#writepost{
 
 .replyBox{
     background-color: #f8f8f8;
+}
+
+.noticeboard_part .icon_img{
+    background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
+    background-size: 590px 907px;
+    background-position: -163px -600px;
+    content: '';
+    width: 18px;
+    height: 24px;
+    /*float: right;
+    margin-left: 10px;*/
+    display: inline-block;
+    margin-left: 1px;
+    margin-top: 3px;
 }

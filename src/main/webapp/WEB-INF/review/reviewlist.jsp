@@ -7,7 +7,7 @@
     <style>
         #quanbu{
             width: 1100px;
-            margin: 32px auto;
+            margin: 42px auto;
             /*background-color: palegreen;*/
             /*position: relative;*/
             font-family: 'Noto Sans KR', sans-serif;
@@ -84,8 +84,9 @@
             /*  padding: 0 .2em;*/
             /*      text-align: center;*/
             width: 5em;
-            float: left;
-            margin-top: -15px;
+            /*float: left;*/
+            /*margin-top: -15px;*/
+            /*margin-bottom: 5px;*/
 
         }
 
@@ -130,21 +131,26 @@
         }
 
         .popupLayer {
-            position: absolute;
+            position: relative;
             display: none;
             background-color: #ffffff;
             border: solid 2px #d0d0d0;
-            width: 340px;
-            height: 140px;
+            width: 240px;
+            height: 160px;
             padding: 10px;
 
 
         }
 
+        .alist>div>div{
+            /*padding: 10px 0px;*/
+            /*margin-bottom: 5px;*/
+        }
+
         .popupLayer div {
-            position: absolute;
-            top: 5px;
-            right: 5px
+            /*position: absolute;*/
+            /*top: 5px;
+            right: 5px;*/
         }
 
         .already-added {
@@ -155,6 +161,12 @@
 
         .star_listc {
             margin-left: 15px;
+        }
+
+        .star_listc>span{
+            font-family: 'Noto Sans KR', sans-serif ;
+            font-weight: bold;
+            font-size: 16px;
         }
 
 
@@ -216,6 +228,14 @@
             font-family: 'Noto Sans KR', sans-serif ;
         }
 
+        .icon_exit{
+            background: url(https://d2u3dcdbebyaiu.cloudfront.net/img/www_kr/sp-kr.png?time=dec2022) no-repeat;
+            background-size: 575px 906px;
+            background-position: -333px -349px;
+            content: '';
+            width: 30px;
+            height: 30px;
+        }
 
 
     </style>
@@ -246,16 +266,21 @@
                     }
                     s += `
 
-                                  <pre style="font-family: 'Noto Sans KR', sans-serif;float:left;width:300px;padding-left:30px;">
-                                    회사이름: \${ele.ci_name}
-                                    사원수: \${ele.ci_ppl} 명
-                                    매출액: \${ele.ci_sale}
-                                    평균연봉: \${ciSalFormatted}
-                                    Devster 평균별점:
-                                    <span class="star-ci_star_list" style="float: left;margin-left:100px;font-size:16px;padding-left:40px;">
-                                      \${stars}
-                                    </span>
-                                  </pre>
+                                  <div style="font-family: 'Noto Sans KR', sans-serif;">
+                                    <div style="font-size: 18px; font-weight: bold;">\${ele.ci_name}</div>
+                                    <span class="star-ci_star_list" style="font-size:16px;">\${stars}</span>
+                                    <div style="margin-top: 10px;">
+                                        <div style="margin-bottom: 5px;"><span style="font-size: 12px;color: #94969b; margin-right: 6px;">사원수  </span>\${ele.ci_ppl} 명</div>
+                                        <div style="margin-bottom: 5px;"><span style="font-size: 12px;color: #94969b; margin-right: 6px;">매출액  </span>\${ele.ci_sale}</div>
+                                        <div style="margin-bottom: 5px;"><span style="font-size: 12px;color: #94969b; margin-right: 6px;">평균연봉</span>\${ciSalFormatted}</div>
+                                    </div>
+                                   <!-- <div style="display: flex;">
+                                        <div style="margin-top: 3px;">Devster 평균별점:</div>
+                                        <span class="star-ci_star_list" style="font-size:16px;">
+                                        \${stars}
+                                        </span>
+                                    </div>-->
+                                  </div>
                                 `;
 
 
@@ -400,12 +425,12 @@
 
         <div class="headbox">
             <h4 class="boardname">
-                <div class="yellowbar">&nbsp;</div>&nbsp;&nbsp;리뷰게시판
+                <div class="yellowbar" style="margin-right: 10px;">&nbsp;</div>리뷰게시판
             </h4>
 
             <!-- 검색창 -->
             <div class="searchdiv">
-                <select id="searchOption" class="form-select">
+                <select id="searchOption" class="form-select form-select-sm">
                     <option id="all" value="all">전체검색</option>
                     <option id="searchnickname" value="m_nickname">작성자 검색</option>
                     <option id="searchsubject" value="rb_subject">제목 검색</option>
@@ -425,14 +450,14 @@
                 <c:if test="${NoticeBoardTotalCount>0}">
                     <c:forEach var="dto" items="${nblist}">
 
-                        <li>
-                            <b class="noticetitle">Devster 공지사항</b>
+                        <li style="display: flex;">
+                            <b class="noticetitle">공지</b>
                             <a href="../noticeboard/noticeboarddetail?nb_idx=${dto.nb_idx}&currentPage=${currentPage}">
                                     ${dto.nb_subject}
-                                <c:if test="${dto.nb_photo!='n'}">
-                                    &nbsp; <i class="bi bi-images"></i>
-                                </c:if>
                             </a>
+                            <c:if test="${dto.nb_photo!='n'}">
+                                &nbsp; <div class="icon_img"><img></div>
+                            </c:if>
                         </li>
                     </c:forEach>
                 </c:if>
@@ -873,8 +898,8 @@
 
     <%--무한스크롤--%>
 
-    <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
-        <button id="myWriteBtn" type="button" onclick="location.href='./reviewriterform'">글쓰기</button>
+    <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="bi bi-caret-up-fill"></i></button>
+        <button id="myWriteBtn" type="button" onclick="location.href='./reviewriterform'"><i class="bi bi-pencil-square"></i></button>
     <%--로딩이미지--%>
     <div id="loading"
              style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999;">
@@ -885,12 +910,14 @@
 
         <!-- 폼 레이어  -->
     <div class="popupLayer" >
-        <div onClick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</div>
-<<<<<<< HEAD
-        <div class="alist" style="float: left; margin-right: -30px ; margin-left:70px">
-=======
-        <div class="alist" style="float: left; margin-right: 150px ;margin-left:0px; ">
->>>>>>> main
+        <div onClick="closeLayer(this)" style="cursor:pointer;font-size:1.5em; position: absolute;top: 0px;right: 0px" title="닫기">
+            <div class="icon_exit"></div>
+        </div>
+
+        <%--<div class="alist" style="float: left; margin-right: -30px ; margin-left:70px">--%>
+
+        <div class="alist" style="">
+
     </div>
 
 </div>
@@ -1162,5 +1189,3 @@
 
 
 </script>
-
-git 
