@@ -465,13 +465,17 @@
 
         #agreementall, #chkbtnone, #chkbtntwo {
             cursor: pointer;
-            width: 55%;
-            margin-left: 20px;
+            width: 84%;
+            padding-left: 20px;
         }
 
         #acceptall, #acceptone, #accepttwo {
             display: none;
             color: #8007AD;
+        }
+
+        #detailone, #detailtwo {
+            cursor: pointer;
         }
 
         #detailone, #detailtwo {
@@ -573,30 +577,36 @@
                         </strong>
                     </div>
                     <div class="separator"></div>
-                    <div id="chkbtnone" style="margin-bottom: 7px">
-                        <strong>
-                            <i class="bi bi-check-square-fill" id="acceptone"></i>
-                            <i class="bi bi-square" id="denyone"></i>
-                            <strong style="color:red; opacity: 0.7;">(필수)</strong> 이용약관 동의
-                        </strong>
 
+                    <div style="display: flex;">
+                        <div id="chkbtnone" style="margin-bottom: 7px">
+                            <strong>
+                                <i class="bi bi-check-square-fill" id="acceptone"></i>
+                                <i class="bi bi-square" id="denyone"></i>
+                                <strong style="color:red; opacity: 0.7;">(필수)</strong> 이용약관 동의
+                            </strong>
+
+                        </div>
+                        <div>
+                            <strong style="float:right;" id="detailone">
+                                자세히 >
+                            </strong>
+                        </div>
                     </div>
-                    <div>
-                        <strong style="float:right; background-color: green;" id="detailone">
-                            자세히 >
-                        </strong>
-                    </div>
-                    <div id="chkbtntwo">
-                        <strong>
-                            <i class="bi bi-check-square-fill" id="accepttwo"></i>
-                            <i class="bi bi-square" id="denytwo"></i>
-                            <strong style="color:red; opacity: 0.7;">(필수)</strong> 개인정보 수집 및 이용 동의
-                        </strong>
-                    </div>
-                    <div>
-                        <strong style="float:right; background-color: green;" id="detailtwo">
-                            자세히 >
-                        </strong>
+
+                    <div style="display: flex;">
+                        <div id="chkbtntwo">
+                            <strong>
+                                <i class="bi bi-check-square-fill" id="accepttwo"></i>
+                                <i class="bi bi-square" id="denytwo"></i>
+                                <strong style="color:red; opacity: 0.7;">(필수)</strong> 개인정보 수집 및 이용 동의
+                            </strong>
+                        </div>
+                        <div>
+                            <strong style="float:right;" id="detailtwo">
+                                자세히 >
+                            </strong>
+                        </div>
                     </div>
                 </div>
             </div>

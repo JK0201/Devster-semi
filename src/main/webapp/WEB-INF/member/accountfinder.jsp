@@ -220,7 +220,6 @@
     </style>
 </head>
 <body>
-<input type="hidden" id="m_type" value="0">
 <div class="container">
     <!-- Heading -->
     <div class="logo">
@@ -237,7 +236,7 @@
         <!-- Links -->
         <ul class="links">
             <li>
-                <a href="#" id="normmember" style="font-size: 30px"><span>휴대폰 번호로 찾기</span></a>
+                <a href="#" id="normmember" style="font-size: 20px"><span>휴대폰 번호로 찾기</span></a>
             </li>
         </ul>
 
@@ -258,7 +257,7 @@
         <div class="membermail">
             <div class="pregnum">
                 <b>인&nbsp;증&nbsp;번&nbsp;호</b>
-                <label id="ptimer" style="display:none;">03:00</label>
+                <label id="ptimer"></label>
                 <div class="input-group">
                     <input type="text" id="pregnum" required>
                     <button class="memberbtn" id="psubmitbtn" disabled>확&nbsp;인</button>
@@ -269,22 +268,6 @@
     </div>
 </div>
 <script>
-    $(".emailmode").click(function () {
-        $("#emailfinder").show();
-        $("#phonefinder").hide();
-        $("#pname").val("");
-        $("#pnum").val("");
-        $("#pregnum").val("");
-
-    });
-    $(".phonemode").click(function () {
-        $("#emailfinder").hide();
-        $("#phonefinder").show();
-        $("#ename").val("");
-        $("#enum").val("");
-        $("#eregnum").val("");
-    });
-
     //name check
     $("#pname").keyup(function () {
         let m_name = $(this).val();
@@ -377,7 +360,7 @@
                             }).then(result => {
                                 if (result.isConfirmed) {
                                     clearInterval(ptimer);
-                                    pdisplay.html("03:00");
+                                    pdisplay.html("");
                                     $("#pregnum").val("");
                                     $("#preseticon").hide();
                                     $("#pnumbtn").html("인&nbsp;증&nbsp;요&nbsp;청");

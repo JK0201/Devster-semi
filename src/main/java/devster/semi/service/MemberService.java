@@ -119,6 +119,7 @@ public class MemberService implements MemberServiceInter {
     public String getAcaNameByAi_idx(int ai_idx) {
         return memberMapper.getAcaNameByAi_idx(ai_idx);
     }
+
     @Override
     public int NPCheck(String m_name, String m_tele) {
         Map<String, String> map = new HashMap<>();
@@ -140,10 +141,11 @@ public class MemberService implements MemberServiceInter {
     }
 
     @Override
-    public int cNPCheck(String cm_name, String cm_cp) {
+    public int cNPCheck(String cm_name, String cm_cp, String cm_reg) {
         Map<String, String> map = new HashMap<>();
         map.put("cm_name", cm_name);
         map.put("cm_cp", cm_cp);
+        map.put("cm_reg", cm_reg);
         int chk = memberMapper.cNPCheck(map);
 
         return chk;
@@ -192,11 +194,12 @@ public class MemberService implements MemberServiceInter {
     }
 
     @Override
-    public int CPFindCheck(String cm_email, String cm_name, String cm_cp) {
+    public int CPFindCheck(String cm_email, String cm_name, String cm_cp, String cm_reg) {
         Map<String, String> map = new HashMap<>();
         map.put("cm_email", cm_email);
         map.put("cm_name", cm_name);
         map.put("cm_cp", cm_cp);
+        map.put("cm_reg", cm_reg);
         int chk = memberMapper.CPFindCheck(map);
 
         return chk;
@@ -215,10 +218,11 @@ public class MemberService implements MemberServiceInter {
     }
 
     @Override
-    public int CEFindCheck(String cm_email, String cm_name) {
+    public int CEFindCheck(String cm_email, String cm_name, String cm_reg) {
         Map<String, String> map = new HashMap<>();
         map.put("cm_email", cm_email);
         map.put("cm_name", cm_name);
+        map.put("cm_reg", cm_reg);
 
         int chk = memberMapper.CEFindCheck(map);
 

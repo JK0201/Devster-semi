@@ -11,15 +11,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
-    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <style>
         .post .contact form .fileupload {
             display: inline-block;
@@ -196,8 +187,7 @@
             padding:2em;
         }
     </style>
-</head>
-<body>
+
 <div class="post">
     <div class="contact col-lg-6">
         <div class="title" style="margin-top: 30px;">
@@ -269,8 +259,8 @@
 
 <script>
     var ci_idx;
-    $(function() {
 
+    $(function() {
         // 검색창에서 키 입력 시, 검색어에 해당하는 회사 정보를 검색하여 표시
         $('#rearch-input').on('keyup', function() {
             var query = $(this).val();
@@ -281,17 +271,16 @@
                     "keyword": query
                 },
                 dataType: "json",
-                success: function (data) {
+                success: function(data) {
                     var html = '';
-                    $.each(data, function (idx, ele) {
+                    $.each(data, function(idx, ele) {
                         if (ele.ci_name.includes(query)) {
-                            html += '<div class="data" data-ci-idx="' + ele.ci_idx + '">' + ele.ci_name + '</div>';
-                            html += "<br>";
+                            html += '<div class="data" data-ci-idx="' + ele.ci_idx + '">' + ele.ci_name + '</div><br>';
                         }
                     });
                     $('#search-result').html(html);
                 },
-                error: function () {
+                error: function() {
                     $('#search-result').html('Error occurred');
                 }
             });
@@ -303,20 +292,23 @@
                 event.preventDefault();
                 var selected = $('#search-result .data:first-child');
                 if (selected.length > 0) {
-                    var ci_name = selected.text(); // 회사명(ci_name) 가져오기
-                    $('#rearch-input').val(ci_name); // 검색창에 선택한 회사 정보의 이름을 표시
+                    var ci_name = selected.text();
+                    $('#rearch-input').val(ci_name);
+
                 }
             }
         });
 
-
         $(document).on('click', '.data', function() {
             ci_idx = $(this).attr("data-ci-idx");
-
-            var ci_name = $(this).text();
+            var ci_name = $(this).text(); // 회사명(ci_name) 가져오기
             $('#rearch-input').val(ci_name);
+            alert( ci_name+'를 선택하셨습니다. ');
         });
+
     });
+
+
 
     $("#btnSb").click(function (){
         var rb_type = $(".rb_type").val();
@@ -353,6 +345,3 @@
 
 </script>
 
-
-</body>
-</html>

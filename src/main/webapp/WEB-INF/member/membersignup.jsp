@@ -465,12 +465,8 @@
 
         #agreementall, #chkbtnone, #chkbtntwo {
             cursor: pointer;
-<<<<<<< HEAD
-            width: 86%;
-=======
-            width: 55%;
-            margin-left: 20px;
->>>>>>> main
+            width: 84%;
+            padding-left: 20px;
         }
 
         #acceptall, #acceptone, #accepttwo {
