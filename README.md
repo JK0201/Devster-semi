@@ -13,7 +13,9 @@
 
 
   - 개발자들 꿈꾸는 학생들과 주니어 개발자들이 모인 개발 학원 커뮤니티 웹 사이트 Dev-ster
+<
 
+![KakaoTalk_20230522_122156121](https://github.com/kddongkyu/bit701-four-semi/assets/124576045/c34496cd-0f8f-4865-8531-60997ae5dd10)
   <br>
 
 ## 프로젝트 일정 및 규모
@@ -96,9 +98,8 @@
 ![KakaoTalk_20230522_110054915](https://github.com/kddongkyu/bit701-four-semi/assets/124576045/6040e549-9e50-485c-be42-8acaf2318c32)
 
 
-## 구성도 
 
-![KakaoTalk_20230522_122156121](https://github.com/kddongkyu/bit701-four-semi/assets/124576045/c34496cd-0f8f-4865-8531-60997ae5dd10)
+
 
 
 ## 🛠 front end 🛠
@@ -133,7 +134,7 @@
 
 ## 🔧 Tools 🔧
 
-<br>
+
 
 ​
 
