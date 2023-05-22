@@ -17,10 +17,19 @@
     <style>
     </style>
 </head>
+<script>
+    $(function () {
+        if ($("#cm_name").val() == "" || $("#cm_cp").val() == "") {
+            location.replace("signin");
+        }
+    });
+</script>
 <body>
 <b>${cm_name}</b>
 <br>
 <b>${cm_cp}</b>
+<input type="hidden" name="cm_name" id="cm_name" value="${cm_name}">
+<input type="hidden" name="cm_cp" id="cm_cp" value="${cm_cp}">
 <div>
     <div>
         기업회원 아이디 찾기<br>

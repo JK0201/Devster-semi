@@ -204,7 +204,7 @@
             display: block;
             width: 50%;
             max-width: 680px;
-            margin: 20px auto;
+            /*margin: 20px auto;*/
             height: 50px;
             cursor: pointer;
             font-size: 14px;
@@ -278,6 +278,36 @@
             color: #8007AD;
             opacity: 1;
         }
+
+        .agreementbox {
+            display: block;
+            width: 90%;
+            max-width: 680px;
+            height: 100%;
+            margin: 0 auto;
+            border-radius: 8px;
+            background: rgba(15, 19, 42, .1);
+            color: rgba(15, 19, 42, .5);
+            padding: 0 0 0 15px;
+            font-size: 18px;
+            font-family: 'Noto Sans KR', 'Roboto';
+            transition: .2s linear;
+        }
+
+        .finderoption {
+            width: 50%;
+            height: 50px;
+            line-height: 50px;
+            margin: 0 auto;
+            cursor: pointer;
+            text-align: center;
+            transition: .2s linear;
+        }
+
+        .finderoption:hover {
+            color: #8007AD;
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -303,22 +333,34 @@
 
         <div id="normmode">
             <div class="first-input input__block first-input__block">
-                <input type="email" placeholder="Email" class="input" id="m_email" required/>
+                <div class="agreementbox">
+                    <div class="finderoption" id="accfinder">
+                        <strong>아&nbsp;이&nbsp;디&nbsp;찾&nbsp;기</strong>
+                    </div>
+                </div>
             </div>
             <!-- password input -->
             <div class="input__block">
-                <input type="password" placeholder="Password" class="input" id="m_pass" required/>
+                <div class="agreementbox">
+                    <div class="finderoption" id="passfinder">
+                        <strong>비&nbsp;밀&nbsp;번&nbsp;호&nbsp;찾&nbsp;기</strong>
+                    </div>
+                </div>
             </div>
             <div>
                 <!-- separator -->
                 <div class="separator">
                     <p>소셜 계정 & 비밀번호 찾기</p>
                 </div>
+
+                <p>카카오</p>
+
                 <!-- kakao button -->
-                <div style="background-color: pink; width:50%;">
+
+                <div style="width:50%; display: flex; margin: 0 auto;">
                     <a id="kakao-account-btn"
                        href="https://accounts.kakao.com/weblogin/find_account?app_type=web&continue=https%3A%2F%2Faccounts.kakao.com%2Fweblogin%2Faccount%2Finfo&lang=ko"
-                       class="kakao__btn" target="_blank">
+                       class="kakao__btn" target="_blank" style="margin-right: 6px;">
                         <div id="kakao-account">
                             <i class="bi bi-chat-fill"></i>
                             &nbsp;
@@ -327,7 +369,7 @@
                     </a>
                     <a id="kakao-pass-btn"
                        href="https://accounts.kakao.com/weblogin/find_password?app_type=web&continue=https%3A%2F%2Faccounts.kakao.com%2Fweblogin%2Faccount%2Finfo&lang=ko"
-                       class="kakao__btn" target="_blank">
+                       class="kakao__btn" target="_blank" >
                         <div id="kakao-pass">
                             <i class="bi bi-chat-fill"></i>
                             &nbsp;
@@ -335,11 +377,15 @@
                         </div>
                     </a>
                 </div>
+
+                <p>네이버</p>
+
                 <!-- naver button -->
-                <div style="background-color: blue; width:50%;">
-                    <div class="naver__btn">
-                        <div id="naver-signin">
-                            <a href="https://nid.naver.com/user2/help/idInquiry.nhn?menu=idinquiry" target="_blank">
+
+                <div style="width:50%; display: flex;  margin: 20px auto;">
+                    <div class="naver__btn" style="margin-right: 6px;">
+                        <div id="naver-signin" >
+                            <a href="https://nid.naver.com/user2/help/idInquiry.nhn?menu=idinquiry" target="_blank" >
                                 <span style="color: white">N</span>
                                 &nbsp;
                                 <span style="color: white">아&nbsp;이&nbsp;디&nbsp;찾&nbsp;기</span>
@@ -361,10 +407,18 @@
         <!-- Comp member -->
         <div id="compmode">
             <div class="first-input input__block first-input__block">
-                <input type="email" placeholder="Email" class="input repeat__password" id="cm_email"/>
+                <div class="agreementbox">
+                    <div class="finderoption" id="caccfinder">
+                        <strong>아&nbsp;이&nbsp;디&nbsp;찾&nbsp;기</strong>
+                    </div>
+                </div>
             </div>
             <div class="input__block">
-                <input type="password" placeholder="Password" class="input repeat__password" id="cm_pass"/>
+                <div class="agreementbox">
+                    <div class="finderoption" id="cpassfinder">
+                        <strong>비&nbsp;밀&nbsp;번&nbsp;호&nbsp;찾&nbsp;기</strong>
+                    </div>
+                </div>
             </div>
         </div>
         <section>

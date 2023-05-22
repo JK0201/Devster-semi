@@ -17,7 +17,16 @@
     <style>
     </style>
 </head>
+<script>
+    $(function () {
+        if ($("#m_name").val() == "" || $("#m_tele").val() == "") {
+            location.replace("signin");
+        }
+    });
+</script>
 <body>
+<input type="hidden" name="m_name" id="m_name" value="${m_name}">
+<input type="hidden" name="m_name" id="m_tele" value="${m_tele}">
 <b>${m_name}</b>
 <br>
 <b>${m_tele}</b>

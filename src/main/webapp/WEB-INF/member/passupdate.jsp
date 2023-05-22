@@ -20,17 +20,9 @@
 </head>
 <script>
     $(function () {
-        // var refresh = localStorage.getItem("refresh");
-        // if (!refresh) {
-        //     localStorage.setItem("refresh", true);
-        //     location.reload();
-        // } else {
-        //     localStorage.removeItem("refresh");
-        // }
-        // if ($("#m_email").val() == "") {
-        //     location.replace("signin");
-        // }
-
+        if ($("#m_name").val() == "" || $("#m_email").val() == "") {
+            location.replace("signin");
+        }
     });
 </script>
 <body>
@@ -146,11 +138,6 @@ ${m_name}
                 });
             }
         }
-    });
-
-    window.addEventListener("beforeunload", function (event) {
-        event.preventDefault();
-        event.returnValue = "";
     });
 </script>
 </body>
