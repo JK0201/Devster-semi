@@ -176,7 +176,7 @@
             max-width: 80%;
         }
         .received_withd_msg pre{
-            background: #f4f4f4 none repeat scroll 0 0;
+            background: #EDEDED none repeat scroll 0 0;
             border-radius: 7px;
             color: #646464;
             font-size: 14px;
@@ -188,6 +188,7 @@
             display: inline-block;
             max-width: 90%;
             min-width: 4em;
+            font-family: 'Noto Sans KR', sans-serif;
         }
         .time_date{
             color: #747474;
@@ -196,7 +197,7 @@
             margin: 5px 0 8px;
         }
         .received_withd_msg{
-            width: 57%;
+            width: 80%;
         }
         .mesgs{
             float: left;
@@ -218,6 +219,7 @@
             display: inline-block;
             max-width: 90%;
             min-width: 4em;
+            font-family: 'Noto Sans KR', sans-serif;
         }
         .sent_msg span {
             display: block;
@@ -245,6 +247,7 @@
         .type_msg{
             border-top: 1px solid #dfdfdf;
             position: relative;
+            padding-top: 18px;
         }
         .msg_send_btn_other{
             background: #DDB2F5 none repeat scroll 0 0;
@@ -256,7 +259,7 @@
             height: 33px;
             position: absolute;
             right: 0;
-            top: 11px;
+            top: 30px;
             width: 33px;
            /* margin-right: 37px;*/
         }
@@ -270,8 +273,12 @@
         .msg_history{
             height: 516px;
             overflow-y: auto;
-            background-color: #E6E6E6;
-            border-radius: 20px;
+            background-color: #f8f8f8;
+            border-radius: 15px;
+            padding-left: 20px;
+        }
+        .incoming_msg_img img{
+            border-radius: 100%;
         }
     </style>
 </head>
