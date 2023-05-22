@@ -92,6 +92,9 @@
   + 미확인 쪽지 알림
       <br>
 
+## DB 설계
+![KakaoTalk_20230522_110054915](https://github.com/kddongkyu/bit701-four-semi/assets/124576045/6040e549-9e50-485c-be42-8acaf2318c32)
+
 
 ## 🛠 front end 🛠
 
