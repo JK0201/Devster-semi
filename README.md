@@ -13,10 +13,10 @@
 
 
   - 개발자들 꿈꾸는 학생들과 주니어 개발자들이 모인 개발 학원 커뮤니티 웹 사이트 Dev-ster
-<
+  <br>
 
 ![KakaoTalk_20230522_122156121](https://github.com/kddongkyu/bit701-four-semi/assets/124576045/c34496cd-0f8f-4865-8531-60997ae5dd10)
-  <br>
+
 
 ## 프로젝트 일정 및 규모
 
