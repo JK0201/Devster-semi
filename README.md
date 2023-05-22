@@ -1,15 +1,15 @@
-## member
+##  🙂 member 
 
 
  
-<a href="https://github.com/kddongkyu">김동규</a> <br>
-<a href="https://github.com/JK0201">김규헌<a> <br>
-<a href="https://github.com/ll0605">정우영<a> <br>
-<a href="https://github.com/kwohyuno">권현오<a> <br>
-<a href="https://github.com/Xoohyun">장수현<a> <br>
-<a href="https://github.com/AERI-KIM">김애리<a> <br>
+🧑‍💻 <a href="https://github.com/kddongkyu">김동규</a> <br>
+👨‍💻 <a href="https://github.com/JK0201">김규헌<a> <br>
+👨‍💻 <a href="https://github.com/ll0605">정우영<a> <br>
+👨‍💻 <a href="https://github.com/kwohyuno">권현오<a> <br>
+👩‍💻 <a href="https://github.com/Xoohyun">장수현<a> <br>
+👩‍💻 <a href="https://github.com/AERI-KIM">김애리<a> <br>
 <br><br>
-## 프로젝트 소개 
+## 🚩 프로젝트 소개 
 
 
   - 개발자들 꿈꾸는 학생들과 주니어 개발자들이 모인 개발 학원 커뮤니티 웹 사이트 Dev-ster
@@ -18,7 +18,7 @@
 ![KakaoTalk_20230522_122156121](https://github.com/kddongkyu/bit701-four-semi/assets/124576045/c34496cd-0f8f-4865-8531-60997ae5dd10)
 
 
-## 프로젝트 일정 및 규모
+## ⏳ 프로젝트 일정 및 규모
 
 + 개발 기간 : 2023.5.2 ~ 2023.5.22
 + 인원 : 6명
@@ -26,26 +26,26 @@
  <br>
 
 
-## 페이지 기능
+##  🔎 페이지 기능
 
 <br>
 
-+ ### 로그인 
-  + 카카오API , 네이버API 간편 로그인 기능 
++ ### 🔒로그인 
+  + 카카오API , 네이버API 간편 로그인  능 
    + E-MAIL 인증 기능
    + 학원 선택 (크롤링) 
    + 기업 인증 (사업자번호)
 
   <br>
 
-+ ### 마이페이지
++ ### 📗 마이페이지
   + 나의 정보 확인 가능
   
   + 이력서 작성 헤드헌터 회원에게 (공개,비 공개)선택
   + 학원 인증
 
        <br>
-+ ### 자유게시판 
++ ###  📕 자유게시판 
   + 무한 스크롤 
   + 검색기능(작성자, 제목)
   + 좋아요, 싫어요
@@ -53,7 +53,7 @@
   + 인기글 퀵메뉴 
   
       <br>
-+ ### 질문게시판 
++ ### 📙 질문게시판 
   + 무한 스크롤 
   + 검색기능(작성자, 제목)
   + 좋아요, 싫어요
@@ -62,7 +62,7 @@
   + 답변글 사진 업로드 
   
     <br>
-+ ### 학원별게시판 
++ ###  📘 학원별게시판 
   + 학원인증 후 사용가능 
   + 각 학원의 학원생들만 이용 가능 
   + 무한 스크롤 
@@ -73,7 +73,7 @@
   + 답변글 사진 업로드 
 
       <br>
-+ ### 채용정보 
++ ### 📓 채용정보 
   + 무한 스크롤 
   + 검색기능
   + 회사 계정만 작성 가능 
@@ -81,20 +81,20 @@
 
       <br>
 
-+ ### 회사 리뷰 
++ ### 📒 회사 리뷰 
   + 무한 스크롤 
   + 검색기능
   + 크롤링으로 회사 정보 수집
   + 별점과 후기 작성 
   + 모달로 회사 상세정보 확인 가능
 
-+ ### 쪽지기능 
++ ### ✉ 쪽지기능 
   + 어느 페이지에서든 쪽지 이용 가능
   + 사용자 별로 쪽지 확인 가능
   + 미확인 쪽지 알림
       <br>
 
-## DB 설계
+## 🖥 DB 설계
 ![KakaoTalk_20230522_110054915](https://github.com/kddongkyu/bit701-four-semi/assets/124576045/6040e549-9e50-485c-be42-8acaf2318c32)
 
 
@@ -119,7 +119,6 @@
 ## 🔧 back-end 🔧
 
 <br>
-
 <div align="left">
 
 <img src="https://img.shields.io/badge/Pyhon-3776AB?style=flat&logo=Python&logoColor=white"/> 
@@ -136,7 +135,6 @@
 
 
 
-​
 
 <div align="left">
 
