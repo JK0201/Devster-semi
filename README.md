@@ -1,7 +1,14 @@
 ##  🙂 member 
 
+|이름|담당|깃허브|
+|------|---|---|
+|김동규|좋아요 싷어요|https://github.com/kddongkyu|
+|김규헌|좋아요 싷어요|[https://github.com/JK0201|
+|정우영|좋아요 싷어요|https://github.com/ll0605|
+|권현오|좋아요 싷어요|https://github.com/kwohyuno|
+|장수현|좋아요 싷어요|https://github.com/Xoohyun|
+|김애리|좋아요 싷어요|https://github.com/AERI-KIM|
 
- 
 🧑‍💻 <a href="https://github.com/kddongkyu">김동규</a> <br>
 👨‍💻 <a href="https://github.com/JK0201">김규헌<a> <br>
 👨‍💻 <a href="https://github.com/ll0605">정우영<a> <br>
