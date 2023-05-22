@@ -269,8 +269,8 @@
 
 <script>
     var ci_idx;
-    $(function() {
 
+    $(function() {
         // 검색창에서 키 입력 시, 검색어에 해당하는 회사 정보를 검색하여 표시
         $('#rearch-input').on('keyup', function() {
             var query = $(this).val();
@@ -281,17 +281,16 @@
                     "keyword": query
                 },
                 dataType: "json",
-                success: function (data) {
+                success: function(data) {
                     var html = '';
-                    $.each(data, function (idx, ele) {
+                    $.each(data, function(idx, ele) {
                         if (ele.ci_name.includes(query)) {
-                            html += '<div class="data" data-ci-idx="' + ele.ci_idx + '">' + ele.ci_name + '</div>';
-                            html += "<br>";
+                            html += '<div class="data" data-ci-idx="' + ele.ci_idx + '">' + ele.ci_name + '</div><br>';
                         }
                     });
                     $('#search-result').html(html);
                 },
-                error: function () {
+                error: function() {
                     $('#search-result').html('Error occurred');
                 }
             });
@@ -303,20 +302,23 @@
                 event.preventDefault();
                 var selected = $('#search-result .data:first-child');
                 if (selected.length > 0) {
-                    var ci_name = selected.text(); // 회사명(ci_name) 가져오기
-                    $('#rearch-input').val(ci_name); // 검색창에 선택한 회사 정보의 이름을 표시
+                    var ci_name = selected.text();
+                    $('#rearch-input').val(ci_name);
+
                 }
             }
         });
 
-
         $(document).on('click', '.data', function() {
             ci_idx = $(this).attr("data-ci-idx");
-
-            var ci_name = $(this).text();
+            var ci_name = $(this).text(); // 회사명(ci_name) 가져오기
             $('#rearch-input').val(ci_name);
+            alert( ci_name+'를 선택하셨습니다. ');
         });
+
     });
+
+
 
     $("#btnSb").click(function (){
         var rb_type = $(".rb_type").val();

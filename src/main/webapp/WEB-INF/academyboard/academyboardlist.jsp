@@ -543,7 +543,7 @@
 
 <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="bi bi-caret-up-fill"></i></button>
 <br>
-<button id="myWriteBtn" type="button" onclick="location.href='./academywriteform'"><i class="bi bi-pencil-square"></button>
+    <button id="myWriteBtn" type="button" onclick="location.href='./academywriteform'"><i class="bi bi-pencil-square"></i></button>
 <script>
             // When the user scrolls down 20px from the top of the document, show the button
             window.onscroll = function () {
