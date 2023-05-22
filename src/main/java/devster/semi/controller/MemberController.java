@@ -244,10 +244,11 @@ public class MemberController {
     @GetMapping("/phonechk")
     @ResponseBody
     public String sendSMS(String phonenum, HttpSession session) {
-//        int code = (int) ((Math.random() * (99999 - 10000 + 1) + 10000));
-//        smsService.certified(phonenum, code); //주석해제 해야 동작함
-        int code = 1234;
+        int code = (int) ((Math.random() * (99999 - 10000 + 1) + 10000));
+        smsService.certified(phonenum, code); //주석해제 해야 동작함
+//        int code = 1234;
 
+        System.out.println(code);
         return Integer.toString(code);
     }
 
@@ -548,7 +549,7 @@ public class MemberController {
 
     @GetMapping("/cpassfinder")
     public String cPassFinder() {
-        return "/main/member/cpassfinder";
+        return "/memmain/member/cpassfinder";
     }
 
     @GetMapping("/npcheck") //name + phone check
@@ -587,7 +588,7 @@ public class MemberController {
         model.addAttribute("m_name", m_name);
         model.addAttribute("m_tele", m_tele);
         model.addAttribute("list", list);
-        return "/main/member/accountfound";
+        return "/memmain/member/accountfound";
     }
 
     @GetMapping("/cnpcheck") //name + phone check
@@ -633,7 +634,7 @@ public class MemberController {
         model.addAttribute("cm_name", cm_name);
         model.addAttribute("cm_cp", cm_cp);
         model.addAttribute("list", list);
-        return "/main/member/caccountfound";
+        return "/memmain/member/caccountfound";
     }
 
     @GetMapping("/pfindcheck")
@@ -669,7 +670,7 @@ public class MemberController {
 
         model.addAttribute("m_email", m_email);
         model.addAttribute("m_name", m_name);
-        return "/main/member/passupdate";
+        return "/memmain/member/passupdate";
     }
 
     @GetMapping("/efindcheck")
@@ -731,7 +732,7 @@ public class MemberController {
 
         model.addAttribute("cm_email", cm_email);
         model.addAttribute("cm_name", cm_name);
-        return "/main/member/cpassupdate";
+        return "/memmain/member/cpassupdate";
     }
 
     @GetMapping("/cupdatepass")
