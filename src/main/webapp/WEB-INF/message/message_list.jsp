@@ -19,7 +19,7 @@
 
 <div class="msg-container">
     <div class="messaging">
-        <div class="inbox_msg">
+        <div class="inbox_msg" style="margin-top: 42px;">
             <!--메세지 목록 영역-->
             <div class="inbox_people">
                 <div class="headind_srch">

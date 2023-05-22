@@ -107,7 +107,7 @@
     </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+   /* document.addEventListener("DOMContentLoaded", function() {
         const currentPath = window.location.pathname;
         const navLinks = document.querySelectorAll(".mypage_aside ul li a");
 
@@ -118,7 +118,20 @@
                 link.classList.remove("selected");
             }
         });
-    });
+    });*/
+
+   document.addEventListener("DOMContentLoaded", function() {
+       const currentURL = window.location.href;
+       const navLinks = document.querySelectorAll(".mypage_aside ul li a");
+
+       navLinks.forEach((link) => {
+           if (link.href === currentURL) {
+               link.classList.add("selected");
+           } else {
+               link.classList.remove("selected");
+           }
+       });
+   });
 
 </script>
 

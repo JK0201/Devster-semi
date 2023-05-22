@@ -271,6 +271,7 @@ public class ReviewBoardController {
         List<CompanyinfoDto> ciNameList = reviewService.selectciname();
         model.addAttribute("ciNameList", ciNameList);
         model.addAttribute("rb_idx", rb_idx);
+
         reviewService.updatereview(dto);
         reviewService.updateCompanyinfoStar(campanyinfoDto);
         return "/main/review/reviewupdateform";
@@ -280,7 +281,8 @@ public class ReviewBoardController {
 
     @PostMapping("/update")
     @ResponseBody
-    public boolean update(@RequestParam int rb_type, String rb_content, int rb_star, int m_idx, int ci_idx,int rb_idx) {
+    public boolean update(@RequestParam int rb_type, String rb_content, int rb_star, int m_idx, Integer ci_idx,int rb_idx) {
+
         ReviewDto dto = new ReviewDto();
         dto.setRb_type(rb_type);
         dto.setRb_content(rb_content);

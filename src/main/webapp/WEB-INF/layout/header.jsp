@@ -14,13 +14,56 @@
 
 <c:set var="root" value="<%=request.getContextPath()%>" />
 
+<style>
+    .black_bar{
+        padding-left: 30px;
+    }
+    .black_bar .btn_hub {
+        display: inline-block;
+        margin-top: 11px;
+    }
+
+    .black_bar .btn_hub .icon_hub {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        margin-right: 4px;
+        vertical-align: top;
+        background: url(https://static.teamblind.com/img/www_kr/sp-kr.png) no-repeat;
+        background-size: 600px 900px;
+        background-position: -340px -484px;
+    }
+
+    .black_bar .btn_hub  .txt {
+        position: relative;
+        padding-right: 16px;
+        font-size: 14px;
+        color: #fff;
+        line-height: 17px;
+        vertical-align: top;
+    }
+
+    .black_bar .btn_hub  .txt strong{
+        font-weight: bold;
+    }
+
+</style>
+
+
+
 <script>
     $(document).ready(function (){
         getCount();
     });
 </script>
 
-<div class="black_bar"></div>
+<div class="black_bar">
+    <a href="/" class="btn_hub">
+        <span class="icon_hub"></span>
+        <span class="txt"><strong>Devster</strong> 커뮤니티 서비스</span>
+    </a>
+
+</div>
 <div class="wrap clear">
     <div class="logo">
         <a href="${root}/"> <img src="/photo/logo.png" class="logotext">
@@ -35,13 +78,13 @@
         <li><a id="hire" href="${root}/hire/list">채용정보</a></li>
         <li><a id="academy"
 
-               <c:if test="${sessionScope.cmidx != null}">
-               onclick="alert('기업회원은 열람하실 수 없습니다.')"
-               </c:if>
-               <c:if test="${sessionScope.cmidx == null}">
-               href="${root}/academyboard/list"
-               </c:if>
-               >학원별게시판</a></li>
+                <c:if test="${sessionScope.cmidx != null}">
+                    onclick="alert('기업회원은 열람하실 수 없습니다.')"
+                </c:if>
+                <c:if test="${sessionScope.cmidx == null}">
+                    href="${root}/academyboard/list"
+                </c:if>
+        >학원별게시판</a></li>
         <li><a id="review" href="${root}/review/list">회사후기</a></li>
         <%--<li><a id="notice" href="${root}/noticeboard/list">공지사항</a></li>--%>
     </ul>
@@ -78,7 +121,7 @@
         });
     });
 
-        //메세지 갯수 확인 ---------------------------------------------
+    //메세지 갯수 확인 ---------------------------------------------
 
     function getCount(){
         $.ajax({
@@ -109,72 +152,72 @@
         });
     }
 
-        // 회원권한관리------------------------------------------------
-        // 비로그인 상태 (sessionScope.logstat != yes)
-        if(${sessionScope.logstat!='yes'}){
+    // 회원권한관리------------------------------------------------
+    // 비로그인 상태 (sessionScope.logstat != yes)
+    if(${sessionScope.logstat!='yes'}){
 
-            $(".gnb a#free").click(function (){
-                alert("로그인 후 이용가능한 기능입니다.");
-                location.href='../member/signin';
-                return false;
-            });
-            $(".gnb a#notice").click(function (){
-                alert("로그인 후 이용가능한 기능입니다.");
-                location.href='../member/signin';
-                return false;
-            });
-            $(".gnb a#qna").click(function (){
-                alert("로그인 후 이용가능한 기능입니다.");
-                location.href='../member/signin';
-                return false;
-            });
-            $(".gnb a#hire").click(function (){
-                alert("로그인 후 이용가능한 기능입니다.");
-                location.href='../member/signin';
-                return false;
-            });
-            $(".gnb a#academy").click(function (){
-                alert("로그인 후 이용가능한 기능입니다.");
-                location.href='../member/signin';
-                return false;
-            });
-            $(".gnb a#review").click(function (){
-                alert("로그인 후 이용가능한 기능입니다.");
-                location.href='../member/signin';
-                return false;
-            });
+        $(".gnb a#free").click(function (){
+            alert("로그인 후 이용가능한 기능입니다.");
+            location.href='../member/signin';
+            return false;
+        });
+        $(".gnb a#notice").click(function (){
+            alert("로그인 후 이용가능한 기능입니다.");
+            location.href='../member/signin';
+            return false;
+        });
+        $(".gnb a#qna").click(function (){
+            alert("로그인 후 이용가능한 기능입니다.");
+            location.href='../member/signin';
+            return false;
+        });
+        $(".gnb a#hire").click(function (){
+            alert("로그인 후 이용가능한 기능입니다.");
+            location.href='../member/signin';
+            return false;
+        });
+        $(".gnb a#academy").click(function (){
+            alert("로그인 후 이용가능한 기능입니다.");
+            location.href='../member/signin';
+            return false;
+        });
+        $(".gnb a#review").click(function (){
+            alert("로그인 후 이용가능한 기능입니다.");
+            location.href='../member/signin';
+            return false;
+        });
 
-        }
-        // 인증 안된 회원 (sessionScope.memstate == 0)
-        if(${sessionScope.memstate==0}){
+    }
+    // 인증 안된 회원 (sessionScope.memstate == 0)
+    if(${sessionScope.memstate==0}){
 
-            $(".qboard_table a").click(function (){
-                alert("인증 후 이용가능한 기능입니다.");
-                location.href='/';
-                return false;
-            });
-            $(".gnb a#qna").click(function (){
-                alert("인증 후 이용가능한 기능입니다.");
-                location.href='/';
-                return false;
-            });
-            $(".gnb a#hire").click(function (){
-                alert("인증 후 이용가능한 기능입니다.");
-                location.href='/';
-                return false;
-            });
-            $(".gnb a#academy").click(function (){
-                alert("인증 후 이용가능한 기능입니다.");
-                location.href='/';
-                return false;
-            });
-            $(".gnb a#review").click(function (){
-                alert("인증 후 이용가능한 기능입니다.");
-                location.href='../member/signin';
-                return false;
-            });
+        $(".qboard_table a").click(function (){
+            alert("인증 후 이용가능한 기능입니다.");
+            location.href='/';
+            return false;
+        });
+        $(".gnb a#qna").click(function (){
+            alert("인증 후 이용가능한 기능입니다.");
+            location.href='/';
+            return false;
+        });
+        $(".gnb a#hire").click(function (){
+            alert("인증 후 이용가능한 기능입니다.");
+            location.href='/';
+            return false;
+        });
+        $(".gnb a#academy").click(function (){
+            alert("인증 후 이용가능한 기능입니다.");
+            location.href='/';
+            return false;
+        });
+        $(".gnb a#review").click(function (){
+            alert("인증 후 이용가능한 기능입니다.");
+            location.href='../member/signin';
+            return false;
+        });
 
-        }
+    }
 </script>
 <%--</body>
 </html>--%>

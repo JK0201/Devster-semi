@@ -347,12 +347,12 @@
         <!-- email input -->
         <div id="normmode">
             <div class="first-input input__block first-input__block">
-                <input type="email" placeholder="Email" class="input" id="m_email" required/>
+                <input type="email" placeholder="Email" class="input" id="m_email" required value="test@test.com"/>
                 <i class="bi bi-x-circle-fill inputdelbtn"></i>
             </div>
             <!-- password input -->
             <div class="input__block">
-                <input type="password" placeholder="Password" class="input" id="m_pass" required/>
+                <input type="password" placeholder="Password" class="input" id="m_pass" required value="test1234"/>
                 <i class="bi bi-x-circle-fill inputdelbtn"></i>
             </div>
             <div class="input__block">
@@ -391,11 +391,11 @@
         <!-- Comp member -->
         <div id="compmode">
             <div class="first-input input__block first-input__block">
-                <input type="email" placeholder="Email" class="input repeat__password" id="cm_email"/>
+                <input type="email" placeholder="Email" class="input repeat__password" id="cm_email" value="comp@comp.com"/>
                 <i class="bi bi-x-circle-fill inputdelbtn"></i>
             </div>
             <div class="input__block">
-                <input type="password" placeholder="Password" class="input repeat__password" id="cm_pass"/>
+                <input type="password" placeholder="Password" class="input repeat__password" id="cm_pass" value="123123123"/>
                 <i class="bi bi-x-circle-fill inputdelbtn"></i>
             </div>
             <div class="input__block">

@@ -14,62 +14,290 @@
     <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans KR', 'Roboto';
+            background: white;
+        }
+
+        .container {
+            display: block;
+            max-width: 680px;
+            width: 80%;
+            margin: -60px auto;
+        }
+
+        .logo {
+            font-size: 20px;
+            text-align: center;
+            margin: 120px 0 40px 0;
+            transition: .2s linear;
+        }
+
+        .links {
+            list-style-type: none;
+        }
+
+        .links li {
+            display: inline-block;
+            margin: 0 20px 0 0;
+            transition: .2s linear;
+        }
+
+        .links li:nth-child(1):hover {
+            opacity: 1;
+        }
+
+        .links li:nth-child(2) {
+            opacity: .6;
+        }
+
+        .links li a {
+            text-decoration: none;
+            color: #0f132a;
+            font-weight: bolder;
+            text-align: center;
+            cursor: default;
+        }
+
+        #normmember span {
+            opacity: 0.6;
+        }
+
+        .inputdiv {
+            width: 100%;
+            max-width: 680px;
+            margin: 40px auto 10px;
+            box-shadow: 4px 4px 14px 7px #bdbebd;
+            padding-top: 5vh;
+            padding-bottom: 5vh;
+        }
+
+        .inputdiv .input__block {
+            margin: 20px auto;
+            display: block;
+            position: relative;
+        }
+
+        .inputdiv .input__block input {
+            display: block;
+            width: 90%;
+            max-width: 680px;
+            height: 50px;
+            margin: 0 auto;
+            border-radius: 8px;
+            border: 2px solid rgba(15, 19, 42, .2);
+            background: rgba(15, 19, 42, .1);
+            color: rgba(15, 19, 42, .5);
+            padding: 0 0 0 15px;
+            font-size: 18px;
+            font-family: 'Noto Sans KR', 'Roboto';
+            transition: .2s linear;
+        }
+
+        .inputdiv .input__block input:focus,
+        .inputdiv .input__block input:active {
+            outline: none;
+            border-color: #8007AD;
+            color: rgba(15, 19, 42, 1);
+        }
+
+        .inputdiv .input__block b {
+            margin-left: 40px;
+        }
+
+        .inputdiv .input__block span {
+            margin-left: 40px;
+            color: #808080;
+        }
+
+        .inputdiv .signin__btn {
+            background: #8007AD;
+            color: white;
+            display: block;
+            width: 92.5%;
+            max-width: 680px;
+            height: 50px;
+            border-radius: 8px;
+            margin: 0 auto;
+            border: none;
+            cursor: pointer;
+            font-size: 19px;
+            font-family: 'Noto Sans KR', 'Roboto';
+            box-shadow: 0 15px 30px rgba(114, 30, 166, .36);
+            transition: .2s linear;
+            font-weight: bold;
+        }
+
+        .inputdiv .signin__btn:hover {
+            box-shadow: 0 0 0 rgba(233, 30, 99, 0);
+        }
+
+        .memberlayout footer {
+            margin-top: 200px;
+        }
+
+        .inputdiv .membermail {
+            margin-bottom: 20px;
+            display: block;
+            position: relative;
+        }
+
+        .inputdiv .membermail input {
+            float: left;
+            display: block;
+            width: 70%;
+            max-width: 680px;
+            height: 50px;
+            margin-left: 33px;
+            border-radius: 8px;
+            border: 2px solid rgba(15, 19, 42, .2);
+            background: rgba(15, 19, 42, .1);
+            color: rgba(15, 19, 42, .5);
+            padding: 0 0 0 15px;
+            font-size: 18px;
+            font-family: 'Noto Sans KR', 'Roboto';
+            transition: .2s linear;
+        }
+
+        .inputdiv .membermail b {
+            margin-left: 40px;
+        }
+
+        .inputdiv .membermail span {
+            margin-left: 40px;
+            color: #808080;
+        }
+
+        .inputdiv .membermail input:focus,
+        .inputdiv .membermail input:active {
+            outline: none;
+            border-color: #8007AD;
+            color: rgba(15, 19, 42, 1);
+        }
+
+        .inputdiv .memberbtn {
+            background: #8007AD;
+            color: white;
+            display: block;
+            width: 20%;
+            height: 50px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 2vh;
+            font-family: 'Noto Sans KR', 'Roboto';
+            font-weight: bold;
+            opacity: 0.85;
+            transition: .2s linear;
+        }
+
+        .inputdiv .memberbtn:hover {
+            opacity: 1;
+        }
+
+        section p {
+            margin-top: 4vh;
+            text-align: center;
+        }
+
+        section p a {
+            text-decoration: none;
+            font-size: 17px;
+            margin: 0 5px;
+        }
+
+        #selmember span, #finder span {
+            text-decoration: none;
+            color: #0f132a;
+            opacity: 0.6;
+            font-weight: bold;
+            transition: .2s linear;
+        }
+
+        #selmember span:hover, #finder span:hover {
+            color: #8007AD;
+            opacity: 1;
+        }
+
+        #submitbtn {
+            text-align: center;
+            background-color: #bdbebd;
+            font-size: 25px;
+            width: 140px;
+            height: 55px;
+            color: white;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            border: 1px solid #bdbebd;
+            transition: 0.2s linear;
+        }
+
+        #submitbtn:hover {
+            background-color: #8007AD;
+        }
     </style>
 </head>
 <script>
     $(function () {
-        // var refresh = localStorage.getItem("refresh");
-        // if (!refresh) {
-        //     localStorage.setItem("refresh", true);
-        //     location.reload();
-        // } else {
-        //     localStorage.removeItem("refresh");
-        // }
-        // if ($("#cm_email").val() == "") {
-        //     location.replace("signin");
-        // }
-
+        if ($("#cm_email").val() == "" || $("#cm_name").val() == "") {
+            location.replace("signin");
+        }
     });
 </script>
 <body>
-${cm_email}
-${cm_name}
-<input type="hidden" id="cm_email" value="${cm_email}">
-<input type="hidden" id="cm_name" value="${cm_name}">
-<div>
-    개인회원 비밀번호 찾기
-    <div>
-        회원님의 비밀번호를 재설정해주세요
-        <table class="table">
-            <tr>
-                <td>
-                    <strong>비밀번호</strong>
-                    <input type="password" id="cm_pass" required placeholder="8~16자리/영문 대소문자, 숫자, 특수문자 조합">
-                    <span id="passokicon"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <strong>비밀번호확인</strong>
-                    <input type="password" id="passchk" placeholder="8~16자리/영문 대소문자, 숫자, 특수문자 조합">
-                    <span id="passchkicon"></span>
-                </td>
-            </tr>
-        </table>
-        <button type="button" id="submitbtn" disabled>변경하기</button>
+<input type="hidden" name="cm_email" id="cm_email" value="${cm_email}">
+<input type="hidden" name="cm_name" id="cm_name" value="${cm_name}">
+<div class="container">
+    <!-- Heading -->
+    <div class="logo">
+        <a href="${root}/" style="text-decoration: none;"> <img src="/photo/logo.png" class="logotext">
+            <span><img src="/photo/logoimage.png" class="logoimage"></span>
+        </a>
+        <div style="color:#0f132a; opacity:0.6; font-weight: bold;">비&nbsp;밀&nbsp;번&nbsp;호&nbsp;찾&nbsp;기</div>
     </div>
-    <div>
-        <button type="button">로그인</button>
-        <button type="button">아이디 찾기</button>
-        <button type="button">회원가입</button>
+
+    <div class="inputdiv">
+        <div style="margin-left:33px; padding-bottom: 20px;">
+            <strong style="color:#8007AD; font-weight: bold; margin-bottom: 10px;">기업회원</strong>
+        </div>
+        <!-- Links -->
+        <ul class="links">
+            <li>
+                <a href="#" id="normmember"
+                   style="font-size: 20px"><span>회원님의 비밀번호를 재설정해주세요</span></a>
+            </li>
+        </ul>
+        <div class="input__block">
+            <b>비&nbsp;밀&nbsp;번&nbsp;호</b>
+            <input type="password" placeholder="Password" class="input" id="cm_pass" required/>
+            <span id="passokicon">　　</span>
+        </div>
+        <div class="input__block">
+            <b>비&nbsp;밀&nbsp;번&nbsp;호&nbsp;확&nbsp;인</b>
+            <input type="password" placeholder="Password" class="input" id="passchk" required/>
+            <span id="passchkicon">　　</span>
+        </div>
+        <div style="width:100%; height:60px; padding-top: 15px; text-align:center;">
+            <button type=button id="submitbtn">변&nbsp;경&nbsp;하&nbsp;기</button>
+        </div>
+        <section>
+            <p>
+                <a href="signin" id="selmember"><span>로그인</span></a>
+                <strong style="color:#0f132a; opacity: 0.6;">|</strong>
+                <a href="finder" id="finder"><span>아이디/비밀번호 찾기</span></a>
+            </p>
+        </section>
     </div>
 </div>
 <script>
     let passvalid = false;
     let passcheck = false;
 
-    //pass check
     function updatePasswordStatus() {
         let pass = $("#cm_pass").val();
         let passMatch = $("#passchk").val();
@@ -77,21 +305,21 @@ ${cm_name}
 
         if (valid) {
             $("#passokicon").html("<i class='bi bi-check' style='color:green;'></i>" +
-                "<span>사용 가능한 비밀번호에요</span>");
+                "사용 가능한 비밀번호에요");
             passvalid = true;
         } else {
             $("#passokicon").html("<i class='bi bi-x' style='color:red;'></i>" +
-                "<span>8~16자리 영문 대소문자, 숫자, 특수문자의 조합으로 만들어주세요</span>");
+                "8~16자리 영문 대소문자, 숫자, 특수문자의 조합으로 만들어주세요");
             passvalid = false;
         }
 
         if (pass != passMatch) {
             $("#passchkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
-                "<span>비밀번호와 일치하지 않아요</span>");
+                "비밀번호와 일치하지 않아요");
             passcheck = false;
         } else {
             $("#passchkicon").html("<i class='bi bi-check' style='color:green;'></i>" +
-                "<span>비밀번호와 일치해요</span>");
+                "비밀번호와 일치해요");
             passcheck = true;
         }
 
@@ -109,7 +337,7 @@ ${cm_name}
     });
 
     function validPass(pass) {
-        let passPattern = /^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+$/;
+        let passPattern = /^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?\s]+$/;
         return pass.length >= 8 && pass.length <= 16 && passPattern.test(pass);
     }
 
@@ -120,38 +348,43 @@ ${cm_name}
     });
 
     $("#submitbtn").click(function () {
-        if (!passvalid || !passcheck) {
-            alert("비밀번호 확인");
+        if (!passcheck) {
+            $("#passchk").focus();
+            $("#passchkicon").html("<i class='bi bi-x' style='color:red;'></i>" +
+                "비밀번호와 일치하지 않아요");
+            return false;
+        } else if (!passvalid) {
+            $("#cm_pass").focus();
+            $("#passokicon").html("<i class='bi bi-x' style='color:red;'></i>" +
+                "8~16자리 영문 대소문자, 숫자, 특수문자의 조합으로 만들어주세요");
             return false;
         } else {
             let cm_pass = $("#cm_pass").val();
             let cm_email = $("#cm_email").val();
             let cm_name = $("#cm_name").val();
-            console.log(cm_pass);
 
             console.log(cm_email);
             console.log(cm_name);
             console.log(cm_pass);
 
-            if (cm_email == "" || cm_name == "") {
-                location.replace("signin");
-            } else {
-                $.ajax({
-                    type: "get",
-                    url: "cupdatepass",
-                    data: {"cm_email": cm_email, "cm_name": cm_name, "cm_pass": cm_pass},
-                    dataType: "text",
-                    success: function () {
-                        alert("비밀번호가 변경되었습니다");
-                    }
-                });
-            }
-        }
-    });
+            $.ajax({
+                type: "get",
+                url: "cupdatepass",
+                data: {"cm_email": cm_email, "cm_name": cm_name, "cm_pass": cm_pass},
+                dataType: "text",
+                success: function () {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '비밀번호가 변경되었습니다',
 
-    window.addEventListener("beforeunload", function (event) {
-        event.preventDefault();
-        event.returnValue = "";
+                        confirmButtonText: '확인',
+                        confirmButtonColor: '#8007AD'
+                    }).then(result => {
+                        location.replace("signin");
+                    });
+                }
+            });
+        }
     });
 </script>
 </body>

@@ -1,5 +1,6 @@
 package devster.semi.service;
 
+import org.apache.ibatis.javassist.compiler.ast.StringL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -27,11 +28,11 @@ public class MailService implements MailServiceInter {
         MimeMessage message = javaMailSender.createMimeMessage();
 
         message.addRecipients(Message.RecipientType.TO, to); //메일 받을 사용자
-        message.setSubject("[Dev-ster] 이메일 인증번호가 도착하였습니다.");
+        message.setSubject("[Devster] 이메일 인증번호가 도착하였습니다.");
 
         String msg = "";
-        msg += "<h1>성공<h1>";
-        msg += "<h1>" + ePass + "</h1>";
+        msg += "<h1>[Devster] 이메일 인증번호는 아래와 같습니다 : <h1>";
+        msg += "<div><h1 style='background-color:#8007AD; color:white; width:100%'>" + ePass + "</h1></div>";
 
         message.setText(msg, "utf-8", "html");
         message.setFrom(new InternetAddress("devster@naver.com", "Dev-ster"));
@@ -43,14 +44,25 @@ public class MailService implements MailServiceInter {
     public String createKey() {
         //숫자로 바꿀지 고민
 
-        int min = 48; //아스키
-        int max = 122; // 아스키 z
-        int StringLength = 6; //코드길이 6
+//        int min = 48; //아스키
+//        int max = 122; // 아스키 z
+//        int StringLength = 6; //코드길이 6
+//        Random random = new Random();
+//        String key = random.ints(min, max + 1).filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(StringLength)
+//                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+//
+//        return key;
+        int min = 0;
+        int max = 9;
+        int StringLength = 6;
         Random random = new Random();
-        String key = random.ints(min, max + 1).filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(StringLength)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+        StringBuilder key = new StringBuilder(StringLength);
 
-        return key;
+        for (int i = 0; i < StringLength; i++) {
+            int randomnum = min + random.nextInt(max - min + 1);
+            key.append(randomnum);
+        }
+        return key.toString();
     }
 
     @Override
