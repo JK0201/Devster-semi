@@ -3,25 +3,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
-    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Single+Day&display=swap"
-          rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+
     <style>
         /*토글*/
-
-
         .toggle_box {
             display: flex;
             align-items: center;
             z-index: -1;
-            margin-top: 20px;
+            /*margin-top: 20px;*/
+            margin-left: 10px;
         }
 
         #uptoggle {
@@ -32,7 +22,7 @@
             position: relative;
             width: 8rem;
             height: 2.9rem; /* 높이를 10px 줄임 */
-            margin-left: 600px;
+            /*margin-left: 600px;*/
         }
 
         #uptoggle + label.toggle_btn_label > span {
@@ -63,6 +53,7 @@
             align-items: center;
             font-weight: bold;
             color: rgb(29, 29, 29);
+            color: gray;
 
             -webkit-transition: all .4s;
             transition: all .4s;
@@ -98,7 +89,7 @@
         }
 
         .rein {
-            font-size: 20px;
+            font-size: 16px;
             color: #4c4c4c;
         }
         .reemail {
@@ -110,7 +101,7 @@
             /* border: 1px solid black;*/
         }
         .repoint{
-            font-size: 30px;
+            font-size: 18px;
             font-weight: bold;
         }
         #result span{
@@ -132,7 +123,8 @@
             background-color: #EEEBF0;
             width: 800px;
             height: 45px;
-            font-size: 22px;
+            font-size: 16px;
+            padding-left: 10px;
         }
         textarea{
             border: none;
@@ -144,20 +136,35 @@
         }
 
     </style>
-</head>
-<body>
-<div class="quanbu">
-    <form action="resumeinsert" enctype="multipart/form-data" method="post">
 
-        <span class="rena"><B>${mdto.m_name}</B></span><br>
-        <i class="bi bi-envelope reemail"></i> &nbsp;&nbsp; <span class="rein">${mdto.m_email}</span><br>
-        <i class="bi bi-telephone reemail"></i> &nbsp;&nbsp; <span class="rein">${mdto.m_tele}</span>
-        <div class="toggle_box">
+<div class="quanbu">
+    <form action="resumeinsert" enctype="multipart/form-data" method="post" style="position: relative;">
+
+        <div class="clear">
+            <span class="rena" style="float: left;"><b style="font-weight:bold;" >${mdto.m_name}</b></span>
+
+            <div class="toggle_box" style="float: left; margin-top: 10px;">
+                <input type="checkbox" id="uptoggle" name="r_status" value="${dto.r_status}" onchange="updateToggleValue()"></input>
+                <label for="uptoggle" class="toggle_btn_label">
+                    <span></span>
+                </label>
+            </div>
+        </div>
+
+        <div style="display: flex;">
+            <i class="bi bi-envelope reemail" style="font-weight: bold;"></i>&nbsp;&nbsp; <span class="rein" style="line-height: 40px;">${mdto.m_email}</span><br>
+        </div>
+
+        <div style="display: flex;">
+            <i class="bi bi-telephone reemail" style="font-weight: bold; font-size: 18px;"></i> &nbsp;&nbsp; <span class="rein" style="line-height: 40px;">${mdto.m_tele}</span>
+        </div>
+
+       <%-- <div class="toggle_box" &lt;%&ndash;style="position: absolute; top: 0px; left: 0px;"&ndash;%&gt;>
             <input type="checkbox" id="uptoggle" name="r_status" value="${dto.r_status}" onchange="updateToggleValue()"></input>
             <label for="uptoggle" class="toggle_btn_label">
                 <span></span>
             </label>
-        </div>
+        </div>--%>
 
         <!--hidden-->
         <input type="hidden" name="r_idx" value="${r_idx}">
@@ -525,5 +532,3 @@
     });
 
 </script>
-</body>
-</html>

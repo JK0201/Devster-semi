@@ -5,9 +5,6 @@
 <%@ include file="../commonvar.jsp" %>
 
 
-<html>
-<head>
-    <title>Title</title>
     <style>
         .quanbox {
             width: 1100px;
@@ -77,15 +74,7 @@
             font-size: 16px;
             line-height: 40px;
         }
-        .rewrite{
-            width: 900px;
-            height: 200px;
-            margin: 10px auto;
-            padding-top: 10px;
-            padding-right: 20px;
-            border-radius: 10px;
-            background-color: #E7E2E7;
-        }
+
         /*  .w-btn-green-outline{
 
             margin-left: 350px;
@@ -120,18 +109,34 @@
             font-size: 30px;
             margin-top: 85px;
         }
+
+
+        .rewrite{
+            width: 900px;
+            height: 200px;
+            margin: 10px auto;
+            padding-top: 10px;
+            padding-right: 20px;
+            border-radius: 10px;
+            background-color: #E7E2E7;
+            /*padding: 0 30px;*/
+        }
+
     </style>
 
 
-</head>
-<body>
 <c:if test="${empty dto}">
     <div class="rewrite">
+
+
+
         <div class="resinfo"><b>작성된 이력서가 없어요.</b>
             <br>
             <span style="font-size: 26px">이력서를 작성해주세요.</span>
         </div>
+
         <button type="button" class="w-btn-outline w-btn-green-outline" onclick="location.href='./writer'">이력서 작성하러 가기</button>
+
     </div>
 </c:if>
 
@@ -360,4 +365,4 @@
 
 
 </script>
-</html>
+

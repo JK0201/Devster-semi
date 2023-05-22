@@ -60,7 +60,7 @@
 <div class="black_bar">
     <a href="/" class="btn_hub">
         <span class="icon_hub"></span>
-        <span class="txt"><strong>Dexter</strong> 커뮤니티 서비스</span>
+        <span class="txt"><strong>Devster</strong> 커뮤니티 서비스</span>
     </a>
 
 </div>

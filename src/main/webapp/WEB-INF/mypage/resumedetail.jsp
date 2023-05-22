@@ -77,7 +77,7 @@
             font-size: 16px;
             line-height: 40px;
         }
-        .rewrite{
+        /*.rewrite{
             width: 900px;
             height: 200px;
             margin: 10px auto;
@@ -85,7 +85,7 @@
             padding-right: 20px;
             border-radius: 10px;
             background-color: #E7E2E7;
-        }
+        }*/
       /*  .w-btn-green-outline{
 
           margin-left: 350px;
@@ -116,9 +116,45 @@
             background-color: #9908CF;
             color: #d7fff1;}
         .resinfo{
-            text-align: center;
+            /*text-align: center;*/
             font-size: 30px;
             margin-top: 85px;
+        }
+
+        .rewrite{
+           /* width: 900px;
+            height: 200px;
+            margin: 10px auto;*/
+            /*padding-top: 10px;
+            padding-right: 20px;*/
+            /*border-radius: 10px;
+            background-color: #E7E2E7;*/
+            padding: 0 30px;
+        }
+
+        .rewrite .title{
+            font-weight: 700;
+            font-size: 30px;
+            color: #222;
+        }
+
+        .rewrite .resinfo{
+            border-top: 1px solid rgb(34, 34, 34);
+            margin-top: 20px;
+            padding-top: 40px;
+            /*padding: 40px 60px;*/
+            padding-left: 40px;
+        }
+
+        .hTJeRm {
+            width: 100%;
+            height: 180px;
+            flex: 0 1 316px;
+            margin: 16px 16px 0px 0px;
+            background-color: rgb(245, 245, 248);
+            border-radius: 12px;
+            padding: 24px 0px;
+            text-align: center;
         }
     </style>
 
@@ -127,11 +163,26 @@
 <body>
 <c:if test="${empty dto}">
     <div class="rewrite">
-        <div class="resinfo"><b>작성된 이력서가 없어요.</b>
-            <br>
-          <span style="font-size: 26px">이력서를 작성해주세요.</span>
+
+        <h1 class="title">내 이력서</h1>
+
+        <div class="resinfo">
+
+
+            <div class="hTJeRm">
+                <i class="bi bi-plus-circle-fill" style="font-size: 30px; color: #8007ad; display:block; margin-top: 20px;"
+                   type="button" onclick="location.href='./writer'"></i>
+                <div style="font-size: 14px; color: rgb(68, 68, 68);margin-top: 4px;">작성된 이력서가 없어요</div>
+                <div style="font-size: 14px; color: rgb(68, 68, 68);margin-top: 4px;">새로운 이력서를 추가해 보세요!</div>
+            </div>
         </div>
-    <button type="button" class="w-btn-outline w-btn-green-outline" onclick="location.href='./writer'">이력서 작성하러 가기</button>
+
+       <%-- <button type="button" class="w-btn-outline w-btn-green-outline" onclick="location.href='./writer'">이력서 작성하러 가기</button>--%>
+
+
+
+
+
     </div>
 </c:if>
 
