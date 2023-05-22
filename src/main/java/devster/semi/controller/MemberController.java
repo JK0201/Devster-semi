@@ -533,7 +533,7 @@ public class MemberController {
 
     @GetMapping("/accfinder")
     public String accFinder() {
-        return "/main/member/accountfinder";
+        return "/memmain/member/accountfinder";
     }
 
     @GetMapping("/passfinder")
@@ -543,7 +543,7 @@ public class MemberController {
 
     @GetMapping("/caccfinder")
     public String cAccFinder() {
-        return "/main/member/caccountfinder";
+        return "/memmain/member/caccountfinder";
     }
 
     @GetMapping("/cpassfinder")
