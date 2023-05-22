@@ -19,16 +19,9 @@
 </head>
 <script>
     $(function () {
-        // var refresh = localStorage.getItem("refresh");
-        // if (!refresh) {
-        //     localStorage.setItem("refresh", true);
-        //     location.reload();
-        // } else {
-        //     localStorage.removeItem("refresh");
-        // }
-        // if ($("#cm_email").val() == "") {
-        //     location.replace("signin");
-        // }
+        if ($("#cm_name").val() == "" || $("#cm_email").val() == "") {
+            location.replace("signin");
+        }
     });
 </script>
 <body>
@@ -146,11 +139,6 @@ ${cm_name}
                 });
             }
         }
-    });
-
-    window.addEventListener("beforeunload", function (event) {
-        event.preventDefault();
-        event.returnValue = "";
     });
 </script>
 </body>

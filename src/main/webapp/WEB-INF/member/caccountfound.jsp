@@ -18,11 +18,11 @@
     </style>
 </head>
 <script>
-    // $(function () {
-    //     if ($("#cm_name").val() == "" || $("#cm_cp").val() == "") {
-    //         location.replace("signin");
-    //     }
-    // });
+    $(function () {
+        if ($("#cm_name").val() == "" || $("#cm_cp").val() == "") {
+            location.replace("signin");
+        }
+    });
 </script>
 <body>
 <b>${cm_name}</b>

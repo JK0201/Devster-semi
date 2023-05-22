@@ -64,11 +64,11 @@ public interface MemberServiceInter {
 
     public void updatePass(String m_email, String m_name, String m_pass, String salt);
 
-    public int CPFindCheck(String cm_email, String cm_name, String cm_cp);
+    public int CPFindCheck(String cm_email, String cm_name, String cm_cp, String cm_reg);
 
     public void CUpdatePass(String cm_email, String cm_name, String cm_pass, String salt);
 
-    public int CEFindCheck(String cm_email, String cm_name);
+    public int CEFindCheck(String cm_email, String cm_name, String cm_reg);
 
     public int compRegChk(String cm_reg);
 

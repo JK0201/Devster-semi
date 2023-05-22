@@ -184,6 +184,7 @@
         where cm_email = #{cm_email}
           and cm_name = #{cm_name}
           and cm_cp = #{cm_cp}
+          and cm_reg = #{cm_reg}
     </select>
 
     <update id="CUpdatePass" parameterType="Map">
@@ -199,6 +200,7 @@
         from companymember
         where cm_email = #{cm_email}
           and cm_name = #{cm_name}
+          and cm_reg = #{cm_reg}
     </select>
 
     <select id="compRegChk" resultType="int" parameterType="String">

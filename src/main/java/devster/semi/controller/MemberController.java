@@ -695,13 +695,18 @@ public class MemberController {
 
     @GetMapping("/cpfindcheck")
     @ResponseBody
-    public Map<String, String> CPFindCheck(String cm_email, String cm_name, String cm_cp) {
+    public Map<String, String> CPFindCheck(String cm_email, String cm_name, String cm_cp, String cm_reg) {
         String[] tokens = cm_cp.split("-");
         String phoneNoHyphen = String.join("", tokens);
         tokens = phoneNoHyphen.split("\\s");
         cm_cp = String.join("", tokens);
 
-        int chk = memberService.CPFindCheck(cm_email, cm_name, cm_cp);
+        String[] regtokens = cm_reg.split("-");
+        String regNoHyphen = String.join("", regtokens);
+        regtokens = regNoHyphen.split("\\s");
+        cm_reg = String.join("", regtokens);
+
+        int chk = memberService.CPFindCheck(cm_email, cm_name, cm_cp, cm_reg);
 
         Map<String, String> map = new HashMap<>();
         map.put("result", chk == 1 ? "yes" : "no");
@@ -718,14 +723,14 @@ public class MemberController {
 
     @GetMapping("/cupdate")
     public String CUpdate(HttpSession session, Model model) {
-//        String cm_email = (String) session.getAttribute("cm_email");
-//        String cm_name = (String) session.getAttribute("cm_name");
-//
-//        session.removeAttribute("cm_email");
-//        session.removeAttribute("cm_name");
-//
-//        model.addAttribute("cm_email", cm_email);
-//        model.addAttribute("cm_name", cm_name);
+        String cm_email = (String) session.getAttribute("cm_email");
+        String cm_name = (String) session.getAttribute("cm_name");
+
+        session.removeAttribute("cm_email");
+        session.removeAttribute("cm_name");
+
+        model.addAttribute("cm_email", cm_email);
+        model.addAttribute("cm_name", cm_name);
         return "/main/member/cpassupdate";
     }
 
@@ -743,8 +748,8 @@ public class MemberController {
 
     @GetMapping("/cefindcheck")
     @ResponseBody
-    public Map<String, String> CEFindCheck(String cm_email, String cm_name) {
-        int chk = memberService.CEFindCheck(cm_email, cm_name);
+    public Map<String, String> CEFindCheck(String cm_email, String cm_name, String cm_reg) {
+        int chk = memberService.CEFindCheck(cm_email, cm_name, cm_reg);
 
         Map<String, String> map = new HashMap<>();
         map.put("result", chk == 1 ? "yes" : "no");

@@ -563,6 +563,16 @@
         let m_name = $("#pname").val();
         let m_tele = $("#pnum").val();
 
+        if(m_email=="") {
+            Swal.fire({
+                icon: 'warning',
+                title: '이메일을 입력해주세요',
+
+                confirmButtonText: '확인',
+                confirmButtonColor: '#8007AD'
+            });
+            return false;
+        }
         $.ajax({
             type: "get",
             url: "pfindcheck",
