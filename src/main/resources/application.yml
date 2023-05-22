@@ -26,4 +26,3 @@ mybatis:
   mapper-locations:
     - /mapper/**/*.xml
 
-

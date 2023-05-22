@@ -5,6 +5,8 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
+
+
     <style>
         .post .contact form .input-group {
             display: inline-block;
@@ -709,6 +711,29 @@
 
 
 </script>
+
+<script>
+    function escapeHTML(unsafe) {
+        return unsafe
+            .replace(/&/g, "&amp;")
+            .replace(/<</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+        var subject = document.querySelector('input[name="fb_subject"]');
+        var content = document.querySelector('textarea[name="fb_content"]');
+
+        // Check if subject or content contain HTML tags
+        if (subject.value !== escapeHTML(subject.value) || content.value !== escapeHTML(content.value)) {
+            alert('HTML 태그는 사용할 수 없습니다.');
+            event.preventDefault();  // Prevent form submission
+        }
+    });
+</script>
+
 
 
 
