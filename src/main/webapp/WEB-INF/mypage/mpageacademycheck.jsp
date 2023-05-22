@@ -209,7 +209,7 @@
                         s+=
                             `
                             <div style="width: 250px;" class='companyUser_check_contents'>
-                                <img src="http://${imageUrl}/company_member/\${dto.cm_filename}" style="width: 250px; border: 1px solid rgba(0, 0, 0, 0.1);"
+                                <img src="http://${imageUrl}/member/\${dto.cm_filename}" style="width: 250px; border: 1px solid rgba(0, 0, 0, 0.1);"
                                 data-bs-toggle="modal" data-bs-target="#myModal" onclick="showModalImage('http://${imageUrl}/company_member/\${dto.cm_filename}')">
                                 <div style='margin-top: 12px;'>기업명<h4>\${dto.cm_compname}</h4></div>
                                 <div>기업 주소<h4>\${dto.cm_addr}</h4></div>
