@@ -5,7 +5,7 @@
 |김동규|질문게시판, 좋아요.싫어요 기능, 학원DB크롤링, 전반적인 에러 수정 및 팀원 보조|https://github.com/kddongkyu |
 |김규헌|DB설계, 로그인(API), 회원포인트, 등급로직, 회원가입, Drag&Drop기능|https://github.com/JK0201|
 |정우영|프론트 총괄 및 최종정리, 공지게시판, 쪽지 기능, 레이아웃 설정|https://github.com/ll0605|
-|권현오|채용정보 게시판, 구인구직 게시판, 리뷰게시판|https://github.com/kwohyuno|
+|권현오|채용정보 게시판, 구인구직 게시판, 리뷰게시판, 기업정보DB크롤링|https://github.com/kwohyuno|
 |장수현|자유게시판, 검색기능 구현, Form화면 및 css참여, 게시판 접근권한|https://github.com/Xoohyun|
 |김애리|리뷰게시판, 이력서 작성 및 폼, 쪽지CSS  |https://github.com/AERI-KIM|
 
