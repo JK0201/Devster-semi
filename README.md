@@ -2,7 +2,7 @@
 
 |이름|담당|깃허브|
 |------|---|---|
-|김동규|질문게시판, 좋아요.싫어요 기능, 학원DB크롤링, 전반적인 에러 수정 및 팀원 보조|https://github.com/kddongkyu |
+|김동규|질문게시판, 좋아요.싫어요 기능, 학원DB크롤링, 마이페이지, 무한스크롤, 전반적인 에러 수정 및 팀원 보조|https://github.com/kddongkyu |
 |김규헌|DB설계, 로그인(API), 회원포인트, 등급로직, 회원가입, Drag&Drop기능|https://github.com/JK0201|
 |정우영|프론트 총괄 및 최종정리, 공지게시판, 쪽지 기능, 레이아웃 설정|https://github.com/ll0605|
 |권현오|채용정보 게시판, 구인구직 게시판, 리뷰게시판, 기업정보DB크롤링|https://github.com/kwohyuno|
