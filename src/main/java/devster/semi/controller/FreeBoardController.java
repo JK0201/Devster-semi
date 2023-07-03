@@ -6,6 +6,7 @@ import devster.semi.dto.NoticeBoardDto;
 import devster.semi.service.FreeBoardService;
 import devster.semi.service.NoticeBoardService;
 import naver.cloud.NcpObjectStorageService;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.ibatis.javassist.compiler.ast.Keyword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -319,6 +320,13 @@ public class FreeBoardController {
                 fb_photo += (storageService.uploadFile(bucketName, "freeboard", mfile) + ",");
             }
         }
+
+        String escapedSubject = StringEscapeUtils.escapeHtml4(dto.getFb_subject());
+        String escapedContent = StringEscapeUtils.escapeHtml4(dto.getFb_content());
+        dto.setFb_subject(escapedSubject);
+        dto.setFb_content(escapedContent);
+
+
 
         fb_photo = fb_photo.substring(0, fb_photo.length() - 1);
 //        업로드를 한 경우에만 버킷에 이미지를 저장한다.

@@ -105,6 +105,14 @@
             <version>2.7.1</version>
         </dependency>
 
+<!--       html. xml 입력 제한-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>1.9</version> <!-- 현재 날짜에 따라 최신 버전을 확인하세요 -->
+        </dependency>
+
+
 
     </dependencies>
 
