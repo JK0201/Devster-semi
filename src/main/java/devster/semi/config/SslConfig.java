@@ -36,7 +36,7 @@ public class SslConfig {
         connector.setPort(80);
         connector.setScheme("http");
         connector.setSecure(false);
-        connector.setRedirectPort(9000);
+        connector.setRedirectPort(443);
         return connector;
     }
 }
