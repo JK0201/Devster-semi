@@ -28,6 +28,7 @@
 ## 나의 역할
   <details>
     <summary><b>DB 설계 및 연동</b></summary>
+    <br>
     <ul>
       <li>빠른 페이지 이동을 위한 네비게이션 기능</li>
       <li>회원가입/로그인 빠른이동</li>
