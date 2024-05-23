@@ -27,7 +27,7 @@
 
 ## 나의 역할
   <details>
-    <summary><h3>DB 설계 및 연동</h3></summary>
+    <summary><h4>DB 설계 및 연동</h4></summary>
     <ul>
       <li>MySQL 데이터 베이스 설계 및 네이버 클라우드 연동 설정<br><span> - 데이터베이스 스키마를 설계하고 네이버 클라우드와의 연동을 통해 데이터베이스를 설정</span></li>
       <li>회원가입/로그인 빠른이동</li>
