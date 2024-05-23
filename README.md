@@ -1,5 +1,5 @@
-
-
+<details>
+    <summary><b>메인 페이지</b></summary>
 ##  🙂 member 
 
 |이름|담당|깃허브|
@@ -151,3 +151,4 @@
   <img src="https://img.shields.io/badge/notion-000000?style=flat&logo=notion&logoColor=white"/>
 ​
 </div>
+</details>
