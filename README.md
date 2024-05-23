@@ -36,12 +36,15 @@
   </details>
   
   <details>
-    <summary><b>DB 설계 및 연동</b></summary>
+    <summary><b>사용자 인증</b></summary>
     <br>
-    <p> - 빠른 페이지 이동을 위한 네비게이션 기능</p>
-    <p> - 회원가입/로그인 빠른이동
-    <p> - 로그인 중일 시 로그아웃 버튼
-    <p> - position:sticky를 활용한 간략한 페이지 소개</p>
+    <ul>
+      <li>소셜 로그인 API 구현
+        <br>
+        <span>JavaScript와 OAuth2.0 인증방식을 사용하여 소셜 로그인 기능 구현</span>
+      </li>
+      <li>데이터베이스 스키마 설계</li>
+    </ul>
   </details>
   
   <br>
