@@ -1,6 +1,6 @@
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:16213E,10:0F3460,30:533483,75:5B2A86,100:E94560&height=100&section=header&text=&fontSize=0" width="100%"/>
 <div align="center">
-  <h2>Devster v1.0.0</h2>
+  <h2>Devster v1.0.0 : 개발자를 꿈꾸는 학생들과 주니어 개발자들이 모인 개발 학원 커뮤니티</h2>
   <br>
   
   ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
