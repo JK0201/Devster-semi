@@ -84,6 +84,17 @@
   </details>  
 <br>
 
+## Outro
+  <details>
+    <summary><b>첫 프로젝트</b></summary>
+    <ul>
+      <li>컨트롤러에 모든 기능이 집중되어 있어 코드 유지보수 및 재사용성이 떨어짐</li>
+      <li>유효성 검사를 프론트엔드에서만 수행하여 보안 취약점이 존재함</li>
+      <li>JavaScript코드가 모듈화 되지 않아 유지 보수 및 가독성이 떨어짐</li>
+    </ul>
+  </details>
+<br>
+
 <img src="https://capsule-render.vercel.app/api?type=rect&color=0:16213E,10:0F3460,30:533483,75:5B2A86,100:E94560&height=40&section=footer&text=&fontSize=0" width="100%"/>
 
 
