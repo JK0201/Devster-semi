@@ -1,5 +1,5 @@
 <details>
-<summary><h3>팀 발표용 README.md</h2></summary>
+<summary><h4>팀 발표용 README.md</h4></summary>
 
 ##  🙂 member 
 
