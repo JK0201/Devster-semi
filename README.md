@@ -1,12 +1,16 @@
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:16213E,10:0F3460,30:533483,75:5B2A86,100:E94560&height=100&section=header&text=&fontSize=0" width="100%"/>
 <div align="center">
   <a href="https://git.io/typing-svg">
-    <img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=500&pause=10000&color=58A6FF&center=true&random=false&width=435&lines=Devster v1.0.0" alt="Typing SVG" />
+    <img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=500&pause=10000&color=58A6FF&center=true&random=false&width=435&lines=NodeJS-CRUD" alt="Typing SVG" />
   </a>
   <br>
+  
+  ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+  ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+  ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
 </div>
 <br>
-
+ 
 ## Overview
 - 해당 프로젝트는 복습의 목적으로 Node.js와 Express 프레임워크를 사용하여 만든 간단한 CRUD(Create, Read, Update, Delete) 웹 사이트입니다. NoSQL 데이터베이스인 MongoDB와 EJS 템플릿 엔진을 활용하여 서버에서 동적으로 HTML을 생성하는 SSR(Server-Side Rendering) 방식으로 제작되었습니다.
 <br>
