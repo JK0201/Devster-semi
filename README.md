@@ -3,7 +3,7 @@
   <a href="https://git.io/typing-svg">
     <img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=500&pause=10000&color=58A6FF&center=true&random=false&width=435&lines=Devster v1.0.0" alt="Typing SVG" />
   </a>
-  <p>개발자를 꿈꾸는 학생들과 주니어 개발자들이 모인 개발 학원 커뮤니티</p>
+
   <p>[ 2023.05.02 - 2023.05.22 ]</p>
   <p>인원 : 6명</p>
   
@@ -12,7 +12,7 @@
 <br>
 
 ## Overview
-- 
+- Devster는 프로그래밍 학교 학생과 주니어 개발자를 위한 커뮤니티로, 이들이 서로 네트워킹하며 취업 및 경력 개발에 필요한 정보를 공유할 수 있는 플랫폼을 제공하는 것을 목표로 합니다.
 <br>
 
 ## 주요 기술
