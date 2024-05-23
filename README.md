@@ -33,14 +33,33 @@
       <li>데이터베이스 스키마 설계</li>
     </ul>
   </details>
+
+  <details>
+    <summary><b>회원가입/로그인/아이디 비밀번호 찾기</b></summary>
+    <ul>
+      <li>회원가입 UI/UX디자인 설계 및 구현</li>
+      <li>사용자 입력 정보에 대한 필드 유효성 검사 기능 구현</li>
+      <li>SHA256알고리즘 Salt를 사용하여 사용자 비밀번호 암호화 및 로그인 검증 기능 구현</li>
+      <li>이메일과 핸드폰 인증을 통해 아이디 비밀번호 찾기 기능 구현</li>
+    </ul>
+  </details>
   
   <details>
     <summary><b>사용자 인증</b></summary>
     <ul>
-      <li>소셜 로그인 API 구현 : JavaScript와 OAuth2.0 인증방식을 사용하여 카카오, 네이버 로그인 기능 구현</li>
-      <li>이메일 인증 : Java Mail Sender 라이브러리를 사용하여 인증 및 검증 기능 구현</li>
-      <li>핸드폰 인증 : CoolSms API를 사용하여 인증 및 검증 기능 구현</li>
-      <li>기업회원 인증 : 공공데이터 사업자등록정보 API를 사용하여 인증 및 검증 기능 구현</li>
+      <li>JavaScript와 OAuth2.0 인증방식을 사용하여 카카오, 네이버 로그인 기능 구현</li>
+      <li>Java Mail Sender 라이브러리를 사용하여 이메일 인증 및 검증 기능 구현</li>
+      <li>CoolSms API를 사용하여 핸드폰 인증 및 검증 기능 구현</li>
+      <li>공공데이터 사업자등록정보 API를 사용하여 기업회원 사업자등록증 인증 및 검증 기능 구현</li>
+    </ul>
+  </details>
+
+  <details>
+    <summary><b>파일 업로드</b></summary>
+    <ul>
+      <li>사용자 경험 증진을 위한 Drag&Drop및 미리보기 기능 구현</li>
+      <li>파일 크기, 사이즈, 개수, 이미지 확장자 유효성 검사 기능 구현</li>
+      <li>파일 업로드시 네이버 클라우드 버킷 저장 기능 구현</li>
     </ul>
   </details>
   
