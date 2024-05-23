@@ -29,10 +29,12 @@
   <details>
     <summary><b>DB 설계 및 연동</b></summary>
     <br>
-    <p> - 빠른 페이지 이동을 위한 네비게이션 기능</p>
-    <p> - 회원가입/로그인 빠른이동</p>
-    <p> - 로그인 중일 시 로그아웃 버튼</p>
-    <p> - position:sticky를 활용한 간략한 페이지 소개</p>
+    <ul>
+      <li> - 빠른 페이지 이동을 위한 네비게이션 기능</li>
+      <li> - 회원가입/로그인 빠른이동</li>
+      <li> - 로그인 중일 시 로그아웃 버튼</li>
+      <li> - position:sticky를 활용한 간략한 페이지 소개</li>
+    </ul>
   </details>
   <br>
   
