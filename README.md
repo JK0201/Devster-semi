@@ -33,7 +33,7 @@
   </details>
 
   <details>
-    <summary><b>회원가입/로그인/아이디 비밀번호 찾기</b></summary>
+    <summary><b>회원가입 / 로그인 / 아이디 비밀번호 찾기</b></summary>
     <ul>
       <li>페이지 UI/UX디자인 설계 및 구현</li>
       <li>사용자 입력 정보에 대한 필드 유효성 검사 기능 구현</li>
