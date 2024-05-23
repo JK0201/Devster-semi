@@ -35,6 +35,14 @@
     <p> - position:sticky를 활용한 간략한 페이지 소개</p>
   </details>
 
+  <details>
+    <summary><b>DB 설계 및 연동</b></summary>
+    <br>
+    <p> - 빠른 페이지 이동을 위한 네비게이션 기능</p>
+    <p> - 회원가입/로그인 빠른이동
+    <p> - 로그인 중일 시 로그아웃 버튼
+    <p> - position:sticky를 활용한 간략한 페이지 소개</p>
+  </details>
   
   <br>
 <img src="https://capsule-render.vercel.app/api?type=rect&color=0:16213E,10:0F3460,30:533483,75:5B2A86,100:E94560&height=40&section=footer&text=&fontSize=0" width="100%"/>
