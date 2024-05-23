@@ -34,7 +34,8 @@
     <p> - 로그인 중일 시 로그아웃 버튼
     <p> - position:sticky를 활용한 간략한 페이지 소개</p>
   </details>
-
+  <br>
+  
   <details>
     <summary><b>DB 설계 및 연동</b></summary>
     <br>
