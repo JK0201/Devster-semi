@@ -38,9 +38,9 @@
     <summary><b>사용자 인증</b></summary>
     <ul>
       <li>소셜 로그인 API 구현 : JavaScript와 OAuth2.0 인증방식을 사용하여 카카오, 네이버 로그인 기능 구현</li>
-      <li>이메일 인증 : Java Mail Sender 라이브러리를 사용하여 이메일 인증 기능 구현</li>
-      <li>핸드폰 인증 : CoolSms API를 사용하여 핸드폰 인증 기능 구현</li>
-      <li>기업회원 인증 : 공공데이터 사업자등록정보 API를 사용하여</li>
+      <li>이메일 인증 : Java Mail Sender 라이브러리를 사용하여 인증 및 검증 기능 구현</li>
+      <li>핸드폰 인증 : CoolSms API를 사용하여 인증 및 검증 기능 구현</li>
+      <li>기업회원 인증 : 공공데이터 사업자등록정보 API를 사용하여 인증 및 검증 기능 구현</li>
     </ul>
   </details>
   
