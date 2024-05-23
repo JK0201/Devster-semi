@@ -21,7 +21,7 @@
   <img src="https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white" />
   <img src="https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white" />
   <img src="https://img.shields.io/badge/mybatis-222222.svg?style=for-the-badge&logo=twitter&logoColor=white" />
-  <img src="https://img.shields.io/badge/naver-%2303C75A.svg?&style=for-the-badge&logo=naver cloud platform&logoColor=white" />
+  <img src="https://img.shields.io/badge/naver cloud platform-%2303C75A.svg?&style=for-the-badge&logo=naver&logoColor=white" />
 </div>
 <br>
 
