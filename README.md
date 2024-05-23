@@ -76,13 +76,11 @@
 
   <details>
     <summary><b>개선안</b></summary>
-    <div>
-      <ul>
-        <li>기능 분리 : 서비스 레이어로 기능을 분리하여 코드 유지보수성을 높이고 재사용성을 향상</li>
-        <li>유효성 검사 추가 : 서버 측 유효성 검사 추가 및 HTTP status code를 적극 활용하여 에러핸들링 및 보안 강화</li>
-        <li>JavaScript 모듈화 : 코드를 모듈화하여 impotr/export를 활용하여 코드 유지보수성, 재사용성, 가독성을 향상</li>
-      </ul>
-    </div>
+    <ul>
+      <li>기능 분리 : 서비스 레이어로 기능을 분리하여 코드 유지보수성을 높이고 재사용성을 향상</li>
+      <li>유효성 검사 추가 : 서버 측 유효성 검사 추가 및 HTTP status code를 적극 활용하여 에러핸들링 및 보안 강화</li>
+      <li>JavaScript 모듈화 : 코드를 모듈화하여 impotr/export를 활용하여 코드 유지보수성, 재사용성, 가독성을 향상</li>
+    </ul>
   </details>  
 <br>
 
