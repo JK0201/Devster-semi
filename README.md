@@ -1,6 +1,5 @@
 <details>
-    <summary>##ㄷㄱ</summary>
-
+    ##ㄷㄱ
 
 ##  🙂 member 
 
