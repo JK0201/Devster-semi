@@ -27,12 +27,12 @@
 
 ## 나의 역할
   <details>
-    <summary><h4>DB 설계 및 연동</h4></summary>
+    <summary><b>DB 설계 및 연동</b></summary>
     <ul>
       <li>MySQL 데이터베이스, 네이버 클라우드 초기 설정 및 연동</li>
-      <li>회원가입/로그인 빠른이동</li>
-      <li>로그인 중일 시 로그아웃 버튼</li>
-      <li>position:sticky를 활용한 간략한 페이지 소개</li>
+      <li>데이터베이스 스키마 설계<br>
+        <span> - 사용자, 게시판, </span>
+      </li>
     </ul>
   </details>
   
