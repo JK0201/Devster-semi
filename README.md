@@ -8,7 +8,6 @@
   
   [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/JK0201/Devster-semi)
 </div>
-<br>
 
 ## Overview
 - Devster는 프로그래밍 교육기관 학생과 주니어 개발자를 위한 커뮤니티로, 상호간의 네트워킹과 취업 준비를 지원하는 플랫폼입니다. 사용자들은 교육 및 취업 관련 경험과 정보를 교류하고, 경력 개발에 필요한 자원을 공유할 수 있습니다. 이러한 활동을 통해 사용자들의 성장을 촉진하며, 실질적인 취업 기회로 이어질 수 있는 네트워크를 구축하는 것을 목표로 합니다.
