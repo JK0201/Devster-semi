@@ -4,7 +4,6 @@
     <img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=500&pause=10000&color=58A6FF&center=true&random=false&width=435&lines=Devster v1.0.0" alt="Typing SVG" />
   </a>
   <p>개발자를 꿈꾸는 학생들과 주니어 개발자들이 모인 개발 학원 커뮤니티</p>
-  <br>
 </div>
 <br>
 
