@@ -1,6 +1,6 @@
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:16213E,10:0F3460,30:533483,75:5B2A86,100:E94560&height=100&section=header&text=&fontSize=0" width="100%"/>
 <div align="center">
-  <h3>Devster v1.0.0</h3>
+  <h2>Devster v1.0.0</h2>
   <p>개발자를 꿈꾸는 학생들과 주니어 개발자들이 모인 개발 학원 커뮤니티</p>
   <br>
   
