@@ -1,5 +1,5 @@
 <details>
-    <summary><b>메인 페이지</b></summary>
+    <summary>##ㄷㄱ</summary>
 
 
 ##  🙂 member 
