@@ -9,7 +9,7 @@
   
   [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/JK0201/Devster-semi)
 </div>
-
+<br>
 ## Overview
 - 해당 프로젝트는 복습의 목적으로 Node.js와 Express 프레임워크를 사용하여 만든 간단한 CRUD(Create, Read, Update, Delete) 웹 사이트입니다. NoSQL 데이터베이스인 MongoDB와 EJS 템플릿 엔진을 활용하여 서버에서 동적으로 HTML을 생성하는 SSR(Server-Side Rendering) 방식으로 제작되었습니다.
 <br>
